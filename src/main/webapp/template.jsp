@@ -12,7 +12,7 @@
             background-color: #f4f4f4;
         }
         header {
-            background-color: #216477; /* Pastel apricot color */
+            background-color: #216477;
             color: #333;
             padding: 10px 0;
             text-align: center;
@@ -34,7 +34,7 @@
 </head>
 <body>
 <header>
-    <h1>Dining Philosophers</h1>
+    <h1 style="color: white;">Dining Philosophers</h1>
 </header>
 
 <main>

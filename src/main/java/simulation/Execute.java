@@ -36,7 +36,7 @@ public class Execute {
 
     public static void main(String[] args) throws InterruptedException {
 
-        System.out.println(execute(4, 10, Algorithm.ATOMICWAITER, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
+        System.out.println(execute(4, 10, Algorithm.TIMEOUT, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
 
     }
 }
