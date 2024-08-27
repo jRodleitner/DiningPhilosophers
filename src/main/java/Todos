@@ -1,0 +1,60 @@
+GENERAL TODO:
+[ ] Watch JSP Servlets Video on youtube
+
+
+NEXT:
+AND FINALLY: (...HOW EVEN...AHHH...)
+
+[ ] chandy misra
+
+WIP:
+
+
+SIMULATION:
+
+OPTIONALS:
+TIMEOUT(Time-index)
+[-] arbitrator ????
+[!] intelligent waiter ???
+
+Completed:
+Think times: deterministisch, Normalverteilt, exponentialverteilt, Intervall
+
+CHECK:
+[x] Simulation Framework
+[x] Asymmetric
+[x] Hierarchy
+[x] Timeout
+[x] Token
+[x] pickupWAITER (SIMPLE ARBITRATOR)
+[x] atomicWaiter (SIMPLE ARBITRATOR)
+[x] table-semaphore
+[x] ROUND-ROBIN
+[x] FAIR WAITER
+[x] Fill in Simulation Blanks
+[x] tanenbaum solution
+[x] monitor
+[x] fair tanenbaum solution [!RECKECK!]
+[x] dijkstra [!RECHECK!] {very slim chance of deadlock if the randomized sleep times overlap}
+[x] multiple token [!RECHECK!]
+[x] restrict nr philosophers [!RECHECK!]
+[x] multiple waiters (Two-Waiters) [CHECK]
+[x] GitHub Incoropration
+DONE:
+[x] Naive
+
+
+Multiple tokens: after chandy misra?
+
+IDEAS:
+
+    INTELLIGENT WAITER: SAVE LIST OF PHILOSOPHGERS REQUESTING TO EAT AND CHECK FOR EACH IN THE LIST WHETHER
+    the two adjacent ones are free and allow them to eat. If permission is granted then one philosopher in the circle must be skipped
+    (WAITER UPDATES STATUS)
+
+    FAIR WAITER: (Increment eat times... assign rights to philosopher with the least amounts of eats)
+    FORK SEMAPHORE:
+    Dijkstra's solution using semaphores:
+    Assign a semaphore to each chopstick, representing its availability.
+    Philosophers must acquire both chopsticks by locking their corresponding semaphores.
+    If a philosopher cannot acquire both chopsticks, they release the acquired chopstick and wait before trying again.

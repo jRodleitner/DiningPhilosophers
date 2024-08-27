@@ -1,0 +1,87 @@
+package parser;
+
+public class Statistic {
+    private int totalThinkTime;
+    private int totalBlockTime;
+    private int totalEatTime;
+    private int maxBlockedTime;
+    private String id;
+    private String last;
+
+    public void setLast(String last){
+        this.last = last;
+    }
+
+    public String getLast(){
+        return last;
+    }
+
+    public int getTotalThinkTime() {
+        return totalThinkTime;
+    }
+
+    public int getTotalBlockTime() {
+        return totalBlockTime;
+    }
+
+    public int getTotalEatTime() {
+        return totalEatTime;
+    }
+
+    public int getMaxBlockedTime() {
+        return maxBlockedTime;
+    }
+
+
+    // Setter method
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    // Increment methods
+    public void incrementThinkTime() {
+        totalThinkTime++;
+    }
+
+    public void addAll(int thinkTime, int eatTime, int blockTime) {
+        this.totalThinkTime += thinkTime;
+        this.totalEatTime += eatTime;
+        this.totalBlockTime += blockTime;
+    }
+
+    public void incrementBlockTime() {
+        totalBlockTime++;
+    }
+
+    public void incrementEatTime() {
+        totalEatTime++;
+    }
+
+
+    public void incrementMaxBlockedTime(int blockedTime) {
+        if (blockedTime > maxBlockedTime) maxBlockedTime = blockedTime;
+    }
+
+
+    private int finishLength;
+    public void setFinishLength(int length){
+        finishLength = length;
+    }
+
+    public int getFinishLength(){
+        return finishLength;
+    }
+
+    @Override
+    public String toString() {
+        return id + ": {" +
+                "totalThinkTime=" + totalThinkTime +
+                ", totalBlockTime=" + totalBlockTime +
+                ", totalEatTime=" + totalEatTime +
+                ", maxBlockedTime=" + maxBlockedTime +
+                '}';
+    }
+}
+
+
+
