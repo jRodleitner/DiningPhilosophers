@@ -15,6 +15,7 @@ public class Parser {
 
 
     public static String parse(List<AbstractPhilosopher> philosophers){
+        maxLength = 0;
         List<Statistic> statistics = new ArrayList<>();
         List<String> timelines = new ArrayList<>();
         StringBuilder sb = new StringBuilder();

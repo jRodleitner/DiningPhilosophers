@@ -12,7 +12,7 @@
             background-color: #f4f4f4;
         }
         header {
-            background-color: #F8C7A4; /* Pastel apricot color */
+            background-color: #216477; /* Pastel apricot color */
             color: #333;
             padding: 10px 0;
             text-align: center;
@@ -27,25 +27,25 @@
             padding: 20px;
             background-color: white;
             margin: 20px auto;
-            max-width: 800px;
+            max-width: 1600px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
 <header>
-    <h1>Generic Header</h1>
+    <h1>Dining Philosophers</h1>
 </header>
 
 <main>
     <!-- Dynamic Content -->
 
     <% String contentPage = request.getParameter("contentPage"); %>
-    <jsp:include page="<%= contentPage %>" />
+    <jsp:include page ="<%= contentPage %>" />
 </main>
 
 <footer>
-    <p>Generic Footer - &copy; 2024</p>
+    <p>Jona Albin Elia Rodleitner - &copy; 2024</p>
 </footer>
 </body>
 </html>

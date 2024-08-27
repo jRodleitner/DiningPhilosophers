@@ -7,13 +7,13 @@ import jakarta.servlet.annotation.*;
 import simulation.Execute;
 
 @WebServlet(name = "naiveServlet", value = "/naive")
-public class naiveServlet extends HttpServlet {
+public class NaiveServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve parameters from the form
         int nrPhilosophers = Integer.parseInt(request.getParameter("nrPhil"));
         int simulationTime = Integer.parseInt(request.getParameter("simulationTime"));
-
+        System.out.println(nrPhilosophers + " " + simulationTime);
         // Call the execute function with the given parameters
         String result = null;
         try {
