@@ -95,10 +95,25 @@
                 eatParam2Label.style.display = 'none';
                 eatParam2Input.style.display = 'none';
             }
+
+            // Update visibility for timeout
+            var algorithm = document.getElementById('algorithm').value;
+            var timeoutLabel = document.getElementById('timeoutLabel');
+            var timeoutInput = document.getElementById('timeout');
+
+            if (algorithm === 'TIMEOUT') {
+                timeoutLabel.style.display = 'inline';
+                timeoutInput.style.display = 'inline';
+            } else {
+                timeoutLabel.style.display = 'none';
+                timeoutInput.style.display = 'none';
+            }
+
         }
 
         window.onload = function() {
             updateLabels();
+            document.getElementById('algorithm').addEventListener('change', updateLabels);
         };
     </script>
 </head>
@@ -123,7 +138,7 @@
                 <option value="NAIVE" <%= "NAIVE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Naive</option>
                 <option value="ASYMMETRIC" <%= "ASYMMETRIC".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Asymmetric</option>
                 <option value="HIERARCHY" <%= "HIERARCHY".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Hierarchy</option>
-                <option value="restrict" <%= "restrict".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Restrict</option>
+                <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Restrict</option>
                 <option value="TIMEOUT" <%= "TIMEOUT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Timeout</option>
                 <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Chandy-Misra</option>
 
@@ -187,6 +202,9 @@
             <input type="number" id="eatparam1" name="eatparam1" min="0" max="500" value="${param.eatparam1 != null ? param.eatparam1 : '50'}">
             <label id="eatparam2Label" for="eatparam2">Ub:</label>
             <input type="number" id="eatparam2" name="eatparam2" min="0" max="500" value="${param.eatparam2 != null ? param.eatparam2 : '100'}"><br><br>
+
+            <label id = timeoutLabel for="timeout">Timeout (5-500):</label>
+            <input type="number" id="timeout" name="timeout" min="5" max="500" value="${param.timeout != null ? param.timeout : '200'}" required><br><br>
 
             <input type="submit" value="Run Simulation">
         </form>
