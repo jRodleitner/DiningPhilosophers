@@ -6,8 +6,8 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import simulation.Execute;
 
-@WebServlet(name = "naiveServlet", value = "/naive")
-public class NaiveServlet extends HttpServlet {
+@WebServlet(name = "SimulationServlet", value = "/simulation")
+public class SimulationServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve parameters from the form
@@ -28,11 +28,11 @@ public class NaiveServlet extends HttpServlet {
         request.setAttribute("simulationTime", simulationTime);
 
         // Forward the request back to index.jsp
-        request.getRequestDispatcher("/naive/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/simulation/index.jsp").forward(request, response);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Redirect GET requests to the index.jsp page
-        request.getRequestDispatcher("/naive/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/simulation/index.jsp").forward(request, response);
     }
 }
