@@ -5,9 +5,9 @@ public class Algorithm {
     public static final String ASYMMETRIC = "ASYMMETRIC"; //1
     public static final String HIERARCHY = "HIERARCHY";  //2
 
-    public static final String GLOBALTOKEN = "GlobalToken";  //3
+    public static final String GLOBALTOKEN = "GLOBALTOKEN";  //3
 
-    public static final String MULTIPLETOKEN = "MultipleToken"; //4
+    public static final String MULTIPLETOKEN = "MULTIPLETOKEN"; //4
 
     public static final String TIMEOUT = "TIMEOUT";  //5
 

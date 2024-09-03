@@ -8,7 +8,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 5px; /* Adds space between the form and the result box */
+            gap: 40px; /* Adds space between the form and the result box */
         }
 
         .scrollable-box {
@@ -143,23 +143,23 @@
                 <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Chandy-Misra</option>
 
                 <optgroup label="Token">
-                    <option value="Multiple Token" <%= "Multiple Token".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Multiple Token</option>
-                    <option value="Global Token" <%= "Global Token".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Global Token</option>
+                    <option value="MULTIPLETOKEN" <%= "MULTIPLETOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Multiple Token</option>
+                    <option value="GLOBALTOKEN" <%= "GLOBALTOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Global Token</option>
                 </optgroup>
 
                 <optgroup label="Waiter">
-                    <option value="Atomic Waiter" <%= "Atomic Waiter".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Atomic Waiter</option>
-                    <option value="Pickup Waiter" <%= "Pickup Waiter".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Pickup Waiter</option>
-                    <option value="Fair Waiter" <%= "Fair Waiter".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Fair Waiter</option>
-                    <option value="Two Waiters" <%= "Two Waiters".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Two Waiters</option>
+                    <option value="ATOMICWAITER" <%= "ATOMICWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Atomic Waiter</option>
+                    <option value="PICKUPWAITER" <%= "PICKUPWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Pickup Waiter</option>
+                    <option value="FAIRWAITER" <%= "FAIRWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Fair Waiter</option>
+                    <option value="TWOWAITERS" <%= "Two Waiters".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Two Waiters</option>
                 </optgroup>
 
                 <optgroup label="Semaphore">
-                    <option value="algo4" <%= "algo4".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Dijkstra</option>
-                    <option value="algo4" <%= "algo4".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Tanenbaum</option>
-                    <option value="algo4" <%= "algo4".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Fair Tanenbaum</option>
-                    <option value="algo4" <%= "algo4".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Round-Robin</option>
-                    <option value="algo4" <%= "algo4".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Table-Semaphore</option>
+                    <option value="DIJKSTRA" <%= "DIJKSTRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Dijkstra</option>
+                    <option value="TANENBAUM" <%= "TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Tanenbaum</option>
+                    <option value="FAIRTANENBAUM" <%= "FAIRTANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Fair Tanenbaum</option>
+                    <option value="ROUNDROBIN" <%= "ROUNDROBIN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Round-Robin</option>
+                    <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Table-Semaphore</option>
                 </optgroup>
             </select>
 

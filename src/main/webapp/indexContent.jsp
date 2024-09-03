@@ -6,10 +6,10 @@
 <body>
 <h1>Dining Philosophers Landing Page</h1>
 <br/>
+<a href="simulation">Simulation Page</a>
+<br/>
 <a href="hello-servlet">Hello Servlet</a>
 <!-- <a href="simulation-servlet">Baam</a> -->
-<br/>
-<a href="simulation">Simulation Page</a>
 <br/>
 <a href="asymmetric">Asymmetric Solution</a>
 <br/>

@@ -16,6 +16,7 @@
             color: #333;
             padding: 10px 0;
             text-align: center;
+
         }
         footer {
             background-color: #333;
@@ -35,6 +36,10 @@
 <body>
 <header>
     <h1 style="color: white;">Dining Philosophers</h1>
+    <nav>
+        <a href="/?selected=2">Main Page</a>
+        <a href="/simulation">Simulation Page</a>
+    </nav>
 </header>
 
 <main>
