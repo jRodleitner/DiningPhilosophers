@@ -15,7 +15,7 @@
             background-color: #216477;
             color: #333;
             padding: 10px 0;
-            text-align: center;
+            text-align: left;
 
         }
         footer {
