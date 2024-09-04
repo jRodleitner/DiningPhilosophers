@@ -239,8 +239,11 @@
     <div class="fixed-box">
         <h3>Legend</h3>
         <p>[ T ] = Think, [ E ] = Eat,  [ B ] = Blocked, [PUL] = Pick up left Fork, [PUL] = Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork</p>
+        <br>
     </div>
-</div>
 
+</div>
+<h2>Simulation Notes</h2>
+<p>Execution Time: The Execution Time can be set up to 3000 Simulation units, thus there is a significant waiting time until the results are returned by the server</p>
 </body>
 </html>
