@@ -8,12 +8,24 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 100px; /* Adds space between the form and the result box */
+            gap: 10px; /* Adds space between the form and the result box */
+            /*background-color: #FF6F61;*/
+            background-image: radial-gradient(circle,#FFC857, #008080 , #FFDAB9);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .container1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px; /* Adds space between the form and the result box */
         }
 
         .scrollable-box {
             width: 1200px;
-            height: 360px;
+            height: 370px;
             border: 1px solid #ccc;
             padding: 10px;
             overflow-y: scroll;
@@ -21,15 +33,26 @@
             background-color: #f0f0f0;
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
+            border-radius: 10px;
+        }
+
+        .fixed-box {
+            width: 1500px;
+            height: 150px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            background-color: #f0f0f0;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 12px;
+            border-radius: 10px;
         }
 
         .form-container {
-            max-width: 400px; /* Adjust based on your form's size */
-            margin-left: -10px;
-            margin-right: 10px;
+            max-width: 600px; /* Adjust based on your form's size */
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f0f0f0;
+            border-radius: 10px;
         }
 
         pre {
@@ -209,6 +232,13 @@
 
             <input type="submit" value="Run Simulation">
         </form>
+    </div>
+</div>
+<br>
+<div class="container1">
+    <div class="fixed-box">
+        <h3>Legend</h3>
+        <p>[ T ] = Think, [ E ] = Eat,  [ B ] = Blocked, [PUL] = Pick up left Fork, [PUL] = Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork</p>
     </div>
 </div>
 

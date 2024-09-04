@@ -22,7 +22,7 @@
         .navbar {
             text-align: center;
             display: flex;
-            gap: 10px;
+            gap: 5px;
             background-color: #216477;
         }
 
@@ -31,14 +31,28 @@
             color: white;
             font-size: 16px;
             font-weight: bold;
-            padding: 5px 10px;
+            padding: 10px 10px;
             transition: color 0.3s;
             position: relative;
+            margin-left: 10px;
         }
 
-        .nav-button:hover {
-            color: #0073e6; /* Change color on hover */
+        .nav-button::after {
+            content: ''; /* Create the line */
+            display: block; /* Allows the line to take up the correct space */
+            width: 0; /* Start with no width */
+            height: 2px; /* Thickness of the underline */
+            background-color: #e0e0e0; /* Color of the underline */
+            position: relative; /* Position it relative to the text */
+            left: 0;
+            bottom: 0;
+            transition: width 0.3s ease; /* Smooth transition */
         }
+
+        .nav-button:hover::after {
+            width: 100%; /* Expand the line to full width of the text on hover */
+        }
+
 
         .nav-button:not(:last-child) {
             border-right: 1px solid #ccc; /* Add vertical line between buttons */
@@ -62,10 +76,10 @@
 </head>
 <body>
 <header>
-    <h1 style="color: white;">Dining Philosophers</h1>
     <nav class = "navbar">
         <a  href="/?selected=2" class = "nav-button" >Main Page</a>
         <a  href="/simulation" class = "nav-button" >Simulation Page</a>
+        <a  href="/simulation" class = "nav-button" >About</a>
     </nav>
 </header>
 
