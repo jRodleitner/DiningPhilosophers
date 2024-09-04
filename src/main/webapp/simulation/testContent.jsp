@@ -8,11 +8,11 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 40px; /* Adds space between the form and the result box */
+            gap: 100px; /* Adds space between the form and the result box */
         }
 
         .scrollable-box {
-            width: 900px;
+            width: 1200px;
             height: 360px;
             border: 1px solid #ccc;
             padding: 10px;
@@ -26,7 +26,7 @@
         .form-container {
             max-width: 400px; /* Adjust based on your form's size */
             margin-left: -10px;
-            margin-right: 200px;
+            margin-right: 10px;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f0f0f0;

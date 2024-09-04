@@ -15,9 +15,36 @@
             background-color: #216477;
             color: #333;
             padding: 10px 0;
-            text-align: left;
+            text-align: center;
 
         }
+
+        .navbar {
+            text-align: center;
+            display: flex;
+            gap: 10px;
+            background-color: #216477;
+        }
+
+        .nav-button {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 5px 10px;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-button:hover {
+            color: #0073e6; /* Change color on hover */
+        }
+
+        .nav-button:not(:last-child) {
+            border-right: 1px solid #ccc; /* Add vertical line between buttons */
+            padding-right: 20px; /* Add padding to make space for the line */
+        }
+
         footer {
             background-color: #333;
             color: white;
@@ -28,7 +55,7 @@
             padding: 20px;
             background-color: white;
             margin: 20px auto;
-            max-width: 1500px;
+            max-width: 1300px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
@@ -36,9 +63,9 @@
 <body>
 <header>
     <h1 style="color: white;">Dining Philosophers</h1>
-    <nav>
-        <a href="/?selected=2">Main Page</a>
-        <a href="/simulation">Simulation Page</a>
+    <nav class = "navbar">
+        <a  href="/?selected=2" class = "nav-button" >Main Page</a>
+        <a  href="/simulation" class = "nav-button" >Simulation Page</a>
     </nav>
 </header>
 
