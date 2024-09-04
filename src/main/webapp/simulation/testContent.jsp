@@ -12,7 +12,7 @@
         }
 
         .scrollable-box {
-            width: 1000px;
+            width: 900px;
             height: 360px;
             border: 1px solid #ccc;
             padding: 10px;
@@ -25,7 +25,8 @@
 
         .form-container {
             max-width: 400px; /* Adjust based on your form's size */
-            margin-left: -100px;
+            margin-left: -10px;
+            margin-right: 200px;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f0f0f0;

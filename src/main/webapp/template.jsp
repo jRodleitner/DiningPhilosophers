@@ -28,7 +28,7 @@
             padding: 20px;
             background-color: white;
             margin: 20px auto;
-            max-width: 1600px;
+            max-width: 1500px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
