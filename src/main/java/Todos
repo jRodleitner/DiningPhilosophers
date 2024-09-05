@@ -3,6 +3,7 @@ GENERAL TODO:
 
 
 NEXT:
+[ ] second simulation type to only display eat think and blocked times!
 [ ] make static classes objects!
 [ ] timeout parameter in servlet!!!
 [x] return to home button simulation page
@@ -44,6 +45,8 @@ CHECK:
 [x] restrict nr philosophers [!RECHECK!]
 [x] multiple waiters (Two-Waiters) [CHECK]
 [x] GitHub Incoropration
+[x] Basic Simulation Page
+[x] Basic Website
 DONE:
 [x] Naive
 

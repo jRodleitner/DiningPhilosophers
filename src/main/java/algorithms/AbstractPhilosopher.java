@@ -11,6 +11,7 @@ public abstract class AbstractPhilosopher extends Thread {
     protected AbstractFork rightFork;
     protected final DiningTable table;
     protected final StringBuilder sb;
+    protected String lastAction;
 
 
     protected final Distribution eatDistr;
@@ -25,6 +26,7 @@ public abstract class AbstractPhilosopher extends Thread {
         this.sb = new StringBuilder();
         this.thinkDistr = thinkistr;
         this.eatDistr = eatDistr;
+        this.lastAction = "";
     }
 
     public StringBuilder getSB(){
@@ -44,19 +46,26 @@ public abstract class AbstractPhilosopher extends Thread {
         long duration = thinkDistr.calculateDuration();
         TimeUnit.MILLISECONDS.sleep(duration);
         sbLog(id, Events.THINK, table.getCurrentTime());
+        lastAction = Events.THINK;
     }
 
 
     protected void pickUpLeftFork() throws InterruptedException {
         leftFork.pickUp(this);
-        table.advanceTime();
-        sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
+        if(SimuType.getSimulatePickups()) {
+            table.advanceTime();
+            sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
+        }
+        lastAction = Events.PICKUPLEFT;
     }
 
     protected void pickUpRightFork() throws InterruptedException {
         rightFork.pickUp(this);
-        table.advanceTime();
-        sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+        if(SimuType.getSimulatePickups()) {
+            table.advanceTime();
+            sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+        }
+        lastAction = Events.PICKUPRIGHT;
     }
 
     protected void eat() throws InterruptedException {
@@ -64,18 +73,25 @@ public abstract class AbstractPhilosopher extends Thread {
         long duration = eatDistr.calculateDuration();
         TimeUnit.MILLISECONDS.sleep(duration);
         sbLog(id, Events.EAT, table.getCurrentTime());
+        lastAction = Events.EAT;
     }
 
     protected void putDownLeftFork() {
         leftFork.putDown(this);
-        table.advanceTime();
-        sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
+        if(SimuType.getSimulatePickups()) {
+            table.advanceTime();
+            sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
+        }
+        lastAction = Events.PUTDOWNLEFT;
     }
 
     protected void putDownRightFork() {
         rightFork.putDown(this);
-        table.advanceTime();
-        sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
+        if(SimuType.getSimulatePickups()){
+            table.advanceTime();
+            sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
+        }
+        lastAction = Events.PUTDOWNRIGHT;
     }
 
     public AbstractFork getRightFork(){

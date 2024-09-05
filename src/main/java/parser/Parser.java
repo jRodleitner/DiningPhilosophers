@@ -194,7 +194,6 @@ public class Parser {
         statistic.setFinishLength(sb.size());
 
         statistic.setLast(sb.get(sb.size() - 1)); //set Last element for deadlock detection
-
         String result = sb.stream().collect(Collectors.joining(""));
         return result;
     }

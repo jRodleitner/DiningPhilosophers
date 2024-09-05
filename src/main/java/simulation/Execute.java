@@ -12,6 +12,8 @@ public class Execute {
         Distribution eatDistr = new Distribution(eatDistribution, eatPar1, eatPar2);
         DiningTable table = new DiningTable(nrPhil, algorithm, thinkDistr, eatDistr, timeout);
 
+        SimuType.setSimulatePickups(true);
+
         table.startDinner();
         while(simulationTime > 0){
             simulationTime--;
@@ -35,8 +37,7 @@ public class Execute {
     }
 
     public static void main(String[] args) throws InterruptedException {
-
-        System.out.println(execute(4, 10, Algorithm.TIMEOUT, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
+        System.out.println(execute(4, 50, Algorithm.GLOBALTOKEN, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
 
     }
 }
