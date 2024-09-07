@@ -12,4 +12,6 @@ public class Events {
     public static final String PUTDOWNLEFT = "[PDL]";
 
     public static final String PUTDOWNRIGHT = "[PDR]";
+
+    public static final  String PICKUP = "[PUB]";
 }

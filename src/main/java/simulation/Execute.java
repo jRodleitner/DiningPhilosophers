@@ -6,13 +6,13 @@ import parser.Parser;
 
 public class Execute {
 
-    public static String execute(int nrPhil, int simulationTime, String algorithm, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout ) throws InterruptedException{
+    public static String execute(int nrPhil, int simulationTime, String algorithm, boolean simulatePickups, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout) throws InterruptedException{
 
         Distribution thinkDistr = new Distribution(thinkDistribution,thinkPar1 , thinkPar2);
         Distribution eatDistr = new Distribution(eatDistribution, eatPar1, eatPar2);
         DiningTable table = new DiningTable(nrPhil, algorithm, thinkDistr, eatDistr, timeout);
 
-        SimuType.setSimulatePickups(true);
+        SimuType.setSimulatePickups(simulatePickups);
 
         table.startDinner();
         while(simulationTime > 0){
@@ -23,8 +23,8 @@ public class Execute {
         table.stopDinner();
 
         String result = String.format(
-                "Algorithm: %s\n%s\n\nThink Distribution: %s, Parameters: %s, %s\nEat Distribution: %s, Parameters: %s, %s",
-                algorithm,
+                "Algorithm: %s\nSimulation Type: %s\n%s\n\nThink Distribution: %s, Parameters: %s, %s\nEat Distribution: %s, Parameters: %s, %s",
+                algorithm,SimuType.Simulationtype,
                 Parser.parse(table.philosophers),
                 thinkDistribution, thinkPar1, thinkPar2,
                 eatDistribution, eatPar1, eatPar2
@@ -37,7 +37,7 @@ public class Execute {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println(execute(4, 50, Algorithm.GLOBALTOKEN, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
+        System.out.println(execute(4, 50, Algorithm.ROUNDROBIN, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
 
     }
 }

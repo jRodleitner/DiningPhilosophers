@@ -24,7 +24,7 @@
         }
 
         .scrollable-box {
-            width: 1200px;
+            width: 1150px;
             height: 370px;
             border: 1px solid #ccc;
             padding: 10px;
@@ -48,7 +48,7 @@
         }
 
         .form-container {
-            max-width: 600px; /* Adjust based on your form's size */
+            max-width: 700px; /* Adjust based on your form's size */
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f0f0f0;
@@ -204,7 +204,6 @@
                 <option value="EXP" <%= "EXP".equals(request.getParameter("thinkDistribution")) ? "selected" : "" %>>Exponential</option>
             </select>
 
-
             <br>
             <label id="thinkparam1Label" for="thinkparam1">Lb:</label>
             <input type="number" id="thinkparam1" name="thinkparam1" min="0" max="500" value="${param.thinkparam1 != null ? param.thinkparam1 : '50'}">
@@ -225,11 +224,22 @@
             <label id="eatparam1Label" for="eatparam1">Lb:</label>
             <input type="number" id="eatparam1" name="eatparam1" min="0" max="500" value="${param.eatparam1 != null ? param.eatparam1 : '50'}">
             <label id="eatparam2Label" for="eatparam2">Ub:</label>
-            <input type="number" id="eatparam2" name="eatparam2" min="0" max="500" value="${param.eatparam2 != null ? param.eatparam2 : '100'}"><br><br>
+            <input type="number" id="eatparam2" name="eatparam2" min="0" max="500" value="${param.eatparam2 != null ? param.eatparam2 : '100'}">
+            <br>
 
             <label id = timeoutLabel for="timeout">Timeout (5-500):</label>
-            <input type="number" id="timeout" name="timeout" min="5" max="500" value="${param.timeout != null ? param.timeout : '200'}" required><br><br>
+            <input type="number" id="timeout" name="timeout" min="5" max="500" value="${param.timeout != null ? param.timeout : '200'}" required>
+            <br>
+            <br>
 
+
+            <label for="simulationType">Simulation Type:</label>
+            <select id="simulationType" name="simulationType" onchange="updateLabels()">
+                <option value="true" <%= "true".equals(request.getParameter("simulationType")) ? "selected" : "" %>>SimulatePickup</option>
+                <option value="false" <%= "false".equals(request.getParameter("simulationType")) ? "selected" : "" %>>Simple</option>
+            </select>
+            <br>
+            <br>
             <input type="submit" value="Run Simulation">
         </form>
     </div>
@@ -238,7 +248,7 @@
 <div class="container1">
     <div class="fixed-box">
         <h3>Legend</h3>
-        <p>[ T ] = Think, [ E ] = Eat,  [ B ] = Blocked, [PUL] = Pick up left Fork, [PUL] = Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork</p>
+        <p>[ T ] = Think, [ E ] = Eat,  [ B ] = Blocked, [PUB] = Pick up Both Forks, [PUL] = Pick up left Fork, [PUL] = Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork</p>
         <br>
     </div>
 
