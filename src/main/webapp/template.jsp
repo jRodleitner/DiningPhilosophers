@@ -77,9 +77,10 @@
 <body>
 <header>
     <nav class = "navbar">
-        <a  href="/?selected=2" class = "nav-button" >Main Page</a>
-        <a  href="/simulation" class = "nav-button" >Simulation Page</a>
-        <a  href="/simulation" class = "nav-button" >About</a>
+        <a  href="${pageContext.request.contextPath}/?selected=2" class = "nav-button" >Main Page</a>
+        <a  href="${pageContext.request.contextPath}/simulation" class = "nav-button" >Simulation Page</a>
+        <a  href="${pageContext.request.contextPath}/simulation" class = "nav-button" >Animation</a>
+        <a  href="${pageContext.request.contextPath}/simulation" class = "nav-button" >About</a>
     </nav>
 </header>
 

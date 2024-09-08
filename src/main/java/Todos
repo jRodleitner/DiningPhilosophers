@@ -1,13 +1,10 @@
 GENERAL TODO:
-[x] Watch JSP Servlets Video on youtube
-
 
 NEXT:
+[ ]
 [ ] inspect simulation logic
-[x] second simulation type to only display eat think and blocked times!
-[ ] make static classes objects!
-[x] timeout parameter in servlet!!!
-[x] return to home button simulation page
+[ ] svg animation concept
+[ ] svg animation of Dining Philosophers
 
 
 AND FINALLY: (...HOW EVEN...AHHH...)
@@ -15,18 +12,18 @@ AND FINALLY: (...HOW EVEN...AHHH...)
 
 WIP:
 
-
 SIMULATION:
 
 OPTIONALS:
 TIMEOUT(Time-index)
+[-] make static classes objects!
 [-] arbitrator ????
 [!] intelligent waiter ???
 
 Completed:
-Think times: deterministisch, Normalverteilt, exponentialverteilt, Intervall
 
 CHECK:
+[x] Think times: deterministisch, Normalverteilt, exponentialverteilt, Intervall
 [x] Simulation Framework
 [x] Asymmetric
 [x] Hierarchy
@@ -39,7 +36,7 @@ CHECK:
 [x] FAIR WAITER
 [x] Fill in Simulation Blanks
 [x] tanenbaum solution
-[x] monitor
+[x] monitor???
 [x] fair tanenbaum solution [!RECKECK!]
 [x] dijkstra [!RECHECK!] {very slim chance of deadlock if the randomized sleep times overlap}
 [x] multiple token [!RECHECK!]
@@ -48,6 +45,11 @@ CHECK:
 [x] GitHub Incoropration
 [x] Basic Simulation Page
 [x] Basic Website
+[x] timeout parameter in servlet!!!
+[x] return to home button simulation page
+[x] second simulation type to only display eat think and blocked times!
+
+
 DONE:
 [x] Naive
 
