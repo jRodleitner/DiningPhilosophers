@@ -1,7 +1,7 @@
 GENERAL TODO:
 
 NEXT:
-[ ]
+[ ] understand GPT-code
 [ ] inspect simulation logic
 [ ] svg animation concept
 [ ] svg animation of Dining Philosophers
@@ -57,6 +57,8 @@ DONE:
 Multiple tokens: after chandy misra?
 
 IDEAS:
+
+    Animation: SVG animation using the text-field and the arrows!!!
 
     INTELLIGENT WAITER: SAVE LIST OF PHILOSOPHGERS REQUESTING TO EAT AND CHECK FOR EACH IN THE LIST WHETHER
     the two adjacent ones are free and allow them to eat. If permission is granted then one philosopher in the circle must be skipped
