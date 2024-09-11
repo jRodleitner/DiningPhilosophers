@@ -296,6 +296,10 @@ public class DiningTable {
         clock.advanceTime(1);
     }
 
+    public synchronized long getAndAdvanceTime(){
+        return clock.getCurrentTimeAndAdvanceTime(1);
+    }
+
     public void startDinner() {
         for (AbstractPhilosopher philosopher : philosophers) {
             philosopher.start();

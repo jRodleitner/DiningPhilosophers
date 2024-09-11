@@ -8,16 +8,16 @@ public class Execute {
 
     public static String execute(int nrPhil, int simulationTime, String algorithm, boolean simulatePickups, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout) throws InterruptedException{
 
+        SimuType.setSimulatePickups(simulatePickups);
         Distribution thinkDistr = new Distribution(thinkDistribution,thinkPar1 , thinkPar2);
         Distribution eatDistr = new Distribution(eatDistribution, eatPar1, eatPar2);
         DiningTable table = new DiningTable(nrPhil, algorithm, thinkDistr, eatDistr, timeout);
 
-        SimuType.setSimulatePickups(simulatePickups);
 
         table.startDinner();
         while(simulationTime > 0){
             simulationTime--;
-            Thread.sleep(10);
+            Thread.sleep(5);
             table.advanceTime();
         }
         table.stopDinner();

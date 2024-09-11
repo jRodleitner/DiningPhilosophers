@@ -2,9 +2,10 @@ GENERAL TODO:
 
 NEXT:
 [ ] understand GPT-code
-[ ] inspect simulation logic
-[ ] svg animation concept
-[ ] svg animation of Dining Philosophers
+[ ] inspect simulation logic!!!
+[ ] other simulation type: currStatus check
+[ ] overwork statistics to facilitate eliminating the PICKUP-Blocking Times
+
 
 
 AND FINALLY: (...HOW EVEN...AHHH...)
@@ -48,6 +49,8 @@ CHECK:
 [x] timeout parameter in servlet!!!
 [x] return to home button simulation page
 [x] second simulation type to only display eat think and blocked times!
+[x] svg animation concept
+[x] svg animation prototype of Dining Philosophers
 
 
 DONE:

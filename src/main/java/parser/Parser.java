@@ -269,7 +269,7 @@ public class Parser {
 
                         statistic.incrementMaxBlockedTime(blockedpup);
 
-                        sb.add(Events.PICKUP);
+                        sb.add(Events.EAT);
                         time++;
                         break;
 

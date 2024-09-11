@@ -17,7 +17,7 @@
             display: none;
         }
         .blocked {
-            fill: #FF9B9B; /* Color for blocked */
+            fill: #F08080; /* Color for blocked */
         }
 
         .eat {
@@ -79,17 +79,40 @@
     <line id="right4" x1="65" y1="282" x2="150" y2="295" stroke="#000000" stroke-width="5" marker-end="url(#arrowhead)" class="hidden"></line>
 
     <!-- Text elements to show actions on each plate -->
-    <text id="text0" x="244.25" y="297" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="#000">[ T ]</text>
-    <text id="text1" x="339.25" y="237" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="#000">[ T ]</text>
-    <text id="text2" x="308.5" y="127" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="#000">[ T ]</text>
-    <text id="text3" x="180" y="127" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="#000">[ T ]</text>
-    <text id="text4" x="149.25" y="237" text-anchor="middle" dominant-baseline="middle" font-size="12px" fill="#000">[ T ]</text>
+    <text id="text0" x="244.25" y="297" text-anchor="middle" dominant-baseline="middle" font-size="18px" font-weight="bold" fill="#000">[ T ]</text>
+    <text id="text1" x="339.25" y="237" text-anchor="middle" dominant-baseline="middle" font-size="18px" font-weight="bold" fill="#000">[ T ]</text>
+    <text id="text2" x="308.5" y="127" text-anchor="middle" dominant-baseline="middle" font-size="18px" font-weight="bold" fill="#000">[ T ]</text>
+    <text id="text3" x="180" y="127" text-anchor="middle" dominant-baseline="middle" font-size="18px" font-weight="bold" fill="#000">[ T ]</text>
+    <text id="text4" x="149.25" y="237" text-anchor="middle" dominant-baseline="middle" font-size="18px" font-weight="bold" fill="#000">[ T ]</text>
 
     <text id="time-display" x="245" y="20" text-anchor="middle" font-size="30px" fill="#000">Time: 0</text>
 </svg>
 
 <script>
-    // Define the action sequences for each philosopher
+
+    const inputString = `
+PH_0 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][PUR][ E ][ E ][ E ][ E ][PDL][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][PUL]
+PH_1 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][PUL][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][PUR][ E ][ E ][ E ][ E ][ E ][ B ][PDL][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][PUL][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ]
+PH_2 [ T ][ T ][ T ][ T ][ T ][ B ][ B ][PUL][PUR][ E ][ E ][ E ][ E ][ E ][ E ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][PUL][PUR][ E ][ E ][ E ][ B ][PDL][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ B ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][PUL][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ B ][ B ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ]
+PH_3 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ B ][PDL][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ B ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][PUL][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ B ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][PUR][ E ][ E ]
+PH_4 [ T ][ T ][ T ][ T ][ T ][PUL][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][ B ][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][PUR][ E ][ E ][ E ][ E ][PDL][PDR][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][PUL][ B ][ B ][ B ][ B ][ B ][PUR][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ B ][PDL][PDR][ T ][ T ][ T ]
+`;
+    // Convert input string into JavaScript object with arrays of arrays
+    const sequenceses = inputString.trim().split('\n').reduce((acc, line) => {
+        // Extract key and bracketed values
+        const parts = line.match(/\[.*?\]/g);
+        if (parts) {
+            // Get the key (first part before the first bracket)
+            const key = line.split(' ')[0];
+            acc[key] = parts.map(part => part.trim()); // Clean up any extra whitespace
+        }
+        return acc;
+    }, {});
+
+    console.log(sequenceses);
+
+    // Define the action sequences fo
+    // r each philosopher
     const sequences = {
         PH_0: ["[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[PUL]", "[PUR]", "[ E ]", "[ E ]", "[ E ]", "[ E ]", "[ E ]", "[ E ]"],
         PH_1: ["[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ T ]", "[ B ]", "[ B ]", "[ B ]", "[ B ]"],
@@ -118,6 +141,9 @@
         switch (action) {
             case "[ T ]":
                 philosopher.text.textContent = `[ T ]`;
+                if (philosopher.plate.classList.contains("blocked")) {
+                    philosopher.plate.classList.remove("blocked");
+                }
                 break;
             case "[ E ]":
                 philosopher.text.textContent = `[ E ]`;
@@ -130,23 +156,43 @@
             case "[ B ]":
                 philosopher.text.textContent = `[ B ]`;
                 philosopher.plate.classList.add("blocked");
+                if (philosopher.plate.classList.contains("eat")) {
+                    philosopher.plate.classList.remove("eat");
+                }
                 break;
             case "[PUL]":
                 philosopher.text.textContent = `[PUL]`;
                 philosopher.leftArrow.classList.remove("hidden");
+                if (philosopher.plate.classList.contains("blocked")) {
+                    philosopher.plate.classList.remove("blocked");
+                }
                 break;
             case "[PUR]":
                 philosopher.text.textContent = ` [PUR]`;
                 philosopher.rightArrow.classList.remove("hidden");
+                if (philosopher.plate.classList.contains("blocked")) {
+                    philosopher.plate.classList.remove("blocked");
+                }
                 break;
             case "[PDL]":
                 philosopher.text.textContent = `[PDL]`;
                 philosopher.leftArrow.classList.add("hidden");
+                if (philosopher.plate.classList.contains("eat")) {
+                    philosopher.plate.classList.remove("eat");
+                }
+                if (philosopher.plate.classList.contains("blocked")) {
+                    philosopher.plate.classList.remove("blocked");
+                }
                 break;
             case "[PDR]":
                 philosopher.text.textContent = `[PDR]`;
                 philosopher.rightArrow.classList.add("hidden");
-                philosopher.plate.classList.remove("eat");
+                if (philosopher.plate.classList.contains("eat")) {
+                    philosopher.plate.classList.remove("eat");
+                }
+                if (philosopher.plate.classList.contains("blocked")) {
+                    philosopher.plate.classList.remove("blocked");
+                }
                 break;
         }
     }
@@ -155,22 +201,26 @@
     function animatePhilosophers() {
         let timeStep = 0;
 
+        const firstKey = Object.keys(sequenceses)[0];
+        const firstArray = sequenceses[firstKey];
+        const lengthOfFirstArray = firstArray.length;
+
         const interval = setInterval(() => {
-            if (timeStep >= sequences.PH_0.length) {
+            if (timeStep >= lengthOfFirstArray) {
                 clearInterval(interval); // Stop animation when sequences end
                 return;
             }
 
             // Update each philosopher's state at the current time step
-            Object.keys(sequences).forEach((philosopher, index) => {
-                updateState(index, sequences[philosopher][timeStep]);
+            Object.keys(sequenceses).forEach((philosopher, index) => {
+                updateState(index, sequenceses[philosopher][timeStep]);
             });
 
             // Update the time display
             timeDisplay.textContent = "Time: " + String(timeStep + 1);
 
             timeStep++;
-        }, 1000); // Change the step time as needed
+        }, 100); // Change the step time as needed
     }
 
     // Start the animation
