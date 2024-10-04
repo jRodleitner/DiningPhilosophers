@@ -52,8 +52,10 @@ public abstract class AbstractPhilosopher extends Thread {
     protected void pickUpLeftFork() throws InterruptedException {
         leftFork.pickUp(this);
         if(SimuType.getSimulatePickups()) {
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
+            table.unlockClock();
         }
         lastAction = Events.PICKUPLEFT;
     }
@@ -61,8 +63,10 @@ public abstract class AbstractPhilosopher extends Thread {
     protected void pickUpRightFork() throws InterruptedException {
         rightFork.pickUp(this);
         if(SimuType.getSimulatePickups()) {
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+            table.unlockClock();
         }
         lastAction = Events.PICKUPRIGHT;
     }

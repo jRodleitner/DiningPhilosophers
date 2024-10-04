@@ -49,8 +49,10 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
     protected boolean pickUpLeftForkDijkstra() throws InterruptedException {
         boolean successful = leftFork.pickUp(this);
         if(successful) {
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
+            table.unlockClock();
             return true;
         } else return false;
     }
@@ -58,8 +60,10 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
     protected boolean pickUpRightForkDijkstra() throws InterruptedException {
         boolean successful = rightFork.pickUp(this);
         if(successful) {
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+            table.unlockClock();
             return true;
         } else return false;
     }

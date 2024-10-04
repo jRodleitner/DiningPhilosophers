@@ -296,7 +296,7 @@ public class DiningTable {
         clock.advanceTime(1);
     }
 
-    public  void lockClock(){clock.lockClock();}
+    public void lockClock(){clock.lockClock();}
 
     public synchronized void unlockClock(){clock.unlockClock();}
 

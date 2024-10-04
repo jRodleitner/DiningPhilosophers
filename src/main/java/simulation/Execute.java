@@ -17,7 +17,10 @@ public class Execute {
         while(simulationTime > 0){
             simulationTime--;
             Thread.sleep(10);
+            //TODO inspect logic!
+            //table.lockClock();
             table.advanceTime();
+            //table.unlockClock();
         }
         table.stopDinner();
 
@@ -35,38 +38,8 @@ public class Execute {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println(execute(5, 50, Algorithm.NAIVE, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
+        System.out.println(execute(5, 50, Algorithm.ATOMICWAITER, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
 
     }
 }
-    /*
-    private static boolean deadlock = false;
 
-    public static void setDeadlock(boolean locked){
-        deadlock = locked;
-    }*/
-
-        /*for(AbstractPhilosopher philosopher: table.philosophers){
-            System.out.println(philosopher.getSB().toString());
-        }*/
-
-        /*int time = 50;
-
-        Distribution thinkDistr = new Distribution(Distribution.INTERVAL, 0, 100);
-        Distribution eatDistr = new Distribution(Distribution.INTERVAL, 0, 100);
-        DiningTable table = new DiningTable(3, "NAIVE", thinkDistr, eatDistr);
-
-        table.startDinner();
-        while(time > 0){
-            time--;
-            Thread.sleep(10);
-            table.advanceTime();
-        }
-        table.stopDinner();
-
-        System.out.println(Parser.parse(table.philosophers));
-
-        /*for(AbstractPhilosopher philosopher: table.philosophers){
-            System.out.println(philosopher.getSB().toString());
-        }
-    }*/

@@ -42,8 +42,10 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
     protected boolean pickUpRightWithTimeout() throws InterruptedException {
         boolean succPickup = rightTimeoutFork.pickUpRight(this);
         if(succPickup && SimuType.getSimulatePickups()){
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+            table.unlockClock();
         }
         lastAction = Events.PICKUPRIGHT;
         return succPickup;

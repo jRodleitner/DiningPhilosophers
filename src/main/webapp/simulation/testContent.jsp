@@ -175,7 +175,7 @@
                     <option value="ATOMICWAITER" <%= "ATOMICWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Atomic Waiter</option>
                     <option value="PICKUPWAITER" <%= "PICKUPWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Pickup Waiter</option>
                     <option value="FAIRWAITER" <%= "FAIRWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Fair Waiter</option>
-                    <option value="TWOWAITERS" <%= "Two Waiters".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Two Waiters</option>
+                    <option value="TWOWAITERS" <%= "TWOWAITERS".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Two Waiters</option>
                 </optgroup>
 
                 <optgroup label="Semaphore">
@@ -192,8 +192,8 @@
             <label for="nrPhil">Number of Philosophers (2-9):</label>
             <input type="number" id="nrPhil" name="nrPhil" min="2" max="9" value="${param.nrPhil != null ? param.nrPhil : '5'}" required><br><br>
 
-            <label for="simulationTime">Simulation Time (10-3000):</label>
-            <input type="number" id="simulationTime" name="simulationTime" min="10" max="3000" value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
+            <label for="simulationTime">Simulation Time (10-500):</label>
+            <input type="number" id="simulationTime" name="simulationTime" min="10" max="500" value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
 
             <!-- Think Distribution -->
             <label for="thinkDistribution">Think Distribution:</label>
