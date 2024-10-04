@@ -33,6 +33,7 @@ public class HierarchyPhilosopher extends AbstractPhilosopher {
 
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

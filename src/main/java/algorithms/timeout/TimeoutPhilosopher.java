@@ -34,13 +34,14 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
 
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }
 
     protected boolean pickUpRightWithTimeout() throws InterruptedException {
         boolean succPickup = rightTimeoutFork.pickUpRight(this);
-        if(succPickup && simuType){
+        if(succPickup && SimuType.getSimulatePickups()){
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
         }

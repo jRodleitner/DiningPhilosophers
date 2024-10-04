@@ -1,10 +1,6 @@
 package algorithms;
 
 
-import parser.Events;
-
-import java.util.Objects;
-
 public abstract class AbstractFork {
 
     protected final int id;

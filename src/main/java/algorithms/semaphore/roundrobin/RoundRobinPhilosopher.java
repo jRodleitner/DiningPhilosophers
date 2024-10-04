@@ -28,6 +28,7 @@ public class RoundRobinPhilosopher extends AbstractPhilosopher {
                 semaphores[(id + 1) % semaphores.length].release();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

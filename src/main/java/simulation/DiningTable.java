@@ -288,17 +288,17 @@ public class DiningTable {
         }
     }
 
-    public synchronized long getCurrentTime() {
+    public long getCurrentTime() {
         return clock.getCurrentTime();
     }
 
-    public synchronized void advanceTime() {
+    public void advanceTime() {
         clock.advanceTime(1);
     }
 
-    public synchronized long getAndAdvanceTime(){
-        return clock.getCurrentTimeAndAdvanceTime(1);
-    }
+    public  void lockClock(){clock.lockClock();}
+
+    public synchronized void unlockClock(){clock.unlockClock();}
 
     public void startDinner() {
         for (AbstractPhilosopher philosopher : philosophers) {

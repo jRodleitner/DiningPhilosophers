@@ -32,6 +32,7 @@ public class FairGuestPhilosopher extends AbstractPhilosopher {
                 waiter.returnPermission();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

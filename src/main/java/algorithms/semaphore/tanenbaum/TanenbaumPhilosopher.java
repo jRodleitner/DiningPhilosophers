@@ -25,6 +25,7 @@ public class TanenbaumPhilosopher extends AbstractPhilosopher {
                 putdown();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

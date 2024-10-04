@@ -35,6 +35,7 @@ public class AsymmetricPhilosopher extends AbstractPhilosopher {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            table.unlockClock();
         }
     }
 

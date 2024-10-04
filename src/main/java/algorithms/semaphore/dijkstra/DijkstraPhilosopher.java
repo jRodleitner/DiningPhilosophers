@@ -41,6 +41,7 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                 putDownRightFork();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

@@ -2,7 +2,6 @@ package algorithms;
 import parser.Events;
 import simulation.*;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractPhilosopher extends Thread {
@@ -12,7 +11,6 @@ public abstract class AbstractPhilosopher extends Thread {
     protected final DiningTable table;
     protected final StringBuilder sb;
     protected String lastAction;
-    protected final boolean simuType;
 
 
     protected final Distribution eatDistr;
@@ -28,7 +26,6 @@ public abstract class AbstractPhilosopher extends Thread {
         this.thinkDistr = thinkistr;
         this.eatDistr = eatDistr;
         this.lastAction = "";
-        simuType = SimuType.getSimulatePickups();
     }
 
     public StringBuilder getSB(){
@@ -54,24 +51,24 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void pickUpLeftFork() throws InterruptedException {
         leftFork.pickUp(this);
-        if(simuType) {
-            //table.advanceTime();
-            sbLog(id, Events.PICKUPLEFT, table.getAndAdvanceTime());
+        if(SimuType.getSimulatePickups()) {
+            table.advanceTime();
+            sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
         }
         lastAction = Events.PICKUPLEFT;
     }
 
     protected void pickUpRightFork() throws InterruptedException {
         rightFork.pickUp(this);
-        if(simuType) {
-            //table.advanceTime();
-            sbLog(id, Events.PICKUPRIGHT, table.getAndAdvanceTime());
+        if(SimuType.getSimulatePickups()) {
+            table.advanceTime();
+            sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
         }
         lastAction = Events.PICKUPRIGHT;
     }
 
     protected void eat() throws InterruptedException {
-        if(!simuType){
+        if(!SimuType.getSimulatePickups()){
             sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
         }
 
@@ -83,23 +80,34 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void putDownLeftFork() {
 
-        if(simuType) {
-            //table.advanceTime();
-            sbLog(id, Events.PUTDOWNLEFT, table.getAndAdvanceTime());
+        if(SimuType.getSimulatePickups()) {
+            table.lockClock();
+            leftFork.putDown(this);
+            table.advanceTime();
+            sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
+            table.unlockClock();
+        } else {
+            leftFork.putDown(this);
         }
-        leftFork.putDown(this);
+
         lastAction = Events.PUTDOWNLEFT;
     }
 
     protected void putDownRightFork() {
 
-        if(simuType){
-            //table.advanceTime();
-            sbLog(id, Events.PUTDOWNRIGHT, table.getAndAdvanceTime());
+        if(SimuType.getSimulatePickups()){
+            table.lockClock();
+            rightFork.putDown(this);
+            table.advanceTime();
+            sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
+            table.unlockClock();
+        } else {
+            rightFork.putDown(this);
         }
-        rightFork.putDown(this);
+
         lastAction = Events.PUTDOWNRIGHT;
-        if(!simuType){
+
+        if(!SimuType.getSimulatePickups()){
             table.advanceTime();
         }
     }

@@ -1,6 +1,7 @@
 GENERAL TODO:
 
 NEXT:
+[ ] remove blocked times and other actions at pickup/putdown times -> change statistics to run over ArrayLists
 [ ] understand GPT-code
 [ ] inspect simulation logic!!!
 [ ] other simulation type: currStatus check

@@ -24,6 +24,7 @@ public class NaivePhilosopher extends AbstractPhilosopher {
                 putDownRightFork();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

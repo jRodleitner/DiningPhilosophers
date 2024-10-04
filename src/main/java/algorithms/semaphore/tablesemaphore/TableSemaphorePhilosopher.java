@@ -29,6 +29,7 @@ public class TableSemaphorePhilosopher extends AbstractPhilosopher {
                 semaphore.release();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }
