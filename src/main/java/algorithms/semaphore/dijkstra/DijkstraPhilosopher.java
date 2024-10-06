@@ -17,13 +17,13 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 boolean bothSuccessful = false;
-                while(!bothSuccessful){
+                while (!bothSuccessful) {
                     boolean firstSuccessful = pickUpLeftForkDijkstra();
                     //System.out.println("id:" + id +" first: " + firstSuccessful + " " + table.getCurrentTime());
-                    if(firstSuccessful){
+                    if (firstSuccessful) {
                         boolean secondSuccsessful = pickUpRightForkDijkstra();
                         //System.out.println("id:" + id +" second:  " + secondSuccsessful + " " + table.getCurrentTime());
-                        if(secondSuccsessful){
+                        if (secondSuccsessful) {
                             bothSuccessful = true;
                             eat();
                         } else {
@@ -45,32 +45,34 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
             Thread.currentThread().interrupt();
         }
     }
-    //TODO Simple Simulation
+
     protected boolean pickUpLeftForkDijkstra() throws InterruptedException {
         boolean successful = leftFork.pickUp(this);
-        if(successful) {
-            table.lockClock();
-            table.advanceTime();
-            sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
-            table.unlockClock();
+        if (successful) {
+            if (simulatePickups) {
+                table.lockClock();
+                table.advanceTime();
+                sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
+                table.unlockClock();
+            }
             lastAction = Events.PICKUPLEFT;
             return true;
         } else return false;
     }
-    //TODO Simple Simulation
+
     protected boolean pickUpRightForkDijkstra() throws InterruptedException {
         boolean successful = rightFork.pickUp(this);
-        if(successful) {
-            table.lockClock();
-            table.advanceTime();
-            sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
-            table.unlockClock();
+        if (successful) {
+            if (simulatePickups) {
+                table.lockClock();
+                table.advanceTime();
+                sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+                table.unlockClock();
+            }
             lastAction = Events.PICKUPRIGHT;
             return true;
         } else return false;
     }
-
-
 
 
 }
