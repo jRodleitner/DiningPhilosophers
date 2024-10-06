@@ -213,7 +213,7 @@
             <button id="forward-button">&#9193;Forward</button>
             <button id="play-button">&#9654;Play</button>
             <button id="pause-button" class="hidden">&#9208;Pause</button>
-            <button id="restart-button">Reset</button>
+            <button id="restart-button">&#128260;Reset</button>
             <select id="speedSelect" onchange="updateInterval()">
                 <option value="1000">Slow</option>
                 <option value="1800">Very Slow</option>

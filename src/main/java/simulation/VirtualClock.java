@@ -12,8 +12,7 @@ public class VirtualClock {
         try {
             semaphore.acquire(); // Acquires the semaphore, blocking if it's not available
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // Restore interrupted status
-            //throw new RuntimeException("Thread was interrupted while acquiring the lock", e);
+            Thread.currentThread().interrupt();
         }
     }
 
