@@ -27,7 +27,7 @@ public class SimulationServlet extends HttpServlet {
         // Call the execute function with the given parameters
         String result = null;
         try {
-            result = Execute.execute(nrPhilosophers, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout);
+            result = Execute.execute(nrPhilosophers, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, false);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

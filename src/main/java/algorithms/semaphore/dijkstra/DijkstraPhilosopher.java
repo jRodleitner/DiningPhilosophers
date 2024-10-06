@@ -45,7 +45,7 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
             Thread.currentThread().interrupt();
         }
     }
-
+    //TODO Simple Simulation
     protected boolean pickUpLeftForkDijkstra() throws InterruptedException {
         boolean successful = leftFork.pickUp(this);
         if(successful) {
@@ -53,10 +53,11 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
             table.advanceTime();
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
             table.unlockClock();
+            lastAction = Events.PICKUPLEFT;
             return true;
         } else return false;
     }
-
+    //TODO Simple Simulation
     protected boolean pickUpRightForkDijkstra() throws InterruptedException {
         boolean successful = rightFork.pickUp(this);
         if(successful) {
@@ -64,6 +65,7 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
             table.unlockClock();
+            lastAction = Events.PICKUPRIGHT;
             return true;
         } else return false;
     }

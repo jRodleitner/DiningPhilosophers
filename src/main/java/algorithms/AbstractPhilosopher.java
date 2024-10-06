@@ -11,6 +11,7 @@ public abstract class AbstractPhilosopher extends Thread {
     protected final DiningTable table;
     protected final StringBuilder sb;
     protected String lastAction;
+    protected boolean simulatePickups;
 
 
     protected final Distribution eatDistr;
@@ -26,6 +27,7 @@ public abstract class AbstractPhilosopher extends Thread {
         this.thinkDistr = thinkistr;
         this.eatDistr = eatDistr;
         this.lastAction = "";
+        this.simulatePickups = SimuType.getSimulatePickups();
     }
 
     public StringBuilder getSB(){
@@ -51,7 +53,7 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void pickUpLeftFork() throws InterruptedException {
         leftFork.pickUp(this);
-        if(SimuType.getSimulatePickups()) {
+        if(simulatePickups) {
             table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
@@ -62,7 +64,7 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void pickUpRightFork() throws InterruptedException {
         rightFork.pickUp(this);
-        if(SimuType.getSimulatePickups()) {
+        if(simulatePickups) {
             table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
@@ -72,7 +74,7 @@ public abstract class AbstractPhilosopher extends Thread {
     }
 
     protected void eat() throws InterruptedException {
-        if(!SimuType.getSimulatePickups()){
+        if(!simulatePickups){
             sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
         }
 
@@ -84,7 +86,7 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void putDownLeftFork() {
 
-        if(SimuType.getSimulatePickups()) {
+        if(simulatePickups) {
             table.lockClock();
             leftFork.putDown(this);
             table.advanceTime();
@@ -99,7 +101,7 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void putDownRightFork() {
 
-        if(SimuType.getSimulatePickups()){
+        if(simulatePickups){
             table.lockClock();
             rightFork.putDown(this);
             table.advanceTime();
@@ -111,7 +113,7 @@ public abstract class AbstractPhilosopher extends Thread {
 
         lastAction = Events.PUTDOWNRIGHT;
 
-        if(!SimuType.getSimulatePickups()){
+        if(!simulatePickups){
             table.advanceTime();
         }
     }
@@ -126,5 +128,9 @@ public abstract class AbstractPhilosopher extends Thread {
         if (o == null || getClass() != o.getClass()) return false;
         AbstractPhilosopher that = (AbstractPhilosopher) o;
         return id == that.id;
+    }
+
+    public String getLastAction(){
+        return lastAction;
     }
 }

@@ -39,8 +39,8 @@ public class Parser {
         fillIn(philosophers, timelines, statistics);
         fillStatistics(timelines, statistics);
 
-        //TODO create Boolean to set parameter
-        parseAnimation(timelines);
+        //TODO explain
+        if(SimuType.getAnimate()) parseAnimation(timelines);
 
         for(List<String> timeline: timelines){
             sb.append(String.join("", timeline));
@@ -52,10 +52,12 @@ public class Parser {
         global.setId("Global");
 
         boolean deadlock = true;
+        for(AbstractPhilosopher ph: philosophers){
+            if(!ph.getLastAction().equals(Events.PICKUPLEFT)) deadlock = false;
+        }
 
         //TODO change deadlock check to last of philosopher
         for(Statistic st: statistics){
-            if(!st.getLast().equals(Events.PICKUPLEFT)) deadlock = false;
             global.addAll(st.getTotalThinkTime(), st.getTotalEatTime(), st.getTotalBlockTime());
             global.incrementMaxBlockedTime(st.getMaxBlockedTime());
             sb.append(st);
@@ -85,13 +87,13 @@ public class Parser {
                     case Events.BLOCKED:
                         if(left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDLR);
                         else if(left & !right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDL);
-                        else if(!left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDR);
+                        else if(right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDR);
                         break;
 
                     case Events.EMPTY:
                         if(left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYLR);
                         else if (left & !right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYL);
-                        else if (!left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYR);
+                        else if (right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYR);
                         break;
 
                     case Events.PUTDOWNLEFT:

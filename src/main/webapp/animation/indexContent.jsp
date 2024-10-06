@@ -216,17 +216,18 @@
             <button id="restart-button">Reset</button>
             <select id="speedSelect" onchange="updateInterval()">
                 <option value="1000">Slow</option>
-                <option value="2000">Very Slow</option>
-                <option value="500">Fast</option>
+                <option value="1800">Very Slow</option>
+                <option value="600">Fast</option>
                 <option value="300">Very Fast</option>
+                <option value="100">Lightspeed</option>
             </select>
         </div>
 
         <script>
 
             const inputString = `
-        <%= request.getAttribute("result") != null ? request.getAttribute("result").toString().replace("\n", "\\n").replace("\r", "\\r") : "" %>
-    `;
+            <%= request.getAttribute("result") != null ? request.getAttribute("result").toString().replace("\n", "\\n").replace("\r", "\\r") : "" %>
+            `;
             // Convert input string into JavaScript object with arrays of arrays
             const sequenceses = inputString.trim().split('\n').reduce((acc, line) => {
                 // Extract key and bracketed values
@@ -731,6 +732,83 @@
 
             // Initial render
             renderTimeStep();
+        </script>
+
+        <script>
+            function updateLabels() {
+                // Update labels for thinkDistribution
+                var thinkDistribution = document.getElementById('thinkDistribution').value;
+                var thinkParam1Label = document.getElementById('thinkparam1Label');
+                var thinkParam2Label = document.getElementById('thinkparam2Label');
+                //var thinkParam1Input = document.getElementById('thinkparam1');
+                var thinkParam2Input = document.getElementById('thinkparam2');
+
+                if (thinkDistribution === 'INTERVAL') {
+                    thinkParam1Label.textContent = 'Lb:';
+                    thinkParam2Label.textContent = 'Ub:';
+                    thinkParam2Label.style.display = 'inline';
+                    thinkParam2Input.style.display = 'inline';
+                } else if (thinkDistribution === 'DETERMINISTIC') {
+                    thinkParam1Label.textContent = 'det:';
+                    thinkParam2Label.style.display = 'none';
+                    thinkParam2Input.style.display = 'none';
+                } else if (thinkDistribution === 'NORMAL') {
+                    thinkParam1Label.textContent = 'mu:';
+                    thinkParam2Label.textContent = 'sigma:';
+                    thinkParam2Label.style.display = 'inline';
+                    thinkParam2Input.style.display = 'inline';
+                } else if (thinkDistribution === 'EXP') {
+                    thinkParam1Label.textContent = 'lambda:';
+                    thinkParam2Label.style.display = 'none';
+                    thinkParam2Input.style.display = 'none';
+                }
+
+                // Update labels for eatDistribution
+                var eatDistribution = document.getElementById('eatDistribution').value;
+                var eatParam1Label = document.getElementById('eatparam1Label');
+                var eatParam2Label = document.getElementById('eatparam2Label');
+                //var eatParam1Input = document.getElementById('eatparam1');
+                var eatParam2Input = document.getElementById('eatparam2');
+
+                if (eatDistribution === 'INTERVAL') {
+                    eatParam1Label.textContent = 'Lb:';
+                    eatParam2Label.textContent = 'Ub:';
+                    eatParam2Label.style.display = 'inline';
+                    eatParam2Input.style.display = 'inline';
+                } else if (eatDistribution === 'DETERMINISTIC') {
+                    eatParam1Label.textContent = 'det:';
+                    eatParam2Label.style.display = 'none';
+                    eatParam2Input.style.display = 'none';
+                } else if (eatDistribution === 'NORMAL') {
+                    eatParam1Label.textContent = 'mu:';
+                    eatParam2Label.textContent = 'sigma:';
+                    eatParam2Label.style.display = 'inline';
+                    eatParam2Input.style.display = 'inline';
+                } else if (eatDistribution === 'EXP') {
+                    eatParam1Label.textContent = 'lambda:';
+                    eatParam2Label.style.display = 'none';
+                    eatParam2Input.style.display = 'none';
+                }
+
+                // Update visibility for timeout
+                var algorithm = document.getElementById('algorithm').value;
+                var timeoutLabel = document.getElementById('timeoutLabel');
+                var timeoutInput = document.getElementById('timeout');
+
+                if (algorithm === 'TIMEOUT') {
+                    timeoutLabel.style.display = 'inline';
+                    timeoutInput.style.display = 'inline';
+                } else {
+                    timeoutLabel.style.display = 'none';
+                    timeoutInput.style.display = 'none';
+                }
+
+            }
+
+            window.onload = function () {
+                updateLabels();
+                document.getElementById('algorithm').addEventListener('change', updateLabels);
+            };
         </script>
     </div>
     <div class="form-container">

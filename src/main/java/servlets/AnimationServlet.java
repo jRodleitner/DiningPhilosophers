@@ -26,7 +26,7 @@ public class AnimationServlet extends HttpServlet {
         // Call the execute function with the given parameters
         String result = null;
         try {
-            result = Execute.execute(5, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout);
+            result = Execute.execute(5, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, true);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

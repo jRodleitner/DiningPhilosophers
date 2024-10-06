@@ -5,9 +5,9 @@ import parser.Parser;
 
 public class Execute {
 
-    public static String execute(int nrPhil, int simulationTime, String algorithm, boolean simulatePickups, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout) throws InterruptedException{
+    public static String execute(int nrPhil, int simulationTime, String algorithm, boolean simulatePickups, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout, boolean animate) throws InterruptedException{
 
-        SimuType.setSimulatePickups(simulatePickups);
+        SimuType.setSimulatePickups(simulatePickups, animate);
         Distribution thinkDistr = new Distribution(thinkDistribution,thinkPar1 , thinkPar2);
         Distribution eatDistr = new Distribution(eatDistribution, eatPar1, eatPar2);
         DiningTable table = new DiningTable(nrPhil, algorithm, thinkDistr, eatDistr, timeout);
@@ -38,7 +38,7 @@ public class Execute {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println(execute(5, 50, Algorithm.ATOMICWAITER, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200));
+        System.out.println(execute(5, 50, Algorithm.ATOMICWAITER, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200, false));
 
     }
 }

@@ -2,11 +2,13 @@ package simulation;
 
 public class SimuType {
     private static boolean simulatePickups;
+    private static boolean animate;
 
     public static String Simulationtype;
 
-    public static void setSimulatePickups(boolean simulatePickups) {
+    protected static void setSimulatePickups(boolean simulatePickups, boolean animate) {
         SimuType.simulatePickups = simulatePickups;
+        SimuType.animate = animate;
         if(simulatePickups){
             Simulationtype = "Simulate Pickups";
         } else {
@@ -16,5 +18,9 @@ public class SimuType {
 
     public static  boolean getSimulatePickups() {
         return simulatePickups;
+    }
+
+    public static boolean getAnimate() {
+        return animate;
     }
 }

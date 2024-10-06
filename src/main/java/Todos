@@ -1,8 +1,9 @@
 GENERAL TODO:
 
 NEXT:
-[ ] make Simulation Page functional again!
-[x] Backwards/ Forwards option
+[ ] Dijkstra Simple Simulation Logic
+[ ] try simplifying animation/ simulation page
+[ ] normal simulation string for animation
 [ ] incorporate simulation to animation
 [ ] inspect simulation logic!!!
 [ ] other simulation type: currStatus check
@@ -54,6 +55,8 @@ CHECK:
 [x] svg animation concept
 [x] svg animation prototype of Dining Philosophers
 [x] remove blocked times and other actions at pickup/putdown times -> change statistics to run over ArrayLists
+[x] make Simulation Page functional again!
+[x] Backwards/ Forwards option
 
 
 DONE:
