@@ -39,6 +39,7 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
         }
     }
 
+    //TODO getSimulationType
     protected boolean pickUpRightWithTimeout() throws InterruptedException {
         boolean succPickup = rightTimeoutFork.pickUpRight(this);
         if(succPickup && SimuType.getSimulatePickups()){

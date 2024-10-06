@@ -142,7 +142,7 @@
     </script>
 </head>
 <body>
-<h1>Simulation Page</h1>
+<h2>Simulation Page</h2>
 
 <div class="container">
     <!-- Scrollable Box for Results -->

@@ -20,6 +20,13 @@ public class Events {
 
     public static final String EMPTY = "[   ]";
 
+    public static final String BLOCKEDLR = "[BLR]";
+    public static final String BLOCKEDL = "[BL ]";
+    public static final String BLOCKEDR = "[BR ]";
+    public static final String EMPTYLR = "[LR ]";
+    public static final String EMPTYL = "[L  ]";
+    public static final String EMPTYR = "[R  ]";
+
     public static final ArrayList<String> PICKUPSET = new ArrayList<>(Arrays.asList("[PUR]", "[PUL]", "[PDL]", "[PDR]"));
     public static final ArrayList<String> REMOVESET = new ArrayList<>(Arrays.asList("[ E ]", "[ B ]", "[ T ]" ));
 }

@@ -39,6 +39,9 @@ public class Parser {
         fillIn(philosophers, timelines, statistics);
         fillStatistics(timelines, statistics);
 
+        //TODO create Boolean to set parameter
+        parseAnimation(timelines);
+
         for(List<String> timeline: timelines){
             sb.append(String.join("", timeline));
         }
@@ -50,6 +53,7 @@ public class Parser {
 
         boolean deadlock = true;
 
+        //TODO change deadlock check to last of philosopher
         for(Statistic st: statistics){
             if(!st.getLast().equals(Events.PICKUPLEFT)) deadlock = false;
             global.addAll(st.getTotalThinkTime(), st.getTotalEatTime(), st.getTotalBlockTime());
@@ -60,6 +64,48 @@ public class Parser {
         sb.append(global);
         if(deadlock) sb.append("\n\n A deadlock occurred!");
         return sb.toString();
+    }
+
+    private static void parseAnimation(List<List<String>> timelines){
+
+        for(int philosopherIndex = 0; philosopherIndex < timelines.size(); philosopherIndex++){
+            boolean left = false;
+            boolean right = false;
+            for(int timelineIndex = 0; timelineIndex < timelines.get(philosopherIndex).size(); timelineIndex++){
+                String current = timelines.get(philosopherIndex).get(timelineIndex);
+                switch(current){
+                    case Events.PICKUPLEFT:
+                        left = true;
+                        break;
+
+                    case Events.PICKUPRIGHT:
+                        right = true;
+                        break;
+
+                    case Events.BLOCKED:
+                        if(left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDLR);
+                        else if(left & !right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDL);
+                        else if(!left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.BLOCKEDR);
+                        break;
+
+                    case Events.EMPTY:
+                        if(left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYLR);
+                        else if (left & !right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYL);
+                        else if (!left & right) timelines.get(philosopherIndex).set(timelineIndex, Events.EMPTYR);
+                        break;
+
+                    case Events.PUTDOWNLEFT:
+                        left = false;
+                        break;
+
+                    case Events.PUTDOWNRIGHT:
+                        right = false;
+                        break;
+
+                }
+            }
+
+        }
     }
 
     private static void fillStatistics( List<List<String>> timelines, List<Statistic> statistics){
