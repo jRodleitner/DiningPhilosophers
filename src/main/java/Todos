@@ -1,7 +1,8 @@
 GENERAL TODO:
 
 NEXT:
-[ ] distribution webpage min/max different for distributions
+[ ] determine default values: normal and exp
+[ ] exp function overhaul
 [ ] normal simulation string for animation
 [ ] explanations of algorithms lead to Simulation page?
 [ ] try simplifying animation/ simulation page
@@ -59,6 +60,7 @@ CHECK:
 [x] Backwards/ Forwards option
 [x] Display Philosopher names in svg
 [x] Dijkstra Simple Simulation Logic
+[x] distribution webpage min/max different for distributions
 
 
 DONE:
