@@ -209,11 +209,11 @@
             <text id="time-display" x="245" y="20" text-anchor="middle" font-size="30px" fill="#000">Time: 0</text>
         </svg>
         <div class="button-container">
-            <button id="backward-button">Backward</button>
-            <button id="forward-button">Forward</button>
-            <button id="play-button">Play</button>
-            <button id="pause-button" class="hidden">Pause</button>
-            <button id="restart-button">Restart</button>
+            <button id="backward-button">&#9194;Backward</button>
+            <button id="forward-button">&#9193;Forward</button>
+            <button id="play-button">&#9654;Play</button>
+            <button id="pause-button" class="hidden">&#9208;Pause</button>
+            <button id="restart-button">Reset</button>
             <select id="speedSelect" onchange="updateInterval()">
                 <option value="1000">Slow</option>
                 <option value="2000">Very Slow</option>
@@ -715,6 +715,7 @@
                 document.getElementById("pause-button").classList.add("hidden");
                 document.getElementById("play-button").classList.remove("hidden");
                 timeStep = 0;
+                pauseAnimation()
                 renderTimeStep()
             });
 
@@ -874,7 +875,7 @@
             </select>
             <br>
             <br>
-            <input type="submit" value="Run Simulation">
+            <input type="submit" value="Run Simulation" style="font-size: 16px; padding: 10px 20px;">
         </form>
 
     </div>

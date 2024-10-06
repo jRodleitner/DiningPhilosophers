@@ -6,7 +6,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import simulation.Execute;
 
-@WebServlet(name = "SimulationServlet", value = "/animation")
+@WebServlet(name = "AnimationServlet", value = "/animation")
 public class AnimationServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
