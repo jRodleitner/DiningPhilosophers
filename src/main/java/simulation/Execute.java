@@ -24,9 +24,7 @@ public class Execute {
         }
         table.stopDinner();
 
-        /*for(AbstractPhilosopher philosopher: table.philosophers){
-            System.out.println(philosopher.getSB().toString());
-        }*/
+
         return String.format(
                 "Algorithm: %s\nSimulation Type: %s\n%s\n\nThink Distribution: %s, Parameters: %s, %s\nEat Distribution: %s, Parameters: %s, %s",
                 algorithm,SimuType.Simulationtype,
