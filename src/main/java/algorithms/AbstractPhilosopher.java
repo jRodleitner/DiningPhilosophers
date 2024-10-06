@@ -2,7 +2,6 @@ package algorithms;
 import parser.Events;
 import simulation.*;
 
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractPhilosopher extends Thread {
@@ -12,6 +11,7 @@ public abstract class AbstractPhilosopher extends Thread {
     protected final DiningTable table;
     protected final StringBuilder sb;
     protected String lastAction;
+    protected boolean simulatePickups;
 
 
     protected final Distribution eatDistr;
@@ -27,6 +27,7 @@ public abstract class AbstractPhilosopher extends Thread {
         this.thinkDistr = thinkistr;
         this.eatDistr = eatDistr;
         this.lastAction = "";
+        this.simulatePickups = SimuType.getSimulatePickups();
     }
 
     public StringBuilder getSB(){
@@ -52,24 +53,28 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void pickUpLeftFork() throws InterruptedException {
         leftFork.pickUp(this);
-        if(SimuType.getSimulatePickups()) {
+        if(simulatePickups) {
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
+            table.unlockClock();
         }
         lastAction = Events.PICKUPLEFT;
     }
 
     protected void pickUpRightFork() throws InterruptedException {
         rightFork.pickUp(this);
-        if(SimuType.getSimulatePickups()) {
+        if(simulatePickups) {
+            table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
+            table.unlockClock();
         }
         lastAction = Events.PICKUPRIGHT;
     }
 
     protected void eat() throws InterruptedException {
-        if(!SimuType.getSimulatePickups()){
+        if(!simulatePickups){
             sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
         }
 
@@ -80,22 +85,35 @@ public abstract class AbstractPhilosopher extends Thread {
     }
 
     protected void putDownLeftFork() {
-        leftFork.putDown(this);
-        if(SimuType.getSimulatePickups()) {
+
+        if(simulatePickups) {
+            table.lockClock();
+            leftFork.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
+            table.unlockClock();
+        } else {
+            leftFork.putDown(this);
         }
+
         lastAction = Events.PUTDOWNLEFT;
     }
 
     protected void putDownRightFork() {
-        rightFork.putDown(this);
-        if(SimuType.getSimulatePickups()){
+
+        if(simulatePickups){
+            table.lockClock();
+            rightFork.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
+            table.unlockClock();
+        } else {
+            rightFork.putDown(this);
         }
+
         lastAction = Events.PUTDOWNRIGHT;
-        if(!SimuType.getSimulatePickups()){
+
+        if(!simulatePickups){
             table.advanceTime();
         }
     }
@@ -110,5 +128,9 @@ public abstract class AbstractPhilosopher extends Thread {
         if (o == null || getClass() != o.getClass()) return false;
         AbstractPhilosopher that = (AbstractPhilosopher) o;
         return id == that.id;
+    }
+
+    public String getLastAction(){
+        return lastAction;
     }
 }

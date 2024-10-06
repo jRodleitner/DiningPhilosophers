@@ -54,6 +54,7 @@ public class MultipleTokenPhilosopher extends AbstractPhilosopher {
                 token.passToken();
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

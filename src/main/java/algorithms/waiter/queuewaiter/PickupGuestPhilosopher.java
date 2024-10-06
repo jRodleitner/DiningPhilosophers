@@ -28,6 +28,7 @@ public class PickupGuestPhilosopher extends AbstractPhilosopher {
 
             }
         } catch (InterruptedException e) {
+            table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }

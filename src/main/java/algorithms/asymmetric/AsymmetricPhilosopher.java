@@ -14,8 +14,7 @@ public class AsymmetricPhilosopher extends AbstractPhilosopher {
     @Override
     public void run() {
         try {
-            boolean even = false;
-            if(id % 2 == 0) even = true;
+            boolean even = id % 2 == 0;
             while (!isInterrupted()) {
                 think();
                 if(even){
@@ -35,6 +34,7 @@ public class AsymmetricPhilosopher extends AbstractPhilosopher {
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
+            table.unlockClock();
         }
     }
 

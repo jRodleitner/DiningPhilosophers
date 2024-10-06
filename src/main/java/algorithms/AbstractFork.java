@@ -1,8 +1,6 @@
 package algorithms;
 
 
-import java.util.Objects;
-
 public abstract class AbstractFork {
 
     protected final int id;

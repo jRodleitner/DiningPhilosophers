@@ -113,7 +113,7 @@ public class DiningTable {
                     TokenPhilosopher rightPhilosopher = (TokenPhilosopher) philosophers.get(rightIndex);
                     philosopher.setRightPhilosopher(rightPhilosopher);
                 }
-                TokenPhilosopher initialPhilosopher = (TokenPhilosopher) philosophers.get(0);
+                TokenPhilosopher initialPhilosopher = (TokenPhilosopher) philosophers.getFirst();
                 GlobalToken token = new GlobalToken(0, initialPhilosopher);
                 initialPhilosopher.setToken(token);
                 break;
@@ -133,7 +133,7 @@ public class DiningTable {
                     philosopher.setRightPhilosopher(rightPhilosopher);
                 }
 
-                MultipleTokenPhilosopher initialPhilosopher1 = (MultipleTokenPhilosopher) philosophers.get(0);
+                MultipleTokenPhilosopher initialPhilosopher1 = (MultipleTokenPhilosopher) philosophers.getFirst();
                 Token token1 = new Token(0, initialPhilosopher1);
                 initialPhilosopher1.setToken(token1);
 
@@ -288,13 +288,17 @@ public class DiningTable {
         }
     }
 
-    public synchronized long getCurrentTime() {
+    public long getCurrentTime() {
         return clock.getCurrentTime();
     }
 
-    public synchronized void advanceTime() {
+    public void advanceTime() {
         clock.advanceTime(1);
     }
+
+    public void lockClock(){clock.lockClock();}
+
+    public synchronized void unlockClock(){clock.unlockClock();}
 
     public void startDinner() {
         for (AbstractPhilosopher philosopher : philosophers) {

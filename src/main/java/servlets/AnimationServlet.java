@@ -6,13 +6,12 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import simulation.Execute;
 
-@WebServlet(name = "SimulationServlet", value = "/simulation")
-public class SimulationServlet extends HttpServlet {
+@WebServlet(name = "AnimationServlet", value = "/animation")
+public class AnimationServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Retrieve parameters from the form
         String algorithm = request.getParameter("algorithm");
-        int nrPhilosophers = Integer.parseInt(request.getParameter("nrPhil"));
         int simulationTime = Integer.parseInt(request.getParameter("simulationTime"));
         boolean simulationType = Boolean.parseBoolean(request.getParameter("simulationType"));
         String thinkDistribution = request.getParameter("thinkDistribution");
@@ -23,11 +22,11 @@ public class SimulationServlet extends HttpServlet {
         int eatPar2 = Integer.parseInt(request.getParameter("eatparam2"));
         int timeout = Integer.parseInt(request.getParameter("timeout"));
 
-        System.out.println(nrPhilosophers + " " + simulationTime);
+        System.out.println(5 + " " + simulationTime);
         // Call the execute function with the given parameters
         String result = null;
         try {
-            result = Execute.execute(nrPhilosophers, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, false);
+            result = Execute.execute(5, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, true);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -36,7 +35,6 @@ public class SimulationServlet extends HttpServlet {
         request.setAttribute("result", result);
 
         request.setAttribute("algorithm", algorithm);
-        request.setAttribute("nrPhil", nrPhilosophers);
         request.setAttribute("simulationTime", simulationTime);
         request.setAttribute("simulationType", simulationType);
         request.setAttribute("thinkDistribution", thinkDistribution);
@@ -45,11 +43,11 @@ public class SimulationServlet extends HttpServlet {
 
 
         // Forward the request back to index.jsp
-        request.getRequestDispatcher("/simulation/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/animation/index.jsp").forward(request, response);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Redirect GET requests to the index.jsp page
-        request.getRequestDispatcher("/simulation/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/animation/index.jsp").forward(request, response);
     }
 }
