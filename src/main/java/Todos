@@ -1,11 +1,13 @@
 GENERAL TODO:
 
 NEXT:
+[ ] distribution webpage min/max
+[ ] Display Philosopher names in svg
 [ ] Dijkstra Simple Simulation Logic
 [ ] try simplifying animation/ simulation page
 [ ] normal simulation string for animation
-[ ] incorporate simulation to animation
-[ ] inspect simulation logic!!!
+[ ] explanations of algorithms lead to Simulation page?
+[ ] inspect simulation logic for each Algorithm!!!
 [ ] other simulation type: currStatus check
 [ ] overwork statistics to facilitate eliminating the PICKUP-Blocking Times
 
@@ -40,7 +42,6 @@ CHECK:
 [x] FAIR WAITER
 [x] Fill in Simulation Blanks
 [x] tanenbaum solution
-[x] monitor???
 [x] fair tanenbaum solution [!RECKECK!]
 [x] dijkstra [!RECHECK!] {very slim chance of deadlock if the randomized sleep times overlap}
 [x] multiple token [!RECHECK!]
@@ -55,6 +56,7 @@ CHECK:
 [x] svg animation concept
 [x] svg animation prototype of Dining Philosophers
 [x] remove blocked times and other actions at pickup/putdown times -> change statistics to run over ArrayLists
+[x] incorporate simulation to animation
 [x] make Simulation Page functional again!
 [x] Backwards/ Forwards option
 
@@ -62,8 +64,6 @@ CHECK:
 DONE:
 [x] Naive
 
-
-Multiple tokens: after chandy misra?
 
 IDEAS:
 
