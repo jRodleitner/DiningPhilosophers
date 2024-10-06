@@ -249,10 +249,10 @@
 
             <br>
             <label id="thinkparam1Label" for="thinkparam1">Lb:</label>
-            <input type="number" id="thinkparam1" name="thinkparam1" min="0" max="500"
+            <input type="number" id="thinkparam1" name="thinkparam1" min="0" max="500" step="0.001"
                    value="${param.thinkparam1 != null ? param.thinkparam1 : '50'}">
             <label id="thinkparam2Label" for="thinkparam2">Ub:</label>
-            <input type="number" id="thinkparam2" name="thinkparam2" min="0" max="500"
+            <input type="number" id="thinkparam2" name="thinkparam2" min="0" max="500" step="0.001"
                    value="${param.thinkparam2 != null ? param.thinkparam2 : '100'}"><br><br>
 
             <!-- Eat Distribution -->
@@ -275,10 +275,10 @@
 
             <br>
             <label id="eatparam1Label" for="eatparam1">Lb:</label>
-            <input type="number" id="eatparam1" name="eatparam1" min="0" max="500"
+            <input type="number" id="eatparam1" name="eatparam1" min="0" max="500" step="0.001"
                    value="${param.eatparam1 != null ? param.eatparam1 : '50'}">
             <label id="eatparam2Label" for="eatparam2">Ub:</label>
-            <input type="number" id="eatparam2" name="eatparam2" min="0" max="500"
+            <input type="number" id="eatparam2" name="eatparam2" min="0" max="500" step="0.001"
                    value="${param.eatparam2 != null ? param.eatparam2 : '100'}">
             <br>
 

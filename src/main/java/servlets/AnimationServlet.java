@@ -15,11 +15,11 @@ public class AnimationServlet extends HttpServlet {
         int simulationTime = Integer.parseInt(request.getParameter("simulationTime"));
         boolean simulationType = Boolean.parseBoolean(request.getParameter("simulationType"));
         String thinkDistribution = request.getParameter("thinkDistribution");
-        int thinkPar1 = Integer.parseInt(request.getParameter("thinkparam1"));
-        int thinkPar2 = Integer.parseInt(request.getParameter("thinkparam2"));
+        double thinkPar1 = Double.parseDouble(request.getParameter("thinkparam1"));
+        double thinkPar2 = Double.parseDouble(request.getParameter("thinkparam2"));
         String eatDistribution = request.getParameter("eatDistribution");
-        int eatPar1 = Integer.parseInt(request.getParameter("eatparam1"));
-        int eatPar2 = Integer.parseInt(request.getParameter("eatparam2"));
+        double eatPar1 = Double.parseDouble(request.getParameter("eatparam1"));
+        double eatPar2 = Double.parseDouble(request.getParameter("eatparam2"));
         int timeout = Integer.parseInt(request.getParameter("timeout"));
 
         System.out.println(5 + " " + simulationTime);
