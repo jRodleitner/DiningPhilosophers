@@ -25,12 +25,12 @@
 
         .scrollable-box {
             width: 1150px;
-            height: 370px;
+            height: 411px;
             border: 1px solid #ccc;
             padding: 10px;
             overflow-y: scroll;
             overflow-x: scroll;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8;
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
             border-radius: 10px;
@@ -41,7 +41,7 @@
             height: 150px;
             border: 1px solid #ccc;
             padding: 5px;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8;
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
             border-radius: 10px;
@@ -51,7 +51,7 @@
             max-width: 700px; /* Adjust based on your form's size */
             border: 1px solid #ccc;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8;
             border-radius: 10px;
         }
 
@@ -300,7 +300,7 @@
             </select>
             <br>
             <br>
-            <input type="submit" value="Run Simulation">
+            <input type="submit" value="Run Simulation" style="font-size: 16px; padding: 10px 20px;">
         </form>
     </div>
 </div>

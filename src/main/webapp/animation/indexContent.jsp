@@ -30,7 +30,7 @@
             display: flex;
             flex-direction: column; /* Stack the SVG and buttons vertically */
             align-items: center; /* Center the content horizontally */
-            background-color: #FFFF;
+            background-color: #f8f8f8;
             border-radius: 10px;
             padding: 20px;
             gap: 10px; /* Adds space between the SVG and the buttons */
@@ -90,9 +90,10 @@
 
         .form-container {
             max-width: 700px; /* Adjust based on your form's size */
+            height: 487px;
             border: 1px solid #ccc;
             padding: 10px;
-            background-color: #f0f0f0;
+            background-color: #f8f8f8;
             border-radius: 10px;
         }
 
@@ -103,7 +104,7 @@
             padding: 20px;
             overflow-y: scroll;
             overflow-x: scroll;
-            background-color: #FFFF;
+            background-color: #f8f8f8;
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
 
@@ -120,23 +121,32 @@
 
         <svg id="dining-philosophers-animation" xmlns="http://www.w3.org/2000/svg" width="490px" height="438px"
              viewBox="-0.5 -0.5 490 434">
-            <rect fill="#ffffff" width="100%" height="100%" x="0" y="0"/>
+            <rect fill="#f8f8f8" width="100%" height="100%" x="0" y="0"/>
             <!--Ellipses-->
-            <ellipse id="philosopher0" cx="244.25" cy="392" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"/>
+            <ellipse id="philosopher0" cx="244.25" cy="392" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"></ellipse>
             <ellipse id="philosopher1" cx="423.5" cy="282" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"
-                     transform="rotate(120,423.5,282)"/>
+                     transform="rotate(120,423.5,282)"></ellipse>
             <ellipse id="philosopher2" cx="385" cy="72" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"
-                     transform="rotate(50,385,72)"/>
+                     transform="rotate(50,385,72)"></ellipse>
             <ellipse id="philosopher3" cx="105" cy="72" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"
-                     transform="rotate(-55,105,72)"/>
+                     transform="rotate(-55,105,72)"></ellipse>
             <ellipse id="philosopher4" cx="65" cy="282" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"
-                     transform="rotate(60,65,282)"/>
+                     transform="rotate(60,65,282)"></ellipse>
 
-            <ellipse cx="65" cy="282" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"/>
-            <ellipse cx="105" cy="72" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"/>
-            <ellipse cx="423.5" cy="282" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"/>
-            <ellipse cx="244.25" cy="392" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"/>
-            <ellipse cx="385" cy="72" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"/>
+            <ellipse cx="65" cy="282" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
+            <text x="65" y="300" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_4</text>
+
+            <ellipse cx="105" cy="72" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
+            <text x="105" y="58" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_3</text>
+
+            <ellipse cx="423.5" cy="282" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
+            <text x="423.5" y="300" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_1</text>
+
+            <ellipse cx="244.25" cy="392" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
+            <text x="244.25" y="410" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_0</text>
+
+            <ellipse cx="385" cy="72" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
+            <text x="385" y="58" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_2</text>
 
             <ellipse cx="244.25" cy="201.25" rx="139.25" ry="139.25" fill="#f5f5f5" stroke="#666666"/>
 
@@ -672,6 +682,8 @@
                             timeStep++;
                             renderTimeStep();
                         } else {
+                            document.getElementById("pause-button").classList.add("hidden");
+                            document.getElementById("play-button").classList.remove("hidden");
                             clearInterval(interval);
                             interval = null;
                         }
