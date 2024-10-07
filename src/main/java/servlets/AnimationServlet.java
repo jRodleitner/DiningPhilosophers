@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -24,7 +26,7 @@ public class AnimationServlet extends HttpServlet {
 
         System.out.println(5 + " " + simulationTime);
         // Call the execute function with the given parameters
-        String result = null;
+        List<String> result = null;
         try {
             result = Execute.execute(5, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, true);
         } catch (InterruptedException e) {
@@ -32,7 +34,8 @@ public class AnimationServlet extends HttpServlet {
         }
 
         // Set the result and parameters as request attributes
-        request.setAttribute("result", result);
+        request.setAttribute("result", result.getFirst());
+        request.setAttribute("animationresult", result.get(1));
 
         request.setAttribute("algorithm", algorithm);
         request.setAttribute("simulationTime", simulationTime);

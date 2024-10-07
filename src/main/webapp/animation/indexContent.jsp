@@ -236,7 +236,7 @@
         <script>
 
             const inputString = `
-            <%= request.getAttribute("result") != null ? request.getAttribute("result").toString().replace("\n", "\\n").replace("\r", "\\r") : "" %>
+            <%= request.getAttribute("animationresult") != null ? request.getAttribute("animationresult").toString().replace("\n", "\\n").replace("\r", "\\r") : "" %>
             `;
             // Convert input string into JavaScript object with arrays of arrays
             const sequenceses = inputString.trim().split('\n').reduce((acc, line) => {
