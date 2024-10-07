@@ -25,18 +25,26 @@ public class Execute {
         table.stopDinner();
 
 
+
         return String.format(
-                "Algorithm: %s\nSimulation Type: %s\n%s\n\nThink Distribution: %s, Parameters: %s, %s\nEat Distribution: %s, Parameters: %s, %s",
+                "Algorithm: %s\nSimulation Type: %s\n%s\n\nThink Distribution: %s, Parameters: %s %s\nEat Distribution: %s, Parameters: %s %s",
                 algorithm,SimuType.Simulationtype,
                 Parser.parse(table.philosophers),
-                thinkDistribution, thinkPar1, thinkPar2,
-                eatDistribution, eatPar1, eatPar2
+                thinkDistribution, thinkPar1, thinkDistribution.equals(Distribution.EXP) || thinkDistribution.equals(Distribution.DETERMINISTIC) ? "" :  thinkPar2,
+                eatDistribution, eatPar1, eatDistribution.equals(Distribution.EXP) || eatDistribution.equals(Distribution.DETERMINISTIC) ? "" : eatPar2
         );
 
     }
 
     public static void main(String[] args) throws InterruptedException {
         System.out.println(execute(5, 50, Algorithm.ATOMICWAITER, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200, false));
+        /*int number = 12;
+        int std = 20;
+        System.out.println(Distribution.exponentialDistributionDuration(number));
+        System.out.println(Distribution.exponentialDistributionDuration(number));
+        System.out.println(Distribution.exponentialDistributionDuration(number));
+        System.out.println(Distribution.exponentialDistributionDuration(number));
+        System.out.println(Distribution.exponentialDistributionDuration(number));*/
 
     }
 }

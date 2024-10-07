@@ -48,7 +48,12 @@ public class Distribution {
     }
 
     public static long exponentialDistributionDuration(double lambda) {
-        return (long) (Math.log(1 - random.nextDouble()) / (-lambda));
+
+        double u = random.nextDouble();
+        long result = (long) (-Math.log(u) / lambda * 1000);
+        if(result > 400) result = 400;
+        if(result < 30) result = 30;
+        return result;
     }
 
     public static long intervalDistributionDuration(double lowerBound, double upperBound) {

@@ -815,6 +815,60 @@
                     timeoutInput.style.display = 'none';
                 }
 
+                const thinkparam1 = document.getElementById('thinkparam1');
+                const thinkparam2 = document.getElementById('thinkparam2');
+
+                switch (thinkDistribution) {
+                    case 'INTERVAL':
+                        thinkparam1.min = 30;
+                        thinkparam1.max = 400;
+                        thinkparam2.min = 30;
+                        thinkparam2.max = 400;
+                        break;
+                    case 'DETERMINISTIC':
+                        thinkparam1.min = 30;
+                        thinkparam1.max = 400;
+                        break;
+                    case 'NORMAL':
+                        thinkparam1.min = 50;
+                        thinkparam1.max = 400;
+                        thinkparam2.min = 0;
+                        thinkparam2.max = 20;
+                        break;
+                    case 'EXP':
+                        thinkparam1.min = 3;
+                        thinkparam1.max = 12;
+                        break;
+
+                }
+
+                const eatparam1 = document.getElementById('eatparam1');
+                const eatparam2 = document.getElementById('eatparam2');
+
+                switch (eatDistribution) {
+                    case 'INTERVAL':
+                        eatparam1.min = 30;
+                        eatparam1.max = 400;
+                        eatparam2.min = 30;
+                        eatparam2.max = 400;
+                        break;
+                    case 'DETERMINISTIC':
+                        eatparam1.min = 30;
+                        eatparam1.max = 400;
+                        break;
+                    case 'NORMAL':
+                        eatparam1.min = 50;
+                        eatparam1.max = 400;
+                        eatparam2.min = 0;
+                        eatparam2.max = 20;
+                        break;
+                    case 'EXP':
+                        eatparam1.min = 3;
+                        eatparam1.max = 12;
+                        break;
+
+                }
+
             }
 
             function updateThinkDistribution(){
@@ -824,35 +878,18 @@
 
                 switch (thinkDistribution) {
                     case 'INTERVAL':
-                        thinkparam1.min = 50;
-                        thinkparam1.max = 500;
-                        thinkparam2.min = 50;
-                        thinkparam2.max = 500;
                         thinkparam1.setAttribute('value', "50");  // Set default value for Interval
                         thinkparam2.setAttribute('value', "100"); // Set default value for Interval
                         break;
                     case 'DETERMINISTIC':
-                        thinkparam1.min = 50;
-                        thinkparam1.max = 500;
-                        /*thinkparam2.min = 10;
-                        thinkparam2.max = 300;*/
                         thinkparam1.setAttribute('value', "100");  // Set default value for Deterministic
                         break;
                     case 'NORMAL':
-                        thinkparam1.min = 20;
-                        thinkparam1.max = 400;
-                        thinkparam2.min = 20;
-                        thinkparam2.max = 400;
-                        thinkparam1.setAttribute('value', "200");  // Set default value for Normal
-                        thinkparam2.setAttribute('value', "250");  // Set default value for Normal
+                        thinkparam1.setAttribute('value', "75");  // Set default value for Normal
+                        thinkparam2.setAttribute('value', "5");  // Set default value for Normal
                         break;
                     case 'EXP':
-                        thinkparam1.min = 5;
-                        thinkparam1.max = 200;
-                        thinkparam2.min = 5;
-                        thinkparam2.max = 200;
-                        thinkparam1.setAttribute('value', "25");   // Set default value for Exponential
-                        thinkparam2.setAttribute('value', "100");  // Set default value for Exponential
+                        thinkparam1.setAttribute('value', "5");   // Set default value for Exponential
                         break;
 
                 }
@@ -865,35 +902,18 @@
 
                 switch (eatDistribution) {
                     case 'INTERVAL':
-                        eatparam1.min = 50;
-                        eatparam1.max = 500;
-                        eatparam2.min = 50;
-                        eatparam2.max = 500;
                         eatparam1.setAttribute('value', "50");  // Set default value for Interval
                         eatparam2.setAttribute('value', "100"); // Set default value for Interval
                         break;
                     case 'DETERMINISTIC':
-                        eatparam1.min = 50;
-                        eatparam1.max = 500;
-                        /*eatparam2.min = 10;
-                        eatparam2.max = 300;*/
                         eatparam1.setAttribute('value', "100");
                         break;
                     case 'NORMAL':
-                        eatparam1.min = 20;
-                        eatparam1.max = 400;
-                        eatparam2.min = 20;
-                        eatparam2.max = 400;
-                        eatparam1.setAttribute('value', "200");  // Set default value for Normal
-                        eatparam2.setAttribute('value', "250");  // Set default value for Normal
+                        eatparam1.setAttribute('value', "75");  // Set default value for Normal
+                        eatparam2.setAttribute('value', "5");  // Set default value for Normal
                         break;
                     case 'EXP':
-                        eatparam1.min = 5;
-                        eatparam1.max = 200;
-                        eatparam2.min = 5;
-                        eatparam2.max = 200;
-                        eatparam1.setAttribute('value', 25);   // Set default value for Exponential
-                        eatparam2.setAttribute('value', 100);  // Set default value for Exponential
+                        eatparam1.setAttribute('value', "5");   // Set default value for Exponential
                         break;
 
                 }
@@ -902,10 +922,12 @@
 
             window.onload = function () {
                 updateLabels();
+
                 document.getElementById('algorithm').addEventListener('change', updateLabels);
                 document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
                 document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
             };
+
         </script>
     </div>
     <div class="form-container">
@@ -999,10 +1021,10 @@
 
             <br>
             <label id="thinkparam1Label" for="thinkparam1">Lb:</label>
-            <input type="number" id="thinkparam1" name="thinkparam1" min="0" max="500" step="0.001"
+            <input type="number" id="thinkparam1" name="thinkparam1" min="30" max="400" step="0.001"
                    value="${param.thinkparam1 != null ? param.thinkparam1 : '50'}">
             <label id="thinkparam2Label" for="thinkparam2">Ub:</label>
-            <input type="number" id="thinkparam2" name="thinkparam2" min="0" max="500" step="0.001"
+            <input type="number" id="thinkparam2" name="thinkparam2" min="30" max="400" step="0.001"
                    value="${param.thinkparam2 != null ? param.thinkparam2 : '100'}"><br><br>
 
             <!-- Eat Distribution -->
@@ -1025,10 +1047,10 @@
 
             <br>
             <label id="eatparam1Label" for="eatparam1">Lb:</label>
-            <input type="number" id="eatparam1" name="eatparam1" min="0" max="500" step="0.001"
+            <input type="number" id="eatparam1" name="eatparam1" min="30" max="400" step="0.001"
                    value="${param.eatparam1 != null ? param.eatparam1 : '50'}">
             <label id="eatparam2Label" for="eatparam2">Ub:</label>
-            <input type="number" id="eatparam2" name="eatparam2" min="0" max="500" step="0.001"
+            <input type="number" id="eatparam2" name="eatparam2" min="30" max="400" step="0.001"
                    value="${param.eatparam2 != null ? param.eatparam2 : '100'}">
             <br>
 
