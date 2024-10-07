@@ -39,6 +39,7 @@ import algorithms.waiter.queuewaiter.GuestFork;
 import algorithms.waiter.queuewaiter.AtomicGuestPhilosopher;
 import algorithms.waiter.queuewaiter.PickupGuestPhilosopher;
 import algorithms.waiter.queuewaiter.Waiter;
+import parser.Animation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,15 +51,19 @@ public class DiningTable {
     protected final VirtualClock clock = new VirtualClock();
 
     protected final int numberOfPhilosophers;
+    protected final SimuType simuType;
+    protected final Animation animation;
 
-    public DiningTable(int numberOfPhilosophers, String algorithm, Distribution thinkDistr, Distribution eatDistr, int timeout) {
+    public DiningTable(int numberOfPhilosophers, String algorithm, Distribution thinkDistr, Distribution eatDistr, int timeout, SimuType simuType, Animation animation) {
 
         philosophers = new ArrayList<>(numberOfPhilosophers);
         forks = new ArrayList<>(numberOfPhilosophers);
         this.numberOfPhilosophers = numberOfPhilosophers;
+        this.simuType = simuType;
+        this.animation = animation;
 
-        switch(algorithm){
-            case Algorithm.NAIVE :
+        switch (algorithm) {
+            case Algorithm.NAIVE:
                 for (int i = 0; i < numberOfPhilosophers; i++) {
                     forks.add(new NaiveFork(i));
                 }
@@ -139,8 +144,8 @@ public class DiningTable {
 
                 int previous = 0;
 
-                for(int i = 0; i < numberOfPhilosophers; i ++){
-                    if(i == previous + 2 && numberOfPhilosophers - i > 1){
+                for (int i = 0; i < numberOfPhilosophers; i++) {
+                    if (i == previous + 2 && numberOfPhilosophers - i > 1) {
                         MultipleTokenPhilosopher multiplePhilosopher = (MultipleTokenPhilosopher) philosophers.get(i);
                         Token multipleToken = new Token(1, multiplePhilosopher);
                         multiplePhilosopher.setToken(multipleToken);
@@ -180,11 +185,11 @@ public class DiningTable {
                 Waiter splitWaiter1 = new Waiter();
 
                 for (int i = 0; i < numberOfPhilosophers; i++) {
-                    if(numberOfPhilosophers > 3){
-                        if(i < numberOfPhilosophers/2 ){
+                    if (numberOfPhilosophers > 3) {
+                        if (i < numberOfPhilosophers / 2) {
                             AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
                             philosophers.add(philosopher);
-                        } else if (i >= numberOfPhilosophers/2){
+                        } else if (i >= numberOfPhilosophers / 2) {
                             AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, splitWaiter1);
                             philosophers.add(philosopher);
                         }
@@ -283,9 +288,15 @@ public class DiningTable {
                 break;
 
 
-
-
         }
+    }
+
+    public SimuType getSimuType() {
+        return simuType;
+    }
+
+    public Animation getAnimation() {
+        return animation;
     }
 
     public long getCurrentTime() {
@@ -296,9 +307,13 @@ public class DiningTable {
         clock.advanceTime(1);
     }
 
-    public void lockClock(){clock.lockClock();}
-
-    public synchronized void unlockClock(){clock.unlockClock();}
+    public void lockClock() {
+        clock.lockClock();
+    }
+    //TODO Synchronized?!?!?!?
+    public synchronized void unlockClock() {
+        clock.unlockClock();
+    }
 
     public void startDinner() {
         for (AbstractPhilosopher philosopher : philosophers) {
@@ -311,7 +326,6 @@ public class DiningTable {
             philosopher.interrupt();
         }
     }
-
 
 
 }

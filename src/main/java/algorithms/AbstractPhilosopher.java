@@ -27,7 +27,7 @@ public abstract class AbstractPhilosopher extends Thread {
         this.thinkDistr = thinkistr;
         this.eatDistr = eatDistr;
         this.lastAction = "";
-        this.simulatePickups = SimuType.getSimulatePickups();
+        this.simulatePickups = table.getSimuType().getSimulatePickups();
     }
 
     public StringBuilder getSB(){

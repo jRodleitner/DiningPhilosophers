@@ -1,26 +1,27 @@
 package simulation;
 
 public class SimuType {
-    private static boolean simulatePickups;
-    private static boolean animate;
+    private final boolean simulatePickups;
+    private final boolean animate;
 
-    public static String Simulationtype;
+    public final String simulationType;
 
-    protected static void setSimulatePickups(boolean simulatePickups, boolean animate) {
-        SimuType.simulatePickups = simulatePickups;
-        SimuType.animate = animate;
-        if(simulatePickups){
-            Simulationtype = "Simulate Pickups";
+    public SimuType(boolean simulatePickups, boolean animate) {
+        this.simulatePickups = simulatePickups;
+        this.animate = animate;
+        if (simulatePickups) {
+            simulationType = "Simulate Pickups";
         } else {
-            Simulationtype = "Simple";
+            simulationType = "Simple";
         }
     }
 
-    public static  boolean getSimulatePickups() {
+
+    public boolean getSimulatePickups() {
         return simulatePickups;
     }
 
-    public static boolean getAnimate() {
+    public boolean getAnimate() {
         return animate;
     }
 }

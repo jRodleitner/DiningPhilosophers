@@ -189,7 +189,7 @@
 
         }
 
-        function updateThinkDistribution(){
+        function updateThinkDistribution() {
             const thinkDistribution = document.getElementById('thinkDistribution').value;
             const thinkparam1 = document.getElementById('thinkparam1');
             const thinkparam2 = document.getElementById('thinkparam2');
@@ -245,8 +245,6 @@
             document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
             document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
         };
-
-
 
 
     </script>
@@ -336,8 +334,8 @@
             <input type="number" id="nrPhil" name="nrPhil" min="2" max="9"
                    value="${param.nrPhil != null ? param.nrPhil : '5'}" required><br><br>
 
-            <label for="simulationTime">Simulation Time (10-500):</label>
-            <input type="number" id="simulationTime" name="simulationTime" min="10" max="500"
+            <label for="simulationTime">Simulation Time (50-500):</label>
+            <input type="number" id="simulationTime" name="simulationTime" min="50" max="500"
                    value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
 
             <!-- Think Distribution -->

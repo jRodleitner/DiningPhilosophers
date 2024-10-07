@@ -134,19 +134,29 @@
                      transform="rotate(60,65,282)"></ellipse>
 
             <ellipse cx="65" cy="282" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
-            <text x="65" y="300" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_4</text>
+            <text x="65" y="300" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle"
+                  font-weight="bold">PH_4
+            </text>
 
             <ellipse cx="105" cy="72" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
-            <text x="105" y="58" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_3</text>
+            <text x="105" y="58" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle"
+                  font-weight="bold">PH_3
+            </text>
 
             <ellipse cx="423.5" cy="282" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
-            <text x="423.5" y="300" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_1</text>
+            <text x="423.5" y="300" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle"
+                  font-weight="bold">PH_1
+            </text>
 
             <ellipse cx="244.25" cy="392" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
-            <text x="244.25" y="410" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_0</text>
+            <text x="244.25" y="410" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle"
+                  font-weight="bold">PH_0
+            </text>
 
             <ellipse cx="385" cy="72" rx="30" ry="30" fill="#f5f5f5" stroke="#666666"></ellipse>
-            <text x="385" y="58" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle" font-weight="bold">PH_2</text>
+            <text x="385" y="58" font-size="13" font-family="Arial" text-anchor="middle" alignment-baseline="middle"
+                  font-weight="bold">PH_2
+            </text>
 
             <ellipse cx="244.25" cy="201.25" rx="139.25" ry="139.25" fill="#f5f5f5" stroke="#666666"/>
 
@@ -219,11 +229,11 @@
             <text id="time-display" x="245" y="20" text-anchor="middle" font-size="30px" fill="#000">Time: 0</text>
         </svg>
         <div class="button-container">
-            <button id="backward-button">&#9194;Backward</button>
-            <button id="forward-button">&#9193;Forward</button>
-            <button id="play-button">&#9654;Play</button>
-            <button id="pause-button" class="hidden">&#9208;Pause</button>
-            <button id="restart-button">&#128260;Reset</button>
+            <button id="backward-button">&#9194; Backward</button>
+            <button id="forward-button">&#9193; Forward</button>
+            <button id="play-button">&#9654; Play</button>
+            <button id="pause-button" class="hidden">&#9208; Pause</button>
+            <button id="restart-button">&#128260; Reset</button>
             <select id="speedSelect" onchange="updateInterval()">
                 <option value="1000">Slow</option>
                 <option value="1800">Very Slow</option>
@@ -871,7 +881,7 @@
 
             }
 
-            function updateThinkDistribution(){
+            function updateThinkDistribution() {
                 const thinkDistribution = document.getElementById('thinkDistribution').value;
                 const thinkparam1 = document.getElementById('thinkparam1');
                 const thinkparam2 = document.getElementById('thinkparam2');
@@ -998,8 +1008,8 @@
 
             <br><br>
 
-            <label for="simulationTime">Simulation Time (10-500):</label>
-            <input type="number" id="simulationTime" name="simulationTime" min="10" max="500"
+            <label for="simulationTime">Simulation Time (50-500):</label>
+            <input type="number" id="simulationTime" name="simulationTime" min="50" max="500"
                    value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
 
             <!-- Think Distribution -->

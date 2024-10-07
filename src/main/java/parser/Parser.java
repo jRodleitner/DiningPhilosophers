@@ -2,21 +2,26 @@ package parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import algorithms.AbstractPhilosopher;
+import simulation.DiningTable;
 import simulation.SimuType;
 
 public class Parser {
 
-    private static int maxLength = 0;
+    //private static int maxLength = 0;
 
 
 
-    public static String parse(List<AbstractPhilosopher> philosophers){
-        maxLength = 0;
+    public static String parse(List<AbstractPhilosopher> philosophers, DiningTable table){
+        AtomicInteger maxLength = new AtomicInteger(0);
+
         List<Statistic> statistics = new ArrayList<>();
         List<List<String>> timelines = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
-        boolean simulatePickups = SimuType.getSimulatePickups();
+        boolean simulatePickups = table.getSimuType().getSimulatePickups();
+        boolean animate = table.getSimuType().getAnimate();
 
         for(AbstractPhilosopher ph: philosophers){
             List<String> timeline = new ArrayList<>();
@@ -28,15 +33,15 @@ public class Parser {
             timeline.add("PH_" + ph.getPhId() + " ");
 
             if(simulatePickups){
-                timeline.addAll(parsePhilosopherWithPickups(ph.getSB().toString(), statistic));
+                timeline.addAll(parsePhilosopherWithPickups(ph.getSB().toString(), statistic, maxLength));
             } else {
-                timeline.addAll(parsePhilosopher(ph.getSB().toString(), statistic));
+                timeline.addAll(parsePhilosopher(ph.getSB().toString(), statistic, maxLength));
             }
 
             timelines.add(timeline);
         }
 
-        fillIn(philosophers, timelines, statistics);
+        fillIn(philosophers, timelines, statistics, maxLength);
         fillStatistics(timelines, statistics);
 
         //TODO explain
@@ -45,13 +50,13 @@ public class Parser {
             sb.append(String.join("", timeline));
         }
 
-        if(SimuType.getAnimate()) {
+        if(animate) {
             StringBuilder animationSB = new StringBuilder();
             parseAnimation(timelines);
             for(List<String> timeline: timelines){
                 animationSB.append(String.join("", timeline));
             }
-            Animation.setAnimation(animationSB.toString());
+            table.getAnimation().setAnimationString(animationSB.toString());
         }
 
         sb.append("------------------------------------Statistics------------------------------------\n");
@@ -61,7 +66,10 @@ public class Parser {
 
         boolean deadlock = true;
         for(AbstractPhilosopher ph: philosophers){
-            if(!ph.getLastAction().equals(Events.PICKUPLEFT)) deadlock = false;
+            if (!ph.getLastAction().equals(Events.PICKUPLEFT)) {
+                deadlock = false;
+                break;
+            }
         }
 
         //TODO change deadlock check to last of philosopher
@@ -170,35 +178,33 @@ public class Parser {
     }
 
 
-    private static void fillIn(List<AbstractPhilosopher> philosophers, List<List<String>> timelines, List<Statistic> statistics) {
-        if(true) {
-            for (AbstractPhilosopher ph : philosophers) {
-                List<String> modifiedTimeline = new ArrayList<>(timelines.get(ph.getPhId()));
+    private static void fillIn(List<AbstractPhilosopher> philosophers, List<List<String>> timelines, List<Statistic> statistics, AtomicInteger maxLength) {
+        for (AbstractPhilosopher ph : philosophers) {
+            List<String> modifiedTimeline = new ArrayList<>(timelines.get(ph.getPhId()));
 
-                String last = statistics.get(ph.getPhId()).getLast();
-                int finishLength = statistics.get(ph.getPhId()).getFinishLength();
+            String last = statistics.get(ph.getPhId()).getLast();
+            int finishLength = statistics.get(ph.getPhId()).getFinishLength();
 
-                for (int i = finishLength; i < maxLength; i++) {
-                    switch (last) {
-                        case Events.PICKUPLEFT, Events.THINK:
-                            modifiedTimeline.add(Events.BLOCKED);
-                            break;
-                        case Events.PICKUPRIGHT, Events.PICKUP:
-                            modifiedTimeline.add(Events.EAT);
-                            break;
-                        case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT, Events.EAT:
-                            modifiedTimeline.add(Events.THINK);
-                    }
+            for (int i = finishLength; i < maxLength.get(); i++) {
+                switch (last) {
+                    case Events.PICKUPLEFT, Events.THINK:
+                        modifiedTimeline.add(Events.BLOCKED);
+                        break;
+                    case Events.PICKUPRIGHT, Events.PICKUP:
+                        modifiedTimeline.add(Events.EAT);
+                        break;
+                    case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT, Events.EAT:
+                        modifiedTimeline.add(Events.THINK);
                 }
-
-                modifiedTimeline.add("\n");
-                timelines.set(ph.getPhId(), modifiedTimeline);
             }
 
+            modifiedTimeline.add("\n");
+            timelines.set(ph.getPhId(), modifiedTimeline);
         }
+
     }
 
-    private static List<String> parsePhilosopherWithPickups(String timeline, Statistic statistic){
+    private static List<String> parsePhilosopherWithPickups(String timeline, Statistic statistic, AtomicInteger maxLength){
         List<String> parsedTimeline = new ArrayList<>();
 
         String[] events = timeline.split("\n");
@@ -270,7 +276,7 @@ public class Parser {
             }
         }
 
-        if(parsedTimeline.size() > maxLength) maxLength = parsedTimeline.size(); //determine the maximum length of the timelines
+        if(parsedTimeline.size() > maxLength.get()) maxLength.set(parsedTimeline.size());  //determine the maximum length of the timelines
         statistic.setFinishLength(parsedTimeline.size());
 
         statistic.setLast(parsedTimeline.getLast()); //set Last element for deadlock detection
@@ -278,7 +284,7 @@ public class Parser {
     }
 
 
-    private static List<String> parsePhilosopher(String timeline, Statistic statistic){
+    private static List<String> parsePhilosopher(String timeline, Statistic statistic, AtomicInteger maxLength){
         List<String> parsedTimeline = new ArrayList<>();
 
         String[] events = timeline.split("\n");
@@ -328,7 +334,7 @@ public class Parser {
             }
         }
 
-        if(parsedTimeline.size() > maxLength) maxLength = parsedTimeline.size(); //determine the maximum length of the timelines
+        if(parsedTimeline.size() > maxLength.get()) maxLength.set(parsedTimeline.size());  //determine the maximum length of the timelines
         statistic.setFinishLength(parsedTimeline.size());
 
         statistic.setLast(parsedTimeline.getLast()); //set Last element

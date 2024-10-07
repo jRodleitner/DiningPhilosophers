@@ -3,8 +3,8 @@ package parser;
 public class Animation {
     private static String animation;
 
-    public static void setAnimation(String animation) {
+    public void setAnimationString(String animation) {
         Animation.animation = animation;}
 
-    public static String getAnimation() {return Animation.animation;}
+    public String getAnimationString() {return Animation.animation;}
 }
