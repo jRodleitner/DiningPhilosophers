@@ -40,10 +40,18 @@ public class Parser {
         fillStatistics(timelines, statistics);
 
         //TODO explain
-        if(SimuType.getAnimate()) parseAnimation(timelines);
 
         for(List<String> timeline: timelines){
             sb.append(String.join("", timeline));
+        }
+
+        if(SimuType.getAnimate()) {
+            StringBuilder animationSB = new StringBuilder();
+            parseAnimation(timelines);
+            for(List<String> timeline: timelines){
+                animationSB.append(String.join("", timeline));
+            }
+            Animation.setAnimation(animationSB.toString());
         }
 
         sb.append("------------------------------------Statistics------------------------------------\n");

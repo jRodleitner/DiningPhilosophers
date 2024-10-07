@@ -1,6 +1,8 @@
 package servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
@@ -16,16 +18,16 @@ public class SimulationServlet extends HttpServlet {
         int simulationTime = Integer.parseInt(request.getParameter("simulationTime"));
         boolean simulationType = Boolean.parseBoolean(request.getParameter("simulationType"));
         String thinkDistribution = request.getParameter("thinkDistribution");
-        int thinkPar1 = Integer.parseInt(request.getParameter("thinkparam1"));
-        int thinkPar2 = Integer.parseInt(request.getParameter("thinkparam2"));
+        double thinkPar1 = Double.parseDouble(request.getParameter("thinkparam1"));
+        double thinkPar2 = Double.parseDouble(request.getParameter("thinkparam2"));
         String eatDistribution = request.getParameter("eatDistribution");
-        int eatPar1 = Integer.parseInt(request.getParameter("eatparam1"));
-        int eatPar2 = Integer.parseInt(request.getParameter("eatparam2"));
+        double eatPar1 = Double.parseDouble(request.getParameter("eatparam1"));
+        double eatPar2 = Double.parseDouble(request.getParameter("eatparam2"));
         int timeout = Integer.parseInt(request.getParameter("timeout"));
 
         System.out.println(nrPhilosophers + " " + simulationTime);
         // Call the execute function with the given parameters
-        String result = null;
+        List<String> result= null;
         try {
             result = Execute.execute(nrPhilosophers, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, false);
         } catch (InterruptedException e) {
@@ -33,7 +35,7 @@ public class SimulationServlet extends HttpServlet {
         }
 
         // Set the result and parameters as request attributes
-        request.setAttribute("result", result);
+        request.setAttribute("result", result.getFirst());
 
         request.setAttribute("algorithm", algorithm);
         request.setAttribute("nrPhil", nrPhilosophers);

@@ -1,11 +1,9 @@
 GENERAL TODO:
 
 NEXT:
-[ ] distribution webpage min/max different for distributions
-[ ] Dijkstra Simple Simulation Logic
-[ ] try simplifying animation/ simulation page
 [ ] normal simulation string for animation
 [ ] explanations of algorithms lead to Simulation page?
+[ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
 [ ] other simulation type: currStatus check
 
@@ -59,6 +57,10 @@ CHECK:
 [x] make Simulation Page functional again!
 [x] Backwards/ Forwards option
 [x] Display Philosopher names in svg
+[x] Dijkstra Simple Simulation Logic
+[x] distribution webpage min/max different for distributions
+[x] determine default values: normal and exp
+[x] exp function overhaul
 
 
 DONE:
@@ -67,7 +69,7 @@ DONE:
 
 IDEAS:
 
-    Totmannverfahren: separate program entity preventing deadlocks.
+    Totmannverfahren: separate program entity preventing/ checking for deadlocks.
 
     Animation: SVG animation using the text-field and the arrows!!!
 
