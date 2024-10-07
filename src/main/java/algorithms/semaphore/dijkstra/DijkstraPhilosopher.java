@@ -55,6 +55,7 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                 sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
                 table.unlockClock();
             }
+            pickedUp++;
             lastAction = Events.PICKUPLEFT;
             return true;
         } else return false;
@@ -69,6 +70,7 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                 sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
                 table.unlockClock();
             }
+            pickedUp++;
             lastAction = Events.PICKUPRIGHT;
             return true;
         } else return false;

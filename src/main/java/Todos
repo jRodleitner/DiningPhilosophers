@@ -1,7 +1,7 @@
 GENERAL TODO:
 
 NEXT:
-[ ] fix hierarchy/ asymmetric fillIn function!!!
+[ ] enhance fillIn performance
 [ ] explanations of algorithms lead to Simulation page?
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -21,6 +21,7 @@ TIMEOUT(Time-index)
 [-] make static classes objects!
 [-] arbitrator ????
 [!] intelligent waiter ???
+[ ] fillIn PDL/PDR/EAT logic?
 
 Completed:
 
@@ -63,11 +64,14 @@ CHECK:
 [x] exp function overhaul
 [x] normal simulation string for animation
 [x] remove static data classes and static functions
-
+[x] fix hierarchy/ asymmetric fillIn function!!!
 
 DONE:
 [x] Naive
 
+CUSTOM PICKUP FUNCTIONS:
+timeout
+dijkstra
 
 IDEAS:
 

@@ -6,7 +6,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import algorithms.AbstractPhilosopher;
 import simulation.DiningTable;
-import simulation.SimuType;
 
 public class Parser {
 
@@ -187,14 +186,20 @@ public class Parser {
 
             for (int i = finishLength; i < maxLength.get(); i++) {
                 switch (last) {
-                    case Events.PICKUPLEFT, Events.THINK:
+
+                    case Events.THINK:
                         modifiedTimeline.add(Events.BLOCKED);
                         break;
-                    case Events.PICKUPRIGHT, Events.PICKUP:
+                    case Events.PICKUPLEFT, Events.PICKUPRIGHT:
+                        if(ph.getPickedUp() == 2) modifiedTimeline.add(Events.EAT);
+                        else modifiedTimeline.add(Events.BLOCKED);
+                        break;
+                    case Events.PICKUP:
                         modifiedTimeline.add(Events.EAT);
                         break;
                     case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT, Events.EAT:
                         modifiedTimeline.add(Events.THINK);
+                        break;
                 }
             }
 

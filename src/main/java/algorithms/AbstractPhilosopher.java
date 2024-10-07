@@ -12,6 +12,7 @@ public abstract class AbstractPhilosopher extends Thread {
     protected final StringBuilder sb;
     protected String lastAction;
     protected boolean simulatePickups;
+    protected int pickedUp;
 
 
     protected final Distribution eatDistr;
@@ -28,6 +29,7 @@ public abstract class AbstractPhilosopher extends Thread {
         this.eatDistr = eatDistr;
         this.lastAction = "";
         this.simulatePickups = table.getSimuType().getSimulatePickups();
+        this.pickedUp = 0;
     }
 
     public StringBuilder getSB(){
@@ -59,6 +61,7 @@ public abstract class AbstractPhilosopher extends Thread {
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
             table.unlockClock();
         }
+        pickedUp++;
         lastAction = Events.PICKUPLEFT;
     }
 
@@ -70,6 +73,7 @@ public abstract class AbstractPhilosopher extends Thread {
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
             table.unlockClock();
         }
+        pickedUp++;
         lastAction = Events.PICKUPRIGHT;
     }
 
@@ -95,7 +99,7 @@ public abstract class AbstractPhilosopher extends Thread {
         } else {
             leftFork.putDown(this);
         }
-
+        pickedUp--;
         lastAction = Events.PUTDOWNLEFT;
     }
 
@@ -110,7 +114,7 @@ public abstract class AbstractPhilosopher extends Thread {
         } else {
             rightFork.putDown(this);
         }
-
+        pickedUp--;
         lastAction = Events.PUTDOWNRIGHT;
 
         if(!simulatePickups){
@@ -132,5 +136,9 @@ public abstract class AbstractPhilosopher extends Thread {
 
     public String getLastAction(){
         return lastAction;
+    }
+
+    public int getPickedUp(){
+        return pickedUp;
     }
 }
