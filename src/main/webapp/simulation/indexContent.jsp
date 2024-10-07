@@ -410,7 +410,7 @@
             </select>
             <br>
             <br>
-            <input type="submit" value="Run Simulation" style="font-size: 16px; padding: 10px 20px;">
+            <input type="submit" value="&#9654; Run Simulation" style="font-size: 16px; padding: 10px 20px;">
         </form>
     </div>
 </div>
