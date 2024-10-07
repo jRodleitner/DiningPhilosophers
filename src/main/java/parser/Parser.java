@@ -183,24 +183,25 @@ public class Parser {
 
             String last = statistics.get(ph.getPhId()).getLast();
             int finishLength = statistics.get(ph.getPhId()).getFinishLength();
+            String fillString = "";
 
+            switch (last) {
+                case Events.THINK:
+                    fillString = Events.BLOCKED;
+                    break;
+                case Events.PICKUPLEFT, Events.PICKUPRIGHT:
+                    if(ph.getPickedUp() == 2) fillString = Events.EAT;
+                    else fillString = Events.BLOCKED;
+                    break;
+                case Events.PICKUP:
+                    fillString = Events.EAT;
+                    break;
+                case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT, Events.EAT:
+                    fillString = Events.THINK;
+                    break;
+            }
             for (int i = finishLength; i < maxLength.get(); i++) {
-                switch (last) {
-
-                    case Events.THINK:
-                        modifiedTimeline.add(Events.BLOCKED);
-                        break;
-                    case Events.PICKUPLEFT, Events.PICKUPRIGHT:
-                        if(ph.getPickedUp() == 2) modifiedTimeline.add(Events.EAT);
-                        else modifiedTimeline.add(Events.BLOCKED);
-                        break;
-                    case Events.PICKUP:
-                        modifiedTimeline.add(Events.EAT);
-                        break;
-                    case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT, Events.EAT:
-                        modifiedTimeline.add(Events.THINK);
-                        break;
-                }
+                modifiedTimeline.add(fillString);
             }
 
             modifiedTimeline.add("\n");
