@@ -89,7 +89,7 @@
         }
 
         .form-container {
-            max-width: 700px; /* Adjust based on your form's size */
+            max-width: 290px; /* Adjust based on your form's size */
             height: 487px;
             border: 1px solid #ccc;
             padding: 10px;
@@ -108,6 +108,25 @@
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
 
+            border-radius: 10px;
+        }
+
+        .container1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px; /* Adds space between the form and the result box */
+        }
+
+        .fixed-box {
+            width: 1500px;
+            height: 150px;
+            border: 2px solid #ccc;
+            padding: 20px;
+            background-color: #f8f8f8;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 12px;
             border-radius: 10px;
         }
 
@@ -941,6 +960,7 @@
         </script>
     </div>
     <div class="form-container">
+        <h3>Dining Philosophers Simulation</h3>
         <form name="animationForm" action="/animation" method="post">
 
             <label for="algorithm">Choose an Algorithm:</label>
@@ -1083,6 +1103,7 @@
             <br>
             <br>
             <input type="submit" value="&#9654; Run Simulation" style="font-size: 16px; padding: 10px 20px;">
+            <p style="font-size: 12px; font-family: 'Courier New', Courier, monospace; ">To play back the animation, run the Dining Philosophers simulation first.</p>
         </form>
 
     </div>
@@ -1091,6 +1112,16 @@
             <pre>${result}</pre>
         </c:if>
     </div>
+</div>
+
+<div class="container1">
+    <div class="fixed-box">
+        <h3>Legend</h3>
+        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUB] = Pick up Both Forks, [PUL] = Pick up left Fork, [PUL] =
+            Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork</p>
+        <br>
+    </div>
+
 </div>
 
 </body>

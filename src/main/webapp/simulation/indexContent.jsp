@@ -250,7 +250,7 @@
     </script>
 </head>
 <body>
-<h2>Simulation Page</h2>
+<h2>Dining Philosophers Simulation Page</h2>
 
 <div class="container">
     <!-- Scrollable Box for Results -->
