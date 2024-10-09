@@ -10,8 +10,9 @@
             background-color: #216477; /* Teal background color */
             text-decoration: none; /* Removes the underline from links */
             padding: 10px 20px; /* Adds padding to make the link look like a button */
-            border-radius: 20px; /* Rounds the corners of the button */
+            border-radius: 10px; /* Rounds the corners of the button */
             font-weight: bold; /* Makes the text bold */
+            font-size: 14px; /* Sets the font size for the button text */
             transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
             margin: 5px 0; /* Adds space between buttons */
         }
@@ -28,6 +29,34 @@
             padding: 3px;
             margin-bottom: 3px;
             max-width: 900px;
+        }
+
+        .description-box {
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* General styling for the code block container */
+        pre {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 15px;
+            overflow: auto;
+            white-space: pre-wrap; /* Wrap lines */
+            word-wrap: break-word; /* Break long lines */
+            border-radius: 5px; /* Rounded corners */
+            font-family: "Courier New", Courier, monospace;
+        }
+
+        /* Styling for the actual code */
+        code {
+            background-color: #f5f5f5; /* Match pre background */
+            color: #333;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
         }
 
 
@@ -104,7 +133,7 @@
     </ul>
     </p>
 
-    <h3>Challenges</h3>
+    <h2>Challenges</h2>
     <p>There are three main challenges that we face when we execute the philosophers in the naive way discussed above.
         The capability of our solution at solving one or more of these difficulties will help us determine the quality
         of the approaches later.
@@ -134,17 +163,180 @@
     </p>
 
 </div>
-<h2>Implementation</h2>
+<h2>Simulation</h2>
 
 <div class="description">
-    If you are interested, a pseudocode to illustrate the inner workings
+    <p>This website features both a Simulation and Animation Page that utilize a Java Threads based backend.
+        The Simulation page lets you run a simulation and subsequently review the returned simulation String. Detailed notes about the simulation can be found at this page.
+        <br>
+        The animation page lets you run a simulation that can then be animated. Detailed notes about the animation page can be found at this page
+        <br>
+        To see the Naive Dining Philosophers in action try either the Simulation page, or the animation page.
+        <br>
+        Note that the Animation is currently limited to the classical 5 philosophers confuguration, wheras the Simulation page lets you explore the algorithms with 2-9 philosophers.</p>
+    <a href="../simulation/?algorithm=NAIVE" class="button">Naive Simulation</a>
+    <a href="../animation/?algorithm=NAIVE" class="button">Naive Animation</a>
     <br>
-    of the Simulation can be found here: <a href="pseudocode/naive" >Naive Dining Philosophers Pseudocode</a>
+    <br>
+
+</div>
+
+<h2>Naive Dining Philosophers Implementation</h2>
+<div class="description">
+    <p>The following Java-Inspired pseudocode illustrates the principles of a Naive Implementation of the Dining
+        Philosophers problem.
+        <br>
+        In Java synchronized methods may only be entered by one thread (In our case philosopher) at a time.
+        This helps us ensure the exclusivity in accessing the Chopsticks.
+        <br>
+        The logs of the philosophers are mapped in time according to a time point that is determined by a virtual clock running during the simulation.
+        <br>
+        For simplicity the majority of the Java boilerplate and some of the simulation logic to ensure consistency was left out in this pseudocode.
+        If you are interested in the actual implementation of this Project, it is available on Github here. //link github
+    </p>
+    <p> Pseudocode Philosopher class: </p>
+    <pre><code>
+        public class NaivePhilosopher extends AbstractPhilosopher {
+            Fork leftFork;
+            Fork rightFork;
+            List log;
+
+            NaivePhilosopher(Fork leftFork, Fork rightFork) {
+                this.leftFork = leftFork;
+                this.rightFork = rightFork;
+            }
+
+            run() {
+                while (!terminated()) {
+                    think();
+                    pickUpLeftFork();
+                    pickUpRightFork();
+                    eat();
+                    putDownLeftFork();
+                    putDownRightFork();
+                }
+            }
+
+            think() {
+                long duration = calculateDuration();
+                sleep(duration);
+                Log("[ T ]", VirtualClock.getTime());
+            }
+
+            pickUpLeftFork() {
+                leftFork.pickUp(this);
+                Log("[PUL]", VirtualClock.getTime());
+            }
+
+            pickUpRightFork() {
+                rightFork.pickUp(this);
+                Log("[PUR]", VirtualClock.getTime());
+            }
+
+            eat() {
+                long duration = calculateDuration();
+                sleep(duration);
+                Log("[ E ]", VirtualClock.getTime());
+            }
+
+            putDownLeftFork() {
+                leftFork.putDown(this);
+                Log("[PDL]", VirtualClock.getTime());
+            }
+
+            putDownRightFork() {
+                rightFork.putDown(this);
+                Log("[PDR]", VirtualClock.getTime());
+            }
+
+            Log(String event, long timeInstance){
+                log.add(event + timeInstance)
+            }
+
+        }
+    </code></pre>
+    <p>Pseudocode for Fork class:</p>
+
+    <pre><code>
+    public abstract class AbstractFork {
+        protected boolean isAvailable = true;
+
+        synchronized boolean pickUp(AbstractPhilosopher philosopher) {
+            while (!isAvailable) {
+                wait();
+            }
+            isAvailable = false;
+            return true;
+        }
+
+        synchronized void putDown(AbstractPhilosopher philosopher) {
+            isAvailable = true;
+            notify();
+        }
+    }
+    </code></pre>
+    <p>The backbone of the simulation is a virtual clock running during the execution.
+        The Philosophers log their Actions according to the current time of the clock.
+        <br>
+        Pseudocode for Dining Table class and exemplary main function:</p>
+    <pre><code>
+    public class Table {
+        Fork[] forks;
+        NaivePhilosopher[] philosophers;
+
+        Table(int numPhilosophers) {
+            forks = new Fork[numPhilosophers];
+            philosophers = new NaivePhilosopher[numPhilosophers];
+
+            // Initialize forks
+            for (int i = 0; i < numPhilosophers; i++) {
+                forks[i] = new Fork();
+            }
+
+            // Initialize philosophers
+            for (int i = 0; i < numPhilosophers; i++) {
+                Fork leftFork = forks[i];
+                Fork rightFork = forks[(i + 1) % numPhilosophers];
+                philosophers[i] = new NaivePhilosopher(leftFork, rightFork);
+                }
+            }
+
+            startDinner() {
+                for (NaivePhilosopher philosopher : philosophers) {
+                    new Thread(philosopher).start();
+                }
+            }
+
+            stopDinner() {
+            for (NaivePhilosopher philosopher : philosophers) {
+                philosopher.terminate();
+            }
+        }
+
+        main(String[] args) {
+            int simulationTime = 100
+            int numPhilosophers = 5;
+            Table diningTable = new Table(numPhilosophers);
+
+
+            diningTable.startDinner(); //start all the philosopher threads
+
+            //Virtual Clock usage
+            while(simulationTime > 0){
+                VirtualClock.advanceTime(); //advance clock time
+                timeStep() //sleep for the duration of  a timestep
+                simulationTime--;
+            }
+
+            diningTable.stopDinner();
+        }
+    }
+    </code></pre>
 </div>
 
 <div class="description">
 <h2>Limitations</h2>
-<p>Before we explore solutions let us first discuss the main limitations of the given problem. Note that the maximum concurrency is limited under the given rules,
+<p>Before we explore some solutions let us first discuss the main limitations of the given problem. Note that the maximum concurrency is limited under the given rules,
     bounding the maximum concurrency in our system under ideal conditions to [n/2] for even n and  &lfloor;n/2&rfloor; for uneven n.
     For example with n = 5 &lfloor;5/2&rfloor; = 2, 2 is the maximum concurrency we can reach. This means that if we seat 5 philosophers at our table a maximum of two philosophers are able to eat concurrently.
     <br>
@@ -163,29 +355,42 @@
 
 <div class="description">
     <h2>Solutions</h2>
-    <p>The following buttons lead to various solutions that try to address one or more of the previously discussed constraints</p>
+    <p>The following buttons lead to various solutions that try to address one or more of the previously discussed constraints.</p>
 
-    <p>To learn about solutions that focus on organizing the order of the pickups of chopsticks:</p>
-    <a href="hierarchy_asymmetric" class="button">Asymmetric/ Resource Hierarchy Solution</a>
-    <br/>
-    <p>To learn about the timeout solution that prevents deadlocks via returning the initially acquired chopstick when the second chopstick is not available within a fixed timeframe:</p>
-    <a href="timeout" class="button">Timeout Solution</a>
-    <br/>
-    <p>To learn about solutions that focus on tokens being passed around by the philosophers:</p>
-    <a href="token" class="button">Token Solution</a>
-    <br/>
-    <p>To learn about solutions that utilize a central entity to organize the permission to eat or pick up chopsticks:</p>
-    <a href="waiter" class="button">Waiter Solution</a>
-    <br/>
-    <p>To learn about solutions that utilize semaphores:</p>
-    <a href="semaphore" class="button">Semaphore Solution</a>
-    <br/>
-    <p>To learn about the solution that limits the number of philosopher being able to pick up chopsticks:</p>
-    <a href="restrict" class="button">Restrict Solution</a>
-    <br/>
-    <p>To learn about the solution that limits the number of philosopher being able to pick up chopsticks:</p>
-    <a href="chandymisra" class="button">Chandy-Misra Solution</a>
-    <br/>
+    <div class="description-box">
+        <p>To learn about solutions that focus on organizing the order of the pickups of chopsticks:</p>
+        <a href="hierarchy_asymmetric" class="button">Asymmetric/ Resource Hierarchy Solution</a>
+    </div>
+
+    <div class="description-box">
+        <p>To learn about the timeout solution that prevents deadlocks via returning the initially acquired chopstick when the second chopstick is not available within a fixed timeframe:</p>
+        <a href="timeout" class="button">Timeout Solution</a>
+    </div>
+
+    <div class="description-box">
+        <p>To learn about solutions that focus on tokens being passed around by the philosophers:</p>
+        <a href="token" class="button">Token Solution</a>
+    </div>
+
+    <div class="description-box">
+        <p>To learn about solutions that utilize a central entity to organize the permission to eat or pick up chopsticks:</p>
+        <a href="waiter" class="button">Waiter Solution</a>
+    </div>
+
+    <div class="description-box">
+        <p>To learn about solutions that utilize semaphores:</p>
+        <a href="semaphore" class="button">Semaphore Solution</a>
+    </div>
+
+    <div class="description-box">
+        <p>To learn about the solution that limits the number of philosopher being able to pick up chopsticks:</p>
+        <a href="restrict" class="button">Restrict Solution</a>
+    </div>
+
+    <div class="description-box">
+        <p>To learn about the solution that limits the number of philosopher being able to pick up chopsticks:</p>
+        <a href="chandymisra" class="button">Chandy-Misra Solution</a>
+    </div>
 </div>
 
 

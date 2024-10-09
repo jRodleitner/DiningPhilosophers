@@ -90,7 +90,7 @@
 
         .form-container {
             max-width: 290px; /* Adjust based on your form's size */
-            height: 487px;
+            height: 488px;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f8f8f8;
@@ -99,7 +99,7 @@
 
         .scrollable-box {
             width: 400px;
-            height: 465px;
+            height: 466px;
             border: 1px solid #ccc;
             padding: 20px;
             overflow-y: scroll;
@@ -120,8 +120,8 @@
         }
 
         .fixed-box {
-            width: 1500px;
-            height: 150px;
+            max-width: 1500px;
+            max-height: 150px;
             border: 2px solid #ccc;
             padding: 20px;
             background-color: #f8f8f8;
@@ -1113,7 +1113,7 @@
         </c:if>
     </div>
 </div>
-
+<br>
 <div class="container1">
     <div class="fixed-box">
         <h3>Legend</h3>
@@ -1123,6 +1123,10 @@
     </div>
 
 </div>
+
+<h2>Animation Notes</h2>
+<p>Execution Time: The Execution Time can be set up to 3000 Simulation units, thus there is a significant waiting time
+    until the results are returned by the server</p>
 
 </body>
 </html>
