@@ -42,7 +42,7 @@ public class Parser {
 
         fillIn(philosophers, timelines, statistics, maxLength, simulatePickups);
         fillStatistics(timelines, statistics);
-
+        timelines.add(generateTimeIndices(maxLength.get()));
         //TODO explain
 
         for(List<String> timeline: timelines){
@@ -58,7 +58,7 @@ public class Parser {
             table.getAnimation().setAnimationString(animationSB.toString());
         }
 
-        sb.append("------------------------------------Statistics------------------------------------\n");
+        sb.append("\n------------------------------------Statistics------------------------------------\n");
 
         Statistic global = new Statistic();
         global.setId("Global");
@@ -81,6 +81,24 @@ public class Parser {
         sb.append(global);
         if(deadlock) sb.append("\n\n A deadlock occurred!");
         return sb.toString();
+    }
+
+    private static List<String> generateTimeIndices(int maxLength) {
+        List<String> strings = new ArrayList<>();
+        strings.add("TIME:");
+        for (int i = 1; i <= maxLength; i++) {
+            String numStr = Integer.toString(i);
+            int paddingTotal = 5 - numStr.length(); // Calculate total padding needed
+            int paddingLeft = paddingTotal / 2; // Left padding for centering
+            int paddingRight = paddingTotal - paddingLeft; // Right padding
+
+            // Add spaces on both sides to center the number
+            String centeredStr = " ".repeat(paddingLeft) + numStr + " ".repeat(paddingRight);
+            strings.add(centeredStr); // Add the centered string to the list
+        }
+        strings.add("\n");
+
+        return strings;
     }
 
     private static void parseAnimation(List<List<String>> timelines){
@@ -181,7 +199,7 @@ public class Parser {
         for (AbstractPhilosopher ph : philosophers) {
             List<String> modifiedTimeline = new ArrayList<>(timelines.get(ph.getPhId()));
 
-            String last = statistics.get(ph.getPhId()).getLast();
+            String last = ph.getLastAction();
             int finishLength = statistics.get(ph.getPhId()).getFinishLength();
             String fillString = "";
 
@@ -193,11 +211,14 @@ public class Parser {
                     if(ph.getPickedUp() == 2) fillString = Events.EAT;
                     else fillString = Events.BLOCKED;
                     break;
+
+                    //TODO Events.Pickup removable????
                 case Events.PICKUP:
                     fillString = Events.EAT;
                     break;
-                case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT:
 
+                case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT:
+                    //TODO what if putdown not finished
                     fillString = Events.THINK;
                     break;
                 case Events.EAT:

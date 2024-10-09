@@ -268,7 +268,7 @@
             <%= request.getAttribute("animationresult") != null ? request.getAttribute("animationresult").toString().replace("\n", "\\n").replace("\r", "\\r") : "" %>
             `;
             // Convert input string into JavaScript object with arrays of arrays
-            const sequenceses = inputString.trim().split('\n').reduce((acc, line) => {
+            const sequences = inputString.trim().split('\n').reduce((acc, line) => {
                 // Extract key and bracketed values
                 const parts = line.match(/\[.*?\]/g);
                 if (parts) {
@@ -323,7 +323,7 @@
             const timeDisplay = document.getElementById("time-display");
 
             let timeStep = 0;
-            const maxTimeStep = sequenceses.PH_0.length; // Assuming all philosophers have the same length of sequence
+            const maxTimeStep = sequences.PH_0.length; // Assuming all philosophers have the same length of sequence
             let interval = null;
             const blinktimeout = 100;
 
@@ -351,7 +351,6 @@
                         if (philosopher.plate.classList.contains("eat")) {
                             philosopher.plate.classList.remove("eat");
                         }
-
                         if (!philosopher.leftArrow.classList.contains("hidden")) {
                             philosopher.leftArrow.classList.add("hidden")
                         }
@@ -696,8 +695,8 @@
             }
 
             function renderTimeStep() {
-                Object.keys(sequenceses).forEach((philosopher, index) => {
-                    updateState(index, sequenceses[philosopher][timeStep]);
+                Object.keys(sequences).forEach((philosopher, index) => {
+                    updateState(index, sequences[philosopher][timeStep]);
                 });
                 timeDisplay.textContent = "Time: " + (timeStep + 1);
             }

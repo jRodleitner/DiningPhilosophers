@@ -1,8 +1,6 @@
 GENERAL TODO:
 
 NEXT:
-[ ] Correct simple simulation logic -> lastAction
-[ ] explanations of algorithms lead to Simulation page?
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
 [ ] other simulation type: currStatus check
@@ -68,6 +66,8 @@ CHECK:
 [x] fix hierarchy/ asymmetric fillIn function!!!
 [x] enhance fillIn performance
 [x] algorithm description skeleton
+[x] Correct simple simulation logic -> lastAction
+[x] explanations of algorithms lead to Simulation page?
 
 DONE:
 [x] Naive
