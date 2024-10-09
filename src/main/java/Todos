@@ -21,6 +21,7 @@ TIMEOUT(Time-index)
 [-] arbitrator ????
 [!] intelligent waiter ???
 [ ] fillIn PDL/PDR/EAT logic?
+[ ] Separate Events for: Timeout, Waiter etc...??
 
 Completed:
 
@@ -65,6 +66,7 @@ CHECK:
 [x] remove static data classes and static functions
 [x] fix hierarchy/ asymmetric fillIn function!!!
 [x] enhance fillIn performance
+[x] algorithm description skeleton
 
 DONE:
 [x] Naive

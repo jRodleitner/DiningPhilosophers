@@ -45,7 +45,6 @@ public abstract class AbstractPhilosopher extends Thread {
     }
 
     protected void think() throws InterruptedException {
-        //long duration = (long) (Math.random() * 100);
         long duration = thinkDistr.calculateDuration();
         TimeUnit.MILLISECONDS.sleep(duration);
         sbLog(id, Events.THINK, table.getCurrentTime());

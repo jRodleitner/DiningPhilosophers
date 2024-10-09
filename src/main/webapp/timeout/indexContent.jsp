@@ -41,7 +41,9 @@
 <h2>Timeout Solution</h2>
 <div class="description">
     <p>The Token Solution </p>
-    <img src="../pictures/timeout_.svg" alt="Dining Philosophers Problem" width="400" height="350">
+    <img src="../pictures/timeout_.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
+    <a href="../simulation/?algorithm=TIMEOUT" class="button">Timeout Simulation</a>
+    <a href="../animation/?algorithm=TIMEOUT" class="button">Timeout Animation</a>
 </div>
 </body>
 </html>
