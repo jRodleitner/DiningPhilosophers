@@ -78,7 +78,10 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected void eat() throws InterruptedException {
         if(!simulatePickups){
+            table.lockClock();
+            table.advanceTime();
             sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
+            table.unlockClock();
         }
 
         long duration = eatDistr.calculateDuration();
@@ -100,6 +103,7 @@ public abstract class AbstractPhilosopher extends Thread {
         }
         pickedUp--;
         lastAction = Events.PUTDOWNLEFT;
+
     }
 
     protected void putDownRightFork() {
@@ -116,9 +120,7 @@ public abstract class AbstractPhilosopher extends Thread {
         pickedUp--;
         lastAction = Events.PUTDOWNRIGHT;
 
-        if(!simulatePickups){
-            table.advanceTime();
-        }
+
     }
 
     public AbstractFork getRightFork(){
@@ -139,5 +141,9 @@ public abstract class AbstractPhilosopher extends Thread {
 
     public int getPickedUp(){
         return pickedUp;
+    }
+
+    public void setPickedUp(int pickedUp){
+        this.pickedUp = pickedUp;
     }
 }

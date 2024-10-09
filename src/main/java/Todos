@@ -1,6 +1,7 @@
 GENERAL TODO:
 
 NEXT:
+[ ] Correct simple simulation logic -> lastAction
 [ ] explanations of algorithms lead to Simulation page?
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!

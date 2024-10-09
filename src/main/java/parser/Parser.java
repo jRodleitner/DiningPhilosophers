@@ -40,7 +40,7 @@ public class Parser {
             timelines.add(timeline);
         }
 
-        fillIn(philosophers, timelines, statistics, maxLength);
+        fillIn(philosophers, timelines, statistics, maxLength, simulatePickups);
         fillStatistics(timelines, statistics);
 
         //TODO explain
@@ -177,7 +177,7 @@ public class Parser {
     }
 
 
-    private static void fillIn(List<AbstractPhilosopher> philosophers, List<List<String>> timelines, List<Statistic> statistics, AtomicInteger maxLength) {
+    private static void fillIn(List<AbstractPhilosopher> philosophers, List<List<String>> timelines, List<Statistic> statistics, AtomicInteger maxLength, boolean simulatePickups) {
         for (AbstractPhilosopher ph : philosophers) {
             List<String> modifiedTimeline = new ArrayList<>(timelines.get(ph.getPhId()));
 
@@ -196,8 +196,18 @@ public class Parser {
                 case Events.PICKUP:
                     fillString = Events.EAT;
                     break;
-                case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT, Events.EAT:
+                case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT:
+
                     fillString = Events.THINK;
+                    break;
+                case Events.EAT:
+                    if(simulatePickups){
+                        //TODO Events.Empty???
+                        fillString = Events.BLOCKED;
+                        ph.setPickedUp(0);
+                    } else {
+                        fillString = Events.THINK;
+                    }
                     break;
             }
             for (int i = finishLength; i < maxLength.get(); i++) {
