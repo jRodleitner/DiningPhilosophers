@@ -74,25 +74,23 @@
 <h2>Timeout Solution</h2>
 <div class="description">
     <img src="../pictures/timeout_.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
-    <p>The Timeout solution tries to prevent deadlocks through stopping the philosophers from holding on to chopsticks indefinitely.
-        <br>
-        The timout is set before the start of the simulation and is the same across all philosophers.
-        They try to pick up the first chopstick as usual
-
-        When the timeout is reached a philosopher puts back the initially picked up fork and resumes thinking.
-        <br>
-        Deadlocks are prevented by avoiding the Hold-And-Wait condition as defined by Coffman.
-        One big issue with this approach is that when a timeout occurs philosophers will have to enter a new cycle,
-        instead of being allowed to eat in its previous cycle.
-
+    <p>
+        The Timeout solution aims to prevent deadlocks by stopping philosophers from holding onto chopsticks indefinitely.
+        A timeout is set before the simulation begins and is the same for all philosophers.
+        They attempt to pick up the first chopstick as usual.
+        If a philosopher reaches the timeout before acquiring both chopsticks, they put down the chopstick they initially picked up and return to thinking.
+        This prevents deadlocks by avoiding the Hold-and-Wait condition as defined by Coffman.
+        However, a major drawback of this approach is that when a timeout occurs, philosophers must start a new cycle instead of completing their eating phase in the current one.
+    </p>
+    <p>Now let us evaluate the Timeout Algorithm according to the key-challenges</p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Deadlocks: The Timeout Solution effectively prevents deadlocks</li>
         <li>Fairness: Fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.</li>
+        <li>TODO::Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.</li>
         <li>Implementation: The changes that need to be made are a little more extensive, as both the Philosopher and Fork classes have to be modified. </li>
         <li>Performance: Not a giant overhead but total eat time might be reduced when frequent timeouts occur. </li>
     </ul>
-    <p>Pseudocode: Modifications to the philosopher class:</p>
+    <p>Pseudocode: Modifications to the philosopher class</p>
     <pre><code>
         public void run() {
             while (!terminated()) {
@@ -136,6 +134,9 @@
             return true;
         }
     </code></pre>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
     <a href="../simulation/?algorithm=TIMEOUT" class="button">Timeout Simulation</a>
     <a href="../animation/?algorithm=TIMEOUT" class="button">Timeout Animation</a>
 </div>

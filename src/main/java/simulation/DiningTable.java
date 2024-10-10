@@ -169,7 +169,7 @@ public class DiningTable {
                     forks.add(new GuestFork(i));
                 }
 
-                Waiter atomicWaiter = new Waiter();
+                Waiter atomicWaiter = new Waiter(numberOfPhilosophers);
                 for (int i = 0; i < numberOfPhilosophers; i++) {
                     AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, atomicWaiter);
                     philosophers.add(philosopher);
@@ -181,8 +181,8 @@ public class DiningTable {
                     forks.add(new GuestFork(i));
                 }
 
-                Waiter splitWaiter = new Waiter();
-                Waiter splitWaiter1 = new Waiter();
+                Waiter splitWaiter = new Waiter(numberOfPhilosophers);
+                Waiter splitWaiter1 = new Waiter(numberOfPhilosophers);
 
                 for (int i = 0; i < numberOfPhilosophers; i++) {
                     if (numberOfPhilosophers > 3) {
@@ -206,7 +206,7 @@ public class DiningTable {
                     forks.add(new GuestFork(i));
                 }
 
-                Waiter pickupWaiter = new Waiter();
+                Waiter pickupWaiter = new Waiter(numberOfPhilosophers);
                 for (int i = 0; i < numberOfPhilosophers; i++) {
                     PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, pickupWaiter);
                     philosophers.add(philosopher);

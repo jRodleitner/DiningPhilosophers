@@ -43,21 +43,24 @@
         pre {
             background-color: #f5f5f5;
             border: 1px solid #ccc;
-            padding: 15px;
-            overflow: auto;
-            white-space: pre-wrap; /* Wrap lines */
-            word-wrap: break-word; /* Break long lines */
+            padding: 5px;
+            overflow-x: auto; /* Allow horizontal scrolling */
+            white-space: nowrap; /* Prevent line wrapping */
             border-radius: 5px; /* Rounded corners */
             font-family: "Courier New", Courier, monospace;
+            max-width: 100%; /* Ensure the width doesn't overflow the container */
         }
 
         /* Styling for the actual code */
         code {
+            display: block; /* Ensure the code behaves like a block element */
             background-color: #f5f5f5; /* Match pre background */
             color: #333;
             font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
+            font-size: 13px;
+            white-space: pre; /* Ensure code stays on one line */
         }
+
 
 
     </style>
@@ -66,7 +69,8 @@
 <h2>The Dining Philosophers Problem</h2>
 <!-- General Description -->
 <div class="description">
-    <p>The Dining Philosophers Problem is a classic thought experiment that is useful to illustrate some the challenges
+    <p>
+        The Dining Philosophers Problem is a classic thought experiment that is useful to illustrate some of the challenges
         of designing concurrent systems.
         These include deadlocks, fairness and ensuring actual concurrency within the system.
         Essentially the problem can be seen as a simplified metaphor for distributed systems that share needed resources
@@ -83,14 +87,14 @@
     <img src="pictures/dining.png" alt="Dining Philosophers Problem" width="400" height="350">
 
     <h3>The Philosophers</h3>
-    <p>N Philosophers are seated at a round table, with chopsticks placed between each pair of adjacent philosophers.
-        The philosophers always start out thinking, after which they try to pick up the chopsticks to their left and
-        right.
-        Since only one of the philosophers can hold the chopstick at a time, waiting for the chopstick to become
-        available may be necessary.
-        If two philosophers try to acquire a chopstick at the same time, only one of them succeeds.
-        After acquiring both chopsticks they can start eating, after which both chopsticks are returned to their
-        positions on the table and the process starts anew.
+    <p>
+        A group of philosophers is seated around a table, with a chopstick placed between each pair of adjacent
+        philosophers.
+        Each philosopher begins by thinking and then tries to pick up the chopsticks on their left and right.
+        Since only one philosopher can hold a chopstick at a time, they may need to wait for it to become available.
+        If two philosophers attempt to pick up the same chopstick simultaneously, only one will succeed.
+        Once a philosopher has both chopsticks, they can start eating.
+        After eating, they return the chopsticks to the table, and the cycle repeats.
     </p>
     <p>The naive process of a Philosopher consists of:</p>
     <ul>
@@ -101,101 +105,137 @@
         <li>Put down left chopstick and notify availability</li>
         <li>Put down right chopstick and notify availability</li>
     </ul>
-    <p>This cycle is executed for all philosophers concurrently. In our case we repeat this until a timeout is reached,
-        after which all philosophers are terminated.
-        <br>
-        <br>
-        <img src="pictures/eatsleep.png" alt="Dining Philosophers Problem" width="400" height="60">
-        <br>
-        <br>
-
-        We want to determine the think and eat times via fixed or random number generated wait times, to ensure
-        closeness to real life scenarios, where execution times vary due to many different influences.
-        The four time distributions we want to account for are:
-    <ul>
-        <li>deterministic (Execution time for eating/ thinking is the same for all philosophers)</li>
-        <li>Interval (The calculated value is within an integer range, for example between 50 and 100 milliseconds)</li>
-        <li>Normal (The calculated value is centered symmetrically around a number and varies according to a standard
-            deviation)
-        </li>
-        <li>Exponential (the calculated value is more likely small but some very large outliers are possible)</li>
-    </ul>
+    <p>This cycle runs for all philosophers simultaneously.
+        In our case we want to run the process until a timeout is reached, at which point all philosophers are
+        terminated.
     </p>
-    <p>To keep track of the philosophers actions we keep a Log for each Philosopher at each point in time, with the following Events being logged:
+    <img src="pictures/eatsleep.png" alt="Dining Philosophers Problem" width="400" height="60">
+    <br>
+    <p>
+        To determine the think and eat times we could use fixed time delays, but to ensure
+        closeness to real life scenarios we should also consider random number generated wait times.
+        The four time distributions we will consider are:
+    </p>
     <ul>
-        <li>[ T ] = Thinking</li>
-        <li>[PUL] = Left Chopstick picked up</li>
-        <li>[PUR] = Right Chopstick picked up</li>
-        <li>[ E ] = Eating ended</li>
-        <li>[PDL] = Left Chopstick put down</li>
-        <li>[PDR] = Right Chopstick put down</li>
-        <li>[ B ] = Blocked state (Whenever waiting for a Chopstick occurs)</li>
+        <li>Deterministic: The execution time for eating or thinking is the same for all philosophers.</li>
+        <li>Interval: The execution time is randomly selected within a specific range, for example, between 50 and 100 milliseconds.</li>
+        <li>Normal: The execution time varies symmetrically around a central value, with deviations following a normal distribution.</li>
+        <li>Exponential: The execution time is usually small, but occasionally, much larger values can occur, following an exponential distribution.</li>
     </ul>
+    <p>
+        To keep track of the philosophers actions we keep a Log for each Philosopher, with the following Events being
+        logged:
+    </p>
+    <ul>
+        <li>[ T ] = Think</li>
+        <li>[PUL] = Pick Up Left</li>
+        <li>[PUR] = Pick Up Right</li>
+        <li>[ E ] = Eat</li>
+        <li>[PDL] = Put Down Left</li>
+        <li>[PDR] = Put Down Right</li>
+        <li>[ B ] = Blocked (Whenever waiting for a Chopstick occurs)</li>
+    </ul>
+
+    <p>
+        Whenever philosophers complete an action they will add it to their log.
+        The combination of each of the philosophers logs will result in a timeline, in which we are able to track the actions of the philosophers over the course of the simulation.
+        To keep the timeline consistent we use a virtual clock, which is used by the philosophers to log their actions according to simulation time.
+        This enables us to combine the timelines and to track the times that philosophers spend eating and thinking to evaluate the performance of the solutions discussed later.
+    </p>
+    <p>
+        Here is an example for a timeline that we get as a result of a simulation:
+    </p>
+
+    <pre><code>
+        PH_0 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][PUL][PUR][ E ][   ][ E ][ E ][ E ][ E ][ E ][PDL][PDR][   ][   ][   ][   ][   ][   ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][   ][   ][PUL][   ][   ][   ][PUR][   ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][   ][   ][   ][ E ][ E ][PDL][PDR][   ][   ][   ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][   ][ T ][   ][   ][   ][ T ][ T ][PUL][ B ][ B ][ B ][   ][   ][PUR][   ]
+        PH_1 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][   ][ T ][   ][ B ][ B ][ B ][ B ][ B ][   ][   ][PUL][   ][   ][PUR][   ][   ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][   ][   ][   ][   ][PDL][PDR][   ][   ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][ T ][ T ][   ][   ][   ][   ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][   ][   ][   ][PUR][ E ][   ][   ][   ][ E ][ E ][   ][ E ][ E ][ E ][PDL][PDR][   ][   ]
+        PH_2 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][PUL][PUR][   ][   ][ E ][   ][ E ][ E ][ E ][ E ][ E ][   ][   ][   ][   ][PDL][   ][PDR][   ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][   ][   ][   ][   ][   ][   ][   ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][   ][   ][PUR][ E ][ E ][   ][   ][   ][   ][   ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][PDR][   ][   ][ T ][   ][   ][   ][ T ][ T ][   ][ T ][ T ][ T ][   ][   ][   ][PUL]
+        PH_3 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][   ][ T ][   ][ T ][ T ][ B ][ B ][ B ][   ][   ][   ][   ][   ][   ][   ][PUL][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][ B ][   ][   ][   ][PUR][   ][   ][   ][   ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][PDR][   ][ T ][ T ][   ][   ][   ][   ][   ][ T ][ T ][ T ][ T ][ T ][ B ][   ][   ][PUL][   ][ B ][   ][   ][PUR][ E ][ E ][   ][ E ][ E ][ E ][   ][   ][   ][   ]
+        PH_4 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][   ][ T ][PUL][ B ][ B ][ B ][ B ][ B ][   ][   ][   ][PUR][   ][   ][   ][   ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][ E ][PDL][PDR][   ][   ][   ][   ][   ][   ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][ T ][ T ][   ][   ][PUL][PUR][   ][ E ][ E ][ E ][ E ][ E ][ E ][   ][   ][   ][   ][ E ][PDL][PDR][   ][ T ][ T ][   ][ T ][ T ][ T ][   ][   ][   ][   ]
+        TIME:  1    2    3    4    5    6    7    8    9   10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48   49   50   51   52   53   54   55   56   57   58   59   60   61   62   63   64   65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80   81   82   83   84
+    </code></pre>
+
+    <p>
+        Note that whenever a philosopher attempts to pick up or put down a chopstick we assume a synchronization point to determine the correct order of the actions after the simulation.
+        In those cases the other philosophers timelines will display empty brackets to signify that they took no action at that time.
     </p>
 
     <h2>Challenges</h2>
-    <p>There are three main challenges that we face when we execute the philosophers in the naive way discussed above.
-        The capability of our solution at solving one or more of these difficulties will help us determine the quality
-        of the approaches later.
+    <p>
+        There are three main challenges we encounter when executing the philosophers in the naive manner described
+        above.
+        The effectiveness of our solution in addressing one or more of these challenges will help us evaluate the
+        quality of the different approaches later on.
     </p>
     <h4>Deadlocks</h4>
     <img src="pictures/deadlock.png" alt="Dining Philosophers Problem" width="400" height="350">
-    <p>Deadlocks can occur when all the philosophers grab the fork to their left at the same time and then wait for the
-        fork to their right.
-        If this happens the philosophers will be stuck in this state indefinitely and starve.
-        Preventing this from happening is the main goal of the Solutions we want to explore.
+    <p>
+        Deadlocks can occur if all the philosophers pick up the chopstick to their left simultaneously and then wait for
+        the chopstick to their right.
+        In this situation, none of the philosophers can proceed, leading to indefinite waiting.
+        This occurs because the system satisfies the Coffman conditions for a deadlock:
+        mutual exclusion (each chopstick can only be held by one philosopher),
+        hold and wait (philosophers hold one chopstick while waiting for another),
+        no preemption (chopsticks are not taken away from philosophers, when a stalemate happens),
+        and circular wait (each philosopher is waiting for a chopstick held by the philosopher next to them).
+        Preventing deadlocks by addressing these conditions is the primary goal of the solutions we aim to explore.
     </p>
+    <p>Here is an example for a Simulation that resulted in a deadlock: </p>
+    <pre><code>
+        PH_0 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][   ][   ][   ][   ][PUL]
+        PH_1 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][   ][PUL][   ][   ][   ]
+        PH_2 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][   ][   ][PUL][   ][   ]
+        PH_3 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][PUL][   ][   ][   ][   ]
+        PH_4 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][   ][   ][   ][PUL][   ]
+        TIME:  1    2    3    4    5    6    7    8    9   10   11   12   13   14
+    </code></pre>
     <h4>Starvation</h4>
     <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
-    <p>Starvation occurs when one or more philosophers never/ rarely get the chance to eat.
-        One of the ways this could happen is if one of the philosophers repeatedly succeeds in taking the chopstick
-        first, preventing the other from eating.
-        Another reason for starvation would result from very long eat times that occur in one philosopher, while the
-        other one has very short eat times.
-        Ensuring that all philosophers get equal chances to eat is a key goal to solve the problem.
-        With our solution we want to ensure fairness as best as possible, while still preventing deadlocks.</p>
+    <p>
+        Starvation happens when one or more philosophers rarely, or never, get a chance to eat.
+        This can occur if one philosopher repeatedly grabs the chopsticks first, stopping others from eating.
+        It can also happen if one philosopher takes a very long time to eat, while their neighbor eats quickly, making
+        it harder for the neighbor to access the chopsticks.
+        The goal is to make sure every philosopher has a fair chance to eat.
+        With our solution, we aim to prevent deadlocks while also ensuring fairness as much as possible.
+    </p>
     <h4>Concurrency</h4>
     <img src="pictures/concurrency.png" alt="Dining Philosophers Problem" width="400" height="350">
-    <p>One of the most simple ideas to prevent deadlocks is to allow only one philosopher at the table to eat.
-        However this approach would eliminate the concurrency of the philosophers.
-        Our solution should ensure concurrency, additionally to the prevention of deadlocks and ensuring fairness
-        between them.
+    <p>
+        One simple way to prevent deadlocks is to allow only one philosopher to eat at a time.
+        However, this would remove the ability for multiple philosophers to eat at the same time.
+        Concurrency means that multiple philosophers can progress simultaneously without waiting for each other unless
+        necessary.
+        Our solution should ideally maintain concurrency while also preventing deadlocks and ensuring fairness, such
+        that all philosophers get an equal chance to eat.
     </p>
 
-</div>
-<h2>Simulation</h2>
+    <h2>Simulation</h2>
 
-<div class="description">
-    <p>This website features both a Simulation and Animation Page that utilize a Java Threads based backend.
-        The Simulation page lets you run a simulation and subsequently review the returned simulation String. Detailed notes about the simulation can be found at this page.
-        <br>
-        The animation page lets you run a simulation that can then be animated. Detailed notes about the animation page can be found at this page
-        <br>
-        To see the Naive Dining Philosophers in action try either the Simulation page, or the animation page.
-        <br>
-        Note that the Animation is currently limited to the classical 5 philosophers confuguration, wheras the Simulation page lets you explore the algorithms with 2-9 philosophers.</p>
+    <p>
+        This website offers both a Simulation Page and an Animation Page, both powered by a Java Threads-based backend.
+        The Simulation Page allows you to run a simulation and view the resulting simulation output as a string, with detailed notes available on that page.
+        The Animation Page lets you run a simulation that is then visually animated, with further details also provided on that page.
+        To see the Naive Dining Philosophers in action, you can try either the Simulation Page or the Animation Page.
+        Please note that the Animation is currently limited to the classic 5-philosopher setup, while the Simulation Page allows you to experiment with 2 to 9 philosophers
+    </p>
     <a href="../simulation/?algorithm=NAIVE" class="button">Naive Simulation</a>
     <a href="../animation/?algorithm=NAIVE" class="button">Naive Animation</a>
     <br>
     <br>
 
-</div>
 
-<h2>Naive Dining Philosophers Implementation</h2>
-<div class="description">
-    <p>The following Java-Inspired pseudocode illustrates the principles of a Naive Implementation of the Dining
-        Philosophers problem.
-        <br>
-        In Java synchronized methods may only be entered by one thread (In our case philosopher) at a time.
-        This helps us ensure the exclusivity in accessing the Chopsticks.
-        <br>
-        The logs of the philosophers are mapped in time according to a time point that is determined by a virtual clock running during the simulation.
-        <br>
-        For simplicity the majority of the Java boilerplate and some of the simulation logic to ensure consistency was left out in this pseudocode.
-        If you are interested in the actual implementation of this Project, it is available on Github here. //link github
-    </p>
-    <p> Pseudocode Philosopher class: </p>
-    <pre><code>
+    <h2>Naive Dining Philosophers Implementation</h2>
+    <div class="description">
+        <p>
+            The following Java-inspired pseudocode demonstrates the basic principles of a naive implementation of the Dining Philosophers problem.
+            In Java, synchronized methods can only be accessed by one thread (in this case, a philosopher) at a time, ensuring exclusive access to the chopsticks.
+            The philosophers' actions are logged over time, based on a virtual clock running during the simulation.
+            The notify() function notifies the other philosopher that is kept in the waiting() state when the chopstick that is put down.
+            For simplicity, most of the Java boilerplate and some simulation logic for consistency have been omitted from this pseudocode. If you're interested in the full implementation of this project, it is available on GitHub here. //link to GitHub
+        </p>
+        <p> Pseudocode Philosopher class: </p>
+        <pre><code>
         public class NaivePhilosopher extends AbstractPhilosopher {
             Fork leftFork;
             Fork rightFork;
@@ -255,9 +295,9 @@
 
         }
     </code></pre>
-    <p>Pseudocode for Fork class:</p>
+        <p>Pseudocode for Fork class:</p>
 
-    <pre><code>
+        <pre><code>
     public abstract class AbstractFork {
         protected boolean isAvailable = true;
 
@@ -275,11 +315,11 @@
         }
     }
     </code></pre>
-    <p>The backbone of the simulation is a virtual clock running during the execution.
-        The Philosophers log their Actions according to the current time of the clock.
-        <br>
-        Pseudocode for Dining Table class and exemplary main function:</p>
-    <pre><code>
+        <p>The backbone of the simulation is a virtual clock running during the execution.
+            The Philosophers log their Actions according to the current time of the clock.
+        </p>
+        <p> Pseudocode for Dining Table class and exemplary main function: </p>
+        <pre><code>
     public class Table {
         Fork[] forks;
         NaivePhilosopher[] philosophers;
@@ -332,30 +372,24 @@
         }
     }
     </code></pre>
-</div>
+    </div>
 
-<div class="description">
-<h2>Limitations</h2>
-<p>Before we explore some solutions let us first discuss the main limitations of the given problem. Note that the maximum concurrency is limited under the given rules,
-    bounding the maximum concurrency in our system under ideal conditions to [n/2] for even n and  &lfloor;n/2&rfloor; for uneven n.
-    For example with n = 5 &lfloor;5/2&rfloor; = 2, 2 is the maximum concurrency we can reach. This means that if we seat 5 philosophers at our table a maximum of two philosophers are able to eat concurrently.
-    <br>
-    In real world systems access to multiple shared resources across processes is frequent (Not only two processes share a resource, but multiple/ Processes share more than two resources), these kinds of cross dependencies cannot be replicated
-    using the dining philosopher problem without significantly altering the problem rules.
-    Another limitation is the assumption of preemption (Eating/ Thinking may be terminated).
-    <br>
-    Real life systems are frequently non-preemptive, meaning their tasks need to run to completion and cannot be terminated/ suspended.
-    <br>
-    Many more like assumed homogenity (Chopsticks are the same for all philosophers, but actual resources might have varying constraints), time constraints (real life processes sometimes have to "eat" at an exact timeframe) or sudden unavailabilty (processes might crash/ terminate unexpectedly) are usually not considered.
-    This means that many solutions are not applicable to such real life systems.
-    <br>
-    One constraint that we will ignore in our solutions is that traditionally philosophers are considered "silent", and thus are not permitted to communicate with each other.
-</p>
-</div>
+    <h2>Limitations</h2>
+    <p>
+        Before exploring solutions, let's first discuss the main limitations of the problem.
+        One key limitation is that the maximum concurrency is restricted by the rules.
+        Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to [n/2] for even numbers of philosophers (n) and ⌊n/2⌋ for odd n.
+        For example, with 5 philosophers, ⌊5/2⌋ equals 2, meaning that at most two philosophers can eat at the same time.
+        In real-world systems, access to shared resources often involves more complex dependencies, where multiple processes may share more than two resources, which cannot be replicated using the dining philosophers problem without significantly changing its rules.
+        Another limitation is the assumption of preemption, where eating or thinking can be interrupted.
+        In real-world systems, tasks are often non-preemptive, meaning they must run to completion without being suspended or terminated.
+        Other constraints, such as the assumed homogeneity of resources (in reality, resources may have different constraints), time constraints (some processes must 'eat' within a specific timeframe), or unexpected unavailability (processes may crash or terminate), are also typically not accounted for.
+        As a result, many solutions we will explore may not directly apply to such real-world systems.
+        Lastly, we will ignore the traditional constraint that philosophers are 'silent' and unable to communicate, as this restriction may not be relevant to our solutions.
+    </p>
 
-<div class="description">
     <h2>Solutions</h2>
-    <p>The following buttons lead to various solutions that try to address one or more of the previously discussed constraints.</p>
+    <p>The buttons below link to different solutions that aim to address one or more of the challenges discussed earlier.</p>
 
     <div class="description-box">
         <p>To learn about solutions that focus on organizing the order of the pickups of chopsticks:</p>
@@ -363,32 +397,46 @@
     </div>
 
     <div class="description-box">
-        <p>To learn about the timeout solution that prevents deadlocks via returning the initially acquired chopstick when the second chopstick is not available within a fixed timeframe:</p>
+        <p>
+            To learn about the timeout solution that prevents deadlocks via returning the initially acquired chopstick
+            when the second chopstick is not available within a fixed timeframe:
+        </p>
         <a href="timeout" class="button">Timeout Solution</a>
     </div>
 
     <div class="description-box">
-        <p>To learn about solutions that focus on tokens being passed around by the philosophers:</p>
+        <p>
+            To learn about solutions that focus on tokens being passed around by the philosophers:
+        </p>
         <a href="token" class="button">Token Solution</a>
     </div>
 
     <div class="description-box">
-        <p>To learn about solutions that utilize a central entity to organize the permission to eat or pick up chopsticks:</p>
+        <p>
+            To learn about solutions that utilize a central entity to organize the permission to eat or pick up
+            chopsticks:
+        </p>
         <a href="waiter" class="button">Waiter Solution</a>
     </div>
 
     <div class="description-box">
-        <p>To learn about solutions that utilize semaphores:</p>
+        <p>
+            To learn about solutions that utilize semaphores:
+        </p>
         <a href="semaphore" class="button">Semaphore Solution</a>
     </div>
 
     <div class="description-box">
-        <p>To learn about the solution that limits the number of philosopher being able to pick up chopsticks:</p>
+        <p>
+            To learn about the solution that limits the number of philosopher being able to pick up chopsticks:
+        </p>
         <a href="restrict" class="button">Restrict Solution</a>
     </div>
 
     <div class="description-box">
-        <p>To learn about the solution that limits the number of philosopher being able to pick up chopsticks:</p>
+        <p>
+            To learn about the solution that limits the number of philosopher being able to pick up chopsticks:
+        </p>
         <a href="chandymisra" class="button">Chandy-Misra Solution</a>
     </div>
 </div>

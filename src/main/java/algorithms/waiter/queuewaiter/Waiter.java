@@ -9,15 +9,17 @@ public class Waiter {
 
     private AbstractPhilosopher permittedPhilosopher;
 
-    private Deque<AbstractPhilosopher> queuedPhilosophers;
+    private final Deque<AbstractPhilosopher> queuedPhilosophers;
 
-    public Waiter(){
+
+
+    public Waiter(int nrPhilosophers) {
         permittedPhilosopher = null;
         queuedPhilosophers = new ArrayDeque<>();
     }
 
 
-    public synchronized void requestPermission(AbstractPhilosopher philosopher) throws InterruptedException {
+    protected synchronized void requestPermission(AbstractPhilosopher philosopher) throws InterruptedException {
         queuedPhilosophers.add(philosopher);
         if (permittedPhilosopher == null) permittedPhilosopher = queuedPhilosophers.poll(); //no philosopher is currently permitted, thus one has to be assigned
         while (!philosopher.equals(permittedPhilosopher)) {
@@ -26,8 +28,10 @@ public class Waiter {
 
     }
 
-    public synchronized void returnPermission(){
+    protected synchronized void returnPermission(){
         permittedPhilosopher = queuedPhilosophers.poll();
         notify();
     }
+
+
 }

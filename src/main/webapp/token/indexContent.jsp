@@ -94,6 +94,13 @@
         codeeee
     </code></pre>
 
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+
+    <a href="../simulation/?algorithm=GLOBALTOKEN" class="button">Global Simulation</a>
+    <a href="../animation/?algorithm=GLOBALTOKEN" class="button">Global Animation</a>
+
     <h2>Multiple Token Solution</h2>
     <img src="../pictures/multiple-token_questionmanrk.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness to the system,
@@ -112,7 +119,7 @@
         <li>Fairness: Fair, as each philosopher gets a turn at eating </li>
         <li>Concurrency: Concurrent, as multiple tokens are passed around permitting [n/2]/ &lfloor;n/2&rfloor; at a time to eat</li>
         <li>Implementation: The changes that need to be made are a little more extensive, as... </li>
-        <li>Performance: ... </li>
+        <li>TODO::Performance: ... </li>
     </ul>
     <p>the modifications...</p>
     <pre><code>
@@ -124,6 +131,11 @@
         codeeee
         codeeee
     </code></pre>
+<p>
+    You can find the respective Simulation and Animation pages here:
+</p>
+    <a href="../simulation/?algorithm=MULTIPLETOKEN" class="button">Multiple Token Simulation</a>
+    <a href="../animation/?algorithm=MULTIPLETOKEN" class="button">Multiple Token Animation</a>
 </div>
 </body>
 </html>

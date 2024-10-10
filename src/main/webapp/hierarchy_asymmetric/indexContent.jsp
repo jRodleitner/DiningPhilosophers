@@ -22,7 +22,6 @@
             margin: 5px 0; /* Adds space between buttons */
         }
 
-        /* Hover Effect */
         .button:hover {
             background-color: #438699; /* Darker teal on hover */
             color: #e0e0e0; /* Optional: Change text color slightly on hover */
@@ -35,6 +34,7 @@
             margin-bottom: 15px;
             max-width: 800px;
         }
+
         pre {
             background-color: #f5f5f5;
             border: 1px solid #ccc;
@@ -46,17 +46,11 @@
             font-family: "Courier New", Courier, monospace;
         }
 
-        /* Styling for the actual code */
         code {
             background-color: #f5f5f5; /* Match pre background */
             color: #333;
             font-family: "Courier New", Courier, monospace;
             font-size: 14px;
-        }
-
-        /* Optional: Additional styling for line numbers (if needed) */
-        pre.line-numbers {
-            counter-reset: line; /* Reset line counter */
         }
 
         pre.line-numbers code::before {
@@ -75,23 +69,26 @@
 <div class="description">
     <img src="../pictures/resource.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
 
-    <p>Probably one of the most famous solutions to the Dining Philosophers problem, it tries to prevent deadlocks
-        by ordering the available resources 0 through n
-        <br>
-        Philosophers will then always try to pick up the chopstick that is assigned the lower ordering first.
-        <br>
-        This essentially turns one of them into a right-handed philosopher while the others try picking up the left
-        chopstick first.
-        <br>
-        This is effective in avoiding deadlocks, because it avoids the circular wait condition as defined by Coffman.
-        <br>
+    <p>
+        The resource hierarchy solution to the Dining Philosophers Problem works by assigning a unique order to the chopsticks (resources), numbered from 0 to (n−1).
+        Philosophers always attempt to pick up the lower-numbered chopstick first before picking up the higher-numbered one.
+        This forces all philosophers, except one, to act "left-handed" (they pick up the left chopstick first).
+        One philosopher (the last one in the circle) will act as the "right-handed," picking up their right chopstick first.
+
+        This strategy is effective in preventing deadlock because it eliminates the circular wait condition by Coffman.
+        Since philosophers always pick up chopsticks in a consistent order, no circular chain of waiting can form.
+        At least one philosopher will always be able to proceed, ensuring the system avoids deadlock and allowing each philosopher to eventually eat.
+    <p>
+        Now let us evaluate the given Algorithm according to the key challenges we face for designing a dining philosophers solution:
+    </p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: Fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating by this approach.</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic needed. </li>
+        <li>Deadlocks: Resource Hierarchy effectively prevents deadlocks</li>
+        <li>Fairness: Resource Hierarchy fails at providing fairness to the system, as no such measures are taken.</li>
+        <li>TODO::Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating by this approach.</li>
+        <li>Implementation: The changes required to implement this solution are minimal, no complex logic needed. </li>
+        <li>TODO:: Performance:  </li>
     </ul>
-    <p>To implement the Resource Hierarchy solution, only the run function has to be modified:</p>
+    <p>To implement the Resource Hierarchy solution, only the run function in the philosopher class has to be modified:</p>
     <pre><code>
         run() {
             while (!terminate()) {
@@ -112,7 +109,10 @@
         }
     </code></pre>
 
+    <p>
+        You can find the respective Simulation and Animation pages here:
     </p>
+
     <a href="../simulation/?algorithm=HIERARCHY" class="button">Resource Hierarchy Simulation</a>
     <a href="../animation/?algorithm=HIERARCHY" class="button">Resource Hierarchy Animation</a>
 </div>
@@ -120,15 +120,18 @@
 <h2>Asymmetric Solution</h2>
 <div class="description">
     <img src="../pictures/asymmetric.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
-    <p>The Asymmetric Solution takes things one step further, but instead of using the ordering of resources we assign an order to the philosophers.
-        Those with even order pick up the left chopstick first, whereas the ones with odd order pick up their right chopstick first.
-        This solution again prevents deadlocks by avoiding the circular wait condition.
+    <p>
+        The Asymmetric Solution takes a slightly different approach by assigning an order to the philosophers instead of the chopsticks.
+        Philosophers with an even number pick up the left chopstick first, while those with an odd number pick up the right chopstick first.
+        By alternating the order of chopstick pickups between even and odd philosophers, the system prevents deadlocks by avoiding the circular wait condition by Coffman.
     </p>
+    <p>Let us again evaluate the given Algorithm according to the key-challenges:</p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: Fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating by this approach.</li>
+        <li>Deadlocks: The Asymmetric Solution effectively prevents deadlocks</li>
+        <li>Fairness: The Asymmetric Solution fails at providing fairness to the system, as no such measures are taken.</li>
+        <li>TODO::Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating by this approach.</li>
         <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic needed. </li>
+        <li>TODO::Performance: </li>
     </ul>
     <br>
     <p>To implement the Asymmetric solution, only the run function has to be modified:</p>
@@ -153,6 +156,9 @@
             }
         }
     </code></pre>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
     <a href="../simulation/?algorithm=ASYMMETRIC" class="button">Asymmetric Simulation</a>
     <a href="../animation/?algorithm=ASYMMETRIC" class="button">Asymmetric Animation</a>
 </div>
