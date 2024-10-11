@@ -92,6 +92,32 @@
         This approach helps to balance concurrency while still preventing deadlocks by avoiding the circular wait condition.
         Additionally, we check if the current philosopher in the queue is next to a philosopher who is currently eating.
         We skip this philosopher and allow another philosopher that is not adjacent to an eating philosopher to eat.
+        The main drawback of this solution is that the waiter will always assign the permission to the philosopher that requested the chopsticks first.
+        Thus, we do not provide any fairness to the system.
+    </p>
+
+    <p>Now let us evaluate the Pickup Waiter approach based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We reintroduce ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic needed. </li>
+        <li>Performance: </li>
+    </ul>
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
+    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+
+    <h2>Intelligent Pickup Waiter Solution</h2>
+    <p>
+        Additionally, we check if the current philosopher in the queue is next to a philosopher who is currently eating.
+        We skip this philosopher and allow another philosopher that is not adjacent to an eating philosopher to eat.
         However, there is still one drawback to this solution, as a waiter will always assign the permission to the philosopher that requested the chopsticks first, or one that is currently able to eat.
         Thus we do not provide fairness to the system in this way.
     </p>

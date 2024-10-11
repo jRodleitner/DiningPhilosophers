@@ -334,8 +334,8 @@
             <input type="number" id="nrPhil" name="nrPhil" min="2" max="9"
                    value="${param.nrPhil != null ? param.nrPhil : '5'}" required><br><br>
 
-            <label for="simulationTime">Simulation Time (50-500):</label>
-            <input type="number" id="simulationTime" name="simulationTime" min="50" max="500"
+            <label for="simulationTime">Simulation Time (50-1000):</label>
+            <input type="number" id="simulationTime" name="simulationTime" min="50" max="1000"
                    value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
 
             <!-- Think Distribution -->

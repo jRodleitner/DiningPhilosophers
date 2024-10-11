@@ -35,13 +35,53 @@
             margin-bottom: 15px;
             max-width: 800px;
         }
+
+        pre {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 15px;
+            overflow: auto;
+            white-space: pre-wrap; /* Wrap lines */
+            word-wrap: break-word; /* Break long lines */
+            border-radius: 5px; /* Rounded corners */
+            font-family: "Courier New", Courier, monospace;
+        }
+
+
+        code {
+            background-color: #f5f5f5; /* Match pre background */
+            color: #333;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
 <h2>Restrict Solution</h2>
 <div class="description">
     <p>The Restrict Solution </p>
-    <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">
+    <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">#
+    <p>
+        Another way to prevent deadlocks is to restrict the number of philosophers that can attempt to eat at any moment.
+    </p>
+
+    <p>Now let us evaluate the Restrict solution based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We reintroduce ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic needed. </li>
+        <li>Performance: </li>
+    </ul>
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=RESTRICT" class="button">Restrict Simulation</a>
+    <a href="../animation/?algorithm=RESTRICT" class="button">Restrict Animation</a>
 </div>
 
 </body>
