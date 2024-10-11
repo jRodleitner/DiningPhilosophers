@@ -983,12 +983,13 @@
                 </option>
 
                 <optgroup label="Token">
-                    <option value="MULTIPLETOKEN" <%= "MULTIPLETOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Multiple Token
-                    </option>
                     <option value="GLOBALTOKEN" <%= "GLOBALTOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Global Token
                     </option>
+                    <option value="MULTIPLETOKEN" <%= "MULTIPLETOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Multiple Token
+                    </option>
+
                 </optgroup>
 
                 <optgroup label="Waiter">
@@ -997,6 +998,9 @@
                     </option>
                     <option value="PICKUPWAITER" <%= "PICKUPWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Pickup Waiter
+                    </option>
+                    <option value="INTELLIGENTWAITER" <%= "INTELLIGENTWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Intelligent Pickup Waiter
                     </option>
                     <option value="FAIRWAITER" <%= "FAIRWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Fair Waiter
