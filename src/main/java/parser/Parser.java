@@ -15,7 +15,7 @@ public class Parser {
 
     public static String parse(List<AbstractPhilosopher> philosophers, DiningTable table){
         AtomicInteger maxLength = new AtomicInteger(0);
-
+        AtomicInteger nrPickups = new AtomicInteger(0);
         List<Statistic> statistics = new ArrayList<>();
         List<List<String>> timelines = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
@@ -41,7 +41,7 @@ public class Parser {
         }
 
         fillIn(philosophers, timelines, statistics, maxLength, simulatePickups);
-        fillStatistics(timelines, statistics);
+        fillStatistics(timelines, statistics, nrPickups);
         timelines.add(generateTimeIndices(maxLength.get()));
         //TODO explain
 
@@ -72,15 +72,49 @@ public class Parser {
         }
 
         //TODO change deadlock check to last of philosopher
+        ArrayList<Integer> phEatTimes = new ArrayList<>();
+        ArrayList<Integer> phEatChances = new ArrayList<>();
         for(Statistic st: statistics){
-            global.addAll(st.getTotalThinkTime(), st.getTotalEatTime(), st.getTotalBlockTime());
+            global.addAll(st.getTotalThinkTime(), st.getTotalEatTime(), st.getTotalBlockTime(), st.getEatChances());
+            phEatTimes.add(st.getTotalEatTime());
+            phEatChances.add(st.getEatChances());
             global.incrementMaxBlockedTime(st.getMaxBlockedTime());
             sb.append(st);
             sb.append("\n");
         }
-        sb.append(global);
+        sb.append("\n").append(global).append("\n").append("\n");
+
+        double denominator = simulatePickups ? (maxLength.get() - nrPickups.get()) : maxLength.get();
+        sb.append("Concurrency: ").append(String.format("%.3f", ((double) global.getTotalEatTime() / denominator))).append(" (Values < 1 mean no concurrency)").append("\n");
+        sb.append("Chance Fairness: ").append(String.format("%.5f", calculateStandardDeviation(phEatChances))).append(" (standard deviation of eat chances, the lower the better)").append("\n");
+        sb.append("Eat Time Fairness: ").append(String.format("%.5f", calculateStandardDeviation(phEatTimes))).append(" (standard deviation of eat times, the lower the better)");
+
+
         if(deadlock) sb.append("\n\n A deadlock occurred!");
         return sb.toString();
+    }
+
+    private static double calculateStandardDeviation(List<Integer> values) {
+        // Step 1: Calculate the mean
+        double mean = calculateMean(values);
+
+        // Step 2: Calculate the variance
+        double variance = 0.0;
+        for (int value : values) {
+            variance += Math.pow(value - mean, 2);
+        }
+        variance /= values.size();
+
+        // Step 3: Return the standard deviation
+        return Math.sqrt(variance);
+    }
+
+    private static double calculateMean(List<Integer> values) {
+        double sum = 0.0;
+        for (int value : values) {
+            sum += value;
+        }
+        return sum / values.size();
     }
 
     private static List<String> generateTimeIndices(int maxLength) {
@@ -143,7 +177,7 @@ public class Parser {
         }
     }
 
-    private static void fillStatistics( List<List<String>> timelines, List<Statistic> statistics){
+    private static void fillStatistics( List<List<String>> timelines, List<Statistic> statistics, AtomicInteger nrPickups){
         String[] lastSymbol = new String[timelines.size()];
         int[] blockedStreaks = new int[timelines.size()];
 
@@ -156,6 +190,7 @@ public class Parser {
                 if(Events.PICKUPSET.contains(timelines.get(philosopherIndex).get(timeLineIndex))){
                     lastSymbol[philosopherIndex] = timelines.get(philosopherIndex).get(timeLineIndex);
                     pickupPoint = true;
+                    nrPickups.incrementAndGet();
                 }
             }
 
@@ -280,6 +315,7 @@ public class Parser {
                         break;
 
                     case Events.EAT:
+                        statistic.incrementEatChances();
                         while (time <= endTime) {
                             parsedTimeline.add(Events.EAT);
                             time++;
@@ -353,6 +389,7 @@ public class Parser {
 
 
                     case Events.EAT:
+                        statistic.incrementEatChances();
                         while (time <= endTime) {
                             parsedTimeline.add(Events.EAT);
                             time++;

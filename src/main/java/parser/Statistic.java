@@ -7,10 +7,12 @@ public class Statistic {
     private int maxBlockedTime;
     private String id;
     private String last;
+    private int eatChances;
 
     public void setLast(String last){
         this.last = last;
     }
+
 
     public String getLast(){
         return last;
@@ -32,6 +34,13 @@ public class Statistic {
         return maxBlockedTime;
     }
 
+    public void incrementEatChances(){
+        eatChances++;
+    }
+
+    public int getEatChances(){
+        return eatChances;
+    }
 
     // Setter method
     public void setId(String id) {
@@ -43,10 +52,11 @@ public class Statistic {
         totalThinkTime++;
     }
 
-    public void addAll(int thinkTime, int eatTime, int blockTime) {
+    public void addAll(int thinkTime, int eatTime, int blockTime, int eatChances) {
         this.totalThinkTime += thinkTime;
         this.totalEatTime += eatTime;
         this.totalBlockTime += blockTime;
+        this.eatChances += eatChances;
     }
 
     public void incrementBlockTime() {
@@ -79,6 +89,7 @@ public class Statistic {
                 ", totalBlockTime=" + totalBlockTime +
                 ", totalEatTime=" + totalEatTime +
                 ", maxBlockedTime=" + maxBlockedTime +
+                ", eatChances=" + eatChances +
                 '}';
     }
 }
