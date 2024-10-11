@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class FairGuestPhilosopher extends AbstractPhilosopher {
 
-    protected long eatTimes;
+    protected volatile long eatTimes;
 
     private volatile FairWaiter waiter;
     public FairGuestPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairWaiter waiter) {
@@ -28,8 +28,8 @@ public class FairGuestPhilosopher extends AbstractPhilosopher {
                 waiter.requestPermission(this);
                 pickUpLeftFork();
                 pickUpRightFork();
-                waiter.returnPermission();
-                eatTimes += eatFair();;
+                waiter.returnPermission(this);
+                eatTimes += eatFair();
                 putDownLeftFork();
                 putDownRightFork();
 

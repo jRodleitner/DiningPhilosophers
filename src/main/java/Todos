@@ -2,7 +2,7 @@ GENERAL TODO:
 
 NEXT:
 [ ] Fair waiter -> use eat times
-[ ] Intelligent Pickup Waiter
+
 [ ] read approaches/ papers
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -72,6 +72,7 @@ CHECK:
 [x] Correct simple simulation logic -> lastAction
 [x] explanations of algorithms lead to Simulation page?
 [x] Statistics overhaul: concurrency index, fairness index
+[x] Intelligent Pickup Waiter
 DONE:
 [x] Naive
 
