@@ -30,7 +30,7 @@ public class Waiter {
 
     protected synchronized void returnPermission(){
         permittedPhilosopher = queuedPhilosophers.poll();
-        notify();
+        notifyAll();
     }
 
 

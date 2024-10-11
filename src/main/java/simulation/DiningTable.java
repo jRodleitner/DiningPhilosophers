@@ -35,6 +35,9 @@ import algorithms.*;
 import algorithms.waiter.fairwaiter.FairGuestFork;
 import algorithms.waiter.fairwaiter.FairGuestPhilosopher;
 import algorithms.waiter.fairwaiter.FairWaiter;
+import algorithms.waiter.intelligent.IntelligentGuestFork;
+import algorithms.waiter.intelligent.IntelligentPickupGuestPhilosopher;
+import algorithms.waiter.intelligent.IntelligentWaiter;
 import algorithms.waiter.queuewaiter.GuestFork;
 import algorithms.waiter.queuewaiter.AtomicGuestPhilosopher;
 import algorithms.waiter.queuewaiter.PickupGuestPhilosopher;
@@ -209,6 +212,18 @@ public class DiningTable {
                 Waiter pickupWaiter = new Waiter(numberOfPhilosophers);
                 for (int i = 0; i < numberOfPhilosophers; i++) {
                     PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, pickupWaiter);
+                    philosophers.add(philosopher);
+                }
+                break;
+
+            case Algorithm.INTELLIGENTWAITER:
+                for (int i = 0; i < numberOfPhilosophers; i++) {
+                    forks.add(new IntelligentGuestFork(i));
+                }
+
+                IntelligentWaiter intelligentWaiter = new IntelligentWaiter(numberOfPhilosophers);
+                for (int i = 0; i < numberOfPhilosophers; i++) {
+                    IntelligentPickupGuestPhilosopher philosopher = new IntelligentPickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, intelligentWaiter);
                     philosophers.add(philosopher);
                 }
                 break;

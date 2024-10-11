@@ -13,7 +13,9 @@ public class Algorithm {
 
     public static final String ATOMICWAITER = "ATOMICWAITER";  //6
 
-    public static final String PICKUPWAITER = "PICKUPWAITER";  //7
+    public static final String PICKUPWAITER = "PICKUPWAITER";//7
+
+    public static final String INTELLIGENTWAITER = "INTELLIGENTWAITER";
 
     public static final String FAIRWAITER = "FAIRWAITER";    //8
 
