@@ -7,7 +7,7 @@ import simulation.DiningTable;
 
 public class PickupGuestPhilosopher extends AbstractPhilosopher {
 
-    private volatile Waiter waiter;
+    private final Waiter waiter;
     public PickupGuestPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, Waiter waiter) {
         super(id, leftFork, rightFork, table, thinkistr, eatDistr);
         this.waiter = waiter;
