@@ -38,35 +38,22 @@
         pre {
             background-color: #f5f5f5;
             border: 1px solid #ccc;
-            padding: 15px;
-            overflow: auto;
-            white-space: pre-wrap; /* Wrap lines */
-            word-wrap: break-word; /* Break long lines */
+            padding: 5px;
+            overflow-x: auto; /* Allow horizontal scrolling */
+            white-space: nowrap; /* Prevent line wrapping */
             border-radius: 5px; /* Rounded corners */
             font-family: "Courier New", Courier, monospace;
+            max-width: 100%; /* Ensure the width doesn't overflow the container */
         }
 
         /* Styling for the actual code */
         code {
+            display: block; /* Ensure the code behaves like a block element */
             background-color: #f5f5f5; /* Match pre background */
             color: #333;
             font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
-        }
-
-        /* Optional: Additional styling for line numbers (if needed) */
-        pre.line-numbers {
-            counter-reset: line; /* Reset line counter */
-        }
-
-        pre.line-numbers code::before {
-            counter-increment: line; /* Increment line counter */
-            content: counter(line); /* Display line number */
-            display: inline-block;
-            width: 2em;
-            margin-right: 10px;
-            text-align: right;
-            color: #999;
+            font-size: 13px;
+            white-space: pre; /* Ensure code stays on one line */
         }
     </style>
 </head>
@@ -82,7 +69,89 @@
         This prevents deadlocks by avoiding the Hold-and-Wait condition as defined by Coffman.
         However, a major drawback of this approach is that when a timeout occurs, philosophers must start a new cycle instead of completing their eating phase in the current one.
     </p>
-    <p>Now let us evaluate the Timeout Algorithm according to the key-challenges</p>
+
+    <p>
+        Modifications to the philosopher class:
+        Philosophers start eating if the pickup of the right chopstick was successful, else they put down the left fork and start thinking again.
+        For this purpose we create a Subclass and add the according changes.
+    </p>
+    <pre><code>
+        [PseudoCode]
+
+        class TimeoutPhilosopher extends Philosopher {
+            TimeoutChopstick rightTimeoutChopstick;
+
+            TimeoutPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+                super(id, leftChopstick, rightChopstick);
+                rightTimeoutChopstick = (TimeoutChopstick)rightChopstick;
+            }
+
+
+
+            @Override
+            void run() {
+                while (!terminated()) {
+                    think();
+                    pickUpLeftChopstick();
+                    boolean succPickup = pickUpRightWithTimeout();
+                    if(succPickup){
+                        eat();
+                        putDownLeftChopstick();
+                        putDownRightChopstick();
+                    } else {
+                        putDownLeftChopstick();
+                    }
+
+                }
+            }
+
+            boolean pickUpRightWithTimeout() {
+                boolean succPickup = rightTimeoutChopstick.pickUpRight(this);
+                if(succPickup) Log("[PUR]", VirtualClock.getTime());
+                return succPickup;
+            }
+
+        }
+    </code></pre>
+    <p>
+        Modifications to the Chopstick Class:
+        We introduce a timeout for the pickup of the right chopstick.
+        For this purpose we create a Subclass and add the according changes.
+    </p>
+    <pre><code>
+        [PseudoCode]
+
+        class TimeoutChopstick extends Chopstick {
+            int timeout;
+
+            TimeoutFork(int id, int timeout) {
+                super(id);
+                this.timeout = timeout;
+            }
+
+
+            public synchronized boolean pickUpRight(Philosopher philosopher) {
+                long startTime = System.currentTimeMillis();
+                long remainingTime = timeout;
+
+                while (!isAvailable) {
+                    if (remainingTime <= 0) {
+                    return false;
+                    }
+
+                wait(remainingTime);
+                remainingTime = timeout - (System.currentTimeMillis() - startTime);
+                }
+
+                isAvailable = false;
+                return true;
+            }
+
+        }
+    </code></pre>
+    <p>
+        Now let us evaluate the Timeout Algorithm according to the key-challenges
+    </p>
     <ul>
         <li>Deadlocks: The Timeout Solution effectively prevents deadlocks</li>
         <li>Fairness: Fails at providing fairness to the system, as no such measures are taken.</li>
@@ -90,50 +159,6 @@
         <li>Implementation: The changes that need to be made are a little more extensive, as both the Philosopher and Fork classes have to be modified. </li>
         <li>Performance: Not a giant overhead but total eat time might be reduced when frequent timeouts occur. </li>
     </ul>
-    <p>Pseudocode: Modifications to the philosopher class</p>
-    <pre><code>
-        public void run() {
-            while (!terminated()) {
-                think();
-                pickUpLeftChopstick();
-                boolean succPickup = pickUpRightWithTimeout();
-                if(succPickup){
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                } else {
-                    putDownLeftChopstick();
-                }
-            }
-        }
-
-        protected boolean pickUpRightWithTimeout() {
-            boolean succPickup = rightTimeoutFork.pickUpRight();
-            if(succPickup){
-                Log(id, Events.PICKUPRIGHT, table.getCurrentTime());
-            }
-            return succPickup;
-        }
-    </code></pre>
-    <p>
-        Pseudocode: modifications to the Chopstick Class.
-    </p>
-    <pre><code>
-        synchronized boolean pickUpRight() {
-            long startTime = System.currentTimeMillis();
-            long remainingTime = timeout;
-
-            while (!isAvailable) {
-                if (remainingTime <= 0) {
-                    return false;
-                }
-                wait(remainingTime);
-                remainingTime = timeout - (System.currentTimeMillis() - startTime);
-            }
-            isAvailable = false;
-            return true;
-        }
-    </code></pre>
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>

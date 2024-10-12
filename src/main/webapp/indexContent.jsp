@@ -16,6 +16,7 @@
             transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
             margin: 5px 0; /* Adds space between buttons */
         }
+
         html {
             scroll-behavior: smooth;
         }
@@ -292,74 +293,80 @@
                 on
                 GitHub here. //link to GitHub
             </p>
-            <p> Pseudocode Philosopher class: </p>
+            <p>
+                Pseudocode for the Naive Philosopher class:
+            </p>
+
             <pre><code>
-        public class NaivePhilosopher extends AbstractPhilosopher {
-            Fork leftFork;
-            Fork rightFork;
+        class Philosopher extends Thread{
+            int id;
+            Chopstick leftChopstick;
+            Chopstick rightChopstick;
             List log;
 
-            NaivePhilosopher(Fork leftFork, Fork rightFork) {
-                this.leftFork = leftFork;
-                this.rightFork = rightFork;
+            NaivePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+                this.id = id;
+                this.leftChopstick = leftChopstick;
+                this.rightChopstick = rightChopstick;
             }
 
-            run() {
+            @Override
+            void run() {
                 while (!terminated()) {
                     think();
-                    pickUpLeftFork();
-                    pickUpRightFork();
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
                     eat();
-                    putDownLeftFork();
-                    putDownRightFork();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
                 }
             }
 
-            think() {
+            void think() {
                 long duration = calculateDuration();
                 sleep(duration);
                 Log("[ T ]", VirtualClock.getTime());
             }
 
-            pickUpLeftFork() {
-                leftFork.pickUp(this);
+            void pickUpLeftChopstick() {
+                leftChopstick.pickUp(this);
                 Log("[PUL]", VirtualClock.getTime());
             }
 
-            pickUpRightFork() {
-                rightFork.pickUp(this);
+            void pickUpRightChopstick() {
+                rightChopstick.pickUp(this);
                 Log("[PUR]", VirtualClock.getTime());
             }
 
-            eat() {
+            void eat() {
                 long duration = calculateDuration();
                 sleep(duration);
                 Log("[ E ]", VirtualClock.getTime());
             }
 
-            putDownLeftFork() {
-                leftFork.putDown(this);
+            void putDownLeftChopstick() {
+                leftChopstick.putDown(this);
                 Log("[PDL]", VirtualClock.getTime());
             }
 
-            putDownRightFork() {
-                rightFork.putDown(this);
+            void putDownRightChopstick() {
+                rightChopstick.putDown(this);
                 Log("[PDR]", VirtualClock.getTime());
             }
 
-            Log(String event, long timeInstance){
-                log.add(event + timeInstance)
+            void Log(String event, long timeInstance){
+                log.add(event + ":" + timeInstance)
             }
 
         }
     </code></pre>
-            <p>Pseudocode for Fork class:</p>
+            <p>Pseudocode for the Chopstick class:</p>
 
             <pre><code>
-    public abstract class AbstractFork {
-        protected boolean isAvailable = true;
+    class Chopstick {
+        boolean isAvailable = true;
 
-        synchronized boolean pickUp(AbstractPhilosopher philosopher) {
+        synchronized boolean pickUp(Philosopher philosopher) {
             while (!isAvailable) {
                 wait();
             }
@@ -367,51 +374,54 @@
             return true;
         }
 
-        synchronized void putDown(AbstractPhilosopher philosopher) {
+        synchronized void putDown(Philosopher philosopher) {
             isAvailable = true;
             notify();
         }
     }
     </code></pre>
-            <p>The backbone of the simulation is a virtual clock running during the execution.
+            <p>
+                The backbone of the simulation is a virtual clock running during the execution.
                 The Philosophers log their Actions according to the current time of the clock.
             </p>
-            <p> Pseudocode for Dining Table class and exemplary main function: </p>
-            <pre><code>
+            <p>
+                Pseudocode for Dining Table class and exemplary execute() function:
+            </p>
+    <pre><code>
     public class Table {
-        Fork[] forks;
-        NaivePhilosopher[] philosophers;
+        Chopstick[] chopsticks;
+        Philosopher[] philosophers;
 
         Table(int numPhilosophers) {
-            forks = new Fork[numPhilosophers];
-            philosophers = new NaivePhilosopher[numPhilosophers];
+            chopsticks = new Chopstick[numPhilosophers];
+            philosophers = new Philosopher[numPhilosophers];
 
-            // Initialize forks
+            // Initialize chopsticks
             for (int i = 0; i < numPhilosophers; i++) {
-                forks[i] = new Fork();
+                chopsticks[i] = new Chopstick();
             }
 
             // Initialize philosophers
             for (int i = 0; i < numPhilosophers; i++) {
-                Fork leftFork = forks[i];
-                Fork rightFork = forks[(i + 1) % numPhilosophers];
-                philosophers[i] = new NaivePhilosopher(leftFork, rightFork);
+                Chopstick leftChopstick = chopsticks[i];
+                Chopstick rightChopstick = chopsticks[(i + 1) % numPhilosophers];
+                philosophers[i] = new Philosopher(leftChopstick, rightChopstick);
                 }
             }
 
-            startDinner() {
-                for (NaivePhilosopher philosopher : philosophers) {
+            void startDinner() {
+                for (Philosopher philosopher : philosophers) {
                     new Thread(philosopher).start();
                 }
             }
 
-            stopDinner() {
-            for (NaivePhilosopher philosopher : philosophers) {
+            void stopDinner() {
+            for (Philosopher philosopher : philosophers) {
                 philosopher.terminate();
             }
         }
 
-        main(String[] args) {
+        void execute() {
             int simulationTime = 100
             int numPhilosophers = 5;
             Table diningTable = new Table(numPhilosophers);
@@ -481,7 +491,7 @@
             <p>
                 To learn about the solution that limits the number of philosopher being able to pick up chopsticks:
             </p>
-            <a href="chandymisra" class="button">Chandy-Misra Solution</a>
+            <a href="restrict" class="button">Restrict Solution</a>
         </div>
 
         <div class="description-box">
@@ -493,14 +503,6 @@
 
         <div class="description-box">
             <p>
-                To learn about solutions that utilize a central entity to organize the permission to eat or pick up
-                chopsticks:
-            </p>
-            <a href="waiter" class="button">Waiter Solution</a>
-        </div>
-
-        <div class="description-box">
-            <p>
                 To learn about solutions that utilize semaphores:
             </p>
             <a href="semaphore" class="button">Semaphore Solution</a>
@@ -508,10 +510,20 @@
 
         <div class="description-box">
             <p>
-                To learn about the solution that limits the number of philosopher being able to pick up chopsticks:
+                To learn about solutions that utilize a central entity to organize the permission to eat or pick up
+                chopsticks:
             </p>
-            <a href="restrict" class="button">Restrict Solution</a>
+            <a href="waiter" class="button">Waiter Solution</a>
         </div>
+
+
+        <div class="description-box">
+            <p>
+                To learn about the Chandy Misra solution:
+            </p>
+            <a href="chandymisra" class="button">Chandy-Misra Solution</a>
+        </div>
+
 
     </section>
 </div>

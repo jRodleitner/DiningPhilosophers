@@ -10,7 +10,7 @@ public class Restrict {
     }
 
     public synchronized void updateRestricted(){
-        restrict = (restrict +1) % numberOfPhilosophers;
+        restrict = (restrict + 1) % numberOfPhilosophers;
     }
 
     public synchronized int getRestricted(){

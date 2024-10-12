@@ -38,29 +38,22 @@
         pre {
             background-color: #f5f5f5;
             border: 1px solid #ccc;
-            padding: 15px;
-            overflow: auto;
-            white-space: pre-wrap; /* Wrap lines */
-            word-wrap: break-word; /* Break long lines */
+            padding: 5px;
+            overflow-x: auto; /* Allow horizontal scrolling */
+            white-space: nowrap; /* Prevent line wrapping */
             border-radius: 5px; /* Rounded corners */
             font-family: "Courier New", Courier, monospace;
+            max-width: 100%; /* Ensure the width doesn't overflow the container */
         }
 
+        /* Styling for the actual code */
         code {
+            display: block; /* Ensure the code behaves like a block element */
             background-color: #f5f5f5; /* Match pre background */
             color: #333;
             font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
-        }
-
-        pre.line-numbers code::before {
-            counter-increment: line; /* Increment line counter */
-            content: counter(line); /* Display line number */
-            display: inline-block;
-            width: 2em;
-            margin-right: 10px;
-            text-align: right;
-            color: #999;
+            font-size: 13px;
+            white-space: pre; /* Ensure code stays on one line */
         }
     </style>
 </head>
@@ -78,6 +71,41 @@
         This strategy is effective in preventing deadlock because it eliminates the circular wait condition by Coffman.
         Since philosophers always pick up chopsticks in a consistent order, no circular chain of waiting can form.
         At least one philosopher will always be able to proceed, ensuring the system avoids deadlock and allowing each philosopher to eventually eat.
+
+    <p>
+        To implement the Resource Hierarchy solution, only the run function in the philosopher class has to be modified:
+        For this purpose we create a Subclass and add the according changes.
+    </p>
+    <pre><code>
+        [PseudoCode]
+
+        class HierarchyPhilosopher extends Philosopher {
+            //pickup chopstick with lower id first
+
+            HierarchyPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+                super(id, leftChopstick, rightChopstick);
+            }
+
+            run() {
+                while (!terminate()) {
+                    think();
+                    if(leftChopstick.getId() < rightChopstick.getId()){
+                        pickUpLeftChopstick();
+                        pickUpRightChopstick();
+                        eat();
+                        putDownLeftChopstick();
+                        putDownRightChopstick();
+                    } else {
+                        pickUpRightChopstick();
+                        pickUpLeftChopstick();
+                        eat();
+                        putDownRightChopstick();
+                        putDownLeftChopstick();
+                    }
+            }
+        }
+    </code></pre>
+
     <p>
         Now let us evaluate the given Algorithm according to the key challenges we face for designing a dining philosophers solution:
     </p>
@@ -88,26 +116,6 @@
         <li>Implementation: The changes required to implement this solution are minimal, no complex logic needed. </li>
         <li>TODO:: Performance:  </li>
     </ul>
-    <p>To implement the Resource Hierarchy solution, only the run function in the philosopher class has to be modified:</p>
-    <pre><code>
-        run() {
-            while (!terminate()) {
-                think();
-                if(leftChopstick.getId() < rightChopstick.getId()){
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                } else {
-                    pickUpRightChopstick();
-                    pickUpLeftChopstick();
-                    eat();
-                    putDownRightChopstick();
-                    putDownLeftChopstick();
-                }
-        }
-    </code></pre>
 
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -125,7 +133,45 @@
         Philosophers with an even number pick up the left chopstick first, while those with an odd number pick up the right chopstick first.
         By alternating the order of chopstick pickups between even and odd philosophers, the system prevents deadlocks by avoiding the circular wait condition by Coffman.
     </p>
-    <p>Let us again evaluate the given Algorithm according to the key-challenges:</p>
+    <br>
+    <p>
+        To implement the Asymmetric solution, only the run function in the philosopher class has to be modified:
+        For this purpose we create a Subclass and add the according changes.
+    </p>
+    <pre><code>
+        [PseudoCode]
+
+        public class AsymmetricPhilosopher extends Philosopher {
+
+            public AsymmetricPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+                super(id, leftChopstick, rightChopstick);
+            }
+
+            run() {
+                boolean even = id % 2 == 0;
+                while (!terminated()) {
+                    think();
+                    if(even){
+                        pickUpLeftChopstick();
+                        pickUpRightChopstick();
+                        eat();
+                        putDownLeftChopstick();
+                        putDownRightChopstick();
+                    } else {
+                        pickUpRightChopstick();
+                        pickUpLeftChopstick();
+                        eat();
+                        putDownRightChopstick();
+                        putDownLeftChopstick();
+                    }
+                }
+            }
+        }
+    </code></pre>
+
+    <p>
+        Let us again evaluate the given Algorithm according to the key-challenges:
+    </p>
     <ul>
         <li>Deadlocks: The Asymmetric Solution effectively prevents deadlocks</li>
         <li>Fairness: The Asymmetric Solution fails at providing fairness to the system, as no such measures are taken.</li>
@@ -133,29 +179,7 @@
         <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic needed. </li>
         <li>TODO::Performance: </li>
     </ul>
-    <br>
-    <p>To implement the Asymmetric solution, only the run function has to be modified:</p>
-    <pre><code>
-        run() {
-            boolean even = id % 2 == 0;
-            while (!terminated()) {
-                think();
-                if(even){
-                    pickUpLeftFork();
-                    pickUpRightFork();
-                    eat();
-                    putDownLeftFork();
-                    putDownRightFork();
-                } else {
-                    pickUpRightFork();
-                    pickUpLeftFork();
-                    eat();
-                    putDownRightFork();
-                    putDownLeftFork();
-                }
-            }
-        }
-    </code></pre>
+
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>

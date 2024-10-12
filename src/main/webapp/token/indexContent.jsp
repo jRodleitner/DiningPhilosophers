@@ -39,35 +39,22 @@
         pre {
             background-color: #f5f5f5;
             border: 1px solid #ccc;
-            padding: 15px;
-            overflow: auto;
-            white-space: pre-wrap; /* Wrap lines */
-            word-wrap: break-word; /* Break long lines */
+            padding: 5px;
+            overflow-x: auto; /* Allow horizontal scrolling */
+            white-space: nowrap; /* Prevent line wrapping */
             border-radius: 5px; /* Rounded corners */
             font-family: "Courier New", Courier, monospace;
+            max-width: 100%; /* Ensure the width doesn't overflow the container */
         }
 
         /* Styling for the actual code */
         code {
+            display: block; /* Ensure the code behaves like a block element */
             background-color: #f5f5f5; /* Match pre background */
             color: #333;
             font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
-        }
-
-        /* Optional: Additional styling for line numbers (if needed) */
-        pre.line-numbers {
-            counter-reset: line; /* Reset line counter */
-        }
-
-        pre.line-numbers code::before {
-            counter-increment: line; /* Increment line counter */
-            content: counter(line); /* Display line number */
-            display: inline-block;
-            width: 2em;
-            margin-right: 10px;
-            text-align: right;
-            color: #999;
+            font-size: 13px;
+            white-space: pre; /* Ensure code stays on one line */
         }
     </style>
 </head>

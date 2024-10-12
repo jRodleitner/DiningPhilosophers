@@ -1,8 +1,7 @@
 GENERAL TODO:
 
 NEXT:
-[ ] Fair waiter -> use eat times
-
+[ ] restrict description
 [ ] read approaches/ papers
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -73,12 +72,39 @@ CHECK:
 [x] explanations of algorithms lead to Simulation page?
 [x] Statistics overhaul: concurrency index, fairness index
 [x] Intelligent Pickup Waiter
+[x] Fair waiter -> use eat times
+
+
 DONE:
 [x] Naive
 
 CUSTOM PICKUP FUNCTIONS:
 timeout
 dijkstra
+
+Algorithm [descriptions]|[pseudocode]|[evaluations]:
+0.  [x][x][ ] Naive
+1.  [x][x][ ] Hierarchy
+2.  [x][x][ ] Asymmetric
+3.  [x][x][ ] Timeout
+4.  [x][x][ ] Restrict
+5.  [x][ ][ ] Global Token
+6.  [x][ ][ ] Multiple Token
+7.  [x][ ][ ] Atomic Waiter
+8.  [x][ ][ ] Pickup Waiter
+9.  [x][ ][ ] Intelligent Pickup Waiter
+10. [x][ ][ ] Fair Waiter
+11. [_][ ][ ] Two Waiters
+12. [ ][ ][ ] Table Semaphore
+13. [ ][ ][ ] Semaphore
+14. [ ][ ][ ] dijkstra
+15. [ ][ ][ ] roundrobin???
+16. [ ][ ][ ] tanenbaum
+17. [ ][ ][ ] fair_tanenbaum
+
+18. [ ][ ] paper-solution
+19. [ ][ ] paper-solution
+20. [ ][ ] paper-solution
 
 IDEAS:
 
