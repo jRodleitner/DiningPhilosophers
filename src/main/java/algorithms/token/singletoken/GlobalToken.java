@@ -2,8 +2,9 @@ package algorithms.token.singletoken;
 
 public class GlobalToken {
 
-    public GlobalToken(int id, TokenPhilosopher philosopher){
-        this.id = id;
+    TokenPhilosopher philosopher;
+
+    public GlobalToken(TokenPhilosopher philosopher){
         this.philosopher = philosopher;
     }
 
@@ -14,7 +15,5 @@ public class GlobalToken {
         philosopher = philosopher.rightPhilosopher;
     }
 
-    int id;
-    TokenPhilosopher philosopher;
 
 }

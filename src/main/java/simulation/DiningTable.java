@@ -57,147 +57,137 @@ public class DiningTable {
     protected final SimuType simuType;
     protected final Animation animation;
 
-    public DiningTable(int numberOfPhilosophers, String algorithm, Distribution thinkDistr, Distribution eatDistr, int timeout, SimuType simuType, Animation animation) {
+    public DiningTable(int nrPhilosophers, String algorithm, Distribution thinkDistr, Distribution eatDistr, int timeout, SimuType simuType, Animation animation) {
 
-        philosophers = new ArrayList<>(numberOfPhilosophers);
-        forks = new ArrayList<>(numberOfPhilosophers);
-        this.numberOfPhilosophers = numberOfPhilosophers;
+        philosophers = new ArrayList<>(nrPhilosophers);
+        forks = new ArrayList<>(nrPhilosophers);
+        this.numberOfPhilosophers = nrPhilosophers;
         this.simuType = simuType;
         this.animation = animation;
 
         switch (algorithm) {
             case Algorithm.NAIVE:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new NaiveFork(i));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    NaivePhilosopher philosopher = new NaivePhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    NaivePhilosopher philosopher = new NaivePhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.ASYMMETRIC:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new AsymmetricFork(i));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    AsymmetricPhilosopher philosopher = new AsymmetricPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    AsymmetricPhilosopher philosopher = new AsymmetricPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.RESTRICT:
-                Restrict restrict = new Restrict(numberOfPhilosophers);
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                Restrict restrict = new Restrict(nrPhilosophers);
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new RestrictFork(i, restrict));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    RestrictPhilosopher philosopher = new RestrictPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    RestrictPhilosopher philosopher = new RestrictPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.HIERARCHY:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new HierarchyFork(i));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    HierarchyPhilosopher philosopher = new HierarchyPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    HierarchyPhilosopher philosopher = new HierarchyPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.GLOBALTOKEN:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new TokenFork(i));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    TokenPhilosopher philosopher = new TokenPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    TokenPhilosopher philosopher = new TokenPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     TokenPhilosopher philosopher = (TokenPhilosopher) philosophers.get(i);
-                    int rightIndex = (i + 1) % numberOfPhilosophers;
+                    int rightIndex = (i + 1) % nrPhilosophers;
                     TokenPhilosopher rightPhilosopher = (TokenPhilosopher) philosophers.get(rightIndex);
                     philosopher.setRightPhilosopher(rightPhilosopher);
                 }
                 TokenPhilosopher initialPhilosopher = (TokenPhilosopher) philosophers.getFirst();
-                GlobalToken token = new GlobalToken(0, initialPhilosopher);
+                GlobalToken token = new GlobalToken( initialPhilosopher);
                 initialPhilosopher.setToken(token);
                 break;
 
             case Algorithm.MULTIPLETOKEN:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new MultipleTokenFork(i));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    MultipleTokenPhilosopher philosopher = new MultipleTokenPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    MultipleTokenPhilosopher philosopher = new MultipleTokenPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     MultipleTokenPhilosopher philosopher = (MultipleTokenPhilosopher) philosophers.get(i);
-                    int rightIndex = (i + 1) % numberOfPhilosophers;
+                    int rightIndex = (i + 1) % nrPhilosophers;
                     MultipleTokenPhilosopher rightPhilosopher = (MultipleTokenPhilosopher) philosophers.get(rightIndex);
                     philosopher.setRightPhilosopher(rightPhilosopher);
                 }
 
-                MultipleTokenPhilosopher initialPhilosopher1 = (MultipleTokenPhilosopher) philosophers.getFirst();
-                Token token1 = new Token(0, initialPhilosopher1);
-                initialPhilosopher1.setToken(token1);
-
-                int previous = 0;
-
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    if (i == previous + 2 && numberOfPhilosophers - i > 1) {
-                        MultipleTokenPhilosopher multiplePhilosopher = (MultipleTokenPhilosopher) philosophers.get(i);
-                        Token multipleToken = new Token(1, multiplePhilosopher);
-                        multiplePhilosopher.setToken(multipleToken);
-                        previous = i;
-                    }
+                for (int i = 0; i < nrPhilosophers - 1; i += 2) {
+                    MultipleTokenPhilosopher philosopher = (MultipleTokenPhilosopher) philosophers.get(i);
+                    philosopher.setToken(new Token(i, philosopher));
                 }
                 break;
 
             case Algorithm.TIMEOUT:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new TimeoutFork(i, timeout));
                 }
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    TimeoutPhilosopher philosopher = new TimeoutPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    TimeoutPhilosopher philosopher = new TimeoutPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.ATOMICWAITER:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new GuestFork(i));
                 }
 
-                Waiter atomicWaiter = new Waiter(numberOfPhilosophers);
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, atomicWaiter);
+                Waiter atomicWaiter = new Waiter(nrPhilosophers);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, atomicWaiter);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.TWOWAITERS:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new GuestFork(i));
                 }
 
-                Waiter splitWaiter = new Waiter(numberOfPhilosophers);
-                Waiter splitWaiter1 = new Waiter(numberOfPhilosophers);
+                Waiter splitWaiter = new Waiter(nrPhilosophers);
+                Waiter splitWaiter1 = new Waiter(nrPhilosophers);
 
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    if (numberOfPhilosophers > 3) {
-                        if (i < numberOfPhilosophers / 2) {
-                            AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    if (nrPhilosophers > 3) {
+                        if (i < nrPhilosophers / 2) {
+                            AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
                             philosophers.add(philosopher);
-                        } else if (i >= numberOfPhilosophers / 2) {
-                            AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, splitWaiter1);
+                        } else if (i >= nrPhilosophers / 2) {
+                            AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter1);
                             philosophers.add(philosopher);
                         }
                     } else {
-                        AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
+                        AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
                         philosophers.add(philosopher);
                     }
 
@@ -205,99 +195,99 @@ public class DiningTable {
                 break;
 
             case Algorithm.PICKUPWAITER:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new GuestFork(i));
                 }
 
-                Waiter pickupWaiter = new Waiter(numberOfPhilosophers);
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, pickupWaiter);
+                Waiter pickupWaiter = new Waiter(nrPhilosophers);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, pickupWaiter);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.INTELLIGENTWAITER:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new IntelligentGuestFork(i));
                 }
 
-                IntelligentWaiter intelligentWaiter = new IntelligentWaiter(numberOfPhilosophers);
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    IntelligentPickupGuestPhilosopher philosopher = new IntelligentPickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, intelligentWaiter);
+                IntelligentWaiter intelligentWaiter = new IntelligentWaiter(nrPhilosophers);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    IntelligentPickupGuestPhilosopher philosopher = new IntelligentPickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, intelligentWaiter);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.FAIRWAITER:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new FairGuestFork(i));
                 }
 
                 FairWaiter fairWaiter = new FairWaiter();
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    FairGuestPhilosopher philosopher = new FairGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, fairWaiter);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    FairGuestPhilosopher philosopher = new FairGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairWaiter);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.TABLESEMAPHORE:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new TableSemahoreFork(i));
                 }
 
                 TableSemaphore semaphore = new TableSemaphore();
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    TableSemaphorePhilosopher philosopher = new TableSemaphorePhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, semaphore);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    TableSemaphorePhilosopher philosopher = new TableSemaphorePhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, semaphore);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.ROUNDROBIN:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new RoundRobinFork(i));
                 }
 
-                PhilosopherSemaphores semaphores = new PhilosopherSemaphores(numberOfPhilosophers);
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    RoundRobinPhilosopher philosopher = new RoundRobinPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, semaphores);
+                PhilosopherSemaphores semaphores = new PhilosopherSemaphores(nrPhilosophers);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    RoundRobinPhilosopher philosopher = new RoundRobinPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, semaphores);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.DIJKSTRA:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new DijkstraFork(i));
                 }
 
 
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    DijkstraPhilosopher philosopher = new DijkstraPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    DijkstraPhilosopher philosopher = new DijkstraPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.TANENBAUM:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new TanenbaumFork(i));
                 }
 
-                Monitor global = new Monitor(numberOfPhilosophers);
+                Monitor global = new Monitor(nrPhilosophers);
 
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    TanenbaumPhilosopher philosopher = new TanenbaumPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, global);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    TanenbaumPhilosopher philosopher = new TanenbaumPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, global);
                     philosophers.add(philosopher);
                 }
                 break;
 
             case Algorithm.FAIRTANENBAUM:
-                for (int i = 0; i < numberOfPhilosophers; i++) {
+                for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new FairTanenbaumFork(i));
                 }
 
-                FairGlobals fairGlobal = new FairGlobals(numberOfPhilosophers);
+                FairGlobals fairGlobal = new FairGlobals(nrPhilosophers);
 
-                for (int i = 0; i < numberOfPhilosophers; i++) {
-                    FairTanenbaumPhilosopher philosopher = new FairTanenbaumPhilosopher(i, forks.get(i), forks.get((i + 1) % numberOfPhilosophers), this, thinkDistr, eatDistr, fairGlobal);
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    FairTanenbaumPhilosopher philosopher = new FairTanenbaumPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairGlobal);
                     philosophers.add(philosopher);
                 }
                 break;

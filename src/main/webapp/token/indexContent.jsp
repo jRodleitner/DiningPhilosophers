@@ -63,10 +63,85 @@
 <div  class="description">
 
     <img src="../pictures/token.svg" alt="Dining Philosophers Problem" width="400" height="350">
-    <p>The Token Solution is surely one of the most intuitive solutions to avoid deadlocks.
+    <p>
+        The Token Solution is surely one of the most intuitive solutions to avoid deadlocks.
         At the start of the simulation a token is handed to the first philosopher, who holds on to it until the eating is finished.
         After which the token is handed on counter-clock wise to the adjacent philosopher, thus only one philosopher can eat at a time.
-        This effectively prevents deadlocks by avoiding the circular wait condition as defined by Coffman.
+        This effectively prevenChopstickeadlocks by avoiding the circular wait condition as defined by Coffman.
+    </p>
+
+    <p>
+        We introduce a Global Token class:
+    </p>
+    <pre><code>
+        public class GlobalToken {
+
+            TokenPhilosopher philosopher;
+
+            public GlobalToken(TokenPhilosopher philosopher){
+                this.philosopher = philosopher;
+            }
+
+
+            protected synchronized void passToken(){
+                philosopher.rightPhilosopher.acceptToken(this);
+                philosopher.token = null;
+                philosopher = philosopher.rightPhilosopher;
+            }
+
+
+        }
+
+    </code></pre>
+    <p>
+
+    </p>
+    <pre><code>
+        public class TokenPhilosopher extends AbstractPhilosopher {
+            TokenPhilosopher rightPhilosopher = null;
+            volatile GlobalToken token;
+            final Object tokenLock = new Object();
+
+            TokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick) {
+                super(id, leftChopstick, rightChopstick);
+            }
+
+            void setToken (GlobalToken token){
+                this.token = token;
+            }
+
+            void setRightPhilosopher(TokenPhilosopher rightPhilosopher){
+                this.rightPhilosopher = rightPhilosopher;
+            }
+
+            void acceptToken(GlobalToken token) {
+                synchronized (tokenLock) {
+                    this.token = token;
+                    tokenLock.notify();
+                }
+            }
+
+            public void run() {
+                while (!terminated()) {
+                    think();
+                    synchronized (tokenLock) {
+                        while (token == null) {
+                            tokenLock.wait();
+                        }
+                    }
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                    token.passToken();
+                    }
+            }
+        }
+    </code></pre>
+
+    <p>
+        Now Let us evaluate the Global Token solution according to the key-challenges
     </p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
@@ -76,31 +151,70 @@
         <li>Performance: ... </li>
     </ul>
 
-    <pre><code>
-        codeeee
-        codeeee
-    </code></pre>
-
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-
     <a href="../simulation/?algorithm=GLOBALTOKEN" class="button">Global Simulation</a>
     <a href="../animation/?algorithm=GLOBALTOKEN" class="button">Global Animation</a>
 
     <h2>Multiple Token Solution</h2>
     <img src="../pictures/multiple-token_questionmanrk.svg" alt="Dining Philosophers Problem" width="400" height="350">
-    <p>The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness to the system,
+    <p>
+        The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness to the system,
         but it essentially eliminates Concurrency.
         The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency in our system under ideal conditions to [n/2] for even n and  &lfloor;n/2&rfloor; for uneven n.
         Two adjacent philosopher can never eat at the same time, so the idea is to just hand
-        every other philosopher a token and prevent the token from being passed on to the next philosopher if the one next to them also holds a token.
+        every other philosopher a token and prevent the token from being passed on to the next philosopher if it holds a token.
         If we have an uneven number of philosophers the last one is skipped automatically.
         We pass the token only after the other philosopher has passed on its token. In theory we can reach
         maximum concurrency of [n/2]/ &lfloor;n/2&rfloor;, if there are few or no outliers for the execution times of eating and if eating and thinking times are similarly distributed.
     </p>
     <img src="../pictures/multipletoken_working.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
+    <p>
+        We only modify the Token class, for cases where the next philosopher still holds on to a token.
+        This is not likely to happen, because the philosophers cannot eat until the adjacent philosopher is done eating, and thus cannot pass on the token.
+        We include this change just for completeness.
+    </p>
+    <pre><code>
+        [Pseudocode]
+        
+        class Token {
+            int id;
+            TokenPhilosopher philosopher;
+            public Token(int id, TokenPhilosopher philosopher){
+                this.id = id;
+                this.philosopher = philosopher;
+            }
+
+
+            synchronized void passToken() {
+                while (philosopher.rightPhilosopher.token != null){ //wait for a short while, until next philosopher handed on token
+                    Thread.sleep(10);
+                }
+                philosopher.rightPhilosopher.acceptToken(this);
+                philosopher.token = null;
+                philosopher = philosopher.rightPhilosopher;
+            }
+        }
+
+    </code></pre>
+    <p>
+        We hand every other philosopher a token, for example like this:
+    </p>
+    <pre><code>
+        [Pseudocode]
+
+        for (int i = 0; i < nrPhilosophers - 1; i += 2) {
+            TokenPhilosopher philosopher = philosophers.get(i);
+            philosopher.setToken(new Token(i, philosopher));
+        }
+
+    </code></pre>
+
+    <p>
+        Now Let us evaluate the Multiple Token solution according to the key-challenges
+    </p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
         <li>Fairness: Fair, as each philosopher gets a turn at eating </li>
@@ -108,16 +222,7 @@
         <li>Implementation: The changes that need to be made are a little more extensive, as... </li>
         <li>TODO::Performance: ... </li>
     </ul>
-    <p>the modifications...</p>
-    <pre><code>
-        codeeee
-        codeeee
-    </code></pre>
-    <p>the modifications...</p>
-    <pre><code>
-        codeeee
-        codeeee
-    </code></pre>
+
 <p>
     You can find the respective Simulation and Animation pages here:
 </p>
