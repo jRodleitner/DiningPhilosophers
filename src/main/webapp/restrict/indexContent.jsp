@@ -99,7 +99,7 @@
         }
     </code></pre>
     <p>
-        The Philosopher class can stay as is, we only have to modify the Fork class, for this purpose we create a subclass :
+        The Philosopher class can stay as is, we only have to modify the Fork class.
         For this purpose we create a Subclass and add the according changes.
     </p>
     <pre><code>

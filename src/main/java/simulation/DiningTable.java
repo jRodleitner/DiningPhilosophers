@@ -115,12 +115,12 @@ public class DiningTable {
                     TokenPhilosopher philosopher = new TokenPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
+
                 for (int i = 0; i < nrPhilosophers; i++) {
                     TokenPhilosopher philosopher = (TokenPhilosopher) philosophers.get(i);
-                    int rightIndex = (i + 1) % nrPhilosophers;
-                    TokenPhilosopher rightPhilosopher = (TokenPhilosopher) philosophers.get(rightIndex);
-                    philosopher.setRightPhilosopher(rightPhilosopher);
+                    philosopher.setRightPhilosopher((TokenPhilosopher) philosophers.get((i + 1) % nrPhilosophers));
                 }
+
                 TokenPhilosopher initialPhilosopher = (TokenPhilosopher) philosophers.getFirst();
                 GlobalToken token = new GlobalToken( initialPhilosopher);
                 initialPhilosopher.setToken(token);
@@ -134,13 +134,11 @@ public class DiningTable {
                     MultipleTokenPhilosopher philosopher = new MultipleTokenPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
+
                 for (int i = 0; i < nrPhilosophers; i++) {
                     MultipleTokenPhilosopher philosopher = (MultipleTokenPhilosopher) philosophers.get(i);
-                    int rightIndex = (i + 1) % nrPhilosophers;
-                    MultipleTokenPhilosopher rightPhilosopher = (MultipleTokenPhilosopher) philosophers.get(rightIndex);
-                    philosopher.setRightPhilosopher(rightPhilosopher);
+                    philosopher.setRightPhilosopher((MultipleTokenPhilosopher) philosophers.get((i + 1) % nrPhilosophers));
                 }
-
                 for (int i = 0; i < nrPhilosophers - 1; i += 2) {
                     MultipleTokenPhilosopher philosopher = (MultipleTokenPhilosopher) philosophers.get(i);
                     philosopher.setToken(new Token(i, philosopher));

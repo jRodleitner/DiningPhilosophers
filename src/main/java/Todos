@@ -88,14 +88,14 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 2.  [x][x][ ] Asymmetric
 3.  [x][x][ ] Timeout
 4.  [x][x][ ] Restrict
-5.  [x][ ][ ] Global Token
-6.  [x][ ][ ] Multiple Token
+5.  [x][x][ ] Global Token
+6.  [x][x][ ] Multiple Token
 7.  [x][ ][ ] Atomic Waiter
 8.  [x][ ][ ] Pickup Waiter
 9.  [x][ ][ ] Intelligent Pickup Waiter
 10. [x][ ][ ] Fair Waiter
 11. [_][ ][ ] Two Waiters
-12. [ ][ ][ ] Table Semaphore
+12. [x][ ][ ] Table Semaphore
 13. [ ][ ][ ] Semaphore
 14. [ ][ ][ ] dijkstra
 15. [ ][ ][ ] roundrobin???

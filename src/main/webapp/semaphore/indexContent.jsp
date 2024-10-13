@@ -59,26 +59,36 @@
     </style>
 </head>
 <body>
-<h2>Semaphore Solution</h2>
+<h2>Semaphore Solutions</h2>
 <div class="description">
-    <p>Table Semaphore Solution </p>
-    <img src="../pictures/semaphore.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        We can reintroduce some concurrency into the system by limiting the waiter's permission to just the chopstick
-        pickup phase. This way, multiple philosophers can receive permission from the waiter and eat at the same time.
-        This approach helps attain concurrency again, but still prevents deadlocks by avoiding the circular wait
-        condition.
-        The main drawback of this solution is that the waiter will always assign the permission to the philosopher that
-        requested the chopsticks first.
-        Thus, we do not provide any fairness to the system and an adjacent philosopher will frequently attain permission, limiting the concurrency.
+        Semaphores are a frequently used synchronization mechanism for concurrent systems to manage access to resources.
+        They are primarily used to prevent race conditions and deadlocks.
+        In the following we will use Binary semaphores, which can only take values 0 and 1, this means they will allow access to one thread only.
+        The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the semaphore will be locked.
+        Threads trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time the initial thread releases the semaphore,
+        after which they will be the permitted thread.
+    </p>
+    <img src="../pictures/semaphore.svg" alt="Dining Philosophers Problem" width="400" height="350">
+
+
+
+
+    <h2>Table Semaphore Solution</h2>
+    <p>
+        Locking the whole table with a semaphore is the simplest solution to avoid deadlocks for the dining philosophers.
+        Of course, this approach eliminates concurrency from our system,
+        and is therefor just useful for an introductory example on how to avoid deadlocks using semaphores.
+
     </p>
 
+    <p>The implementation is fairly simple: Philosophers need to acquire the table semaphore before eating.</p>
     <pre><code>
         codeee
         codeee
     </code></pre>
 
-    <p>Now let us evaluate the Pickup Waiter approach based on the key-challenges:</p>
+    <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
         <li>Fairness: We reintroduce ...</li>
@@ -93,8 +103,73 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+    <a href="../simulation/?algorithm=TABLESEMAPHORE" class="button">Table Semaphore Simulation</a>
+    <a href="../animation/?algorithm=TABLESEMAPHORE" class="button">Table Semaphore Animation</a>
+
+
+
+    <h2>Dijkstra Solution</h2>
+    <p>
+        This Solution was proposed by Dijkstra and...
+    </p>
+
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
+
+    <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We reintroduce ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+            needed.
+        </li>
+        <li>Performance:</li>
+    </ul>
+
+
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=DIJKSTRA" class="button">Table Semaphore Simulation</a>
+    <a href="../animation/?algorithm=DIJKSTA" class="button">Table Semaphore Animation</a>
+
+
+
+
+    <h2>Tanenbaum Solution</h2>
+    <p>
+
+    </p>
+
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
+
+    <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We reintroduce ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+            needed.
+        </li>
+        <li>Performance:</li>
+    </ul>
+
+
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=TANENBAUM" class="button">Table Semaphore Simulation</a>
+    <a href="../animation/?algorithm=TANENBAUM" class="button">Table Semaphore Animation</a>
+
+
+
+
 </div>
 </body>
 </html>

@@ -74,6 +74,8 @@
         We introduce a Global Token class:
     </p>
     <pre><code>
+        [Pseudocode]
+
         public class GlobalToken {
 
             TokenPhilosopher philosopher;
@@ -94,10 +96,15 @@
 
     </code></pre>
     <p>
+        We modify the Philosopher class and introduce a lock functionality.
+        Philosophers will wait on their respective object until notified that a token has been passed to them.
+        After they are finished they pass on the token.
 
     </p>
     <pre><code>
-        public class TokenPhilosopher extends AbstractPhilosopher {
+        [Pseudocode]
+
+        public class TokenPhilosopher extends Philosopher {
             TokenPhilosopher rightPhilosopher = null;
             volatile GlobalToken token;
             final Object tokenLock = new Object();
@@ -139,6 +146,30 @@
             }
         }
     </code></pre>
+    <p>
+        We initialize the Philosophers like this:
+    </p>
+    <pre><code>
+        [Pseudocode]
+        List philosophers;
+        List chopsticks;
+
+        for (int i = 0; i < nrPhilosophers; i++) {
+            chopsticks.add(new Chopstick(i));
+        }
+        for (int i = 0; i < nrPhilosophers; i++) {
+            TokenPhilosopher philosopher = new TokenPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers));
+            philosophers.add(philosopher);
+        }
+
+        for (int i = 0; i < nrPhilosophers; i++) {
+            TokenPhilosopher philosopher =  philosophers.get(i);
+            philosopher.setRightPhilosopher( philosophers.get((i + 1) % nrPhilosophers));
+        }
+        TokenPhilosopher initialPhilosopher = philosophers.getFirst();
+        GlobalToken token = new GlobalToken( initialPhilosopher);
+        initialPhilosopher.setToken(token);
+    </code></pre>
 
     <p>
         Now Let us evaluate the Global Token solution according to the key-challenges
@@ -178,7 +209,7 @@
     </p>
     <pre><code>
         [Pseudocode]
-        
+
         class Token {
             int id;
             TokenPhilosopher philosopher;
@@ -205,6 +236,21 @@
     <pre><code>
         [Pseudocode]
 
+        List philosophers;
+        List chopsticks;
+
+        for (int i = 0; i < nrPhilosophers; i++) {
+            chopsticks.add(new Chopstick(i));
+        }
+        for (int i = 0; i < nrPhilosophers; i++) {
+            TokenPhilosopher philosopher = new TokenPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers));
+            philosophers.add(philosopher);
+        }
+
+        for (int i = 0; i < nrPhilosophers; i++) {
+            TokenPhilosopher philosopher =  philosophers.get(i);
+            philosopher.setRightPhilosopher( philosophers.get((i + 1) % nrPhilosophers));
+        }
         for (int i = 0; i < nrPhilosophers - 1; i += 2) {
             TokenPhilosopher philosopher = philosophers.get(i);
             philosopher.setToken(new Token(i, philosopher));
