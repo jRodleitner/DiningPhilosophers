@@ -64,28 +64,76 @@
     <p>
         Semaphores are a frequently used synchronization mechanism for concurrent systems to manage access to resources.
         They are primarily used to prevent race conditions and deadlocks.
-        In the following we will use Binary semaphores, which can only take values 0 and 1, this means they will allow access to one thread only.
-        The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the semaphore will be locked.
-        Threads trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time the initial thread releases the semaphore,
+        In the following we will use Binary semaphores, which can only take values 0 and 1, this means they will allow
+        access to one thread only.
+        The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the
+        semaphore will be locked.
+        Threads trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time
+        the initial thread releases the semaphore,
         after which they will be the permitted thread.
     </p>
     <img src="../pictures/semaphore.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
 
-
-
     <h2>Table Semaphore Solution</h2>
     <p>
-        Locking the whole table with a semaphore is the simplest solution to avoid deadlocks for the dining philosophers.
-        Of course, this approach eliminates concurrency from our system,
-        and is therefor just useful for an introductory example on how to avoid deadlocks using semaphores.
+        Locking the whole table with a semaphore is the simplest solution to avoid deadlocks for the dining
+        philosophers.
+        Philosophers have to acquire the semaphore before picking up their chopsticks,
+        if the semaphore is currently not available, they wait until it becomes free again. After they are done picking
+        up,
+        they release the semaphore, and another philosopher can proceed.
+        Functionally, this approach is equivalent to the previously presented Pickup Waiter Solution.
+        and is therefore useful for an introductory example on how to avoid deadlocks using semaphores.
 
     </p>
 
-    <p>The implementation is fairly simple: Philosophers need to acquire the table semaphore before eating.</p>
+    <p>
+        The implementation is fairly simple: Philosophers need to acquire the table semaphore before eating.
+        First we introduce a Semaphore for our table:
+    </p>
     <pre><code>
-        codeee
-        codeee
+        class TableSemaphore {
+            Semaphore semaphore;
+
+            TableSemaphore(){
+                semaphore = new Semaphore(1);
+            }
+        }
+    </code></pre>
+
+    <p>
+        Then we let the philosophers acquire this semaphore before eating.
+        Volatile in the context of Java means that the value of a variable should not be cached, as it could be changed
+        by another thread.
+        To achieve this we create a subclass and add the respective changes:
+    </p>
+    <pre><code>
+        class TableSemaphorePhilosopher extends Philosopher {
+
+            volatile Semaphore semaphore;
+            TableSemaphorePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, TableSemaphore tableSemaphore) {
+                super(id, leftChopstick, rightChopstick);
+                this.semaphore = tableSemaphore.semaphore;
+            }
+
+            @Override
+            void run() {
+                while (!terminated()) {
+                    think();
+                    semaphore.acquire();
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    semaphore.release();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+
+                }
+            }
+
+        }
+
     </code></pre>
 
     <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
@@ -98,7 +146,6 @@
         </li>
         <li>Performance:</li>
     </ul>
-
 
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -108,17 +155,95 @@
 
 
 
+
     <h2>Dijkstra Solution</h2>
     <p>
-        This Solution was proposed by Dijkstra and...
-    </p>
+        After looking at the Table Semaphore Solution let us now take a look at a solution that was proposed by the
+        creator of the Dining Philosophers Problem, Edsger Dijkstra.
+        In this solution philosophers first think and then try to acquire their first chopstick, if they fail to pick it
+        up, they wait for some time and try again.
+        After they acquired their first chopstick they will immediately try to pick up the second one, if this is
+        unsuccessful they put down the initial chopstick and after some time they will try to acquire their first
+        chopstick again.
+        This repeats itself until the philosophers are able to eat.
 
+    </p>
+    <p>
+
+    </p>
     <pre><code>
-        codeee
-        codeee
+        public class DijkstraPhilosopher extends Philosopher {
+            public DijkstraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+                super(id, leftChopstick, rightChopstick);
+            }
+
+            @Override
+            public void run() {
+
+                while (!terminated()) {
+                    think();
+                    boolean bothSuccessful = false;
+                    while (!bothSuccessful) {
+                        boolean firstSuccessful = pickUpLeftChopstickDijkstra();
+                        if (firstSuccessful) {
+                            boolean secondSuccessful = pickUpRightChopstickDijkstra();
+                            if (secondSuccessful) {
+                                bothSuccessful = true;
+                                eat();
+                            } else {
+                                putDownLeftChopstick();
+                                int random = (int) (Math.random() * 100) + 1;
+                                Thread.sleep(random);
+                            }
+                        } else {
+                            int random = (int) (Math.random() * 100) + 1;
+                            Thread.sleep(random);
+                        }
+                    }
+
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                }
+            }
+
+            protected boolean pickUpLeftChopstickDijkstra(){
+                boolean successful = leftFork.pickUp(this);
+                if (successful) sbLog("[PUL]", VirtualClock.getTiChopstick);
+
+                return successful;
+            }
+
+            protected boolean pickUpRightChopstickDijkstra() {
+                boolean successful = rightChopstick.pickUp(this);
+                if (successful) sbLog("[PUR]", VirtualClock.getTime());
+                return successful;
+            }
+        }
+    </code></pre>
+    <p>
+
+    </p>
+    <pre><code>
+        public class DijkstraChopstick extends Chopstick {
+            public DijkstraChopstick(int id) {
+                super(id);
+                chopstickSemaphore = new Semaphore(1);
+            }
+
+            Semaphore chopstickSemaphore;
+
+            @Override
+            public synchronized boolean pickUp(Philosopher philosopher) {
+                return chopstickSemaphore.tryAcquire();
+            }
+
+            public synchronized void putDown(Philosopher philosopher) {
+                chopstickSemaphore.release();
+            }
+        }
     </code></pre>
 
-    <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
+    <p>Now let us evaluate the Dijkstra Solution based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
         <li>Fairness: We reintroduce ...</li>
@@ -129,14 +254,11 @@
         <li>Performance:</li>
     </ul>
 
-
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=DIJKSTRA" class="button">Table Semaphore Simulation</a>
-    <a href="../animation/?algorithm=DIJKSTA" class="button">Table Semaphore Animation</a>
-
-
+    <a href="../simulation/?algorithm=DIJKSTRA" class="button">Dijkstra Simulation</a>
+    <a href="../animation/?algorithm=DIJKSTA" class="button">Dijkstra Animation</a>
 
 
     <h2>Tanenbaum Solution</h2>
@@ -149,7 +271,7 @@
         codeee
     </code></pre>
 
-    <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
+    <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
         <li>Fairness: We reintroduce ...</li>
@@ -164,9 +286,42 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=TANENBAUM" class="button">Table Semaphore Simulation</a>
-    <a href="../animation/?algorithm=TANENBAUM" class="button">Table Semaphore Animation</a>
+    <a href="../simulation/?algorithm=TANENBAUM" class="button">Tanenbaum Simulation</a>
+    <a href="../animation/?algorithm=TANENBAUM" class="button">Tanenbaum Animation</a>
 
+
+
+
+    <h2>Fair Tanenbaum Solution</h2>
+    <p>
+
+    </p>
+
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
+
+    <p>
+        Now let us evaluate the Fair Tanenbaum solution based on the key-challenges:
+    </p>
+
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We reintroduce ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+            needed.
+        </li>
+        <li>Performance:</li>
+    </ul>
+
+
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=FAIR_TANENBAUM" class="button">Fair Tanenbaum Simulation</a>
+    <a href="../animation/?algorithm=FAIR_TANENBAUM" class="button">Fair Tanenbaum Animation</a>
 
 
 

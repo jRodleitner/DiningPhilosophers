@@ -503,19 +503,18 @@
 
         <div class="description-box">
             <p>
-                To learn about solutions that utilize semaphores:
-            </p>
-            <a href="semaphore" class="button">Semaphore Solution</a>
-        </div>
-
-        <div class="description-box">
-            <p>
                 To learn about solutions that utilize a central entity to organize the permission to eat or pick up
                 chopsticks:
             </p>
             <a href="waiter" class="button">Waiter Solution</a>
         </div>
 
+        <div class="description-box">
+            <p>
+                To learn about solutions that utilize semaphores:
+            </p>
+            <a href="semaphore" class="button">Semaphore Solution</a>
+        </div>
 
         <div class="description-box">
             <p>

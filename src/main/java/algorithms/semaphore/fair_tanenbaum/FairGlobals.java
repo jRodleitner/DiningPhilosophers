@@ -46,34 +46,3 @@ public class FairGlobals {
         }
     }
 }
-
-
-
-
-
-/*package algorithms.semaphore.dijkstra;
-
-import parser.Events;
-
-import java.util.concurrent.Semaphore;
-
-public class Globals {
-    protected String[] states;
-    protected Semaphore[] semaphores;
-
-    Semaphore mutex;
-
-    public Globals(int nrPhilosophers){
-        states = new String[nrPhilosophers];
-        semaphores = new Semaphore[nrPhilosophers];
-        for(int i = 0; i< nrPhilosophers; i++){
-            states[i] = Events.THINK;
-            semaphores[i] = new Semaphore(1);
-        }
-        mutex = new Semaphore(1);
-    }
-
-    public synchronized void changeState(){
-
-    }
-}*/

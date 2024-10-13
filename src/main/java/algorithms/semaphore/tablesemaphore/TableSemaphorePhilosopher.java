@@ -23,10 +23,10 @@ public class TableSemaphorePhilosopher extends AbstractPhilosopher {
                 semaphore.acquire();
                 pickUpLeftFork();
                 pickUpRightFork();
+                semaphore.release();
                 eat();
                 putDownLeftFork();
                 putDownRightFork();
-                semaphore.release();
             }
         } catch (InterruptedException e) {
             table.unlockClock();

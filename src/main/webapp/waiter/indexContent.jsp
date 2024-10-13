@@ -71,11 +71,70 @@
 
     <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
-    <pre><code>
-        codeee
-        codeee
-    </code></pre>
+    <p>
 
+    </p>
+    <pre><code>
+        public class Waiter {
+
+            Philosopher permittedPhilosopher;
+
+            Queue queuedPhilosophers;
+
+
+
+            Waiter(int nrPhilosophers) {
+                permittedPhilosopher = null;
+                queuedPhilosophers = new Queue();
+            }
+
+
+            protected synchronized void requestPermission(Philosopher philosopher) {
+                queuedPhilosophers.add(philosopher);
+                if (permittedPhilosopher == null) permittedPhilosopher = queuedPhilosophers.poll(); //no philosopher is currently permitted, thus one has to be assigned
+                while (!philosopher.equals(permittedPhilosopher)) {
+                    wait();
+                }
+
+            }
+
+            protected synchronized void returnPermission(){
+                permittedPhilosopher = queuedPhilosophers.poll();
+                notifyAll();
+            }
+
+
+        }
+    </code></pre>
+    <p>
+
+    </p>
+    <pre><code>
+        class AtomicGuestPhilosopher extends Philosopher {
+
+            Waiter waiter;
+            AtomicGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+                super(id, leftChopstick, rightChopstick);
+                this.waiter = waiter;
+            }
+
+            @Override
+            public void run() {
+
+                while (!terminated()) {
+                    think();
+                    waiter.requestPermission(this);
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                    waiter.returnPermission();
+                }
+            }
+        }
+
+    </code></pre>
     <p>Now let us evaluate the Atomic Waiter approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
@@ -106,9 +165,33 @@
         Thus, we do not provide any fairness to the system and an adjacent philosopher will frequently attain permission, limiting the concurrency.
     </p>
 
+    <p>
+
+    </p>
     <pre><code>
-        codeee
-        codeee
+        class PickupGuestPhilosopher extends Philosopher {
+
+            Waiter waiter;
+            AtomicGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+                super(id, leftChopstick, rightChopstick);
+                this.waiter = waiter;
+            }
+
+            @Override
+            public void run() {
+
+                while (!terminated()) {
+                    think();
+                    waiter.requestPermission(this);
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    waiter.returnPermission();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                }
+            }
+        }
     </code></pre>
 
     <p>Now let us evaluate the Pickup Waiter approach based on the key-challenges:</p>
@@ -143,6 +226,16 @@
         Thus, we still do not provide fairness to the system in this way, we just handle requests one after another.
     </p>
 
+    <p>
+
+    </p>
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
+    <p>
+
+    </p>
     <pre><code>
         codeee
         codeee
@@ -184,6 +277,13 @@
         codeee
     </code></pre>
 
+    <p>
+
+    </p>
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
 
     <p>Now let us evaluate the Fair Waiter approach based on the key-challenges:</p>
     <ul>
@@ -212,6 +312,11 @@
         This approach is inherently limited, as
 
     </p>
+
+    <pre><code>
+        codeee
+        codeee
+    </code></pre>
 
     <pre><code>
         codeee

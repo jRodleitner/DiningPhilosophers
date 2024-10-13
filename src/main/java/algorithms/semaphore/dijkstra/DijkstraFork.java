@@ -14,16 +14,8 @@ public class DijkstraFork extends AbstractFork {
     Semaphore forkSemaphore;
 
     @Override
-    public synchronized boolean pickUp(AbstractPhilosopher philosopher) throws InterruptedException {
-
-        boolean pickedUp = forkSemaphore.tryAcquire();
-
-        if(pickedUp){
-            return true;
-        } else {
-            return false;
-        }
-
+    public synchronized boolean pickUp(AbstractPhilosopher philosopher) {
+        return forkSemaphore.tryAcquire();
     }
 
     public synchronized void putDown(AbstractPhilosopher philosopher) {

@@ -21,9 +21,9 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                     boolean firstSuccessful = pickUpLeftForkDijkstra();
                     //System.out.println("id:" + id +" first: " + firstSuccessful + " " + table.getCurrentTime());
                     if (firstSuccessful) {
-                        boolean secondSuccsessful = pickUpRightForkDijkstra();
+                        boolean secondSuccessful = pickUpRightForkDijkstra();
                         //System.out.println("id:" + id +" second:  " + secondSuccsessful + " " + table.getCurrentTime());
-                        if (secondSuccsessful) {
+                        if (secondSuccessful) {
                             bothSuccessful = true;
                             eat();
                         } else {
