@@ -178,14 +178,14 @@ public class DiningTable {
                 for (int i = 0; i < nrPhilosophers; i++) {
                     if (nrPhilosophers > 3) {
                         if (i < nrPhilosophers / 2) {
-                            AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
+                            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
                             philosophers.add(philosopher);
                         } else if (i >= nrPhilosophers / 2) {
-                            AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter1);
+                            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter1);
                             philosophers.add(philosopher);
                         }
                     } else {
-                        AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
+                        PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
                         philosophers.add(philosopher);
                     }
 

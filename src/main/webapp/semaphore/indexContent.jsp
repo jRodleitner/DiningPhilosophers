@@ -221,7 +221,7 @@
         }
     </code></pre>
     <p>
-
+        And here the Dijkstra Chopstick class.
     </p>
     <pre><code>
         public class DijkstraChopstick extends Chopstick {
@@ -259,6 +259,8 @@
     </p>
     <a href="../simulation/?algorithm=DIJKSTRA" class="button">Dijkstra Simulation</a>
     <a href="../animation/?algorithm=DIJKSTA" class="button">Dijkstra Animation</a>
+
+
 
 
     <h2>Tanenbaum Solution</h2>

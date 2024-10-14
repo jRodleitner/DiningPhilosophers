@@ -1,7 +1,7 @@
 GENERAL TODO:
 
 NEXT:
-[ ] restrict description
+[ ] description: add implementation and performance to challenges: add fairness measure and concurrency measure!!!
 [ ] read approaches/ papers
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -82,6 +82,10 @@ CUSTOM PICKUP FUNCTIONS:
 timeout
 dijkstra
 
+14.10:
+Tanenbaum code/description + Two Waiters code/description + Two Waiters code/description
+Add explanations for concurrency index/ fairness + performance and implementation explanation
+
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
 0.  [x][x][ ] Naive
 1.  [x][x][ ] Hierarchy
@@ -92,8 +96,8 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 6.  [x][x][ ] Multiple Token
 7.  [x][x][ ] Atomic Waiter
 8.  [x][x][ ] Pickup Waiter
-9.  [x][_][ ] Intelligent Pickup Waiter
-10. [x][_][ ] Fair Waiter
+9.  [x][x][ ] Intelligent Pickup Waiter
+10. [x][x][ ] Fair Waiter
 11. [ ][ ][ ] Two Waiters
 12. [x][x][ ] Table Semaphore
 13. [x][x][ ] dijkstra

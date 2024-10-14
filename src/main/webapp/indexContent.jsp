@@ -232,12 +232,12 @@
         <h4>Starvation</h4>
         <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
-            Starvation happens when one or more philosophers rarely, or never, get a chance to eat.
-            This can occur if one philosopher repeatedly grabs the chopsticks first, stopping others from eating.
-            It can also happen if one philosopher takes a very long time to eat, while their neighbor eats quickly,
-            making
-            it harder for the neighbor to access the chopsticks.
-            The goal is to make sure every philosopher has a fair chance to eat.
+            Starvation happens when one or more philosophers rarely, or never, get a chance to eat. The prime example for starvation are deadlocks,
+            where all philosophers starve.
+            When we try to design solutions we might come across an option that prevents deadlocks but is also blocking certain philosophers from eating, causing starvation.
+            Examples for situations of starvation could occur are, for example if one philosopher repeatedly grabs the chopsticks first, stopping others from eating,
+            or if one philosopher takes a very long time to eat, making it harder for their neighbors to access the chopsticks.
+            The goal is to make sure every philosopher has a fair chance to eat, we call this fairness.
             With our solution, we aim to prevent deadlocks while also ensuring fairness as much as possible.
         </p>
         <h4>Concurrency</h4>

@@ -54,7 +54,6 @@
 <body>
 <div class="description">
 
-
     <h2>Atomic Waiter Solution</h2>
     <img src="../pictures/waiter.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
@@ -75,41 +74,38 @@
 
     </p>
     <pre><code>
+        [Pseudocode]
+
         public class Waiter {
 
             Philosopher permittedPhilosopher;
-
             Queue queuedPhilosophers;
-
-
 
             Waiter(int nrPhilosophers) {
                 permittedPhilosopher = null;
                 queuedPhilosophers = new Queue();
             }
 
-
-            protected synchronized void requestPermission(Philosopher philosopher) {
+            synchronized void requestPermission(Philosopher philosopher) {
                 queuedPhilosophers.add(philosopher);
                 if (permittedPhilosopher == null) permittedPhilosopher = queuedPhilosophers.poll(); //no philosopher is currently permitted, thus one has to be assigned
                 while (!philosopher.equals(permittedPhilosopher)) {
                     wait();
                 }
-
             }
 
-            protected synchronized void returnPermission(){
+            synchronized void returnPermission(){
                 permittedPhilosopher = queuedPhilosophers.poll();
                 notifyAll();
             }
-
-
         }
     </code></pre>
     <p>
 
     </p>
     <pre><code>
+        [Pseudocode]
+
         class AtomicGuestPhilosopher extends Philosopher {
 
             Waiter waiter;
@@ -154,6 +150,11 @@
 
 
 
+
+
+
+
+
     <h2>Pickup Waiter Solution</h2>
     <p>
         We can reintroduce some concurrency into the system by limiting the waiter's permission to just the chopstick
@@ -162,13 +163,16 @@
         condition.
         The main drawback of this solution is that the waiter will always assign the permission to the philosopher that
         requested the chopsticks first.
-        Thus, we do not provide any fairness to the system and an adjacent philosopher will frequently attain permission, limiting the concurrency.
+        Thus, we do not provide any fairness to the system and an adjacent philosopher will frequently attain
+        permission, limiting the concurrency.
     </p>
 
     <p>
 
     </p>
     <pre><code>
+        [Pseudocode]
+
         class PickupGuestPhilosopher extends Philosopher {
 
             Waiter waiter;
@@ -209,16 +213,22 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+    <a href="../simulation/?algorithm=PICKUPWAITER" class="button">Pickup Waiter Simulation</a>
+    <a href="../animation/?algorithm=PICKUPWAITER" class="button">Pickup Waiter Animation</a>
+
+
+
+
 
 
 
 
     <h2>Intelligent Pickup Waiter Solution</h2>
     <p>
-        To improve our Pickup waiter solution, we check if the current philosopher in the queue is next to a philosopher who is currently eating.
-        If that is the case, we skip this philosopher and allow another philosopher in the queue (that is not adjacent to a currently eating philosopher) to eat.
+        To improve our Pickup waiter solution, we check if the current philosopher in the queue is next to a philosopher
+        who is currently eating.
+        If that is the case, we skip this philosopher and allow another philosopher in the queue (that is not adjacent
+        to a currently eating philosopher) to eat.
         In the case that no such philosopher is found we just pick the first philosopher in the queue.
         This should theoretically help us to attain more concurrency in our system.
         However, there is still one drawback to this solution, as a waiter will always assign the permission to the
@@ -230,15 +240,96 @@
 
     </p>
     <pre><code>
-        codeee
-        codeee
+        [Pseudocode]
+
+        class IntelligentWaiter {
+
+            Philosopher permittedPhilosopher;
+            Queue philosophersQueue;
+            int nrPhilosophers;
+            boolean[] eatStates;
+
+            IntelligentWaiter(int nrPhilosophers) {
+                this.nrPhilosophers = nrPhilosophers;
+                permittedPhilosopher = null;
+                philosophersQueue = new Queue();
+                eatStates = new Boolean[nrPhilosophers];
+            }
+
+            synchronized requestPermission(Philosopher philosopher) {
+                philosophersQueue.add(philosopher);
+                if (permittedPhilosopher == null) {
+                    permittedPhilosopher = philosophersQueue.poll(); // No philosopher is currently permitted, one needs to be assigned
+                }
+
+                while (philosopher != permittedPhilosopher) {
+                    wait();  // Wait until this philosopher is permitted
+                }
+                setEatState(philosopher);  // Philosopher is now eating
+            }
+
+            synchronized void returnPermission() {
+                // Iterate through the queued philosophers
+                For Each philosopher in philosophersQueue {
+                    LeftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;  // Left philosopher's index
+                    RightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;                   // Right philosopher's index
+
+                    if (!eatStates[LeftPhilosopher] && !eatStates[RightPhilosopher] && philosopher != permittedPhilosopher) {
+                        permittedPhilosopher = philosopher;
+                        philosophersQueue.remove(philosopher);
+                        NotifyAll();  // Philosopher is permitted
+                        return;  // Exit after finding the next philosopher
+                    }
+                }
+
+                // No suitable philosopher found, assign next in queue
+                permittedPhilosopher = philosophersQueue.poll();
+                NotifyAll();  // Notify that a philosopher was chosen from the queue
+            }
+
+            void setEatState(Philosopher philosopher) {
+                eatStates[philosopher.getPhId()] = true;
+            }
+
+            void synchronized removeEatState(Philosopher philosopher) {
+                eatStates[philosopher.getPhId()] = false;
+            }
+
+        }
+
     </code></pre>
     <p>
 
     </p>
     <pre><code>
-        codeee
-        codeee
+        [Pseudocode]
+
+        class IntelligentPickupGuestPhilosopher extends Philosopher {
+
+            Waiter waiter;
+
+            IntelligentPickupGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+                super(id, leftChopstick, rightChopstick);
+                this.waiter = waiter;
+            }
+
+            @Override
+            void run() {
+                while (!terminated()) {
+                    think();
+                    waiter.requestPermission(this);
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    waiter.returnPermission();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                    waiter.removeEatState(this);
+                }
+            }
+        }
+
+
     </code></pre>
 
     <p>Now let us evaluate the Intelligent Pickup Waiter approach based on the key-challenges:</p>
@@ -254,8 +345,13 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+    <a href="../simulation/?algorithm=INTELLIGENTWAITER" class="button">Intelligent Pickup Waiter Simulation</a>
+    <a href="../animation/?algorithm=INTELLIGENTWAITER" class="button">Intelligent Pickup Waiter Animation</a>
+
+
+
+
+
 
 
 
@@ -273,16 +369,93 @@
         To implement these changes we modify our Waiter:
     </p>
     <pre><code>
-        codeee
-        codeee
+        [Pseudocode]
+
+        class FairWaiter {
+
+            Philosopher permittedPhilosopher;
+            Queue philosophersQueue;
+
+            fairWaiter() {
+                permittedPhilosopher = null;
+                philosophersQueue = new Queue();
+            }
+
+            synchronized void requestPermission(Philosopher philosopher) {
+                philosophersQueue.add(philosopher);
+
+                if (permittedPhilosopher == null) {
+                    permittedPhilosopher = philosophersQueue.poll(); // Assign the first philosopher if none is permitted
+                }
+
+                while philosopher != permittedPhilosopher {
+                    wait(); // Wait until it's this philosopher's turn
+                }
+            }
+
+            synchronized void returnPermission(Philosopher philosopher) {
+                boolean foundOtherPhilosopher = false;
+                Long minEats = MAX_VALUE;
+
+                for Each philosopher in philosophersQueue {
+                    if (philosopher.eatTimes < minEats && philosopher != currentPhilosopher) {
+                        minEats = philosopher.eatTimes;
+                        permittedPhilosopher = philosopher;
+                        foundOtherPhilosopher = true;
+                    }
+                }
+
+                if (!foundOtherPhilosopher) {
+                    permittedPhilosopher = null;
+                } else {
+                    philosophersQueue.remove(permittedPhilosopher);
+                }
+
+                notifyAll(); // Notify that a philosopher was chosen
+            }
+        }
+
     </code></pre>
 
     <p>
 
     </p>
     <pre><code>
-        codeee
-        codeee
+        [Pseudocode]
+
+        class FairGuestPhilosopher extends Philosopher {
+
+            Waiter waiter;
+            long eatTimes;
+
+            fairGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+                super(id, leftChopstick, rightChopstick);
+                this.waiter = waiter;
+                eatTimes = 0;
+            }
+
+            @Override
+            void run() {
+                while (!terminated()) {
+                    think();
+                    waiter.requestPermission(this);
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    waiter.returnPermission(this);
+                    eatTimes += eatFair();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                }
+            }
+
+            long eatFair() {
+                Long duration = calculateDuration();
+                sleep(duration);
+                sbLog("[ E ]", VirtualClock.getTime());  // Log the eating event
+                return duration;
+            }
+        }
+
     </code></pre>
 
     <p>Now let us evaluate the Fair Waiter approach based on the key-challenges:</p>
@@ -298,8 +471,14 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+    <a href="../simulation/?algorithm=FAIRWAITER" class="button">Fair Waiter Simulation</a>
+    <a href="../animation/?algorithm=FAIRWAITER" class="button">Fair Waiter Animation</a>
+
+
+
+
+
+
 
 
 
