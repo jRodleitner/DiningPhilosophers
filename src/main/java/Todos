@@ -85,6 +85,8 @@ dijkstra
 14.10:
 Tanenbaum code/description + Two Waiters code/description + Two Waiters code/description
 Add explanations for concurrency index/ fairness + performance and implementation explanation
+Test minimum sleep time(eating, thinking)
+
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
 0.  [x][x][ ] Naive
@@ -98,11 +100,11 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 8.  [x][x][ ] Pickup Waiter
 9.  [x][x][ ] Intelligent Pickup Waiter
 10. [x][x][ ] Fair Waiter
-11. [ ][ ][ ] Two Waiters
+11. [_][_][ ] Two Waiters
 12. [x][x][ ] Table Semaphore
 13. [x][x][ ] dijkstra
-14. [ ][ ][ ] tanenbaum
-15. [ ][ ][ ] fair_tanenbaum
+14. [_][_][ ] tanenbaum
+15. [_][_][ ] fair_tanenbaum
 
 NEXT:
 16. [ ][ ][ ] chandymisra
