@@ -94,8 +94,7 @@
 <div class="description">
     <p>
         The Dining Philosophers Problem is a classic thought experiment that is useful to illustrate some of the
-        challenges
-        of designing concurrent systems.
+        challenges of designing concurrent systems.
         These include deadlocks, fairness and ensuring actual concurrency within the system.
         Essentially the problem can be seen as a simplified metaphor for distributed systems that share needed resources
         between the processes to achieve a goal. In reality processes often need those shared resources to complete
@@ -105,8 +104,12 @@
         The Dining Philosophers problem was famously introduced by Edsger Dijkstra in 1965 and is frequently referenced
         in the literature concerning the fields of concurrent programming, operating systems, and synchronization
         mechanisms.
-        In the following we will explore the Dining Philosophers problem in detail, highlighting the key challenges and
-        possible solutions to them.
+        This Website aims to provide general understanding of the problem,
+        its fundamental limitations and to explore the many possible solutions to the problem.
+
+        In the following we will explore the Dining Philosophers problem in detail, highlight the challenges we encounter,
+        the limitations and finally some solutions to the problem.
+        If you already know about the fundamentals you can jump to the discussed solutions via the above navigation menu.
     </p>
     <img src="pictures/dining.png" alt="Dining Philosophers Problem" width="400" height="350">
 
@@ -197,7 +200,6 @@
             action at that time.
         </p>
     </section>
-
     <section id="challenges">
         <h2>Challenges</h2>
         <p>
@@ -206,7 +208,7 @@
             The effectiveness of our solution in addressing one or more of these challenges will help us evaluate the
             quality of the different approaches later on.
         </p>
-        <h4>Deadlocks</h4>
+        <h3>Deadlocks</h3>
         <img src="pictures/deadlock.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
             Deadlocks can occur if all the philosophers pick up the chopstick to their left simultaneously and then wait
@@ -229,27 +231,67 @@
         PH_4 [ T ][ T ][ T ][ T ][ T ][ T ][ T ][ B ][ B ][   ][   ][   ][PUL][   ]
         TIME:  1    2    3    4    5    6    7    8    9   10   11   12   13   14
     </code></pre>
-        <h4>Starvation</h4>
+
+        <p>
+            For convenience, we assume that philosophers usually pick up their left chopsticks first, thus we can track whether a deadlock has occurred by checking
+            if the last action of all philosophers was a [PUL] = Pick Up Left.
+        </p>
+
+        <h3>Starvation</h3>
         <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
             Starvation happens when one or more philosophers rarely, or never, get a chance to eat. The prime example for starvation are deadlocks,
             where all philosophers starve.
             When we try to design solutions we might come across an option that prevents deadlocks but is also blocking certain philosophers from eating, causing starvation.
-            Examples for situations of starvation could occur are, for example if one philosopher repeatedly grabs the chopsticks first, stopping others from eating,
+            Examples for situations of starvation could occur are, for example, if one philosopher repeatedly grabs the chopsticks first, stopping others from eating,
             or if one philosopher takes a very long time to eat, making it harder for their neighbors to access the chopsticks.
             The goal is to make sure every philosopher has a fair chance to eat, we call this fairness.
             With our solution, we aim to prevent deadlocks while also ensuring fairness as much as possible.
         </p>
-        <h4>Concurrency</h4>
+        <p>
+            To measure fairness in our system we introduce two measures:
+        </p>
+        <ul>
+            <li><b>Eat Chance Fairness:</b> We track the chances each philosopher got at eating and calculate the standard deviation of these values(Essentially calculating the variation around the mean amount of eat chances). Large values indicate low fairness while values close to zero indicate ideal chance fairness.</li>
+
+            <li><b>Eat Time Fairness:</b> Additionally we track the accumulated times that were calculated by the aforementioned distributions for each philosopher,
+                and calculate the standard deviation of these values.
+                Again large values indicate low fairness and small values high fairness.
+                Note that this value is heavily dependent on the chosen distribution.
+                Without management the exponential distribution, for example might produce higher standard deviation values, due to potential large outliers</li>
+        </ul>
+
+        <h3>Concurrency</h3>
         <img src="pictures/concurrency.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
             One simple way to prevent deadlocks is to allow only one philosopher to eat at a time.
             However, this would remove the ability for multiple philosophers to eat at the same time.
             Concurrency means that multiple philosophers can progress simultaneously without waiting for each other
             unless
-            necessary.
-            Our solution should ideally maintain concurrency while also preventing deadlocks and ensuring fairness, such
+            necessary. Our solution should ideally maintain concurrency while also preventing deadlocks and ensuring fairness, such
             that all philosophers get an equal chance to eat.
+        </p>
+        <p>
+            To measure concurrency in our system we introduce the concurrency measure:
+        </p>
+        <ul>
+            <li>
+                <b>Concurrency:</b> When a simulation is finished we get a timeline of length <b>l</b> (Total tracked Simulation Time excluding Pick-ups/ Put-downs).
+                During the course of the simulation we also track the total Eating Time <b>e</b> (The total combined simulation time philosophers spent eating).
+                We then calculate <b>l/n</b> to determine the concurrency within the system during the course of the simulation. With this measure, the bigger the value, the better. For the classic 5-Philosopher setup, values close to two are a very good result,
+                as this means that, most of the simulation time two philosophers were eating in parallel (Which is the maximum attainable, more on the maximum concurrency of Dining Philosophers will be explained later in the Limitations section).
+            </li>
+        </ul>
+
+        <h3>Implementation</h3>
+        <p>
+            We should also consider how difficult the implementation of a solution is, compared to other solutions.
+            Most of the solutions we will look at will be rather simple to implement, while some others will utilize more complex concepts.
+        </p>
+        <h3>Performance</h3>
+        <p>
+            Finally, we want to evaluate algorithms based on the overhead they produce.
+            Some Solutions use several data structures and synchronization mechanisms, that produce additional computational effort.
         </p>
     </section>
     <section id="simulation">
@@ -257,7 +299,7 @@
 
         <p>
             This website offers both a Simulation Page and an Animation Page, both powered by a Java Threads-based
-            backend.
+            backend that is in principle very similar to the pseudocode that will be provided to illustrate the inner workings of all the solutions we will explore.
             The Simulation Page allows you to run a simulation and view the resulting simulation output as a string,
             with
             detailed notes available on that page.
@@ -282,8 +324,7 @@
                 the
                 Dining Philosophers problem.
                 In Java, synchronized methods can only be accessed by one thread (in this case, a philosopher) at a
-                time,
-                ensuring exclusive access to the chopsticks.
+                time, providing exclusive access to the chopsticks.
                 The philosophers' actions are logged over time, based on a virtual clock running during the simulation.
                 The notify() function notifies the other philosopher that is kept in the waiting() state when the
                 chopstick
@@ -447,10 +488,10 @@
         <p>
             Before exploring solutions, let's first discuss the main limitations of the problem.
             One key limitation is that the maximum concurrency is restricted by the rules.
-            Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to [n/2]
+            Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to <b>[n/2]</b>
             for
-            even numbers of philosophers (n) and ⌊n/2⌋ for odd n.
-            For example, with 5 philosophers, ⌊5/2⌋ equals 2, meaning that at most two philosophers can eat at the same
+            even numbers of philosophers <b>(n)</b> and <b>⌊n/2⌋</b> for odd n.
+            For example, with 5 philosophers, <b>⌊5/2⌋</b> equals <b>2</b>, meaning that at most two philosophers can eat at the same
             time.
             In real-world systems, access to shared resources often involves more complex dependencies, where multiple
             processes may share more than two resources, which cannot be replicated using the dining philosophers
@@ -463,9 +504,15 @@
             constraints), time constraints (some processes must 'eat' within a specific timeframe), or unexpected
             unavailability (processes may crash or terminate), are also typically not accounted for.
             As a result, many solutions we will explore may not directly apply to such real-world systems.
-            Lastly, we will ignore the traditional constraint that philosophers are 'silent' and unable to communicate,
-            as
-            this restriction may not be relevant to our solutions.
+            Lastly, we in some of our solutions we will ignore the traditional constraint that philosophers are 'silent' and unable to communicate,
+            as this restriction may not be relevant to our solutions.
+            <br>
+            <br>
+            In the context of Java implementations of solutions it is important to highlight, that most java synchronization methods do not provide fairness by default.
+            Many of the synchronization mechanisms, like the synchronized keyword (used to attain an object lock whenever the function is called, preventing access to functions and fields by other threads)
+            do not maintain a queue of threads that are waiting. This means that the thread that has waited the longest is not guaranteed to be allowed first.
+            This concept is called Barging and has to be managed, to ensure fairness in our solutions when we deal with such mechanisms.
+            Luckily many of the synchronization methods in Java (for example Semaphores) allow, so-called fairness parameters, that will enable a FIFO (First In First Out) queue on the waiting threads.
         </p>
     </section>
     <section id="solutions">

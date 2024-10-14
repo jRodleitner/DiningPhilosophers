@@ -8,21 +8,21 @@ import simulation.DiningTable;
 
 public class TanenbaumPhilosopher extends AbstractPhilosopher {
 
-    private volatile Monitor global;
+    private final Monitor monitor;
 
-    public TanenbaumPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, Monitor global) {
+    public TanenbaumPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, Monitor monitor) {
         super(id, leftFork, rightFork, table, thinkistr, eatDistr);
-        this.global = global;
+        this.monitor = monitor;
     }
 
     @Override
     public void run() {
         try {
             while (!isInterrupted()) {
-                thinks();
-                pickup();
-                eats();
-                putdown();
+                think();
+                pickUp();
+                eat();
+                putDown();
             }
         } catch (InterruptedException e) {
             table.unlockClock();
@@ -30,37 +30,32 @@ public class TanenbaumPhilosopher extends AbstractPhilosopher {
         }
     }
 
-    private void thinks() throws InterruptedException {
-        think();
-    }
 
-    private void pickup() throws InterruptedException {
-        global.mutex.acquire();
-        global.states[id] = Events.BLOCKED;
-        global.test(id);
-        global.mutex.release();
+    private void pickUp() throws InterruptedException {
+        monitor.mutex.acquire();
+        monitor.states[id] = Events.HUNGRY;
+        monitor.test(id);
+        monitor.mutex.release();
 
-        global.semaphores[id].acquire();
+        monitor.semaphores[id].acquire();
 
         pickUpLeftFork();
         pickUpRightFork();
     }
 
-    private void eats() throws InterruptedException {
-        eat(); // Simulate eating
-    }
 
-    private void putdown() throws InterruptedException {
+
+    private void putDown() throws InterruptedException {
         putDownLeftFork();
         putDownRightFork();
 
-        global.mutex.acquire();
-        global.states[id] = Events.THINK;
-        int left = (id + global.states.length - 1) % global.states.length;
-        int right = (id + 1) % global.states.length;
-        global.test(left);
-        global.test(right);
-        global.mutex.release();
+        monitor.mutex.acquire();
+        monitor.states[id] = Events.THINK;
+        int left = (id + monitor.states.length - 1) % monitor.states.length;
+        int right = (id + 1) % monitor.states.length;
+        monitor.test(left);
+        monitor.test(right);
+        monitor.mutex.release();
     }
 }
 

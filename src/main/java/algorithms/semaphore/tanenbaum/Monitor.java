@@ -14,16 +14,16 @@ public class Monitor {
         semaphores = new Semaphore[nrPhilosophers];
         for (int i = 0; i < nrPhilosophers; i++) {
             states[i] = Events.THINK;
-            semaphores[i] = new Semaphore(0);
+            semaphores[i] = new Semaphore(0, true);
         }
-        mutex = new Semaphore(1);
+        mutex = new Semaphore(1, true);
     }
 
     public void test(int id) {
         int left = (id + states.length - 1) % states.length;
         int right = (id + 1) % states.length;
 
-        if (states[id].equals(Events.BLOCKED) &&
+        if (states[id].equals(Events.HUNGRY) &&
                 !states[left].equals(Events.EAT) &&
                 !states[right].equals(Events.EAT)) {
 

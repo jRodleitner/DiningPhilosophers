@@ -54,10 +54,53 @@
 <body>
 <div class="description">
 
-    <h2>Atomic Waiter Solution</h2>
+    <h2>Classic Waiter Solution</h2>
     <img src="../pictures/waiter.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
         The Waiter Solution introduces a central entity to manage chopstick access and prevent deadlocks.
+        There is a classic version of the waiter solution, in which
+
+    </p>
+
+    <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
+
+    <p>
+
+    </p>
+    <pre><code>
+        [Pseudocode]
+
+    </code></pre>
+    <p>
+
+    </p>
+    <pre><code>
+        [Pseudocode]
+
+    </code></pre>
+    <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We  ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+            needed.
+        </li>
+        <li>Performance:</li>
+    </ul>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
+    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+
+
+
+
+
+    <h2>Atomic Waiter Solution</h2>
+    <img src="../pictures/waiter.svg" alt="Dining Philosophers Problem" width="400" height="350">
+    <p>
         With this approach, philosophers must notify the waiter whenever they want to eat.
         The waiter maintains a queue of requests and grants permission to eat based on the order in which philosophers
         were added the queue.

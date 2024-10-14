@@ -1,7 +1,9 @@
 GENERAL TODO:
 
 NEXT:
-[ ] description: add implementation and performance to challenges: add fairness measure and concurrency measure!!!
+[ ] classic Waiter solution
+[ ] modify fair tanenbaum
+[ ] check all algorithms (replace chopsticks with forks)
 [ ] read approaches/ papers
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -73,7 +75,7 @@ CHECK:
 [x] Statistics overhaul: concurrency index, fairness index
 [x] Intelligent Pickup Waiter
 [x] Fair waiter -> use eat times
-
+[x] description: add implementation and performance to challenges: add fairness measure and concurrency measure!!!
 
 DONE:
 [x] Naive
@@ -83,9 +85,11 @@ timeout
 dijkstra
 
 14.10:
-Tanenbaum code/description + Two Waiters code/description + Two Waiters code/description
+Two Waiters code/description
 Add explanations for concurrency index/ fairness + performance and implementation explanation
 Test minimum sleep time(eating, thinking)
+
+Fair Tanenbaum code/description
 
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
@@ -96,24 +100,25 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 4.  [x][x][ ] Restrict
 5.  [x][x][ ] Global Token
 6.  [x][x][ ] Multiple Token
-7.  [x][x][ ] Atomic Waiter
-8.  [x][x][ ] Pickup Waiter
-9.  [x][x][ ] Intelligent Pickup Waiter
-10. [x][x][ ] Fair Waiter
-11. [_][_][ ] Two Waiters
-12. [x][x][ ] Table Semaphore
-13. [x][x][ ] dijkstra
-14. [_][_][ ] tanenbaum
-15. [_][_][ ] fair_tanenbaum
+7.  [_][_][ ] Classic Waiter
+8.  [x][x][ ] Atomic Waiter
+9.  [x][x][ ] Pickup Waiter
+10. [x][x][ ] Intelligent Pickup Waiter
+11. [x][x][ ] Fair Waiter
+12. [_][_][ ] Two Waiters
+13. [x][x][ ] Table Semaphore
+14. [x][x][ ] dijkstra
+15. [x][x][ ] tanenbaum
+16. [x][_][ ] fair_tanenbaum
 
 NEXT:
-16. [ ][ ][ ] chandymisra
-17. [ ][ ][ ] roundrobin???
+17. [ ][ ][ ] chandymisra
+18. [ ][ ][ ] roundrobin???
 
 
-18. [ ][ ] paper-solution
 19. [ ][ ] paper-solution
 20. [ ][ ] paper-solution
+21. [ ][ ] paper-solution
 
 IDEAS:
 

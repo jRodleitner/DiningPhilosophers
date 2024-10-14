@@ -63,9 +63,10 @@
 <div class="description">
     <p>
         Semaphores are a frequently used synchronization mechanism for concurrent systems to manage access to resources.
+        The concept was introduced to the computer science community by none other than Edsger Dijkstra himself.
         They are primarily used to prevent race conditions and deadlocks.
         In the following we will use Binary semaphores, which can only take values 0 and 1, this means they will allow
-        access to one thread only.
+        access to one thread only (also called mutex).
         The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the
         semaphore will be locked.
         Threads trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time
@@ -85,11 +86,11 @@
         they release the semaphore, and another philosopher can proceed.
         Functionally, this approach is equivalent to the previously presented Pickup Waiter Solution.
         and is therefore useful for an introductory example on how to avoid deadlocks using semaphores.
-
     </p>
 
     <p>
         The implementation is fairly simple: Philosophers need to acquire the table semaphore before eating.
+        To ensure fairness of the philosophers we have to enable the fairness parameter of the Semaphore in Java.
         First we introduce a Semaphore for our table:
     </p>
     <pre><code>
@@ -97,7 +98,7 @@
             Semaphore semaphore;
 
             TableSemaphore(){
-                semaphore = new Semaphore(1);
+                semaphore = new Semaphore(1, true);
             }
         }
     </code></pre>
@@ -166,6 +167,7 @@
         unsuccessful they put down the initial chopstick and after some time they will try to acquire their first
         chopstick again.
         This repeats itself until the philosophers are able to eat.
+        This solution lets us avoid deadlocks via avoiding the Hold-and-wait condition as defined by Coffman.
 
     </p>
     <p>
@@ -263,15 +265,115 @@
 
 
 
+
+
     <h2>Tanenbaum Solution</h2>
+    <p>
+        This classic Solution was proposed by Andrew S. Tanenbaum in his famous book "Modern Operating Systems".
+        We introduce a Monitor that utilizes a fair Semaphore as a mutex and maintains an array of Semaphores per philosopher that they need to acquire before eating.
+        Additionally, we maintain an array that contains the current states of all philosophers.
+        The process is as follows:
+    </p>
+    <ul>
+        <li>Philosophers Think (State is initially set to ""Thinking)</li>
+        <li>Philosophers acquire the Monitors Semaphore and update their state to "Hungry", and call the test() function to determine whether the two adjacent philosophers are not eating.
+            If this test is successful they update their state to "Eating" and the monitors semaphore is released.</li>
+        <li>Once their respective semaphore is released the philosophers start eating, if not, they wait until the semaphore is released in a later call to the test() function.</li>
+        <li>When philosophers are done eating they will again acquire the monitor semaphore and call the test() function on both their neighbours, enabling them to check whether either the two adjacent philosophers is currently eating, if this is the case they will continue to wait.</li>
+        <li>Finally, they set their state to "Thinking" and release the monitors semaphore and the process starts anew</li>
+    </ul>
+
     <p>
 
     </p>
+    <pre><code>
+        [Pseudocode]
+
+        class monitor {
+
+            String[] states;
+            Semaphore[] semaphores;
+            Semaphore mutex;
+
+            monitor(int nrPhilosophers) {
+                states = new String[nrPhilosophers];
+                semaphores = new Semaphore[nrPhilosophers];
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    states[i] = Events.THINK;
+                    semaphores[i] = new Semaphore(0);
+                }
+                mutex = new Semaphore(1);
+            }
+
+            void test(int id) {
+                int left = (id + states.length - 1) % states.length;
+                int right = (id + 1) % states.length;
+
+                if (states[id] == Events.HUNGRY &&
+                    states[left] != Events.EAT &&
+                    states[right] != Events.EAT) {
+
+                    states[id] = Events.EAT;
+                    semaphores[id].release();
+                }
+            }
+        }
+
+    </code></pre>
 
     <pre><code>
-        codeee
-        codeee
+        [Pseudocode]
+
+        class tanenbaumPhilosopher extends Philosopher {
+
+            Monitor monitor;
+
+            tanenbaumPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Monitor monitor) {
+                super(id, leftChopstick, rightChopstick);
+                this.monitor = monitor;
+            }
+
+            @Override
+            void run() {
+                while (!terminated()) {
+                    think();
+                    pickUp();
+                    eat();
+                    putDown();
+                }
+            }
+
+            void pickUp() {
+                monitor.mutex.acquire();
+                monitor.states[id] = Events.HUNGRY;
+                monitor.test(id);
+                monitor.mutex.release();
+
+                monitor.semaphores[id].acquire();
+
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+            }
+
+            void putDown() {
+                putDownLeftChopstick();
+                putDownRightChopstick();
+
+                monitor.mutex.acquire();
+                monitor.states[id] = Events.THINK;
+                int left = (id + monitor.states.length - 1) % monitor.states.length;
+                int right = (id + 1) % monitor.states.length;
+                monitor.test(left);
+                monitor.test(right);
+                monitor.mutex.release();
+            }
+        }
+
+
     </code></pre>
+    <p>
+
+    </p>
 
     <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
     <ul>
@@ -296,7 +398,9 @@
 
     <h2>Fair Tanenbaum Solution</h2>
     <p>
-
+        We can try to enhance the fairness of the Tanenbaum solution by tracking either the times of eats or the previous eating times.
+        For this purpose we maintain an additional priority-queue that we check whenever the test() function is called.
+        Note that this comes at the cost of parallelism, since by prioritizing philosophers that ate fewer times/ less time, we prevent other philosophers from eating that could potentially eat at the given moment.
     </p>
 
     <pre><code>

@@ -8,7 +8,7 @@ import java.util.concurrent.Semaphore;
 public class DijkstraFork extends AbstractFork {
     public DijkstraFork(int id) {
         super(id);
-        forkSemaphore = new Semaphore(1);
+        forkSemaphore = new Semaphore(1, true);
     }
 
     Semaphore forkSemaphore;

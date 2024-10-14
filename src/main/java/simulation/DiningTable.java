@@ -19,7 +19,7 @@ import algorithms.semaphore.tanenbaum.TanenbaumFork;
 import algorithms.semaphore.tanenbaum.TanenbaumPhilosopher;
 import algorithms.semaphore.fair_tanenbaum.FairTanenbaumPhilosopher;
 import algorithms.semaphore.fair_tanenbaum.FairTanenbaumFork;
-import algorithms.semaphore.fair_tanenbaum.FairGlobals;
+import algorithms.semaphore.fair_tanenbaum.FairMonitor;
 import algorithms.semaphore.tablesemaphore.TableSemahoreFork;
 import algorithms.semaphore.tablesemaphore.TableSemaphore;
 import algorithms.semaphore.tablesemaphore.TableSemaphorePhilosopher;
@@ -282,7 +282,7 @@ public class DiningTable {
                     forks.add(new FairTanenbaumFork(i));
                 }
 
-                FairGlobals fairGlobal = new FairGlobals(nrPhilosophers);
+                FairMonitor fairGlobal = new FairMonitor(nrPhilosophers);
 
                 for (int i = 0; i < nrPhilosophers; i++) {
                     FairTanenbaumPhilosopher philosopher = new FairTanenbaumPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairGlobal);

@@ -8,6 +8,8 @@ public class Events {
     public static final String THINK = "[ T ]";
     public static final String EAT = "[ E ]";
 
+    public static final String HUNGRY = "[ H ]";
+
     public static final String BLOCKED = "[ B ]";
     public static final String PICKUPRIGHT = "[PUR]";
     public static final String PICKUPLEFT = "[PUL]";

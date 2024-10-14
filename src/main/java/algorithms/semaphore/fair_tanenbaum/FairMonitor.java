@@ -6,20 +6,20 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
-public class FairGlobals {
+public class FairMonitor {
     protected String[] states;
     protected Semaphore[] semaphores;
     Semaphore mutex;
     Queue<Integer> hungryQueue; // Queue to track hungry philosophers
 
-    public FairGlobals(int nrPhilosophers) {
+    public FairMonitor(int nrPhilosophers) {
         states = new String[nrPhilosophers];
         semaphores = new Semaphore[nrPhilosophers];
         for (int i = 0; i < nrPhilosophers; i++) {
             states[i] = Events.THINK;
-            semaphores[i] = new Semaphore(0); // Start blocked
+            semaphores[i] = new Semaphore(0, true); // Start blocked
         }
-        mutex = new Semaphore(1);
+        mutex = new Semaphore(1, true);
         hungryQueue = new ArrayDeque<>();
     }
 
