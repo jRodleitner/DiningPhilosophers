@@ -167,31 +167,6 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.TWOWAITERS:
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    forks.add(new GuestFork(i));
-                }
-
-                Waiter splitWaiter = new Waiter(nrPhilosophers);
-                Waiter splitWaiter1 = new Waiter(nrPhilosophers);
-
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    if (nrPhilosophers > 3) {
-                        if (i < nrPhilosophers / 2) {
-                            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
-                            philosophers.add(philosopher);
-                        } else if (i >= nrPhilosophers / 2) {
-                            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter1);
-                            philosophers.add(philosopher);
-                        }
-                    } else {
-                        PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, splitWaiter);
-                        philosophers.add(philosopher);
-                    }
-
-                }
-                break;
-
             case Algorithm.PICKUPWAITER:
                 for (int i = 0; i < nrPhilosophers; i++) {
                     forks.add(new GuestFork(i));
@@ -224,6 +199,25 @@ public class DiningTable {
                 FairWaiter fairWaiter = new FairWaiter();
                 for (int i = 0; i < nrPhilosophers; i++) {
                     FairGuestPhilosopher philosopher = new FairGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairWaiter);
+                    philosophers.add(philosopher);
+                }
+                break;
+
+            case Algorithm.TWOWAITERS:
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    forks.add(new GuestFork(i));
+                }
+
+                Waiter splitWaiter = new Waiter(nrPhilosophers);
+                Waiter splitWaiter1 = new Waiter(nrPhilosophers);
+
+                Waiter selectedWaiter;
+                boolean assignToTwo = nrPhilosophers > 3;
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
+
+                    // Create and add philosopher
+                    PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, selectedWaiter);
                     philosophers.add(philosopher);
                 }
                 break;

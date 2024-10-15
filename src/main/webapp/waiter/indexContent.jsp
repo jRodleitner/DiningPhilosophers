@@ -55,14 +55,18 @@
 <div class="description">
 
     <h2>Classic Waiter Solution</h2>
-    <img src="../pictures/waiter.svg" alt="Dining Philosophers Problem" width="400" height="350">
+    <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
         The Waiter Solution introduces a central entity to manage chopstick access and prevent deadlocks.
-        There is a classic version of the waiter solution, in which
+        There is a classic version of the waiter solution, in which we track the status of the forks.
+        The waiter always provides the chopsticks when requested by a philosopher,
+        unless there is only one chopstick remaining on the table.
+        In this case we only allow the pickup if a chopstick to the right of a philosopher is requested.
+        philosophers that want to pick up their left chopstick then have to wait until a philosopher has stopped eating.
 
     </p>
 
-    <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
+
 
     <p>
 
@@ -91,27 +95,24 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
+    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
 
 
 
 
 
     <h2>Atomic Waiter Solution</h2>
-    <img src="../pictures/waiter.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        With this approach, philosophers must notify the waiter whenever they want to eat.
+        In the Atomic Waiter solution, philosophers must notify the waiter whenever they want to eat.
         The waiter maintains a queue of requests and grants permission to eat based on the order in which philosophers
         were added the queue.
         When a philosopher is first in the queue, they are given permission to pick up both chopsticks and start eating.
         Once they finish, the waiter grants permission to the next philosopher in line, ensuring that only one
         philosopher eats at a time.
-        By controlling access through the waiter, we eliminate the circular wait condition defined by Coffman.
+        By controlling access through the waiter like this, we again eliminate the circular wait condition as defined by Coffman.
         However, this approach also removes concurrency, meaning only one philosopher can eat at any given moment.
     </p>
-
-    <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
     <p>
 
@@ -529,22 +530,38 @@
     <h2>Two Waiters Solution</h2>
     <img src="../pictures/multiplewaiters.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        Another idea would be to introduce more than one waiter into the system.
-        Each of the waiters will then be assigned to manage a subset of the philosophers.
-        This approach is inherently limited, as
-
+        One of the main drawbacks of the waiter solution would be its scalability.
+        Modern systems often maintain hundreds, if not thousands of threads that compete for resources.
+        The waiters being accessed mutually exclusive (one after another) by several hundreds, if not thousands,
+        instead of being accessed by 2-9 philosophers would produce a big overhead with long waiting times.
+        An idea to address this, would be to introduce more than one waiter into the system.
+        Each of the waiters would then be assigned to manage a subset of the philosophers.
+        There is of course going to be an overlap in the forks at the "corners" of the setup.
+        We focus here on an implementation that utilizes only two waiters to manage the philosophers. (More than two waiters would not be very efficient for managing less than 10 philosophers)
+        However, this concept can easily be extended to a more waiters, if the number of philosophers increases.
     </p>
 
+    <p>
+        All we have to do is to reuse one of the previously implemented waiter solutions and assign them to a subset of the given philosophers.
+        For this implementation we choose the Intelligent Pickup Waiters.
+    </p>
     <pre><code>
-        codeee
-        codeee
-    </code></pre>
+        for (int i = 0; i < nrPhilosophers; i++) {
+           forks.add(new Chopstick(i));
+        }
 
-    <pre><code>
-        codeee
-        codeee
-    </code></pre>
+        Waiter splitWaiter = new Waiter(nrPhilosophers);
+        Waiter splitWaiter1 = new Waiter(nrPhilosophers);
 
+        Waiter selectedWaiter;
+        boolean assignToTwo = nrPhilosophers > 3;
+        for (int i = 0; i < nrPhilosophers; i++) {
+            selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
+
+            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, selectedWaiter);
+            philosophers.add(philosopher);
+        }
+    </code></pre>
 
     <p>Now let us evaluate the Two Waiters approach based on the key-challenges:</p>
     <ul>
