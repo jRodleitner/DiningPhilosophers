@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 public class VirtualClock {
 
     private long currentTime = 0;
-    private final Semaphore semaphore = new Semaphore(1); // Semaphore with 1 permit
+    private final Semaphore semaphore = new Semaphore(1, true); // Semaphore with 1 permit
 
     // Method to acquire the semaphore (protected)
     protected void lockClock() {

@@ -1,14 +1,14 @@
 package algorithms.semaphore.dijkstra;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import parser.Events;
 import simulation.DiningTable;
 
 public class DijkstraPhilosopher extends AbstractPhilosopher {
-    public DijkstraPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public DijkstraPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
     }
 
     @Override
@@ -18,16 +18,16 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                 think();
                 boolean bothSuccessful = false;
                 while (!bothSuccessful) {
-                    boolean firstSuccessful = pickUpLeftForkDijkstra();
+                    boolean firstSuccessful = pickUpLeftChopstickDijkstra();
                     //System.out.println("id:" + id +" first: " + firstSuccessful + " " + table.getCurrentTime());
                     if (firstSuccessful) {
-                        boolean secondSuccessful = pickUpRightForkDijkstra();
+                        boolean secondSuccessful = pickUpRightChopstickDijkstra();
                         //System.out.println("id:" + id +" second:  " + secondSuccsessful + " " + table.getCurrentTime());
                         if (secondSuccessful) {
                             bothSuccessful = true;
                             eat();
                         } else {
-                            putDownLeftFork();
+                            putDownLeftChopstick();
                             int random = (int) (Math.random() * 100) + 1;
                             Thread.sleep(random);
                         }
@@ -37,8 +37,8 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                     }
                 }
 
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         } catch (InterruptedException e) {
             table.unlockClock();
@@ -46,8 +46,8 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
         }
     }
 
-    protected boolean pickUpLeftForkDijkstra() throws InterruptedException {
-        boolean successful = leftFork.pickUp(this);
+    protected boolean pickUpLeftChopstickDijkstra() throws InterruptedException {
+        boolean successful = leftChopstick.pickUp(this);
         if (successful) {
             if (simulatePickups) {
                 table.lockClock();
@@ -61,8 +61,8 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
         } else return false;
     }
 
-    protected boolean pickUpRightForkDijkstra() throws InterruptedException {
-        boolean successful = rightFork.pickUp(this);
+    protected boolean pickUpRightChopstickDijkstra() throws InterruptedException {
+        boolean successful = rightChopstick.pickUp(this);
         if (successful) {
             if (simulatePickups) {
                 table.lockClock();

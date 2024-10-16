@@ -1,12 +1,11 @@
 package algorithms.timeout;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
-import simulation.DiningTable;
 
-public class TimeoutFork extends AbstractFork {
+public class TimeoutChopstick extends AbstractChopstick {
     int timeout;
-    public TimeoutFork(int id, int timeout) {
+    public TimeoutChopstick(int id, int timeout) {
         super(id);
         this.timeout = timeout;
     }

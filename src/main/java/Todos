@@ -1,14 +1,12 @@
 GENERAL TODO:
 
 NEXT:
-[ ] classic Waiter solution
-[ ] modify fair tanenbaum
 [ ] check all algorithms (replace chopsticks with forks)
 [ ] read approaches/ papers
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
 [ ] other simulation type: currStatus check
-[ ]
+
 
 
 AND FINALLY: (...HOW EVEN...AHHH...)
@@ -75,7 +73,6 @@ CHECK:
 [x] Statistics overhaul: concurrency index, fairness index
 [x] Intelligent Pickup Waiter
 [x] Fair waiter -> use eat times
-[x] description: add implementation and performance to challenges: add fairness measure and concurrency measure!!!
 
 DONE:
 [x] Naive
@@ -87,9 +84,15 @@ dijkstra
 14.10:
 [x]
 [x] Add explanations for concurrency index/ fairness + performance and implementation explanation
-Test minimum sleep time(eating, thinking)
 
-Fair Tanenbaum code/description
+15.10
+[x] classic Waiter solution ?
+
+16.10
+[ ] modify fair tanenbaum
+[ ] Test minimum sleep time(eating, thinking)
+[ ] Fair Tanenbaum code/description
+[ ] Classic waiter pseudocode
 
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
@@ -115,7 +118,7 @@ NEXT:
 17. [ ][ ][ ] chandymisra
 18. [ ][ ][ ] roundrobin???
 
-
+FINALLY:
 19. [ ][ ] paper-solution
 20. [ ][ ] paper-solution
 21. [ ][ ] paper-solution

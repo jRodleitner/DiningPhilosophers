@@ -1,6 +1,6 @@
 package algorithms.naive;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
@@ -8,8 +8,8 @@ import simulation.DiningTable;
 public class NaivePhilosopher extends AbstractPhilosopher {
 
 
-    public NaivePhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public NaivePhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
     }
 
     @Override
@@ -17,11 +17,11 @@ public class NaivePhilosopher extends AbstractPhilosopher {
         try {
             while (!isInterrupted()) {
                 think();
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 eat();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         } catch (InterruptedException e) {
             table.unlockClock();

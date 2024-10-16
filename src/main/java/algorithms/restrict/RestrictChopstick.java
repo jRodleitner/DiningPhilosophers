@@ -1,15 +1,14 @@
 package algorithms.restrict;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
-import simulation.DiningTable;
 
-public class RestrictFork extends AbstractFork {
+public class RestrictChopstick extends AbstractChopstick {
 
     private Restrict restrict;
 
 
-    public RestrictFork(int id, Restrict restrict) {
+    public RestrictChopstick(int id, Restrict restrict) {
         super(id);
         this.restrict = restrict;
     }
@@ -20,7 +19,7 @@ public class RestrictFork extends AbstractFork {
             //if(philosopher.getPhId() == restrict.getRestricted()) System.out.println("gotRestricted:" + philosopher.getPhId());
             wait();
         }
-        if(this.equals( philosopher.getRightFork())){
+        if(this.equals( philosopher.getRightChopstick())){
             restrict.updateRestricted();
             //System.out.println("Restrict updated to:" + restrict.getRestricted());
         }

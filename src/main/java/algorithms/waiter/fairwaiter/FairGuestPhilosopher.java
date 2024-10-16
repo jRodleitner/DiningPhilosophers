@@ -1,6 +1,6 @@
 package algorithms.waiter.fairwaiter;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import parser.Events;
@@ -13,8 +13,8 @@ public class FairGuestPhilosopher extends AbstractPhilosopher {
     protected volatile long eatTimes;
 
     private volatile FairWaiter waiter;
-    public FairGuestPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairWaiter waiter) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public FairGuestPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairWaiter waiter) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         eatTimes = 0;
         this.waiter = waiter;
     }
@@ -26,12 +26,12 @@ public class FairGuestPhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 waiter.requestPermission(this);
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 waiter.returnPermission(this);
                 eatTimes += eatFair();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
 
             }
         } catch (InterruptedException e) {

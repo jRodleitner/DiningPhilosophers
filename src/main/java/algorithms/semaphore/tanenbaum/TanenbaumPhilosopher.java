@@ -1,6 +1,6 @@
 package algorithms.semaphore.tanenbaum;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import parser.Events;
@@ -10,8 +10,8 @@ public class TanenbaumPhilosopher extends AbstractPhilosopher {
 
     private final Monitor monitor;
 
-    public TanenbaumPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, Monitor monitor) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public TanenbaumPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, Monitor monitor) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.monitor = monitor;
     }
 
@@ -39,15 +39,15 @@ public class TanenbaumPhilosopher extends AbstractPhilosopher {
 
         monitor.semaphores[id].acquire();
 
-        pickUpLeftFork();
-        pickUpRightFork();
+        pickUpLeftChopstick();
+        pickUpRightChopstick();
     }
 
 
 
     private void putDown() throws InterruptedException {
-        putDownLeftFork();
-        putDownRightFork();
+        putDownLeftChopstick();
+        putDownRightChopstick();
 
         monitor.mutex.acquire();
         monitor.states[id] = Events.THINK;

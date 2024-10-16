@@ -1,6 +1,6 @@
 package algorithms.token.singletoken;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
@@ -10,8 +10,8 @@ public class TokenPhilosopher extends AbstractPhilosopher {
     protected volatile GlobalToken token;
     private final Object tokenLock = new Object();
 
-    public TokenPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public TokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
     }
 
     public void setToken (GlobalToken token){
@@ -45,11 +45,11 @@ public class TokenPhilosopher extends AbstractPhilosopher {
                     }
                 }
 
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 eat();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
 
                 token.passToken();
             }

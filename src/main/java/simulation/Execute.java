@@ -21,7 +21,7 @@ public class Execute {
         table.startDinner();
         while (simulationTime > 0) {
             simulationTime--;
-            Thread.sleep(10);
+            Thread.sleep(5);
             //TODO inspect logic!
             //table.lockClock();
             table.advanceTime();
@@ -46,7 +46,7 @@ public class Execute {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println(execute(2, 3000, Algorithm.PICKUPWAITER, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200, false));
+        System.out.println(execute(5, 100, Algorithm.CLASSICWAITER, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200, false));
         /*int number = 12;
         int std = 20;
         System.out.println(Distribution.exponentialDistributionDuration(number));

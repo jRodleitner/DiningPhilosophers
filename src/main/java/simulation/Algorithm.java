@@ -11,6 +11,8 @@ public class Algorithm {
 
     public static final String TIMEOUT = "TIMEOUT";  //5
 
+    public static final String CLASSICWAITER = "CLASSICWAITER";
+
     public static final String ATOMICWAITER = "ATOMICWAITER";  //6
 
     public static final String PICKUPWAITER = "PICKUPWAITER";//7
@@ -24,7 +26,6 @@ public class Algorithm {
     public static final String TABLESEMAPHORE = "TABLESEMAPHORE";   //10
 
     public static final String ROUNDROBIN = "ROUNDROBIN";    //11
-
 
     public static final String DIJKSTRA = "DIJKSTRA";//12
 

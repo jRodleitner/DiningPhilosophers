@@ -1,12 +1,12 @@
 package algorithms.semaphore.dijkstra;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 
 import java.util.concurrent.Semaphore;
 
-public class DijkstraFork extends AbstractFork {
-    public DijkstraFork(int id) {
+public class DijkstraChopstick extends AbstractChopstick {
+    public DijkstraChopstick(int id) {
         super(id);
         forkSemaphore = new Semaphore(1, true);
     }

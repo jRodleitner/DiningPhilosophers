@@ -1,17 +1,16 @@
 package algorithms.waiter.intelligent;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
-import algorithms.waiter.queuewaiter.Waiter;
 import simulation.DiningTable;
 
 public class IntelligentPickupGuestPhilosopher extends AbstractPhilosopher {
 
     private final IntelligentWaiter waiter;
 
-    public IntelligentPickupGuestPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, IntelligentWaiter waiter) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public IntelligentPickupGuestPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, IntelligentWaiter waiter) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.waiter = waiter;
     }
 
@@ -21,12 +20,12 @@ public class IntelligentPickupGuestPhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 waiter.requestPermission(this);
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 waiter.returnPermission();
                 eat();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
                 waiter.removeEatState(this);
 
             }

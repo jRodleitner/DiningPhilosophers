@@ -1,17 +1,16 @@
 package algorithms.timeout;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import parser.Events;
 import simulation.DiningTable;
-import simulation.SimuType;
 
 public class TimeoutPhilosopher extends AbstractPhilosopher {
-    private final TimeoutFork rightTimeoutFork;
-    public TimeoutPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
-        rightTimeoutFork = (TimeoutFork)rightFork;
+    private final TimeoutChopstick rightTimeoutChopstick;
+    public TimeoutPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
+        rightTimeoutChopstick = (TimeoutChopstick)rightChopstick;
     }
 
 
@@ -22,14 +21,14 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
 
             while (!isInterrupted()) {
                 think();
-                pickUpLeftFork();
+                pickUpLeftChopstick();
                 boolean succPickup = pickUpRightWithTimeout();
                 if(succPickup){
                     eat();
-                    putDownLeftFork();
-                    putDownRightFork();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
                 } else {
-                    putDownLeftFork();
+                    putDownLeftChopstick();
                 }
 
             }
@@ -41,7 +40,7 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
 
     //TODO getSimulationType
     protected boolean pickUpRightWithTimeout() throws InterruptedException {
-        boolean succPickup = rightTimeoutFork.pickUpRight(this);
+        boolean succPickup = rightTimeoutChopstick.pickUpRight(this);
         if(succPickup){
             if(simulatePickups){
                 table.lockClock();

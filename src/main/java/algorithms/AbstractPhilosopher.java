@@ -6,8 +6,8 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractPhilosopher extends Thread {
     protected final int id;
-    protected AbstractFork leftFork;
-    protected AbstractFork rightFork;
+    protected AbstractChopstick leftChopstick;
+    protected AbstractChopstick rightChopstick;
     protected final DiningTable table;
     protected final StringBuilder sb;
     protected String lastAction;
@@ -19,10 +19,10 @@ public abstract class AbstractPhilosopher extends Thread {
 
     protected final Distribution thinkDistr;
 
-    public AbstractPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+    public AbstractPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
         this.id = id;
-        this.leftFork = leftFork;
-        this.rightFork = rightFork;
+        this.leftChopstick = leftChopstick;
+        this.rightChopstick = rightChopstick;
         this.table = table;
         this.sb = new StringBuilder();
         this.thinkDistr = thinkistr;
@@ -52,8 +52,8 @@ public abstract class AbstractPhilosopher extends Thread {
     }
 
 
-    protected void pickUpLeftFork() throws InterruptedException {
-        leftFork.pickUp(this);
+    protected void pickUpLeftChopstick() throws InterruptedException {
+        leftChopstick.pickUp(this);
         if(simulatePickups) {
             table.lockClock();
             table.advanceTime();
@@ -64,8 +64,8 @@ public abstract class AbstractPhilosopher extends Thread {
         lastAction = Events.PICKUPLEFT;
     }
 
-    protected void pickUpRightFork() throws InterruptedException {
-        rightFork.pickUp(this);
+    protected void pickUpRightChopstick() throws InterruptedException {
+        rightChopstick.pickUp(this);
         if(simulatePickups) {
             table.lockClock();
             table.advanceTime();
@@ -90,32 +90,32 @@ public abstract class AbstractPhilosopher extends Thread {
         lastAction = Events.EAT;
     }
 
-    protected void putDownLeftFork() {
+    protected void putDownLeftChopstick() {
 
         if(simulatePickups) {
             table.lockClock();
-            leftFork.putDown(this);
+            leftChopstick.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
             table.unlockClock();
         } else {
-            leftFork.putDown(this);
+            leftChopstick.putDown(this);
         }
         pickedUp--;
         lastAction = Events.PUTDOWNLEFT;
 
     }
 
-    protected void putDownRightFork() {
+    protected void putDownRightChopstick() {
 
         if(simulatePickups){
             table.lockClock();
-            rightFork.putDown(this);
+            rightChopstick.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
             table.unlockClock();
         } else {
-            rightFork.putDown(this);
+            rightChopstick.putDown(this);
         }
         pickedUp--;
         lastAction = Events.PUTDOWNRIGHT;
@@ -123,8 +123,8 @@ public abstract class AbstractPhilosopher extends Thread {
 
     }
 
-    public AbstractFork getRightFork(){
-        return rightFork;
+    public AbstractChopstick getRightChopstick(){
+        return rightChopstick;
     }
 
     @Override

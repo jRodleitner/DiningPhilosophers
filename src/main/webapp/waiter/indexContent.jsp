@@ -54,64 +54,21 @@
 <body>
 <div class="description">
 
-    <h2>Classic Waiter Solution</h2>
-    <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
-    <p>
-        The Waiter Solution introduces a central entity to manage chopstick access and prevent deadlocks.
-        There is a classic version of the waiter solution, in which we track the status of the forks.
-        The waiter always provides the chopsticks when requested by a philosopher,
-        unless there is only one chopstick remaining on the table.
-        In this case we only allow the pickup if a chopstick to the right of a philosopher is requested.
-        philosophers that want to pick up their left chopstick then have to wait until a philosopher has stopped eating.
-
-    </p>
-
-
-
-    <p>
-
-    </p>
-    <pre><code>
-        [Pseudocode]
-
-    </code></pre>
-    <p>
-
-    </p>
-    <pre><code>
-        [Pseudocode]
-
-    </code></pre>
-    <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We  ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
-        </li>
-        <li>Performance:</li>
-    </ul>
-    <p>
-        You can find the respective Simulation and Animation pages here:
-    </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
-
-
-
-
 
     <h2>Atomic Waiter Solution</h2>
+    <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
+        The Waiter Solution introduces a central entity to manage access to chopsticks and prevent deadlocks.
         In the Atomic Waiter solution, philosophers must notify the waiter whenever they want to eat.
         The waiter maintains a queue of requests and grants permission to eat based on the order in which philosophers
-        were added the queue.
+        were added to the queue.
         When a philosopher is first in the queue, they are given permission to pick up both chopsticks and start eating.
-        Once they finish, the waiter grants permission to the next philosopher in line, ensuring that only one
-        philosopher eats at a time.
+        Once they finished putting down the chopsticks, the waiter grants permission to the next philosopher in the queue.
         By controlling access through the waiter like this, we again eliminate the circular wait condition as defined by Coffman.
-        However, this approach also removes concurrency, meaning only one philosopher can eat at any given moment.
+        We also provide fairness via maintaining the queue, guaranteeing that every philosopher who requested chopsticks will eventually get the chance to eat.
+        In this solution we view the whole picking up chopsticks, eating and putting down chopsticks as an atomic process,
+        which is of course unnecessary.
+        We will improve on this in the following solutions on this page.
     </p>
 
     <p>
@@ -178,7 +135,7 @@
     <p>Now let us evaluate the Atomic Waiter approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We introduce ...</li>
+        <li>Fairness: We introduce ... </li>
         <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
         <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
             needed.
@@ -203,12 +160,11 @@
     <p>
         We can reintroduce some concurrency into the system by limiting the waiter's permission to just the chopstick
         pickup phase. This way, multiple philosophers can receive permission from the waiter and eat at the same time.
-        This approach helps attain concurrency again, but still prevents deadlocks by avoiding the circular wait
+        This approach helps us attain concurrency again, but still prevents deadlocks by avoiding the circular wait
         condition.
         The main drawback of this solution is that the waiter will always assign the permission to the philosopher that
         requested the chopsticks first.
-        Thus, we do not provide any fairness to the system and an adjacent philosopher will frequently attain
-        permission, limiting the concurrency.
+        Thus, an adjacent philosopher will frequently attain permission, limiting the concurrency.
     </p>
 
     <p>
@@ -275,9 +231,9 @@
         to a currently eating philosopher) to eat.
         In the case that no such philosopher is found we just pick the first philosopher in the queue.
         This should theoretically help us to attain more concurrency in our system.
+
         However, there is still one drawback to this solution, as a waiter will always assign the permission to the
         philosopher that requested the chopsticks first, or one that is currently able to eat.
-        Thus, we still do not provide fairness to the system in this way, we just handle requests one after another.
     </p>
 
     <p>
@@ -576,8 +532,53 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Atomic Waiter Animation</a>
+    <a href="../simulation/?algorithm=TWOWAITERS" class="button">Two Waiters Simulation</a>
+    <a href="../animation/?algorithm=TWOWAITERS" class="button">Two Waiters Animation</a>
+
+
+
+
+    <h2>Classic Waiter Solution</h2>
+
+    <p>
+        There is a classic version of the waiter solution, in which we track the number of forks on the table.
+        The waiter always provides the chopsticks when requested by a philosopher,
+        unless there are less than two chopsticks remaining on the table.
+        In this case we let the philosopher wait until another philosopher is done eating.
+
+    </p>
+
+
+
+    <p>
+
+    </p>
+    <pre><code>
+        [Pseudocode]
+
+    </code></pre>
+    <p>
+
+    </p>
+    <pre><code>
+        [Pseudocode]
+
+    </code></pre>
+    <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Fairness: We  ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+            needed.
+        </li>
+        <li>Performance:</li>
+    </ul>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
+    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
 </div>
 
 

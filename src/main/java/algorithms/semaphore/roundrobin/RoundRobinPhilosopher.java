@@ -1,6 +1,6 @@
 package algorithms.semaphore.roundrobin;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
@@ -9,7 +9,7 @@ import java.util.concurrent.Semaphore;
 
 public class RoundRobinPhilosopher extends AbstractPhilosopher {
     Semaphore[] semaphores;
-    public RoundRobinPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, PhilosopherSemaphores philosopherSemaphores) {
+    public RoundRobinPhilosopher(int id, AbstractChopstick leftFork, AbstractChopstick rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, PhilosopherSemaphores philosopherSemaphores) {
         super(id, leftFork, rightFork, table, thinkistr, eatDistr);
         this.semaphores = philosopherSemaphores.semaphores;
     }
@@ -20,11 +20,11 @@ public class RoundRobinPhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 semaphores[id].acquire();
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 eat();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
                 semaphores[(id + 1) % semaphores.length].release();
             }
         } catch (InterruptedException e) {

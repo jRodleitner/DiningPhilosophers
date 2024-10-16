@@ -1,13 +1,13 @@
 package algorithms.restrict;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
 
 public class RestrictPhilosopher extends AbstractPhilosopher {
-    public RestrictPhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public RestrictPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
     }
 
     @Override
@@ -15,11 +15,11 @@ public class RestrictPhilosopher extends AbstractPhilosopher {
         try {
             while (!isInterrupted()) {
                 think();
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 eat();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         } catch (InterruptedException e) {
             table.unlockClock();

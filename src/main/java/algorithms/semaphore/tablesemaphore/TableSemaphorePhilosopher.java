@@ -1,6 +1,6 @@
 package algorithms.semaphore.tablesemaphore;
 
-import algorithms.AbstractFork;
+import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
@@ -10,8 +10,8 @@ import java.util.concurrent.Semaphore;
 public class TableSemaphorePhilosopher extends AbstractPhilosopher {
 
     private volatile Semaphore semaphore;
-    public TableSemaphorePhilosopher(int id, AbstractFork leftFork, AbstractFork rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, TableSemaphore tableSemaphore) {
-        super(id, leftFork, rightFork, table, thinkistr, eatDistr);
+    public TableSemaphorePhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, TableSemaphore tableSemaphore) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.semaphore = tableSemaphore.semaphore;
     }
 
@@ -21,12 +21,12 @@ public class TableSemaphorePhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 semaphore.acquire();
-                pickUpLeftFork();
-                pickUpRightFork();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
                 semaphore.release();
                 eat();
-                putDownLeftFork();
-                putDownRightFork();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         } catch (InterruptedException e) {
             table.unlockClock();

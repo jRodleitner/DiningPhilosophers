@@ -1,13 +1,13 @@
 package algorithms;
 
 
-public abstract class AbstractFork {
+public abstract class AbstractChopstick {
 
     protected final int id;
     protected boolean isAvailable = true;
 
 
-    public AbstractFork(int id) {
+    public AbstractChopstick(int id) {
         this.id = id;
     }
 
@@ -32,7 +32,7 @@ public abstract class AbstractFork {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AbstractFork that = (AbstractFork) o;
+        AbstractChopstick that = (AbstractChopstick) o;
         return id == that.id;
     }
 
