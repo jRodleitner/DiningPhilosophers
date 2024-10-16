@@ -1,6 +1,6 @@
 package simulation;
 
-simulation import algorithms.asymmetric.AsymmetricPhilosopher;
+import algorithms.asymmetric.AsymmetricPhilosopher;
 import algorithms.hierarchy.HierarchyPhilosopher;
 import algorithms.SimpleChopstick;
 import algorithms.naive.NaivePhilosopher;
