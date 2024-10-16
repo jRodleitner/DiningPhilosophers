@@ -289,13 +289,13 @@
     <pre><code>
         [Pseudocode]
 
-        class monitor {
+        class Monitor {
 
             String[] states;
             Semaphore[] semaphores;
             Semaphore mutex;
 
-            monitor(int nrPhilosophers) {
+            Monitor(int nrPhilosophers) {
                 states = new String[nrPhilosophers];
                 semaphores = new Semaphore[nrPhilosophers];
                 for (int i = 0; i < nrPhilosophers; i++) {
@@ -398,20 +398,151 @@
 
     <h2>Fair Tanenbaum Solution</h2>
     <p>
-        We can try to enhance the fairness of the Tanenbaum solution by tracking either the times of eats or the previous eating times.
-        For this purpose we maintain an additional priority-queue that we check whenever the test() function is called.
-        Note that this comes at the cost of parallelism, since by prioritizing philosophers that ate fewer times/ less time, we prevent other philosophers from eating that could potentially eat at the given moment.
+        We can try to enhance the fairness of the Tanenbaum solution by tracking the eat-chances.
+        For this purpose we maintain an additional array of eat times that is updated whenever philosophers are done eating.
+        We then check this array whenever a philosopher puts the chopsticks down.
+        Instead of calling test() on the two adjacent philosophers we now call the test() function on all philosophers, prioritized by the previously tracked eat-chances.
     </p>
 
     <pre><code>
-        codeee
-        codeee
+        [Pseudocode]
+
+        class FairMonitor {
+
+            String[] states;
+            Semaphore[] semaphores;
+            int[] eatTimes;
+            Semaphore mutex;
+
+            FairMonitor(int nrPhilosophers) {
+                eatTimes = new int[nrPhilosophers];
+                states = new String[nrPhilosophers];
+                semaphores = new Semaphore[nrPhilosophers];
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    states[i] = Events.THINK;
+                    semaphores[i] = new Semaphore(0);
+                }
+                mutex = new Semaphore(1);
+            }
+
+            void test(int id) {
+                int left = (id + states.length - 1) % states.length;
+                int right = (id + 1) % states.length;
+
+                if (states[id] == Events.HUNGRY &&
+                    states[left] != Events.EAT &&
+                    states[right] != Events.EAT) {
+
+                    states[id] = Events.EAT;
+                    semaphores[id].release();
+                }
+            }
+
+            void updateEatTime(int id) {
+                eatTimes[id]++;
+            }
+
+            void updateState(int id, String state) {
+                states[id] = state;
+            }
+
+            void checkAll() {
+                int[] sortedIndices = sortByEatingTimes();
+                for (int index : sortedIndices) {
+                    test(index);
+                }
+            }
+
+            int[] sortByEatingTimes() {
+                EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length];
+                for (int i = 0; i < eatTimes.length; i++) {
+                    sortArray[i] = new EatTimeWithIndex(eatTimes[i], i);
+                }
+
+                Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime));
+
+                int[] sortedIndices = new int[eatTimes.length];
+                for (int i = 0; i < sortArray.length; i++) {
+                    sortedIndices[i] = sortArray[i].index;
+                }
+
+                return sortedIndices;
+            }
+
+            static class EatTimeWithIndex {
+                int eatTime;
+                int index;
+
+                eatTimeWithIndex(int eatTime, int index) {
+                    this.eatTime = eatTime;
+                    this.index = index;
+                }
+            }
+        }
+
+    </code></pre>
+
+    <p>
+
+    </p>
+
+    <pre><code>
+        [Pseudocode]
+
+        class FairTanenbaumPhilosopher extends Philosopher {
+
+            FairMonitor monitor;
+
+            FairTanenbaumPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairMonitor monitor) {
+                super(id, leftChopstick, rightChopstick);
+                this.monitor = monitor;
+            }
+
+            @Override
+            void run() {
+                while (!terminated()) {
+                    think();
+                    pickUp();
+                    eats();
+                    putDown();
+                }
+            }
+
+            void pickUp() {
+                monitor.mutex.acquire();
+                monitor.updateState(id, Events.HUNGRY);
+                monitor.test(id);
+                monitor.mutex.release();
+
+                monitor.semaphores[id].acquire();
+
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+            }
+
+            void eats() {
+                eat();
+                monitor.mutex.acquire();
+                monitor.updateEatTime(id);
+                monitor.mutex.release();
+            }
+
+            void putDown() {
+                putDownLeftChopstick();
+                putDownRightChopstick();
+
+                monitor.mutex.acquire();
+                monitor.updateState(id, Events.THINK);
+                monitor.checkAll();
+                monitor.mutex.release();
+            }
+        }
+
     </code></pre>
 
     <p>
         Now let us evaluate the Fair Tanenbaum solution based on the key-challenges:
     </p>
-
     <ul>
         <li>Deadlocks: Prevents deadlocks</li>
         <li>Fairness: We reintroduce ...</li>
@@ -428,6 +559,7 @@
     </p>
     <a href="../simulation/?algorithm=FAIR_TANENBAUM" class="button">Fair Tanenbaum Simulation</a>
     <a href="../animation/?algorithm=FAIR_TANENBAUM" class="button">Fair Tanenbaum Animation</a>
+
 
 
 

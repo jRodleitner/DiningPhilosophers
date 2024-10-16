@@ -545,7 +545,7 @@
         The waiter always provides the chopsticks when requested by a philosopher,
         unless there are less than two chopsticks remaining on the table.
         In this case we let the philosopher wait until another philosopher is done eating.
-
+        This solution
     </p>
 
 

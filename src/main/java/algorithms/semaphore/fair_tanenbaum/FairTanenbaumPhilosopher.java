@@ -3,6 +3,7 @@ package algorithms.semaphore.fair_tanenbaum;
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
+import algorithms.semaphore.tanenbaum.Monitor;
 import parser.Events;
 import simulation.DiningTable;
 
@@ -21,7 +22,7 @@ public class FairTanenbaumPhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 pickUp();
-                eat();
+                eats();
                 putDown();
             }
         } catch (InterruptedException e) {
@@ -30,27 +31,36 @@ public class FairTanenbaumPhilosopher extends AbstractPhilosopher {
         }
     }
 
-    private void pickUp() throws InterruptedException {
-        monitor.mutex.acquire(); // Enter critical section
-        monitor.states[id] = Events.BLOCKED; // Philosopher is hungry
-        monitor.hungryQueue.add(id); // Add philosopher to the hungry queue
-        monitor.test(id); // Check if they can eat
-        monitor.mutex.release(); // Exit critical section
 
-        monitor.semaphores[id].acquire(); // Block if they can't eat yet
+    private void pickUp() throws InterruptedException {
+        monitor.mutex.acquire();
+        monitor.updateState(id, Events.HUNGRY);
+        monitor.test(id);
+        monitor.mutex.release();
+
+        monitor.semaphores[id].acquire();
 
         pickUpLeftChopstick();
         pickUpRightChopstick();
     }
 
+    private void eats() throws InterruptedException {
+        eat();
+        monitor.mutex.acquire();
+        monitor.updateEatTime(id);
+        monitor.mutex.release();
+    }
+
+
+
     private void putDown() throws InterruptedException {
         putDownLeftChopstick();
         putDownRightChopstick();
 
-        monitor.mutex.acquire(); // Enter critical section
-        monitor.states[id] = Events.THINK; // Philosopher is thinking again
-        monitor.recheckHungryQueue();
-        monitor.mutex.release(); // Exit critical section
+        monitor.mutex.acquire();
+        monitor.updateState(id, Events.THINK);
+        monitor.checkAll();
+        monitor.mutex.release();
     }
 }
 

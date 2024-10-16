@@ -24,9 +24,9 @@ public class IntelligentPickupGuestPhilosopher extends AbstractPhilosopher {
                 pickUpRightChopstick();
                 waiter.returnPermission();
                 eat();
+                waiter.removeEatState(this);
                 putDownLeftChopstick();
                 putDownRightChopstick();
-                waiter.removeEatState(this);
 
             }
         } catch (InterruptedException e) {

@@ -3,46 +3,84 @@ package algorithms.semaphore.fair_tanenbaum;
 import parser.Events;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
 
+import parser.Events;
+
+import java.util.concurrent.Semaphore;
+
 public class FairMonitor {
-    protected String[] states;
+    private final String[] states;
     protected Semaphore[] semaphores;
+    private final int[] eatTimes;
     Semaphore mutex;
-    Queue<Integer> hungryQueue; // Queue to track hungry philosophers
 
     public FairMonitor(int nrPhilosophers) {
+        eatTimes = new int[nrPhilosophers];
         states = new String[nrPhilosophers];
         semaphores = new Semaphore[nrPhilosophers];
         for (int i = 0; i < nrPhilosophers; i++) {
             states[i] = Events.THINK;
-            semaphores[i] = new Semaphore(0, true); // Start blocked
+            semaphores[i] = new Semaphore(0, true);
         }
         mutex = new Semaphore(1, true);
-        hungryQueue = new ArrayDeque<>();
     }
 
-    public synchronized void test(int id) {
+    public void test(int id) {
         int left = (id + states.length - 1) % states.length;
         int right = (id + 1) % states.length;
 
-        // Philosopher can eat if they are hungry, both neighbors are not eating, and they are next in the hungry queue
-        if (states[id].equals(Events.BLOCKED) &&
+        if (states[id].equals(Events.HUNGRY) &&
                 !states[left].equals(Events.EAT) &&
-                !states[right].equals(Events.EAT) &&
-                hungryQueue.peek() == id) {
+                !states[right].equals(Events.EAT)) {
 
-            states[id] = Events.EAT; // Set state to Eating
-            semaphores[id].release(); // Allow philosopher to eat
-            hungryQueue.poll(); // Remove from the queue
+            //System.out.println("PH allowed: " + id);
+            states[id] = Events.EAT;
+            semaphores[id].release();
         }
     }
 
-    public synchronized void recheckHungryQueue() {
-        // Recheck all philosophers in the hungry queue
-        for (int id : hungryQueue) {
-            test(id);
+    protected void updateEatTime(int id){
+        eatTimes[id]++;
+    }
+
+    protected void updateState(int id, String state){
+        states[id] = state;
+    }
+
+    protected void checkAll(){
+        int[] sortedIndices = sortByEatingTimes();
+        for (int j : sortedIndices) {
+            test(j);
+        }
+    }
+
+    private int[] sortByEatingTimes(){
+        EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length];
+        for (int i = 0; i < eatTimes.length; i++) {
+            sortArray[i] = new EatTimeWithIndex(eatTimes[i], i);
+        }
+
+        Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime));
+
+        int[] sortedIndices = new int[eatTimes.length];
+
+        // Extract the sorted indices based on the sorted elements
+        for (int i = 0; i < sortArray.length; i++) {
+            sortedIndices[i] = sortArray[i].index;
+        }
+        return sortedIndices;
+    }
+
+    private static class EatTimeWithIndex{
+        int eatTime;
+        int index;
+        public EatTimeWithIndex(int eatTime, int index){
+            this.eatTime = eatTime;
+            this.index = index;
         }
     }
 }
