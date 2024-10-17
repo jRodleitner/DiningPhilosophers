@@ -176,9 +176,9 @@
                     break;
                 case 'NORMAL':
                     eatparam1.min = 50;
-                    eatparam1.max = 400;
-                    eatparam2.min = 0;
-                    eatparam2.max = 20;
+                    eatparam1.max = 200;
+                    eatparam2.min = 1;
+                    eatparam2.max = 40;
                     break;
                 case 'EXP':
                     eatparam1.min = 3;
@@ -269,17 +269,17 @@
             <select id="algorithm" name="algorithm">
                 <option value="NAIVE" <%= "NAIVE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Naive
                 </option>
-                <option value="ASYMMETRIC" <%= "ASYMMETRIC".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                    Asymmetric
-                </option>
                 <option value="HIERARCHY" <%= "HIERARCHY".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Hierarchy
                 </option>
-                <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                    Restrict
+                <option value="ASYMMETRIC" <%= "ASYMMETRIC".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                    Asymmetric
                 </option>
                 <option value="TIMEOUT" <%= "TIMEOUT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Timeout
+                </option>
+                <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                    Restrict
                 </option>
                 <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Chandy-Misra
@@ -314,6 +314,9 @@
                 </optgroup>
 
                 <optgroup label="Semaphore">
+                    <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Table-Semaphore
+                    </option>
                     <option value="DIJKSTRA" <%= "DIJKSTRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Dijkstra
                     </option>
@@ -326,9 +329,6 @@
                     <option value="ROUNDROBIN" <%= "ROUNDROBIN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Round-Robin
                     </option>
-                    <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Table-Semaphore
-                    </option>
                 </optgroup>
             </select>
 
@@ -338,9 +338,9 @@
             <input type="number" id="nrPhil" name="nrPhil" min="2" max="9"
                    value="${param.nrPhil != null ? param.nrPhil : '5'}" required><br><br>
 
-            <label for="simulationTime">Simulation Time (50-1000):</label>
-            <input type="number" id="simulationTime" name="simulationTime" min="50" max="1000"
-                   value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
+            <label for="simulationTime">Simulation Time (100-1000):</label>
+            <input type="number" id="simulationTime" name="simulationTime" min="100" max="1000"
+                   value="${param.simulationTime != null ? param.simulationTime : '100'}" required><br><br>
 
             <!-- Think Distribution -->
             <label for="thinkDistribution">Think Distribution:</label>
@@ -361,10 +361,10 @@
 
             <br>
             <label id="thinkparam1Label" for="thinkparam1">Lb:</label>
-            <input type="number" id="thinkparam1" name="thinkparam1" min="50" max="400" step="0.001"
+            <input type="number" id="thinkparam1" name="thinkparam1" min="30" max="400" step="0.001"
                    value="${param.thinkparam1 != null ? param.thinkparam1 : '50'}">
             <label id="thinkparam2Label" for="thinkparam2">Ub:</label>
-            <input type="number" id="thinkparam2" name="thinkparam2" min="50" max="400" step="0.001"
+            <input type="number" id="thinkparam2" name="thinkparam2" min="30" max="400" step="0.001"
                    value="${param.thinkparam2 != null ? param.thinkparam2 : '100'}"><br><br>
 
             <!-- Eat Distribution -->
@@ -387,16 +387,16 @@
 
             <br>
             <label id="eatparam1Label" for="eatparam1">Lb:</label>
-            <input type="number" id="eatparam1" name="eatparam1" min="50" max="400" step="0.001"
+            <input type="number" id="eatparam1" name="eatparam1" min="30" max="400" step="0.001"
                    value="${param.eatparam1 != null ? param.eatparam1 : '50'}">
             <label id="eatparam2Label" for="eatparam2">Ub:</label>
-            <input type="number" id="eatparam2" name="eatparam2" min="50" max="400" step="0.001"
+            <input type="number" id="eatparam2" name="eatparam2" min="30" max="400" step="0.001"
                    value="${param.eatparam2 != null ? param.eatparam2 : '100'}">
             <br>
 
-            <label id=timeoutLabel for="timeout">Timeout (5-500):</label>
-            <input type="number" id="timeout" name="timeout" min="5" max="500"
-                   value="${param.timeout != null ? param.timeout : '200'}" required>
+            <label id=timeoutLabel for="timeout">Timeout (10-200):</label>
+            <input type="number" id="timeout" name="timeout" min="10" max="200"
+                   value="${param.timeout != null ? param.timeout : '100'}" required>
             <br>
             <br>
 

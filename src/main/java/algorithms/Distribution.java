@@ -44,7 +44,10 @@ public class Distribution {
     private static Random random = new Random();
 
     public static long normalDistributionDuration(double mu, double sigma) {
-        return (long) (mu + sigma * random.nextGaussian());
+        long result = (long) (mu + sigma * random.nextGaussian());
+        if(result > 400) result = 400;
+        if(result < 30) result = 30;
+        return result;
     }
 
     public static long exponentialDistributionDuration(double lambda) {

@@ -886,9 +886,9 @@
                         break;
                     case 'NORMAL':
                         eatparam1.min = 50;
-                        eatparam1.max = 400;
-                        eatparam2.min = 0;
-                        eatparam2.max = 20;
+                        eatparam1.max = 200;
+                        eatparam2.min = 1;
+                        eatparam2.max = 40;
                         break;
                     case 'EXP':
                         eatparam1.min = 3;
@@ -966,17 +966,17 @@
             <select id="algorithm" name="algorithm">
                 <option value="NAIVE" <%= "NAIVE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>Naive
                 </option>
-                <option value="ASYMMETRIC" <%= "ASYMMETRIC".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                    Asymmetric
-                </option>
                 <option value="HIERARCHY" <%= "HIERARCHY".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Hierarchy
                 </option>
-                <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                    Restrict
+                <option value="ASYMMETRIC" <%= "ASYMMETRIC".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                    Asymmetric
                 </option>
                 <option value="TIMEOUT" <%= "TIMEOUT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Timeout
+                </option>
+                <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                    Restrict
                 </option>
                 <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Chandy-Misra
@@ -1011,6 +1011,9 @@
                 </optgroup>
 
                 <optgroup label="Semaphore">
+                    <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Table-Semaphore
+                    </option>
                     <option value="DIJKSTRA" <%= "DIJKSTRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Dijkstra
                     </option>
@@ -1023,17 +1026,14 @@
                     <option value="ROUNDROBIN" <%= "ROUNDROBIN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Round-Robin
                     </option>
-                    <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Table-Semaphore
-                    </option>
                 </optgroup>
             </select>
 
             <br><br>
 
-            <label for="simulationTime">Simulation Time (50-500):</label>
-            <input type="number" id="simulationTime" name="simulationTime" min="50" max="500"
-                   value="${param.simulationTime != null ? param.simulationTime : '50'}" required><br><br>
+            <label for="simulationTime">Simulation Time (100-500):</label>
+            <input type="number" id="simulationTime" name="simulationTime" min="100" max="500"
+                   value="${param.simulationTime != null ? param.simulationTime : '100'}" required><br><br>
 
             <!-- Think Distribution -->
             <label for="thinkDistribution">Think Distribution:</label>
@@ -1087,8 +1087,8 @@
                    value="${param.eatparam2 != null ? param.eatparam2 : '100'}">
             <br>
 
-            <label id=timeoutLabel for="timeout">Timeout (5-500):</label>
-            <input type="number" id="timeout" name="timeout" min="5" max="500"
+            <label id=timeoutLabel for="timeout">Timeout (10-500):</label>
+            <input type="number" id="timeout" name="timeout" min="10" max="500"
                    value="${param.timeout != null ? param.timeout : '200'}" required>
             <br>
             <br>

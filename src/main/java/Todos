@@ -2,15 +2,17 @@ GENERAL TODO:
 
 NEXT:
 [ ] check all algorithms
-[ ] read approaches/ papers
+[ ] chandy misra
+[ ] Server deployment
+[ ] Simulation notes
+[ ] Animation Notes
+[ ] read approaches/ papers for new algorithms
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
-[ ] other simulation type: currStatus check
 
 
 
 AND FINALLY: (...HOW EVEN...AHHH...)
-[ ] chandy misra
 
 WIP:
 
@@ -21,9 +23,8 @@ TIMEOUT(Time-index)
 [-] make static classes objects!
 [-] arbitrator ????
 [!] intelligent waiter ???
-[ ] fillIn PDL/PDR/EAT logic?
-[ ] Separate Events for: Timeout, Waiter etc...??
-
+[ ] Separate Events for: Timeout, Waiter etc...?? (Animation)
+[ ] other simulation type: currStatus check
 Completed:
 
 CHECK:
@@ -73,7 +74,7 @@ CHECK:
 [x] Statistics overhaul: concurrency index, fairness index
 [x] Intelligent Pickup Waiter
 [x] Fair waiter -> use eat times
-
+[x] Improve Fair Tanenbaum
 DONE:
 [x] Naive
 
@@ -87,7 +88,7 @@ dijkstra
 
 16.10
 [x] modify fair tanenbaum
-[ ] Test minimum sleep time (eating, thinking)
+[x] Test minimum sleep time (eating, thinking)
 [x] Fair Tanenbaum code/description
 
 
@@ -110,9 +111,9 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 15. [x][x][ ] fair_tanenbaum
 
 NEXT:
-17. [ ][ ][ ] chandymisra
-18. [ ][ ][ ] roundrobin???
-7.  [x][_][ ] Classic Waiter
+16. [ ][ ][ ] chandymisra
+17. [ ][ ][ ] roundrobin???
+18. [x][_][ ] Classic Waiter
 
 FINALLY:
 19. [ ][ ] paper-solution
