@@ -9,7 +9,7 @@ import algorithms.naive.NaivePhilosopher;
 import algorithms.restrict.Restrict;
 import algorithms.restrict.RestrictChopstick;
 import algorithms.restrict.RestrictPhilosopher;
-import algorithms.semaphore.roundrobin.PhilosopherSemaphores;
+import algorithms.semaphore.roundrobin.RoundRobinScheduler;
 import algorithms.semaphore.roundrobin.RoundRobinChopstick;
 import algorithms.semaphore.roundrobin.RoundRobinPhilosopher;
 import algorithms.semaphore.dijkstra.DijkstraChopstick;
@@ -245,9 +245,9 @@ public class DiningTable {
                     chopsticks.add(new RoundRobinChopstick(i));
                 }
 
-                PhilosopherSemaphores semaphores = new PhilosopherSemaphores(nrPhilosophers);
+                RoundRobinScheduler scheduler = new RoundRobinScheduler(nrPhilosophers);
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    RoundRobinPhilosopher philosopher = new RoundRobinPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, semaphores);
+                    RoundRobinPhilosopher philosopher = new RoundRobinPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, scheduler);
                     philosophers.add(philosopher);
                 }
                 break;

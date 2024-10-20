@@ -69,7 +69,6 @@
         To introduce at least some fairness, we pass this restriction around the philosophers.
         After a philosopher finishes picking up their chopsticks, the restriction moves to the next adjacent philosopher(in our implementation to the right).
 
-        By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.
 
     </p>
 
@@ -133,7 +132,8 @@
 
     <p>Now let us evaluate the Restrict solution based on the key-challenges:</p>
     <ul>
-        <li>Deadlocks: By restricting the number of philosophers we effectively prevent deadlocks</li>
+        <li>Deadlocks: By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</li>
+        <li>Starvation: </li>
         <li>Fairness: We do not provide fairness to the system using this solution</li>
         <li>Concurrency: We do not prevent concurrency but in some situations we could block a philosopher from eating, when it would be possible.</li>
         <li>Implementation: The changes required to implement this solution are simple. </li>

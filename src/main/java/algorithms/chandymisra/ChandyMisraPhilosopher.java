@@ -6,7 +6,7 @@ import algorithms.Distribution;
 import parser.Events;
 import simulation.DiningTable;
 
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.TimeUnit;
 
 public class ChandyMisraPhilosopher extends AbstractPhilosopher {
 
@@ -16,8 +16,6 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     private ChandyMisraPhilosopher leftNeighbor, rightNeighbor;
 
     private boolean goingToEatRequest = false;
-
-    private boolean stillRunning = true;
 
     public ChandyMisraPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
@@ -29,75 +27,72 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     public void run() {
         try {
             while (!isInterrupted()) {
-                thinking();
-                processChopsticks(true);
-                obtainChopsticksIfNecessary();
+                checkForRequests();
+                think();
+                checkForRequests();
+                requestChopsticksIfNecessary();
                 eating();
-                processChopsticks(true);  // Ensure release of chopsticks after last eat
+                checkForRequests();  // Ensure release of chopsticks after last eat
             }
         } catch (InterruptedException e) {
-            //System.out.println("Philosopher " + id + " interrupted" );
-            stillRunning = false;
             table.unlockClock();
             Thread.currentThread().interrupt();
         }
     }
 
-    private void obtainChopsticksIfNecessary() throws InterruptedException {
-        //System.out.println("Philosopher " + id + " is preparing to eat.");
+    private void requestChopsticksIfNecessary() throws InterruptedException {
         goingToEatRequest = true;
         waitForChopstick(leftChopstick);
         waitForChopstick(rightChopstick);
         goingToEatRequest = false;
-        //System.out.println("Philosopher " + id + " obtained both chopsticks and is ready to eat.");
     }
 
     private void waitForChopstick(ChandyMisraChopstick chopstick) throws InterruptedException {
         synchronized (chopstick) {
-            //try {
-                //System.out.println("Philosopher " + id + " is waiting for chopstick " + chopstick.getId());
-                while (chopstick.owner != this) {
-                    processChopsticks(true);  // Release dirty chopstick while waiting
-                    chopstick.wait();
-                }
-                //System.out.println("Philosopher " + id + " acquired chopstick " + chopstick.getId());
-            /*} catch (InterruptedException e) {
-                System.out.println("Philosopher " + id + " interrupted while waiting for chopstick " + chopstick.getId());
-                Thread.currentThread().interrupt();  // Handle interruption
-            }*/
+            while (chopstick.owner != this) {
+                checkForRequests();  // Release dirty chopstick while waiting
+                chopstick.wait(10);
+            }
         }
     }
 
-    private void processChopsticks(boolean isRequestRequired) {
-        //System.out.println("Philosopher " + id + " is processing chopsticks.");
-        giveUpChopstickIfNecessary(leftChopstick, leftNeighbor, isRequestRequired);
-        giveUpChopstickIfNecessary(rightChopstick, rightNeighbor, isRequestRequired);
+    private void checkForRequests() {
+        giveUpChopstickIfRequested(leftChopstick, leftNeighbor);
+        giveUpChopstickIfRequested(rightChopstick, rightNeighbor);
     }
 
-    private void giveUpChopstickIfNecessary(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver, boolean isRequestRequired) {
+    private void giveUpChopstickIfRequested(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver) {
         synchronized (chopstick) {
-            if ((receiver.goingToEatRequest || !isRequestRequired) && !chopstick.isClean && chopstick.owner == this) {
+            if ((receiver.goingToEatRequest) && !chopstick.isClean && chopstick.owner == this) {
                 chopstick.isClean = true;
                 chopstick.owner = receiver;
                 chopstick.notifyAll();  // Notify waiting philosopher
-                //System.out.println("Philosopher " + id + " gave chopstick " + chopstick.getId() + " to philosopher " + receiver.id);
             }
         }
     }
 
     private void eating() throws InterruptedException {
-        //System.out.println("Philosopher " + id + " is starting to eat.");
         pickUpLeftChopstick();
         pickUpRightChopstick();
         eat();
         rightChopstick.isClean = leftChopstick.isClean = false;
-        //System.out.println("Philosopher " + id + " has finished eating.");
         putDownLeftChopstick();
         putDownRightChopstick();
     }
 
-    private void thinking() throws InterruptedException {
-        think();
+    @Override
+    protected void think() throws InterruptedException {
+        long remainingTime = thinkDistr.calculateDuration();
+
+        while (remainingTime > 0) {
+            long sleepTime = Math.min(remainingTime, 10);
+            TimeUnit.MILLISECONDS.sleep(sleepTime);
+            checkForRequests();
+            remainingTime -= sleepTime;
+        }
+
+        sbLog(id, Events.THINK, table.getCurrentTime());
+        lastAction = Events.THINK;
     }
 
     public void setNeighbors(ChandyMisraPhilosopher leftNeighbor, ChandyMisraPhilosopher rightNeighbor) {
@@ -105,9 +100,13 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
         this.rightNeighbor = rightNeighbor;
     }
 
+    //________________________________________________________________________________________________________________//
+    //____________________________________________Modified pickUps/putDowns___________________________________________//
+    //________________________________________________________________________________________________________________//
+
     @Override
     protected void pickUpLeftChopstick() throws InterruptedException {
-        if(simulatePickups) {
+        if (simulatePickups) {
             table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
@@ -120,7 +119,7 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     @Override
     protected void pickUpRightChopstick() throws InterruptedException {
 
-        if(simulatePickups) {
+        if (simulatePickups) {
             table.lockClock();
             table.advanceTime();
             sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
@@ -133,14 +132,12 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     @Override
     protected void putDownLeftChopstick() {
 
-        if(simulatePickups) {
+        if (simulatePickups) {
             table.lockClock();
             //leftChopstick.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
             table.unlockClock();
-        } else {
-            //leftChopstick.putDown(this);
         }
         pickedUp--;
         lastAction = Events.PUTDOWNLEFT;
@@ -150,14 +147,12 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     @Override
     protected void putDownRightChopstick() {
 
-        if(simulatePickups){
+        if (simulatePickups) {
             table.lockClock();
             //rightChopstick.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
             table.unlockClock();
-        } else {
-            //rightChopstick.putDown(this);
         }
         pickedUp--;
         lastAction = Events.PUTDOWNRIGHT;
@@ -165,59 +160,3 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
 
 }
 
-/*
-    @Override
-    protected void pickUpLeftChopstick() throws InterruptedException {
-        if(simulatePickups) {
-            table.lockClock();
-            table.advanceTime();
-            sbLog(id, Events.PICKUPLEFT, table.getCurrentTime());
-            table.unlockClock();
-        }
-        pickedUp++;
-        lastAction = Events.PICKUPLEFT;
-    }
-
-    @Override
-    protected void pickUpRightChopstick() throws InterruptedException {
-
-        if(simulatePickups) {
-            table.lockClock();
-            table.advanceTime();
-            sbLog(id, Events.PICKUPRIGHT, table.getCurrentTime());
-            table.unlockClock();
-        }
-        pickedUp++;
-        lastAction = Events.PICKUPRIGHT;
-    }
-
-    protected void putDownLeftChopstick() {
-
-        if(simulatePickups) {
-            table.lockClock();
-            //leftChopstick.putDown(this);
-            table.advanceTime();
-            sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
-            table.unlockClock();
-        } else {
-            //leftChopstick.putDown(this);
-        }
-        pickedUp--;
-        lastAction = Events.PUTDOWNLEFT;
-
-    }
-
-    protected void putDownRightChopstick() {
-
-        if(simulatePickups){
-            table.lockClock();
-            //rightChopstick.putDown(this);
-            table.advanceTime();
-            sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
-            table.unlockClock();
-        } else {
-            //rightChopstick.putDown(this);
-        }
-        pickedUp--;
-        lastAction = Events.PUTDOWNRIGHT;
-    }*/

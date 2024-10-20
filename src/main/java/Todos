@@ -1,11 +1,9 @@
 GENERAL TODO:
 
 NEXT:
+[ ] Incidence graphs (Algorithms)
 [ ] check all algorithms
-[ ] chandy misra
 [ ] Server deployment
-[ ] Simulation notes
-[ ] Animation Notes
 [ ] read approaches/ papers for new algorithms
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -75,50 +73,50 @@ CHECK:
 [x] Intelligent Pickup Waiter
 [x] Fair waiter -> use eat times
 [x] Improve Fair Tanenbaum
-DONE:
 [x] Naive
-
-CUSTOM PICKUP FUNCTIONS:
-timeout
-dijkstra
-
-
-15.10
-[x] classic Waiter solution ?
-
-16.10
+[x] chandy misra
+[x] classic Waiter solution
 [x] modify fair tanenbaum
 [x] Test minimum sleep time (eating, thinking)
 [x] Fair Tanenbaum code/description
 
+19.10
+[ ] Pseudocode explanations
+[ ] Round-Robin Explanation
+[ ] Simulation notes
+[ ] Animation Notes
+
+
+
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
-0.  [x][x][ ] Naive
-1.  [x][x][ ] Hierarchy
-2.  [x][x][ ] Asymmetric
-3.  [x][x][ ] Timeout
-4.  [x][x][ ] Restrict
-5.  [x][x][ ] Global Token
-6.  [x][x][ ] Multiple Token
-7.  [x][x][ ] Atomic Waiter
-8.  [x][x][ ] Pickup Waiter
-9.  [x][x][ ] Intelligent Pickup Waiter
-10. [x][x][ ] Fair Waiter
-11. [x][x][ ] Two Waiters
-12. [x][x][ ] Table Semaphore
-13. [x][x][ ] dijkstra
-14. [x][x][ ] tanenbaum
-15. [x][x][ ] fair_tanenbaum
-
+1.  [x][x][ ] Naive
+2.  [x][x][ ] Hierarchy
+3.  [x][x][ ] Asymmetric
+4.  [x][x][ ] Timeout
+5.  [x][x][ ] Restrict
+6.  [x][x][ ] Global Token
+7.  [x][x][ ] Multiple Token
+8.  [x][x][ ] Atomic Waiter
+9.  [x][x][ ] Pickup Waiter
+10. [x][x][ ] Intelligent Pickup Waiter
+11. [x][x][ ] Fair Waiter
+12. [x][x][ ] Two Waiters
+13. [x][x][ ] Table Semaphore
+14. [x][x][ ] dijkstra
+15. [x][x][ ] tanenbaum
+16. [x][x][ ] fair_tanenbaum
+17. [x][x][ ] chandymisra
+18. [ ][ ][ ] roundrobin???
+19. [x][_][ ] Classic Waiter
 NEXT:
-16. [ ][ ][ ] chandymisra
-17. [ ][ ][ ] roundrobin???
-18. [x][_][ ] Classic Waiter
+
+
 
 FINALLY:
-19. [ ][ ] paper-solution
 20. [ ][ ] paper-solution
 21. [ ][ ] paper-solution
+22. [ ][ ] paper-solution
 
 IDEAS:
 
@@ -126,11 +124,6 @@ IDEAS:
 
     Animation: SVG animation using the text-field and the arrows!!!
 
-    INTELLIGENT WAITER: SAVE LIST OF PHILOSOPHGERS REQUESTING TO EAT AND CHECK FOR EACH IN THE LIST WHETHER
-    the two adjacent ones are free and allow them to eat. If permission is granted then one philosopher in the circle must be skipped
-    (WAITER UPDATES STATUS)
-
-    FAIR WAITER: (Increment eat times... assign rights to philosopher with the least amounts of eats)
     FORK SEMAPHORE:
     Dijkstra's solution using semaphores:
     Assign a semaphore to each chopstick, representing its availability.

@@ -64,7 +64,6 @@
     <p>
         Semaphores are a frequently used synchronization mechanism for concurrent systems to manage access to resources.
         The concept was introduced to the computer science community by none other than Edsger Dijkstra himself.
-        They are primarily used to prevent race conditions and deadlocks.
         In the following we will use Binary semaphores, which can only take values 0 and 1, this means they will allow
         access to one thread only (also called mutex).
         The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the
@@ -82,32 +81,30 @@
         philosophers.
         Philosophers have to acquire the semaphore before picking up their chopsticks,
         if the semaphore is currently not available, they wait until it becomes free again. After they are done picking
-        up,
-        they release the semaphore, and another philosopher can proceed.
-        Functionally, this approach is equivalent to the previously presented Pickup Waiter Solution.
+        up, they release the semaphore, and another philosopher can proceed.
+        Functionally, this approach is similar to the previously presented Pickup Waiter Solution.
         and is therefore useful for an introductory example on how to avoid deadlocks using semaphores.
     </p>
 
     <p>
-        The implementation is fairly simple: Philosophers need to acquire the table semaphore before eating.
-        To ensure fairness of the philosophers we have to enable the fairness parameter of the Semaphore in Java.
-        First we introduce a Semaphore for our table:
+        <b>Table Semaphore class:</b>
+        We have to enable the fairness parameter of the Semaphore in Java.
     </p>
     <pre><code>
         class TableSemaphore {
             Semaphore semaphore;
 
             TableSemaphore(){
-                semaphore = new Semaphore(1, true);
+                semaphore = new Semaphore(1, true); //fairness parameter set to true
             }
         }
     </code></pre>
 
     <p>
-        Then we let the philosophers acquire this semaphore before eating.
-        Volatile in the context of Java means that the value of a variable should not be cached, as it could be changed
-        by another thread.
-        To achieve this we create a subclass and add the respective changes:
+        <b>Modified Philosopher class:</b>
+        Philosophers need to acquire the table semaphore before picking up their
+        chopsticks and release it, once they are finished picking up.
+        In Java, the volatile keyword indicates that the value of a variable should not be cached, as it may be modified by other threads.
     </p>
     <pre><code>
         class TableSemaphorePhilosopher extends Philosopher {
@@ -157,21 +154,64 @@
 
 
 
+
+
+    <h2>Round Robin Solution</h2>
+    <p>
+        There are several ways one could implement a Round Robin Solution
+    </p>
+    <p>
+
+    </p>
+    <pre><code>
+
+    </code></pre>
+    <p>
+
+    </p>
+    <pre><code>
+
+    </code></pre>
+
+    <p>Now let us evaluate the Dijkstra Solution based on the key-challenges:</p>
+    <ul>
+        <li>Deadlocks: This solution lets us avoid deadlocks via avoiding the Hold-and-wait condition as defined by Coffman.</li>
+        <li>Fairness: We reintroduce ...</li>
+        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+            needed.
+        </li>
+        <li>Performance:</li>
+    </ul>
+
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=ROUNDROBIN" class="button">Dijkstra Simulation</a>
+    <a href="../animation/?algorithm=ROUNDROBIN" class="button">Dijkstra Animation</a>
+
+
+
+
+
+
+
+
     <h2>Dijkstra Solution</h2>
     <p>
-        After looking at the Table Semaphore Solution let us now take a look at a solution that was proposed by the
+        After looking at some simple Semaphore Solutions, let us now take a look at a solution that was proposed by the
         creator of the Dining Philosophers Problem, Edsger Dijkstra.
-        In this solution philosophers first think and then try to acquire their first chopstick, if they fail to pick it
+        Here, the philosophers first think and then try to acquire their first chopstick, if they fail to pick it
         up, they wait for some time and try again.
         After they acquired their first chopstick they will immediately try to pick up the second one, if this is
         unsuccessful they put down the initial chopstick and after some time they will try to acquire their first
         chopstick again.
         This repeats itself until the philosophers are able to eat.
-        This solution lets us avoid deadlocks via avoiding the Hold-and-wait condition as defined by Coffman.
 
     </p>
     <p>
-
+        <b>Philosopher class:</b>
+        We utilize random sleep times to prevent
     </p>
     <pre><code>
         public class DijkstraPhilosopher extends Philosopher {
@@ -223,13 +263,14 @@
         }
     </code></pre>
     <p>
-        And here the Dijkstra Chopstick class.
+        <b>Chopstick class:</b>
+        Philosopher do not wait on a Semaphore, they simply try to acquire it and if they fail they simply try again later.
     </p>
     <pre><code>
         public class DijkstraChopstick extends Chopstick {
             public DijkstraChopstick(int id) {
                 super(id);
-                chopstickSemaphore = new Semaphore(1);
+                chopstickSemaphore = new Semaphore(1, true);
             }
 
             Semaphore chopstickSemaphore;
@@ -247,7 +288,7 @@
 
     <p>Now let us evaluate the Dijkstra Solution based on the key-challenges:</p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
+        <li>Deadlocks: This solution lets us avoid deadlocks via avoiding the Hold-and-wait condition as defined by Coffman.</li>
         <li>Fairness: We reintroduce ...</li>
         <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
         <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
@@ -275,7 +316,7 @@
         The process is as follows:
     </p>
     <ul>
-        <li>Philosophers Think (State is initially set to ""Thinking)</li>
+        <li>Philosophers Think (State is initially set to "Thinking")</li>
         <li>Philosophers acquire the Monitors Semaphore and update their state to "Hungry", and call the test() function to determine whether the two adjacent philosophers are not eating.
             If this test is successful they update their state to "Eating" and the monitors semaphore is released.</li>
         <li>Once their respective semaphore is released the philosophers start eating, if not, they wait until the semaphore is released in a later call to the test() function.</li>

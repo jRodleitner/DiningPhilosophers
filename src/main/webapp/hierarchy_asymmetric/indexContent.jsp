@@ -63,18 +63,16 @@
     <img src="../pictures/resource.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
 
     <p>
-        The resource hierarchy solution to the Dining Philosophers Problem works by assigning a unique order to the chopsticks (resources), numbered from 0 to (n−1).
+        The resource hierarchy solution to the Dining Philosophers Problem works by assigning a unique id to the chopsticks (resources), numbered from 0 to (n−1).
         Philosophers always attempt to pick up the lower-numbered chopstick first before picking up the higher-numbered one.
         This forces all philosophers, except one, to act "left-handed" (they pick up the left chopstick first).
         One philosopher (the last one in the circle) will act as the "right-handed," picking up their right chopstick first.
-
-        This strategy is effective in preventing deadlock because it eliminates the circular wait condition by Coffman.
-        Since philosophers always pick up chopsticks in a consistent order, no circular chain of waiting can form.
-        At least one philosopher will always be able to proceed, ensuring the system avoids deadlock and allowing each philosopher to eventually eat.
+        At least one philosopher is guaranteed be able to proceed.
 
     <p>
+        <b>Philosopher class:</b>
         To implement the Resource Hierarchy solution, only the run function in the philosopher class has to be modified:
-        For this purpose we create a Subclass and add the according changes.
+        If the left chopstick id is lower pick up left first, if the right chopstick id is lower, pick up the right first.
     </p>
     <pre><code>
         [PseudoCode]
@@ -86,6 +84,7 @@
                 super(id, leftChopstick, rightChopstick);
             }
 
+        @Override
             run() {
                 while (!terminate()) {
                     think();
@@ -110,11 +109,12 @@
         Now let us evaluate the given Algorithm according to the key challenges we face for designing a dining philosophers solution:
     </p>
     <ul>
-        <li>Deadlocks: Resource Hierarchy effectively prevents deadlocks</li>
+        <li>Deadlocks: The Resource Hierarchy effectively prevents deadlocks via avoiding the circular wait condition</li>
+        <li>Starvation: We do not guarantee that a philosopher will get a chance to eat, thus Starvation is possible.</li>
         <li>Fairness: Resource Hierarchy fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>TODO::Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating by this approach.</li>
+        <li>Concurrency: Concurrency of the system is given, since the philosophers are not blocked from eating by this appro</li>
         <li>Implementation: The changes required to implement this solution are minimal, no complex logic needed. </li>
-        <li>TODO:: Performance:  </li>
+        <li>Performance:  </li>ach.
     </ul>
 
     <p>
@@ -135,8 +135,9 @@
     </p>
     <br>
     <p>
-        To implement the Asymmetric solution, only the run function in the philosopher class has to be modified:
-        For this purpose we create a Subclass and add the according changes.
+        <b>Philosopher class:</b>
+        To implement the Asymmetric solution, we again only have to modify the run function in the philosopher class.
+        We assign Philosophers with even id as left-handed, philosophers with odd id as right-handed.
     </p>
     <pre><code>
         [PseudoCode]
@@ -147,6 +148,7 @@
                 super(id, leftChopstick, rightChopstick);
             }
 
+            @Override
             run() {
                 boolean even = id % 2 == 0;
                 while (!terminated()) {
@@ -174,6 +176,7 @@
     </p>
     <ul>
         <li>Deadlocks: The Asymmetric Solution effectively prevents deadlocks</li>
+        <li>Starvation: </li>
         <li>Fairness: The Asymmetric Solution fails at providing fairness to the system, as no such measures are taken.</li>
         <li>TODO::Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating by this approach.</li>
         <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic needed. </li>

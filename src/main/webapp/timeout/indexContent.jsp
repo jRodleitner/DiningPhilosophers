@@ -66,14 +66,11 @@
         A timeout is set before the simulation begins and is the same for all philosophers.
         They attempt to pick up the first chopstick as usual.
         If a philosopher reaches the timeout before acquiring both chopsticks, they put down the chopstick they initially picked up and return to thinking.
-        This prevents deadlocks by avoiding the Hold-and-Wait condition as defined by Coffman.
-        However, a major drawback of this approach is that when a timeout occurs, philosophers must start a new cycle instead of completing their eating phase in the current one.
     </p>
 
     <p>
-        Modifications to the philosopher class:
+        <b>Philosopher class:</b>
         Philosophers start eating if the pickup of the right chopstick was successful, else they put down the left fork and start thinking again.
-        For this purpose we create a Subclass and add the according changes.
     </p>
     <pre><code>
         [PseudoCode]
@@ -93,8 +90,8 @@
                 while (!terminated()) {
                     think();
                     pickUpLeftChopstick();
-                    boolean succPickup = pickUpRightWithTimeout();
-                    if(succPickup){
+                    boolean successfulPickup = pickUpRightWithTimeout();
+                    if(successfulPickup){
                         eat();
                         putDownLeftChopstick();
                         putDownRightChopstick();
@@ -106,17 +103,16 @@
             }
 
             boolean pickUpRightWithTimeout() {
-                boolean succPickup = rightTimeoutChopstick.pickUpRight(this);
-                if(succPickup) Log("[PUR]", VirtualClock.getTime());
-                return succPickup;
+                boolean successfulPickup = rightTimeoutChopstick.pickUpRight(this);
+                if(successfulPickup) Log("[PUR]", VirtualClock.getTime());
+                return successfulPickup;
             }
 
         }
     </code></pre>
     <p>
-        Modifications to the Chopstick Class:
-        We introduce a timeout for the pickup of the right chopstick.
-        For this purpose we create a Subclass and add the according changes.
+        <b>Chopstick class:</b>
+        We introduce a timeout for the pickup of the right chopstick. When the timeout is reached we abort the pickup and return false.
     </p>
     <pre><code>
         [PseudoCode]
@@ -150,16 +146,20 @@
         }
     </code></pre>
     <p>
-        Now let us evaluate the Timeout Algorithm according to the key-challenges
+        Now let us evaluate the Timeout Algorithm according to the key-challenges:
     </p>
     <ul>
-        <li>Deadlocks: The Timeout Solution effectively prevents deadlocks</li>
+        <li>Deadlocks: This approach prevents deadlocks via avoiding the Hold-and-Wait condition.</li>
+        <li>Starvation: </li>
         <li>Fairness: Fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>TODO::Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.</li>
+        <li>Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.</li>
         <li>Implementation: The changes that need to be made are a little more extensive, as both the Philosopher and Fork classes have to be modified. </li>
         <li>Performance: Not a giant overhead but total eat time might be reduced when frequent timeouts occur. </li>
     </ul>
     <p>
+        A major drawback of this approach is that when a timeout occurs, philosophers must start a new cycle instead of completing their eating phase in the current one.
+
+
         You can find the respective Simulation and Animation pages here:
     </p>
     <a href="../simulation/?algorithm=TIMEOUT" class="button">Timeout Simulation</a>

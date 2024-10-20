@@ -2,9 +2,6 @@ package algorithms.chandymisra;
 
 import algorithms.AbstractChopstick;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 public class ChandyMisraChopstick extends AbstractChopstick {
 
     volatile ChandyMisraPhilosopher owner;

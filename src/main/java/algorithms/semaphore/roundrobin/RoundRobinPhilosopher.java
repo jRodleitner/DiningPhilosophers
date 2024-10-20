@@ -8,10 +8,13 @@ import simulation.DiningTable;
 import java.util.concurrent.Semaphore;
 
 public class RoundRobinPhilosopher extends AbstractPhilosopher {
-    Semaphore[] semaphores;
-    public RoundRobinPhilosopher(int id, AbstractChopstick leftFork, AbstractChopstick rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, PhilosopherSemaphores philosopherSemaphores) {
+    private final Semaphore[] semaphores;
+
+    private final RoundRobinScheduler scheduler;
+    public RoundRobinPhilosopher(int id, AbstractChopstick leftFork, AbstractChopstick rightFork, DiningTable table, Distribution thinkistr, Distribution eatDistr, RoundRobinScheduler roundRobinScheduler) {
         super(id, leftFork, rightFork, table, thinkistr, eatDistr);
-        this.semaphores = philosopherSemaphores.semaphores;
+        semaphores = roundRobinScheduler.getSemaphores();
+        this.scheduler = roundRobinScheduler;
     }
 
     @Override
@@ -25,7 +28,7 @@ public class RoundRobinPhilosopher extends AbstractPhilosopher {
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
-                semaphores[(id + 1) % semaphores.length].release();
+                scheduler.updateCurrentTurn();
             }
         } catch (InterruptedException e) {
             table.unlockClock();
