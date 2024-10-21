@@ -1,25 +1,22 @@
 package algorithms.waiter.fairwaiter;
 
 
-import algorithms.AbstractPhilosopher;
-
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
 
-public class FairWaiter {
+public class FairEatTimeWaiter {
 
-    private volatile FairGuestPhilosopher permittedPhilosopher;
-    private final Deque<FairGuestPhilosopher> queuedPhilosophers;
+    private volatile FairEatTimeGuestPhilosopher permittedPhilosopher;
+    private final Deque<FairEatTimeGuestPhilosopher> queuedPhilosophers;
 
 
-    public FairWaiter() {
+    public FairEatTimeWaiter() {
         permittedPhilosopher = null;
         queuedPhilosophers = new ArrayDeque<>();
     }
 
 
-    public synchronized void requestPermission(FairGuestPhilosopher philosopher) throws InterruptedException {
+    public synchronized void requestPermission(FairEatTimeGuestPhilosopher philosopher) throws InterruptedException {
         queuedPhilosophers.add(philosopher);
 
         if (permittedPhilosopher == null) {
@@ -32,12 +29,12 @@ public class FairWaiter {
 
     }
 
-    public synchronized void returnPermission(FairGuestPhilosopher philosopher) throws InterruptedException {
+    public synchronized void returnPermission(FairEatTimeGuestPhilosopher philosopher) throws InterruptedException {
         boolean foundOtherPhilosopherInQueue = false;
-        long minEats = Integer.MAX_VALUE;
-        for (FairGuestPhilosopher ph : queuedPhilosophers) {
-            if (ph.eatTimes < minEats && !ph.equals(philosopher)) {
-                minEats = ph.eatTimes;
+        long minEatTime = Integer.MAX_VALUE;
+        for (FairEatTimeGuestPhilosopher ph : queuedPhilosophers) {
+            if (ph.eatTime < minEatTime && !ph.equals(philosopher)) {
+                minEatTime = ph.eatTime;
                 permittedPhilosopher = ph;
                 foundOtherPhilosopherInQueue = true;
             }

@@ -101,15 +101,15 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 8.  [x][x][x] Atomic Waiter
 9.  [x][x][x] Pickup Waiter
 10. [x][x][x] Intelligent Pickup Waiter
-11. [x][x][_] Fair Waiter (Eat Chance)
-12. [x][x][_] Fair Waiter (Eat Time)
-13. [x][x][_] Two Waiters
+11. [x][x][x] Fair Waiter (Eat Chance)
+12. [x][x][x] Fair Waiter (Eat Time)
+13. [x][x][x] Two Waiters
 14. [x][x][x] Table Semaphore
 15. [x][x][?] dijkstra
-16. [x][x][ ] tanenbaum
-17. [x][x][ ] fair_tanenbaum (Eat Chance)
-18. [_][_][ ] fair_tanenbaum (Eat Time)
-19. [x][x][ ] chandymisra
+16. [x][x][_] tanenbaum
+17. [x][x][_] fair_tanenbaum (Eat Chance)
+18. [_][_][_] fair_tanenbaum (Eat Time)
+19. [x][x][_] chandymisra
 
 ????:
 
@@ -125,6 +125,8 @@ FINALLY:
 24. [ ][ ] paper-solution
 
 IDEAS:
+
+    Poor Philosopher??
 
     Totmannverfahren: separate program entity preventing/ checking for deadlocks.
 

@@ -19,7 +19,9 @@ public class Algorithm {
 
     public static final String INTELLIGENTWAITER = "INTELLIGENTWAITER";
 
-    public static final String FAIRWAITER = "FAIRWAITER";    //8
+    public static final String FAIREATTIMEWAITER = "FAIREATTIMEWAITER";
+
+    public static final String FAIRCHANCEWAITER = "FAIRCHANCEWAITER";//8
 
     public static final String TWOWAITERS = "TWOWAITERS"; //9
 

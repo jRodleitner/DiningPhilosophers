@@ -235,8 +235,9 @@
             condition.
         </li>
         <lI>Starvation: The queue lets us avoid starvation.</lI>
-        <li>Fairness: Every philosopher, when requested will eventually get a chance to eat. For eat-chance fairness we
-            can therefor infer that philosophers who request to eat more often will gain permission more often.
+        <li>Fairness: As in the Atomic waiter solution every philosopher, when requested will eventually get a chance to eat. For eat-chance fairness we
+            can therefor infer that philosophers who request to eat more often will gain permission more often. As for eat-time fairness, it is again dependent on the chosen distribution and not explicitly managed.
+            However, due to the now enabled parallelism philosophers now get more chances to eat.
         </li>
         <li>Concurrency: We reintroduce concurrency, but permission is frequently given to philosophers, adjacent to
             currently eating neighbours.
@@ -254,6 +255,8 @@
     </p>
     <a href="../simulation/?algorithm=PICKUPWAITER" class="button">Pickup Waiter Simulation</a>
     <a href="../animation/?algorithm=PICKUPWAITER" class="button">Pickup Waiter Animation</a>
+
+
 
 
     <h2>Intelligent Pickup Waiter Solution</h2>
@@ -385,9 +388,9 @@
         <li>Starvation: Theoretically, there is a very slim chance of starvation in a limited time environment as ours(If we let the simulation run indefinitely they will for sure be permitted at some point).
             In rare cases, skipping philosophers could lead to some philosophers to be repeatedly permitted, while another never gets a chance to eat.</li>
         <li>Fairness: We sometimes skip philosophers in the queue to enhance the concurrency. We always prefer philosopher that are currently able to eat,
-            this lowers the fairness in our system. </li>
-        <li>Concurrency: This approach lets us enhance the concurrency in our system, by avoiding handing the permission to a philosopher adjacent to a currently eating neighbour.</li>
-        <li>Implementation: We introduce some additional logic to the waiter solution. We have to careful on how to manage and process the queue. This makes the approach a little more elaborate to implement correctly, compared to the previous approaches.
+            this lowers eat-chance and eat-timee fairness in our system. </li>
+        <li>Concurrency: This approach lets us enhance the concurrency in our system, by avoiding handing the permission to a philosopher adjacent to a currently eating neighbour, when possible.</li>
+        <li>Implementation: We introduce some additional logic to the waiter solution. We have to careful on how to manage and process the queue. This makes the approach a little more elaborate to implement correctly (compared to the previous approaches).
         </li>
         <li>
             Performance: There is now more processing of the queue and an additional array. Additionally, philosophers now have to access the waiter an additional time, when removing their "eating" state.
@@ -416,6 +419,7 @@
 
 
     <h2>Fair Waiter Solution</h2>
+    <img src="../pictures/fairwaiter.svg" alt="Dining Philosophers Problem" width="520" height="455">
     <p>
         We can enhance fairness in the Waiter Solution by tracking how many times each philosopher has had the
         chance to eat during the course of the simulation, enabling us to address eat-chance fairness.
@@ -426,19 +430,22 @@
         This, of course can only react to previous eating times/ number of eat-chances.
     </p>
 
+    <h4>Eat Time Fairness implementation: </h4>
     <p>
         <b>Waiter class:</b>
-        To implement these changes we modify our Waiter:
+        When a philosopher requests permission, they are added to a queue, and if no other philosopher is currently allowed,
+        the first in the queue gains permission. Philosophers wait until it is their turn. After a philosopher finishes eating,
+        they return the permission, and the waiter selects the next philosopher who has eaten the least, if present in the queue.
     </p>
     <pre><code>
         [Pseudocode]
 
-        class FairWaiter {
+        class FairEatTimeWaiter {
 
             Philosopher permittedPhilosopher;
             Queue philosophersQueue;
 
-            fairWaiter() {
+            fairEatTimeWaiter() {
                 permittedPhilosopher = null;
                 philosophersQueue = new Queue();
             }
@@ -459,38 +466,40 @@
                 boolean foundOtherPhilosopher = false;
                 Long minEats = MAX_VALUE;
 
+                //find the philosopher with the minimum eatTimes
                 for Each philosopher in philosophersQueue {
                     if (philosopher.eatTimes < minEats && philosopher != currentPhilosopher) {
-                        minEats = philosopher.eatTimes;
+                        minEats = philosopher.eatTimes; //alternatively minimum eatTime
                         permittedPhilosopher = philosopher;
                         foundOtherPhilosopher = true;
                     }
                 }
 
+                //if we do not find a philosopher we set null and pick the first in the queue
                 if (!foundOtherPhilosopher) {
                     permittedPhilosopher = null;
                 } else {
                     philosophersQueue.remove(permittedPhilosopher);
                 }
 
-                notifyAll(); // Notify that a philosopher was chosen
+                notifyAll(); // Notify all that permission was returned
             }
         }
 
     </code></pre>
 
-    <p>
-
+    <p><b>Philosopher class:</b>
+        We track the philosophers total eating time, by adding it to the previous eat-time once they finish eating.
     </p>
     <pre><code>
         [Pseudocode]
 
-        class FairGuestPhilosopher extends Philosopher {
+        class FairEatTimeGuestPhilosopher extends Philosopher {
 
-            Waiter waiter;
+            FairEatTimeWaiter waiter;
             long eatTimes;
 
-            fairGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+            FairEatTimeGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairEatTimeWaiter waiter) {
                 super(id, leftChopstick, rightChopstick);
                 this.waiter = waiter;
                 eatTimes = 0;
@@ -500,41 +509,112 @@
             void run() {
                 while (!terminated()) {
                     think();
+
+                    //request permission before pickup
                     waiter.requestPermission(this);
+
                     pickUpLeftChopstick();
                     pickUpRightChopstick();
+
+                    //return permission after pickup
                     waiter.returnPermission(this);
+
+                    //calculate the total eat time until this point.
                     eatTimes += eatFair();
+
                     putDownLeftChopstick();
                     putDownRightChopstick();
                 }
             }
 
+            //we return the calculated eat-time.
             long eatFair() {
                 Long duration = calculateDuration();
                 sleep(duration);
-                sbLog("[ E ]", VirtualClock.getTime());  // Log the eating event
+                sbLog("[ E ]", VirtualClock.getTime());
                 return duration;
             }
         }
 
     </code></pre>
 
+    <h4>Eat Chance Fairness implementation: </h4>
+
+    <p><b>Philosopher class:</b>
+        Here we simply increment a counter everytime a philosopher finishes eating.
+        The waiter implementation does not change we just determine the minimum eat-chance
+        , instead of the minimum eat-time to choose the next philosopher.
+    </p>
+    <pre><code>
+        [Pseudocode]
+        class FairChanceGuestPhilosopher extends Philosopher {
+
+            int eatChances;          // counter for the number of times the philosopher has eaten.
+            FairChanceWaiter waiter;
+
+            FairChanceGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairChanceWaiter waiter) {
+                super(id, leftChopstick, rightChopstick);
+                eatChances = 0;
+                this.waiter = waiter;
+            }
+
+            @Override
+            void run() {
+                // philosopher attempts to think, request permission, and eat in a loop.
+                while (!terminated()) {
+                    think();
+
+                    // request permission before pickup.
+                    waiter.requestPermission(this);
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+
+                    // return permission after pickup.
+                    waiter.returnPermission(this);
+                    eat();
+
+                    // Increment the count of eating chances.
+                    eatChances++;
+
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                }
+            }
+        }
+
+
+    </code></pre>
+
     <p>Now let us evaluate the Fair Waiter approach based on the key-challenges:</p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We reintroduce ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
+        <li>Deadlocks: We effectively prevent deadlocks with this solution, as in the other waiter solutions, by avoiding the circular-wait condition.</li>
+        <li>
+            Fairness: For the Eat chance fairness implementation we allow the philosopher to eat that has eaten the least times.
+            Similarly, the Eat time approach additionally takes the distribution of the eat-times into account and can potentially compensate for large outliers.
+            We act on this prioritization whenever possible (if no philosopher is in the queue we pick the first one that requests the chopsticks).
+            Note that whenever we deal with a limited simulation time, one philosopher will frequently have had more opportunities to eat than the others.
+            Both approaches effectively manage different aspects of fairness.
         </li>
-        <li>Performance:</li>
+        <li>
+            Concurrency: With this solution we clearly prioritize fairness over parallelism.
+            We frequently assign philosophers adjacent to eating neighbours permission,
+            this can in some cases (simulation runs) lead to no concurrency in the system at all.
+        </li>
+        <li>Implementation: We modify the waiter class to check for the requesting philosopher that has eaten the least.
+            This makes things a little more elaborate to implement than the simple Pickup Waiter Solution.
+        </li>
+        <li>Performance: We have to both maintain a queue and process it everytime the request is returned.
+            As with all the previous waiter solutions philosophers have to access the waiter one after another.
+            This produces a slight overhead and limits the scalability of this approach.
+            We again</li>
     </ul>
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=FAIRWAITER" class="button">Fair Waiter Simulation</a>
-    <a href="../animation/?algorithm=FAIRWAITER" class="button">Fair Waiter Animation</a>
+    <a href="../simulation/?algorithm=FAIREATTIMEWAITER" class="button">Fair Eat Time Waiter Simulation</a>
+    <a href="../animation/?algorithm=FAIREATTIMEWAITER" class="button">Fair Eat Time Waiter Animation</a>
+    <a href="../simulation/?algorithm=FAIRCHANCEWAITER" class="button">Fair Eat Chance Waiter Simulation</a>
+    <a href="../animation/?algorithm=FAIRCHANCEWAITER" class="button">Fair Eat Chance Waiter Animation</a>
 
 
 
@@ -559,7 +639,7 @@
     <p>
         All we have to do is to reuse one of the previously implemented waiter solutions and assign them to a subset of
         the given philosophers.
-        For this implementation we choose the Intelligent Pickup Waiters.
+        For this implementation we choose the Pickup Waiter.
     </p>
     <pre><code>
         for (int i = 0; i < nrPhilosophers; i++) {
@@ -582,19 +662,40 @@
     <p>Now let us evaluate the Two Waiters approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks via avoiding the circular-wait condition</li>
-        <li>Starvation: </li>
-        <li>Fairness: </li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
+        <li>Starvation: Each waiter manages its own queue, so each philosopher in the subset will eventually get the chance to eat.</li>
+        <li>Fairness: Very similar to the Pickup Solution,
+            but one big consideration here is that philosophers at the "corners" of the subset might be able to eat less
+            often, leading to "poor" philosophers.</li>
+        <li>Concurrency: By reducing the overhead of exclusive waiter access, we consistently achieve high concurrency.
+            Due to distributed requests we gain the advantage of assigning the permission to philosophers adjacent to eating neighbours less often.
+            Therefor this solution will -on average- outperform the Pickup Waiter Solution in simulations.</li>
+        <li>Implementation: The changes required to implement this solution are quite minimal, we only need to add additional waiters in the table initialization of the Pickup Waiter Solution.
         </li>
-        <li>Performance:</li>
+        <li>Performance: Compared to the previous approaches we improve on scalability if we choose appropriate sizes sub-sets for the philosophers.
+            Thus, the overhead becomes manageable and long waiting times due to exclusive access to the waiter are prevented.</li>
     </ul>
+    <p>
+        The advantage of this solution is that we can use the previously presented waiters to manage the respective subsets with a few considerations.
+        The Fair Waiter Solution would be capable of ensuring fairness, but only within the managed subset.
+        The Intelligent Pickup Waiter performance would be decreased, since it is not possible with the current implementation
+        to check whether philosophers adjacent to the managed set are currently eating.
+        To manage this, some kind of communication would be required between the waiters (Or global tracking of the states, but this would again limit scalability).
+        One main drawback of these kind of solutions, however is that we need good knowledge about the system.
+        We need to know the number of philosophers and the appropriate waiter assignment in advance to initialize the system.
+        Dynamic environments would be harder to manage, because of considerations like:
+        If a philosopher joins the table, which waiter is responsible?
+        When many philosophers join or leave the table, do we reduce/increase the number of waiters and redistribute the subsets?
+        The correct balance of sub-sets is necessary to improve performance, this is hard to determine during runtime.
+
+    </p>
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
     <a href="../simulation/?algorithm=TWOWAITERS" class="button">Two Waiters Simulation</a>
     <a href="../animation/?algorithm=TWOWAITERS" class="button">Two Waiters Animation</a>
+
+
+
 
 
     <h2>Classic Waiter Solution</h2>
@@ -604,7 +705,7 @@
         The waiter always provides the chopsticks when requested by a philosopher,
         unless there are less than two chopsticks remaining on the table.
         In this case we let the philosopher wait until another philosopher is done eating.
-        This solution
+
     </p>
 
 

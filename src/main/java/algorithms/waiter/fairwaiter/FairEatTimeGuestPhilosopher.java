@@ -8,14 +8,14 @@ import simulation.DiningTable;
 
 import java.util.concurrent.TimeUnit;
 
-public class FairGuestPhilosopher extends AbstractPhilosopher {
+public class FairEatTimeGuestPhilosopher extends AbstractPhilosopher {
 
-    protected volatile long eatTimes;
+    protected long eatTime;
 
-    private volatile FairWaiter waiter;
-    public FairGuestPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairWaiter waiter) {
+    private final FairEatTimeWaiter waiter;
+    public FairEatTimeGuestPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairEatTimeWaiter waiter) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
-        eatTimes = 0;
+        eatTime = 0;
         this.waiter = waiter;
     }
 
@@ -29,7 +29,7 @@ public class FairGuestPhilosopher extends AbstractPhilosopher {
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
                 waiter.returnPermission(this);
-                eatTimes += eatFair();
+                eatTime += eatFair();
                 putDownLeftChopstick();
                 putDownRightChopstick();
 

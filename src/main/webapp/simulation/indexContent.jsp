@@ -305,8 +305,11 @@
                     <option value="INTELLIGENTWAITER" <%= "INTELLIGENTWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Intelligent Pickup Waiter
                     </option>
-                    <option value="FAIRWAITER" <%= "FAIRWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Fair Waiter
+                    <option value="FAIRCHANCEWAITER" <%= "FAIRCHANCEWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Fair Eat Chance Waiter
+                    </option>
+                    <option value="FAIREATTIMEWAITER" <%= "FAIREATTIMEWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Fair Eat Time Waiter
                     </option>
                     <option value="TWOWAITERS" <%= "TWOWAITERS".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Two Waiters

@@ -29,8 +29,10 @@ import algorithms.token.singletoken.TokenPhilosopher;
 import algorithms.*;
 import algorithms.waiter.classic.ClassicWaiter;
 import algorithms.waiter.classic.GuestPhilosopher;
-import algorithms.waiter.fairwaiter.FairGuestPhilosopher;
-import algorithms.waiter.fairwaiter.FairWaiter;
+import algorithms.waiter.fairwaiter.FairChanceGuestPhilosopher;
+import algorithms.waiter.fairwaiter.FairChanceWaiter;
+import algorithms.waiter.fairwaiter.FairEatTimeGuestPhilosopher;
+import algorithms.waiter.fairwaiter.FairEatTimeWaiter;
 import algorithms.waiter.intelligent.IntelligentPickupGuestPhilosopher;
 import algorithms.waiter.intelligent.IntelligentWaiter;
 import algorithms.waiter.queuewaiter.AtomicGuestPhilosopher;
@@ -197,14 +199,26 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.FAIRWAITER:
+            case Algorithm.FAIREATTIMEWAITER:
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                FairWaiter fairWaiter = new FairWaiter();
+                FairEatTimeWaiter fairEatTimeWaiter = new FairEatTimeWaiter();
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    FairGuestPhilosopher philosopher = new FairGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairWaiter);
+                    FairEatTimeGuestPhilosopher philosopher = new FairEatTimeGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairEatTimeWaiter);
+                    philosophers.add(philosopher);
+                }
+                break;
+
+            case Algorithm.FAIRCHANCEWAITER:
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    chopsticks.add(new SimpleChopstick(i));
+                }
+
+                FairChanceWaiter fairChanceWaiter = new FairChanceWaiter();
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    FairChanceGuestPhilosopher philosopher = new FairChanceGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairChanceWaiter);
                     philosophers.add(philosopher);
                 }
                 break;
