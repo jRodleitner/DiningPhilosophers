@@ -83,7 +83,8 @@
         if the semaphore is currently not available, they wait until it becomes free again. After they are done picking
         up, they release the semaphore, and another philosopher can proceed.
         Functionally, this approach is similar to the previously presented Pickup Waiter Solution.
-        and is therefore useful for an introductory example on how to avoid deadlocks using semaphores.
+        In fact, it could even be argued, that in this case the Semaphore acts as an implicit waiter, because it maintains a FIFO queue, due to the enabled fairness parameter.
+        This approach is therefore useful for an introductory example on how semaphores work in principle.
     </p>
 
     <p>
@@ -101,15 +102,14 @@
     </code></pre>
 
     <p>
-        <b>Modified Philosopher class:</b>
+        <b>Philosopher class:</b>
         Philosophers need to acquire the table semaphore before picking up their
         chopsticks and release it, once they are finished picking up.
-        In Java, the volatile keyword indicates that the value of a variable should not be cached, as it may be modified by other threads.
     </p>
     <pre><code>
         class TableSemaphorePhilosopher extends Philosopher {
 
-            volatile Semaphore semaphore;
+            final Semaphore semaphore;
             TableSemaphorePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, TableSemaphore tableSemaphore) {
                 super(id, leftChopstick, rightChopstick);
                 this.semaphore = tableSemaphore.semaphore;
@@ -119,9 +119,13 @@
             void run() {
                 while (!terminated()) {
                     think();
+
+                    //acquire the table-semaphore before pickup
                     semaphore.acquire();
                     pickUpLeftChopstick();
                     pickUpRightChopstick();
+
+                    //release semaphore after pickup
                     semaphore.release();
                     eat();
                     putDownLeftChopstick();
@@ -136,13 +140,17 @@
 
     <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We reintroduce ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
+        <li>Deadlocks: The Table Semaphore approach prevents deadlocks via avoiding the circular-wait condition.</li>
+        <li>Starvation: Is prevented due to the implicit semaphore-queue, that eventually allows all philosophers to eat.</li>
+        <li>Fairness: Fair eat-chance, as philosophers, will eventually get the chance to eat when they try to acquire the table-semaphore.
+            Note that the utilization of the fairness is crucial to prevent barging and to enable the implicit FIFO queue.
+            Eat-time fairness is highly dependent on the chosen distribution and is not managed by this algorithm explicitly.
+            (But implicitly, since philosophers with long eat times will acquire permission less frequent)</li>
+        <li>Concurrency: There is a possibility for high concurrency, but similar to the Pickup Waiter Solution, philosophers adjacent to eating neighbours may acquire the semaphore.
+        To manage this we could introduce a monitor to the solution, however there is a smarter solution, called the Tanenbaum solution, that we will explore soon.</li>
+        <li>Implementation: The utilization of Semaphores in this way proves as very simple and requires only minimal modifications to the philosopher class.
         </li>
-        <li>Performance:</li>
+        <li>Performance: Very slight performance overhead due to the globally accessed semaphore</li>
     </ul>
 
     <p>

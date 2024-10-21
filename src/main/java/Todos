@@ -1,7 +1,6 @@
 GENERAL TODO:
 
 NEXT:
-[ ] Incidence graphs (Algorithms)
 [ ] check all algorithms
 [ ] Server deployment
 [ ] read approaches/ papers for new algorithms
@@ -79,6 +78,8 @@ CHECK:
 [x] modify fair tanenbaum
 [x] Test minimum sleep time (eating, thinking)
 [x] Fair Tanenbaum code/description
+[x] Incidence graphs (Algorithms)
+
 
 20.10
 [ ] Pseudocode explanations
@@ -97,26 +98,31 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 5.  [x][x][x] Restrict
 6.  [x][x][x] Global Token
 7.  [x][x][x] Multiple Token
-8.  [x][x][ ] Atomic Waiter
-9.  [x][x][ ] Pickup Waiter
-10. [x][x][ ] Intelligent Pickup Waiter
-11. [x][x][ ] Fair Waiter
-12. [x][x][ ] Two Waiters
-13. [x][x][ ] Table Semaphore
-14. [x][x][ ] dijkstra
-15. [x][x][ ] tanenbaum
-16. [x][x][ ] fair_tanenbaum
-17. [x][x][ ] chandymisra
-18. [ ][ ][ ] roundrobin???
-19. [x][_][ ] Classic Waiter
+8.  [x][x][x] Atomic Waiter
+9.  [x][x][x] Pickup Waiter
+10. [x][x][x] Intelligent Pickup Waiter
+11. [x][x][_] Fair Waiter (Eat Chance)
+12. [x][x][_] Fair Waiter (Eat Time)
+13. [x][x][_] Two Waiters
+14. [x][x][x] Table Semaphore
+15. [x][x][?] dijkstra
+16. [x][x][ ] tanenbaum
+17. [x][x][ ] fair_tanenbaum (Eat Chance)
+18. [_][_][ ] fair_tanenbaum (Eat Time)
+19. [x][x][ ] chandymisra
+
+????:
+
+20. [ ][ ][ ] roundrobin???
+21. [x][_][ ] Classic Waiter
 NEXT:
 
 
 
 FINALLY:
-20. [ ][ ] paper-solution
-21. [ ][ ] paper-solution
 22. [ ][ ] paper-solution
+23. [ ][ ] paper-solution
+24. [ ][ ] paper-solution
 
 IDEAS:
 
