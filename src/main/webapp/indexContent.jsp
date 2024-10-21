@@ -640,6 +640,13 @@
             <a href="chandymisra" class="button">Chandy-Misra Solution</a>
         </div>
 
+        <div class="description-box">
+            <p>
+                To learn about some advanced solutions based on more recent literature:
+            </p>
+            <a href="advanced" class="button">Advanced Solutions</a>
+        </div>
+
 
     </section>
 </div>
