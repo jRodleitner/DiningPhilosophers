@@ -17,7 +17,6 @@ public class TimeoutChopstick extends AbstractChopstick {
 
         while (!isAvailable) {
             if (remainingTime <= 0) {
-                //System.out.println("TIMEOUT:" + philosopher.getName() + "Time: " + table.getCurrentTime());
                 return false;
             }
 

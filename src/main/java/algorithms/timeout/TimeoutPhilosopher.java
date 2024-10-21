@@ -22,14 +22,17 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
             while (!isInterrupted()) {
                 think();
                 pickUpLeftChopstick();
-                boolean succPickup = pickUpRightWithTimeout();
-                if(succPickup){
-                    eat();
+                boolean successfulPickup = pickUpRightWithTimeout();
+                while (!successfulPickup) {
                     putDownLeftChopstick();
-                    putDownRightChopstick();
-                } else {
-                    putDownLeftChopstick();
+                    int random = (int) (Math.random() * 25) + 1;
+                    Thread.sleep(random);
+                    pickUpLeftChopstick();
+                    successfulPickup = pickUpRightWithTimeout();
                 }
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
 
             }
         } catch (InterruptedException e) {
@@ -38,10 +41,9 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
         }
     }
 
-    //TODO getSimulationType
     protected boolean pickUpRightWithTimeout() throws InterruptedException {
-        boolean succPickup = rightTimeoutChopstick.pickUpRight(this);
-        if(succPickup){
+        boolean successfulPickup = rightTimeoutChopstick.pickUpRight(this);
+        if(successfulPickup){
             if(simulatePickups){
                 table.lockClock();
                 table.advanceTime();
@@ -51,7 +53,7 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
             pickedUp++;
             lastAction = Events.PICKUPRIGHT;
         }
-        return succPickup;
+        return successfulPickup;
     }
 
 

@@ -235,6 +235,20 @@
             if the last action of all philosophers was a [PUL] = Pick Up Left.
         </p>
 
+        <p>
+            At this point it is useful to introduce the concept of "precedence graphs". They are directed graphs,
+            usually utilized to visualize dependencies between different tasks.
+            In the case of dining philosophers we view the philosophers themselves as nodes, whereas the arrows visualize the dependency
+            of having to potentially wait for their right-neighbor philosopher to finish their eating task, before they can pick up their right chopstick.
+            This means that there is a circular dependency of the philosophers.
+        </p>
+        <img src="pictures/precedence.svg" alt="Dining Philosophers Problem" width="400" height="350">
+        <p>
+            Cyclic dependencies like these indicate potential deadlocks in a system (essentially a visualization of the circular-wait
+            condition). Avoiding this circular pattern is one of the main ways we are going to prevent deadlocks in a dining philosophers solution.
+            Another crucial detail is the length of the precedence path, as it is at the maximum length in the naive approach.
+            Long paths in a precedence graph mean that there are potentially long waiting chains that harm parallelism.
+        </p>
         <h3>Starvation and Fairness</h3>
         <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
@@ -248,6 +262,7 @@
             or if one philosopher takes a very long time to eat, making it harder for their neighbors to access the
             chopsticks.
             The goal is to make sure every philosopher has a fair chance to eat (and not starve), we call this fairness.
+            In the following we want to consider Starvation as philosophers not being able to eat at all.
             With our solution, we aim to prevent deadlocks while also ensuring fairness as much as possible.
         </p>
         <p>
@@ -305,10 +320,11 @@
         </p>
         <h3>Performance</h3>
         <p>
-            Finally, we want to evaluate algorithms based on the overhead they produce.
+            Finally, we want to evaluate algorithms based on the overhead they produce and how scalable they are.
             Some Solutions use several data structures and synchronization mechanisms, that produce additional
             computational effort.
         </p>
+
 
     </section>
     <section id="simulation">
@@ -316,7 +332,7 @@
 
         <p>
             This website offers both a Simulation Page and an Animation Page, both powered by a Java Threads-based
-            backend that is in principle very similar to the pseudocode, provided later.
+            backend that is in principle very similar to the pseudocode provided later.
             The Simulation Page allows you to run a simulation and view the resulting simulation output as a string,
             with detailed notes available on that page.
             The Animation Page lets you run a simulation that is then visually animated, with further details also
@@ -338,7 +354,7 @@
                 The following Java-inspired pseudocode demonstrates the basic principles of a naive implementation of
                 the Dining Philosophers problem.
                 The philosophers' actions are logged over time, based on a virtual clock running during the simulation.
-                For simplicity, most of the Java boilerplate and some simulation logic for consistency have been omitted
+                For simplicity, most of the Java boilerplate (Necessary for Java programs but not useful for understanding of the discussed concepts) and some simulation logic for consistency have been omitted
                 from this pseudocode. If you're interested in the full implementation of this project, it is available
                 on GitHub here. //link to GitHub
             </p>
@@ -447,63 +463,95 @@
             <pre><code>
     [Pseudocode]
     public class Table {
-        Chopstick[] chopsticks;
-        Philosopher[] philosophers;
+    // List to store chopsticks and philosophers
+    ArrayList chopsticks;
+    ArrayList philosophers;
 
-        Table(int numPhilosophers) {
-            chopsticks = new Chopstick[numPhilosophers];
-            philosophers = new Philosopher[numPhilosophers];
+    // Constructor to initialize the table with the given number of philosophers
+    Table(int numPhilosophers) {
+        chopsticks = new ArrayList<>(numPhilosophers);
+        philosophers = new ArrayList<>(numPhilosophers);
 
-            // Initialize chopsticks
-            for (int i = 0; i < numPhilosophers; i++) {
-                chopsticks[i] = new Chopstick();
-            }
-
-            // Initialize philosophers
-            for (int i = 0; i < numPhilosophers; i++) {
-                Chopstick leftChopstick = chopsticks[i];
-                Chopstick rightChopstick = chopsticks[(i + 1) % numPhilosophers];
-                philosophers[i] = new Philosopher(leftChopstick, rightChopstick);
-                }
-            }
-
-            void startDinner() {
-                for (Philosopher philosopher : philosophers) {
-                    new Thread(philosopher).start();
-                }
-            }
-
-            void stopDinner() {
-            for (Philosopher philosopher : philosophers) {
-                philosopher.terminate();
-            }
+        // Initialize chopsticks
+        for (int i = 0; i < numPhilosophers; i++) {
+            chopsticks.add(new Chopstick());
         }
 
-        void execute() {
-            int simulationTime = 100
-            int numPhilosophers = 5;
-            Table diningTable = new Table(numPhilosophers);
-
-
-            diningTable.startDinner(); //start all the philosopher threads
-
-            //Virtual Clock usage
-            while(simulationTime > 0){
-                VirtualClock.advanceTime(); //advance clock time
-                timeStep() //sleep for the duration of  a timestep
-                simulationTime--;
-            }
-
-            diningTable.stopDinner();
+        // Initialize philosophers, each with a left and right chopstick
+        for (int i = 0; i < numPhilosophers; i++) {
+            Chopstick leftChopstick = chopsticks.get(i);
+            Chopstick rightChopstick = chopsticks.get((i + 1) % numPhilosophers);
+            philosophers.add(new Philosopher(leftChopstick, rightChopstick));
         }
     }
+
+    // Method to start the dinner: start a thread for each philosopher
+    void startDinner() {
+        for (Philosopher philosopher : philosophers) {
+            new Thread(philosopher).start();
+        }
+    }
+
+    // Method to stop the dinner: request each philosopher to stop
+    void stopDinner() {
+        for (Philosopher philosopher : philosophers) {
+            philosopher.terminate();
+        }
+    }
+
+    // Method to run the entire simulation
+    void execute() {
+        int simulationTime = 100; // Total time for the simulation
+        int numPhilosophers = 5; // Number of philosophers at the table
+        Table diningTable = new Table(numPhilosophers);
+
+        // Start all philosopher threads
+        diningTable.startDinner();
+
+        // Run the simulation using a virtual clock
+        while (simulationTime > 0) {
+            VirtualClock.advanceTime(); // Advance clock time (simulation logic)
+            timeStep(); // Pause for the duration of a timestep
+            simulationTime--; // Decrement the remaining simulation time
+        }
+
+        // Stop all philosopher threads after the simulation time ends
+        diningTable.stopDinner();
+    }
+}
     </code></pre>
         </div>
+        <h3>Naive Dining Philosophers Evaluation</h3>
+        <p>
+            Let us now evaluate the Naive Dining Philosophers, based on the introduced challenges.
+        </p>
+        <ul>
+            <li>Deadlocks: The naive implementation frequently leads to deadlocks, especially when the number of philosophers is 5 or lower.
+                Usually, it is harder to come across deadlocks, when we deal with larger numbers of philosophers,
+                however due to several situations like a changes in the execution environment (Java VM or OS rescheduling tasks), deadlocks could still occur, especially with longer runtimes.
+            </li>
+            <li>Starvation: The naive dining philosophers takes no measures against starvation.
+            </li>
+            <li>Fairness: There is no fairness given in a naive dining philosophers implementation. Essentially the philosophers to achieve a successful pickup, can be successful again, and again.
+            </li>
+            <li>Concurrency: The naive dining philosophers does have a high degree of concurrency (as long as deadlocks do not occur).
+                However, due to the long path in the precedence graph, situations where many adjacent philosophers wait on their right chopstick happen frequently.
+            </li>
+            <li>Implementation: Implementation of the naive dining philosophers is rather simple with knowledge about concurrent programming.
+            </li>
+            <li>Performance: NA.
+            </li>
+        </ul>
+
+        <p>
+            We see, that the Naive Dining Philosophers performs rather poorly when we measure it against these challenges.
+            Hence, we will try to improve on this with the solutions we will explore.
+        </p>
     </section>
     <section id="limitations">
         <h2>Limitations</h2>
         <p>
-            Before exploring solutions, let's first discuss the main limitations of the problem.
+            Before exploring solutions, let us first discuss the main limitations of the problem.
             One key limitation is that the maximum concurrency is restricted by the rules.
             Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to
             <b>[n/2]</b> for even numbers of philosophers <b>(n)</b> and <b>⌊n/2⌋</b> for odd n.

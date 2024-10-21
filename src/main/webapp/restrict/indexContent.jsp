@@ -64,16 +64,22 @@
     <p>The Restrict Solution </p>
     <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">#
     <p>
-        One effective method to prevent deadlocks in the dining philosophers problem is to limit the number of philosophers allowed to attempt eating at the same time.
-        For a group of n philosophers, we restrict this number to n-1, meaning only n-1 philosophers can try to pick up their chopsticks simultaneously.
-        To introduce at least some fairness, we pass this restriction around the philosophers.
-        After a philosopher finishes picking up their chopsticks, the restriction moves to the next adjacent philosopher(in our implementation to the right).
-
+        One effective method to prevent deadlocks in the dining philosophers problem is to limit the number of
+        philosophers allowed to attempt eating at the same time.
+        Usually this approach would "remove a seat", however this would prevent one of the philosophers from eating at
+        all, so we introduce kind of a reverse token system.
+        For a group of n philosophers, we restrict this number to n-1, meaning only n-1 philosophers can try to pick up
+        their chopsticks simultaneously.
+        To not block one philosopher permanently, we pass this restriction around the philosophers.
+        Whenever a philosopher finishes picking up their chopsticks, the restriction is passed to the next philosopher
+        (continually passed around in a circle, during the course of the simulation).
 
     </p>
 
     <p>
-        We introduce a Restrict class that handles the restricted philosopher:
+        <b>Restrict class: </b>This class keeps track of the current id that determines which philosopher is currently
+        restricted from picking up a chopstick. It utilizes a counter (restrict) that cycles through all the philosophers.
+        The updateRestricted method advances this restriction to the next philosopher.
     </p>
     <pre><code>
         [PseudoCode]
@@ -83,23 +89,29 @@
             int restrict;
             int numberOfPhilosophers;
 
-            Restrict(int numberOfPhilosophers){
+            Restrict(int numberOfPhilosophers) {
                 restrict = 0;
                 this.numberOfPhilosophers = numberOfPhilosophers;
             }
 
-            synchronized void updateRestricted(){
+            synchronized void updateRestricted() {
+                // Cycles the restriction to the next philosopher in sequence.
                 restrict = (restrict + 1) % numberOfPhilosophers;
             }
 
-            synchronized int getRestricted(){
+            synchronized int getRestricted() {
+                // Returns the current restricted philosopher's ID.
                 return restrict;
             }
         }
     </code></pre>
     <p>
-        The Philosopher class can stay as is, we only have to modify the Fork class.
-        For this purpose we create a Subclass and add the according changes.
+        <b>Chopstick class:</b>
+        The updated class allows philosophers to pick up the chopstick only if they are available and the philosopher is not
+        the one currently restricted.
+        If the philosopher attempting to pick up the chopstick is restricted, it will wait until the restriction is
+        lifted. Additionally, if the philosopher successfully picks up their right chopstick, the restriction is updated
+        to apply to the next philosopher.
     </p>
     <pre><code>
         [PseudoCode]
@@ -108,36 +120,50 @@
 
             Restrict restrict;
 
-
             RestrictChopstick(int id, Restrict restrict) {
                 super(id);
                 this.restrict = restrict;
             }
 
             @Override
-            synchronized boolean pickUp(AbstractPhilosopher philosopher) {
-                while (!isAvailable || philosopher.getPhId() == restrict.getRestricted() ) {
+            synchronized boolean pickUp(Philosopher philosopher) {
+                // Waits until the chopstick is available and the philosopher is not restricted.
+                while (!isAvailable || philosopher.getPhId() == restrict.getRestricted()) {
                     wait();
                 }
-                if(this.equals( philosopher.getRightFork())){
-                    //update restricted when philosopher picked up both chopsticks
+
+                // Updates the restriction if this chopstick is the philosopher's right chopstick.
+                if (this == philosopher.getRightChopstick()) {
                     restrict.updateRestricted();
                 }
+
+                // Marks the chopstick as taken.
                 isAvailable = false;
                 return true;
             }
-
         }
     </code></pre>
 
+    <h3>Restrict Solution Evaluation</h3>
+
     <p>Now let us evaluate the Restrict solution based on the key-challenges:</p>
     <ul>
-        <li>Deadlocks: By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</li>
-        <li>Starvation: </li>
-        <li>Fairness: We do not provide fairness to the system using this solution</li>
-        <li>Concurrency: We do not prevent concurrency but in some situations we could block a philosopher from eating, when it would be possible.</li>
-        <li>Implementation: The changes required to implement this solution are simple. </li>
-        <li>Performance: Overhead </li>
+        <li>Deadlocks: By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular
+            wait condition, as defined by Coffman.
+        </li>
+        <li>Starvation: We do not guarantee that a philosopher will get the chance to eat, so starvation is possible.
+            However, we at least do not starve one philosopher purposefully, as in some other Restrict approaches, found online or in the literature.</li>
+        <li>Fairness: We do not provide any fairness to the system using this solution.</li>
+        <li>Concurrency: We do not explicitly prevent concurrency but in many situations we block a philosopher from eating,
+            when it would be possible. The overall act of blocking one philosopher from eating frequently results in lower performance than the naive implementation.
+            This is simply due to the fact, that we "blindly" block philosophers one after another, irrespective of their current ability to eat.
+        </li>
+        <li>Implementation: The changes required to implement this solution are simple.</li>
+        <li>
+            Performance: For this approach to work we need to know the number of philosophers at the table, so in dynamic situations (philosophers can leave/ come to the table), careful handling would be necessary.
+            We do not get great scalability, as the Restrict entity has to be accessed frequently.
+            This could lead to a performance overhead in bigger systems.
+        </li>
     </ul>
 
     <p>

@@ -28,11 +28,11 @@ public class DijkstraPhilosopher extends AbstractPhilosopher {
                             eat();
                         } else {
                             putDownLeftChopstick();
-                            int random = (int) (Math.random() * 100) + 1;
+                            int random = (int) (Math.random() * 25) + 1;
                             Thread.sleep(random);
                         }
                     } else {
-                        int random = (int) (Math.random() * 100) + 1;
+                        int random = (int) (Math.random() * 25) + 1;
                         Thread.sleep(random);
                     }
                 }

@@ -5,7 +5,7 @@ import algorithms.AbstractPhilosopher;
 
 public class RestrictChopstick extends AbstractChopstick {
 
-    private Restrict restrict;
+    private final Restrict restrict;
 
 
     public RestrictChopstick(int id, Restrict restrict) {
@@ -16,12 +16,10 @@ public class RestrictChopstick extends AbstractChopstick {
     @Override
     public synchronized boolean pickUp(AbstractPhilosopher philosopher) throws InterruptedException {
         while (!isAvailable || philosopher.getPhId() == restrict.getRestricted() ) {
-            //if(philosopher.getPhId() == restrict.getRestricted()) System.out.println("gotRestricted:" + philosopher.getPhId());
             wait();
         }
         if(this.equals( philosopher.getRightChopstick())){
             restrict.updateRestricted();
-            //System.out.println("Restrict updated to:" + restrict.getRestricted());
         }
         isAvailable = false;
 

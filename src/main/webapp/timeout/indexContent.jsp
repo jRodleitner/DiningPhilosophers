@@ -63,51 +63,60 @@
     <img src="../pictures/timeout_.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
     <p>
         The Timeout solution aims to prevent deadlocks by stopping philosophers from holding onto chopsticks indefinitely.
-        A timeout is set before the simulation begins and is the same for all philosophers.
-        They attempt to pick up the first chopstick as usual.
-        If a philosopher reaches the timeout before acquiring both chopsticks, they put down the chopstick they initially picked up and return to thinking.
+        The philosophers first attempt to pick up the first chopstick as usual and then try to pick up their second chopstick with a time limit.
+        If a philosopher reaches the timeout before acquiring both chopsticks, they put down the chopstick they initially picked up and wait for a short time before trying to pick up again.
+
     </p>
 
     <p>
         <b>Philosopher class:</b>
-        Philosophers start eating if the pickup of the right chopstick was successful, else they put down the left fork and start thinking again.
+        Philosophers start eating if the pickup of the right chopstick was successful, else they put down the left chopstick and wait for a short while before they try again.
     </p>
     <pre><code>
         [PseudoCode]
-
         class TimeoutPhilosopher extends Philosopher {
+
             TimeoutChopstick rightTimeoutChopstick;
 
             TimeoutPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
                 super(id, leftChopstick, rightChopstick);
-                rightTimeoutChopstick = (TimeoutChopstick)rightChopstick;
+                rightTimeoutChopstick = (TimeoutChopstick) rightChopstick;
             }
-
-
 
             @Override
             void run() {
+                // The philosopher attempts to think and then pick up chopsticks.
                 while (!terminated()) {
                     think();
                     pickUpLeftChopstick();
                     boolean successfulPickup = pickUpRightWithTimeout();
-                    if(successfulPickup){
-                        eat();
+
+                    // If the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait.
+                    while (!successfulPickup) {
                         putDownLeftChopstick();
-                        putDownRightChopstick();
-                    } else {
-                        putDownLeftChopstick();
+                        int random = randomValue(1, 25); //random wait time between 1 and 25ms
+                        sleep(random);
+                        pickUpLeftChopstick();
+                        successfulPickup = pickUpRightWithTimeout();
                     }
 
+                    // Once both chopsticks are acquired, the philosopher eats.
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
                 }
             }
 
             boolean pickUpRightWithTimeout() {
+                // Attempts to pick up the right chopstick with a timeout.
                 boolean successfulPickup = rightTimeoutChopstick.pickUpRight(this);
-                if(successfulPickup) Log("[PUR]", VirtualClock.getTime());
+
+                if (successfulPickup) {
+                    Log("[PUR]", virtualClock.getTime());
+                }
+
                 return successfulPickup;
             }
-
         }
     </code></pre>
     <p>
@@ -116,50 +125,60 @@
     </p>
     <pre><code>
         [PseudoCode]
-
         class TimeoutChopstick extends Chopstick {
+
             int timeout;
 
-            TimeoutFork(int id, int timeout) {
+            TimeoutChopstick(int id, int timeout) {
                 super(id);
                 this.timeout = timeout;
             }
 
-
-            public synchronized boolean pickUpRight(Philosopher philosopher) {
-                long startTime = System.currentTimeMillis();
+            synchronized boolean pickUpRight(Philosopher philosopher) {
+                // Tracks time to ensure the philosopher does not wait indefinitely.
+                long startTime = currentTime();
                 long remainingTime = timeout;
 
+                // Waits until the chopstick is available or the timeout expires.
                 while (!isAvailable) {
                     if (remainingTime <= 0) {
-                    return false;
+                        return false;
                     }
 
-                wait(remainingTime);
-                remainingTime = timeout - (System.currentTimeMillis() - startTime);
+                    wait(remainingTime);
+                    remainingTime = timeout - (currentTime() - startTime);
                 }
 
+                // If the chopstick becomes available, it is marked as taken.
                 isAvailable = false;
                 return true;
             }
-
         }
     </code></pre>
+    <h3>Timeout Solution Evaluation </h3>
     <p>
         Now let us evaluate the Timeout Algorithm according to the key-challenges:
     </p>
     <ul>
-        <li>Deadlocks: This approach prevents deadlocks via avoiding the Hold-and-Wait condition.</li>
-        <li>Starvation: </li>
-        <li>Fairness: Fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.</li>
-        <li>Implementation: The changes that need to be made are a little more extensive, as both the Philosopher and Fork classes have to be modified. </li>
-        <li>Performance: Not a giant overhead but total eat time might be reduced when frequent timeouts occur. </li>
+        <li>Deadlocks: With this approach we prevent deadlocks via avoiding the Hold-and-Wait condition.</li>
+        <li>Starvation: Philosophers are not guaranteed to be able to eat, thus starvation is possible</li>
+        <li>Fairness: We fail at providing fairness to the system, as no such measures are taken.</li>
+        <li>Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.
+         The degree of concurrency we achieve is practically identical to the naive implementation, as we ideally only intervene when a deadlock has occurred.
+            In the case of a timeout there is kind of a "soft reset" and we start the pickup process anew, harming concurrency minimally. </li>
+        <li>Implementation: Minimal changes are required and the concept is rather easy to understand/ implement. </li>
+        <li>Performance: The approach is highly scalable, and we essentially do not need any information on the system for this approach to work.
+            Not a giant performance overhead, but total eat time might be reduced when frequent timeouts occur and philosophers have to re-attempt picking up. </li>
     </ul>
     <p>
-        A major drawback of this approach is that when a timeout occurs, philosophers must start a new cycle instead of completing their eating phase in the current one.
-
-
+        A major limitation of this approach is that when a timeout occurs, philosophers must wait for a certain time to
+        re-attempt their pickup. When the timeout is chosen very low frequent re-attempts might happen,
+        on the contrary if we choose high values for the timeout we might take a very long to realize a deadlock has occurred, harming concurrency/ system progress.
+        The waiting time has to be reasonably chosen and randomized, to prevent recurring deadlocks.
+        If we choose fixed values, for example 10ms, it might happen that the philosophers all try to pick up their left
+        chopsticks again and again, just with a delay of 10ms.
+    </p>
+    <p>
         You can find the respective Simulation and Animation pages here:
     </p>
     <a href="../simulation/?algorithm=TIMEOUT" class="button">Timeout Simulation</a>
