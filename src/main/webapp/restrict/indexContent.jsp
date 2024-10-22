@@ -173,5 +173,50 @@
     <a href="../animation/?algorithm=RESTRICT" class="button">Restrict Animation</a>
 </div>
 
+
+
+
+<h2>Restrict Waiter Solution</h2>
+
+<p>
+    There is a naive version of the waiter solution, in which we track the number of forks on the table.
+    The waiter always provides the chopsticks when requested by a philosopher,
+    unless there are less than two chopsticks remaining on the table.
+    In this case we let the philosopher wait until another philosopher is done eating, and two forks are again on the table.
+    This is very similar to the above restrict solution, but we now block philosophers from picking up by chance.
+</p>
+
+
+<p>
+
+</p>
+<pre><code>
+        [Pseudocode]
+
+    </code></pre>
+<p>
+
+</p>
+<pre><code>
+        [Pseudocode]
+
+    </code></pre>
+<p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
+<ul>
+    <li>Deadlocks: Prevents deadlocks</li>
+    <li>Fairness: We ...</li>
+    <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
+    <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
+        needed.
+    </li>
+    <li>Performance:</li>
+</ul>
+<p>
+    You can find the respective Simulation and Animation pages here:
+</p>
+<a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
+<a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
+</div>
+
 </body>
 </html>

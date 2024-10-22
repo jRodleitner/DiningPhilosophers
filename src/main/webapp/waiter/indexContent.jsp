@@ -593,7 +593,7 @@
             Similarly, the Eat time approach additionally takes the distribution of the eat-times into account and can potentially compensate for large outliers.
             We act on this prioritization whenever possible (if no philosopher is in the queue we pick the first one that requests the chopsticks).
             Note that whenever we deal with a limited simulation time, one philosopher will frequently have had more opportunities to eat than the others.
-            Both approaches effectively manage different aspects of fairness.
+            Both approaches let us effectively enhance different aspects of fairness.
         </li>
         <li>
             Concurrency: With this solution we clearly prioritize fairness over parallelism.
@@ -696,49 +696,6 @@
 
 
 
-
-
-    <h2>Classic Waiter Solution</h2>
-
-    <p>
-        There is a classic version of the waiter solution, in which we track the number of forks on the table.
-        The waiter always provides the chopsticks when requested by a philosopher,
-        unless there are less than two chopsticks remaining on the table.
-        In this case we let the philosopher wait until another philosopher is done eating.
-
-    </p>
-
-
-    <p>
-
-    </p>
-    <pre><code>
-        [Pseudocode]
-
-    </code></pre>
-    <p>
-
-    </p>
-    <pre><code>
-        [Pseudocode]
-
-    </code></pre>
-    <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
-        </li>
-        <li>Performance:</li>
-    </ul>
-    <p>
-        You can find the respective Simulation and Animation pages here:
-    </p>
-    <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
-    <a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
-</div>
 
 
 </body>

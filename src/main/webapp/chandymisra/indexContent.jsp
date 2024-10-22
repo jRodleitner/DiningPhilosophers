@@ -91,6 +91,7 @@
     </p>
 
     <p>
+        <b>Philosopher class: </b>
         To implement theChandy-Misra Solution
     </p>
     <pre><code>
@@ -184,7 +185,9 @@
             }
         }
     </code></pre>
-
+    <p>
+        <b>Chopstick class: </b>
+    </p>
     <pre><code>
         [PseudoCode]
         class ChandyMisraChopstick extends Chopstick {

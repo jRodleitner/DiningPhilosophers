@@ -573,6 +573,20 @@
             as this restriction may not be relevant to our solutions.
             <br>
             <br>
+            <h4>Correct Solutions:</h4>
+            Finding a correct solution to the dining philosophers proved to be somewhat problematic,
+            looking at the past and the completed research. Sadly many approaches have been proven to be technically
+            incorrect in a later re-evaluation.
+            <br>
+            Correct solutions must fulfill the following criteria:
+            <ul>
+                <li><b>Deadlock-free</b></li>
+                <li><b>Starvation-free</b></li>
+                <li><b>Concurrent</b></li>
+                <li><b>Correct Implementation</b> (correct usage of synchronization mechanisms)</li>
+            </ul>
+            <br>
+
             In the context of Java implementations of solutions it is important to highlight, that most java
             synchronization methods do not provide fairness by default.
             Many of the synchronization mechanisms, like the synchronized keyword (used to attain an object lock

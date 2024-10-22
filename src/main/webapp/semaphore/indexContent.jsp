@@ -145,7 +145,7 @@
         <li>Fairness: Fair eat-chance, as philosophers, will eventually get the chance to eat when they try to acquire the table-semaphore.
             Note that the utilization of the fairness is crucial to prevent barging and to enable the implicit FIFO queue.
             Eat-time fairness is highly dependent on the chosen distribution and is not managed by this algorithm explicitly.
-            (But implicitly, since philosophers with long eat times will acquire permission less frequent)</li>
+        </li>
         <li>Concurrency: There is a possibility for high concurrency, but similar to the Pickup Waiter Solution, philosophers adjacent to eating neighbours may acquire the semaphore.
         To manage this we could introduce a monitor to the solution, however there is a smarter solution, called the Tanenbaum solution, that we will explore soon.</li>
         <li>Implementation: The utilization of Semaphores in this way proves as very simple and requires only minimal modifications to the philosopher class.
@@ -203,119 +203,6 @@
 
 
 
-
-
-    <h2>Dijkstra Solution</h2>
-    <p>
-        After looking at some simple Semaphore Solutions, let us now take a look at a solution that was proposed by the
-        creator of the Dining Philosophers Problem, Edsger Dijkstra.
-        Here, the philosophers first think and then try to acquire their first chopstick, if they fail to pick it
-        up, they wait for some time and try again.
-        After they acquired their first chopstick they will immediately try to pick up the second one, if this is
-        unsuccessful they put down the initial chopstick and after some time they will try to acquire their first
-        chopstick again.
-        This repeats itself until the philosophers are able to eat.
-
-    </p>
-    <p>
-        <b>Philosopher class:</b>
-        We utilize random sleep times to prevent
-    </p>
-    <pre><code>
-        public class DijkstraPhilosopher extends Philosopher {
-            public DijkstraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-                super(id, leftChopstick, rightChopstick);
-            }
-
-            @Override
-            public void run() {
-
-                while (!terminated()) {
-                    think();
-                    boolean bothSuccessful = false;
-                    while (!bothSuccessful) {
-                        boolean firstSuccessful = pickUpLeftChopstickDijkstra();
-                        if (firstSuccessful) {
-                            boolean secondSuccessful = pickUpRightChopstickDijkstra();
-                            if (secondSuccessful) {
-                                bothSuccessful = true;
-                                eat();
-                            } else {
-                                putDownLeftChopstick();
-                                int random = (int) (Math.random() * 100) + 1;
-                                Thread.sleep(random);
-                            }
-                        } else {
-                            int random = (int) (Math.random() * 100) + 1;
-                            Thread.sleep(random);
-                        }
-                    }
-
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
-            }
-
-            protected boolean pickUpLeftChopstickDijkstra(){
-                boolean successful = leftFork.pickUp(this);
-                if (successful) sbLog("[PUL]", VirtualClock.getTiChopstick);
-
-                return successful;
-            }
-
-            protected boolean pickUpRightChopstickDijkstra() {
-                boolean successful = rightChopstick.pickUp(this);
-                if (successful) sbLog("[PUR]", VirtualClock.getTime());
-                return successful;
-            }
-        }
-    </code></pre>
-    <p>
-        <b>Chopstick class:</b>
-        Philosopher do not wait on a Semaphore, they simply try to acquire it and if they fail they simply try again later.
-    </p>
-    <pre><code>
-        public class DijkstraChopstick extends Chopstick {
-            public DijkstraChopstick(int id) {
-                super(id);
-                chopstickSemaphore = new Semaphore(1, true);
-            }
-
-            Semaphore chopstickSemaphore;
-
-            @Override
-            public synchronized boolean pickUp(Philosopher philosopher) {
-                return chopstickSemaphore.tryAcquire();
-            }
-
-            public synchronized void putDown(Philosopher philosopher) {
-                chopstickSemaphore.release();
-            }
-        }
-    </code></pre>
-
-    <p>Now let us evaluate the Dijkstra Solution based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: This solution lets us avoid deadlocks via avoiding the Hold-and-wait condition as defined by Coffman.</li>
-        <li>Fairness: We reintroduce ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
-        </li>
-        <li>Performance:</li>
-    </ul>
-
-    <p>
-        You can find the respective Simulation and Animation pages here:
-    </p>
-    <a href="../simulation/?algorithm=DIJKSTRA" class="button">Dijkstra Simulation</a>
-    <a href="../animation/?algorithm=DIJKSTA" class="button">Dijkstra Animation</a>
-
-
-
-
-
-
     <h2>Tanenbaum Solution</h2>
     <p>
         This classic Solution was proposed by Andrew S. Tanenbaum in his famous book "Modern Operating Systems".
@@ -333,27 +220,30 @@
     </ul>
 
     <p>
-
+        <b>Monitor class: </b>
+        The access to the Monitor is exclusive via the philosophers usage of the Monitor Semaphore (called mutex here).
+        We use arrays to keep track of the philosophers states and an array that contains a semaphore for each philosopher.
     </p>
     <pre><code>
         [Pseudocode]
 
         class Monitor {
 
-            String[] states;
+            String[] states; //array to keep track of the philosophers states
             Semaphore[] semaphores;
-            Semaphore mutex;
+            Semaphore mutex; //semaphore to gain exclusive access to the monitor
 
             Monitor(int nrPhilosophers) {
                 states = new String[nrPhilosophers];
                 semaphores = new Semaphore[nrPhilosophers];
                 for (int i = 0; i < nrPhilosophers; i++) {
                     states[i] = Events.THINK;
-                    semaphores[i] = new Semaphore(0);
+                    semaphores[i] = new Semaphore(0); //initialize to no initial permission
                 }
-                mutex = new Semaphore(1);
+                mutex = new Semaphore(1, true); //enable fairness parameter and initialize semaphore to one permit for mutual exclusion
             }
 
+            //tests whether either the two adjacent philosophers is currently eating
             void test(int id) {
                 int left = (id + states.length - 1) % states.length;
                 int right = (id + 1) % states.length;
@@ -363,13 +253,18 @@
                     states[right] != Events.EAT) {
 
                     states[id] = Events.EAT;
-                    semaphores[id].release();
+                    semaphores[id].release(); //release the semaphore of the philosopher that can now eat
                 }
             }
         }
 
     </code></pre>
-
+    <p>
+        <b>Philosopher class:</b>
+        Philosophers need to acquire their respective semaphore to start eating.
+        The semaphore is released via the test() method.
+        If the initial test failed philosophers have to wait until a neighbour calls it again on them.
+    </p>
     <pre><code>
         [Pseudocode]
 
@@ -393,12 +288,12 @@
             }
 
             void pickUp() {
-                monitor.mutex.acquire();
-                monitor.states[id] = Events.HUNGRY;
-                monitor.test(id);
-                monitor.mutex.release();
+                monitor.mutex.acquire(); //gain exclusive access to the monitor
+                monitor.states[id] = Events.HUNGRY; //update the state to hungry
+                monitor.test(id); //test whether eating is possible
+                monitor.mutex.release(); //release exclusive access to the monitor
 
-                monitor.semaphores[id].acquire();
+                monitor.semaphores[id].acquire(); // has to be released by the test() method
 
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
@@ -408,13 +303,16 @@
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                monitor.mutex.acquire();
-                monitor.states[id] = Events.THINK;
+                monitor.mutex.acquire(); //gain exclusive access to the monitor
+                monitor.states[id] = Events.THINK; //update the state to thinking
                 int left = (id + monitor.states.length - 1) % monitor.states.length;
                 int right = (id + 1) % monitor.states.length;
+
+                //test for each neighbour
                 monitor.test(left);
                 monitor.test(right);
-                monitor.mutex.release();
+
+                monitor.mutex.release(); //release exclusive access to the monitor
             }
         }
 
@@ -426,15 +324,20 @@
 
     <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We reintroduce ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
+        <li>Deadlocks: Prevents deadlocks via avoiding the circular-wait condition</li>
+        <li>Starvation: Sadly, the Tanenbaum Solution is not Starvation free.
+            Since we only test the left and right philosophers after
+            put-down we cannot guarantee that every philosopher will eventually get a chance to eat.
+            Starvation scenarios are not very likely, but still possible.</li>
+        <li>Fairness: Since we do not avoid starvation there is no fairness in the system.</li>
+        <li>Concurrency: This algorithm achieves good concurrency results, but the calling of the test() function on the two neighbours only,
+            often leads to situations where a philosopher could eat, but cannot because neighbouring philosophers are currently blocked.</li>
+        <li>Implementation: The implementation is more complex than some of the simpler Solutions to the problem.
+            We need to be careful about correct setting of states and correct synchronized access to the monitor.
         </li>
-        <li>Performance:</li>
+        <li>Performance: There is a modest overhead, due to the management of the philosophers via the monitor and the maintained arrays.
+            Similar to the discussed waiter solutions, the utilization of a monitor limits the scalability of this approach.</li>
     </ul>
-
 
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -447,84 +350,91 @@
 
     <h2>Fair Tanenbaum Solution</h2>
     <p>
-        We can try to enhance the fairness of the Tanenbaum solution by tracking the eat-chances.
+        We can try to enhance the performance, including fairness, of the Tanenbaum solution by tracking the eat-chances.
         For this purpose we maintain an additional array of eat times that is updated whenever philosophers are done eating.
         We then check this array whenever a philosopher puts the chopsticks down.
         Instead of calling test() on the two adjacent philosophers we now call the test() function on all philosophers, prioritized by the previously tracked eat-chances.
     </p>
 
+    <p>
+        <b>Monitor class:</b>
+        We now call the test() method on all philosophers after a pick-up.
+        To promote fairness we reorder the philosophers according to their eat-chances,
+        and call those who had the least chances to eat first.
+    </p>
     <pre><code>
         [Pseudocode]
-
         class FairMonitor {
 
-            String[] states;
+            String[] states; // array to track the states
             Semaphore[] semaphores;
-            int[] eatTimes;
-            Semaphore mutex;
+            int[] eatTimes; // array to track the number of times each philosopher has eaten
+            Semaphore mutex; // Semaphore for mutual exclusion for accessing the monitor
 
             FairMonitor(int nrPhilosophers) {
                 eatTimes = new int[nrPhilosophers];
                 states = new String[nrPhilosophers];
                 semaphores = new Semaphore[nrPhilosophers];
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    states[i] = Events.THINK;
+                    states[i] = Events.THINK; // All philosophers start in the think state
                     semaphores[i] = new Semaphore(0);
                 }
-                mutex = new Semaphore(1);
+                mutex = new Semaphore(1, true); // mutex starts with one permit for mutual exclusion, enable fairness parameter
             }
 
             void test(int id) {
                 int left = (id + states.length - 1) % states.length;
                 int right = (id + 1) % states.length;
 
+                // If the philosopher is hungry and both neighbors are not eating, allow the philosopher to eat
                 if (states[id] == Events.HUNGRY &&
                     states[left] != Events.EAT &&
                     states[right] != Events.EAT) {
 
-                    states[id] = Events.EAT;
-                    semaphores[id].release();
+                    states[id] = Events.EAT; // update the philosophers state to eating
+                    semaphores[id].release(); // grant permission for the philosopher to proceed
                 }
             }
 
             void updateEatTime(int id) {
-                eatTimes[id]++;
+                eatTimes[id]++; // Increment the number of times the philosopher has eaten
             }
 
             void updateState(int id, String state) {
-                states[id] = state;
+                states[id] = state; // Update the state of the specified philosopher
             }
 
             void checkAll() {
-                int[] sortedIndices = sortByEatingTimes();
+                int[] sortedIndices = sortByEatingTimes(); // sort philosophers by how many times they have eaten
+                // test each philosopher in the sorted order to ensure fair access
                 for (int index : sortedIndices) {
                     test(index);
                 }
             }
 
             int[] sortByEatingTimes() {
-                EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length];
+                EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length]; // create an array to hold eat times with indices
                 for (int i = 0; i < eatTimes.length; i++) {
-                    sortArray[i] = new EatTimeWithIndex(eatTimes[i], i);
+                    sortArray[i] = new EatTimeWithIndex(eatTimes[i], i); // populate the array with eat times and corresponding philosopher IDs
                 }
 
-                Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime));
+                Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime)); // sort the array by eat times in ascending order
 
-                int[] sortedIndices = new int[eatTimes.length];
+                int[] sortedIndices = new int[eatTimes.length]; // create an array to hold sorted philosopher IDs
                 for (int i = 0; i < sortArray.length; i++) {
-                    sortedIndices[i] = sortArray[i].index;
+                    sortedIndices[i] = sortArray[i].index; // extract the philosopher IDs from the sorted array
                 }
 
-                return sortedIndices;
+                return sortedIndices; // return the sorted philosopher IDs
             }
 
             static class EatTimeWithIndex {
-                int eatTime;
-                int index;
+                int eatTime; // stores the number of times a philosopher has eaten
+                int index; // stores the philosopher's ID
 
                 eatTimeWithIndex(int eatTime, int index) {
-                    this.eatTime = eatTime;
-                    this.index = index;
+                    this.eatTime = eatTime; // initialize eat time
+                    this.index = index; // initialize philosopher ID
                 }
             }
         }
@@ -532,12 +442,10 @@
     </code></pre>
 
     <p>
-
+        <b>Philosopher class:</b>
     </p>
 
     <pre><code>
-        [Pseudocode]
-
         class FairTanenbaumPhilosopher extends Philosopher {
 
             FairMonitor monitor;
@@ -558,34 +466,36 @@
             }
 
             void pickUp() {
-                monitor.mutex.acquire();
-                monitor.updateState(id, Events.HUNGRY);
-                monitor.test(id);
-                monitor.mutex.release();
+                monitor.mutex.acquire(); // gain exclusive access to the monitor
+                monitor.updateState(id, Events.HUNGRY); // update the philosopher's state to hungry
+                monitor.test(id); // Test if the philosopher can start eating
+                monitor.mutex.release(); // release exclusive access to the monitor
 
-                monitor.semaphores[id].acquire();
+                monitor.semaphores[id].acquire(); // wait until permission is granted to proceed
 
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
             }
 
             void eats() {
-                eat();
-                monitor.mutex.acquire();
-                monitor.updateEatTime(id);
-                monitor.mutex.release();
+                eat(); // Simulate eating
+                monitor.mutex.acquire(); // gain exclusive access to the monitor
+                monitor.updateEatTime(id); // update the number of times this philosopher has eaten
+                monitor.mutex.release(); // release exclusive access to the monitor
             }
 
             void putDown() {
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                monitor.mutex.acquire();
-                monitor.updateState(id, Events.THINK);
-                monitor.checkAll();
-                monitor.mutex.release();
+                monitor.mutex.acquire(); // gain exclusive access to the monitor
+                monitor.updateState(id, Events.THINK); // update the philosopher's state to thinking
+                monitor.checkAll(); // re-evaluate all philosophers to allow the next one to eat
+                monitor.mutex.release(); // release exclusive access to the monitor
             }
         }
+
+
 
     </code></pre>
 
@@ -593,13 +503,22 @@
         Now let us evaluate the Fair Tanenbaum solution based on the key-challenges:
     </p>
     <ul>
-        <li>Deadlocks: Prevents deadlocks</li>
-        <li>Fairness: We reintroduce ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
+        <li>Deadlocks: Deadlock free, as deadlocks are prevented by avoiding the circular-wait condition</li>
+        <li>Starvation: We now test for each philosopher, whenever a put-down is completed. This theoretically lets us avoid Starvation.</li>
+        <li>Fairness: The test order after a put-down occurred is sorted by the philosophers who have eaten the least.
+            This means that the "poorest" philosophers are always tested first, before we proceed to others.
+            This should ensure that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.   </li>
+        <li>Concurrency: In this approach we still prioritize concurrent performance over fairness.
+            This results in very high concurrency results while still taking fairness into account.</li>
+        <li>Implementation: The changes required to implement this solution are a little more extensive, compared to the "simple" Tanenbaum Solution.
+            We need to take good care that the states and eat-chances are managed correctly.
         </li>
-        <li>Performance:</li>
+        <li>
+            Performance: As with the Tanenbaum Solution we produce a modest overhead by using the arrays. We now also have to sort the order of the testing after each put-down.
+            This further limits the scalability of this approach, as philosophers will have to wait while the waiter reorders the eating states.
+            The usage of insertion sort in this approach (Which has a complexity of n<sup>2</sup>)
+            would indeed scale poorly and force long waiting times in systems with larger numbers of philosophers.
+        </li>
     </ul>
 
 
