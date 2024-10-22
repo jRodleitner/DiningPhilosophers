@@ -305,10 +305,10 @@
                     <option value="INTELLIGENTWAITER" <%= "INTELLIGENTWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Intelligent Pickup Waiter
                     </option>
-                    <option value="FAIRCHANCEWAITER" <%= "FAIRCHANCEWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                    <option value="FAIR_CHANCE_WAITER" <%= "FAIR_CHANCE_WAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Fair Eat Chance Waiter
                     </option>
-                    <option value="FAIREATTIMEWAITER" <%= "FAIREATTIMEWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                    <option value="FAIR_EATTIME_WAITER" <%= "FAIR_EATTIME_WAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Fair Eat Time Waiter
                     </option>
                     <option value="TWOWAITERS" <%= "TWOWAITERS".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
@@ -326,8 +326,11 @@
                     <option value="TANENBAUM" <%= "TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Tanenbaum
                     </option>
-                    <option value="FAIRTANENBAUM" <%= "FAIRTANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Fair Tanenbaum
+                    <option value="FAIR_CHANCE_TANENBAUM" <%= "FAIR_CHANCE_TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Fair Chance Tanenbaum
+                    </option>
+                    <option value="FAIR_TIME_TANENBAUM" <%= "FAIR_TIME_TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Fair Eat Time Tanenbaum
                     </option>
                     <option value="ROUNDROBIN" <%= "ROUNDROBIN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Round-Robin

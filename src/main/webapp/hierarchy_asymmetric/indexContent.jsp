@@ -55,6 +55,18 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+
+        .separator {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right,
+            transparent 0%,
+            #ddd 10%,
+            #ddd 90%,
+            transparent 100%);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -152,11 +164,11 @@
 
     <a href="../simulation/?algorithm=HIERARCHY" class="button">Resource Hierarchy Simulation</a>
     <a href="../animation/?algorithm=HIERARCHY" class="button">Resource Hierarchy Animation</a>
-</div>
 
+    <div class="separator"></div>
 
-<h2>Asymmetric Solution</h2>
-<div class="description">
+    <h2>Asymmetric Solution</h2>
+
     <img src="../pictures/asymmetric.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
     <p>
         The Asymmetric Solution takes a slightly different approach by assigning an order to the philosophers instead of

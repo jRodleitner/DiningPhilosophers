@@ -19,9 +19,9 @@ public class Algorithm {
 
     public static final String INTELLIGENTWAITER = "INTELLIGENTWAITER";
 
-    public static final String FAIREATTIMEWAITER = "FAIREATTIMEWAITER";
+    public static final String FAIREATTIMEWAITER = "FAIR_EATTIME_WAITER";
 
-    public static final String FAIRCHANCEWAITER = "FAIRCHANCEWAITER";//8
+    public static final String FAIRCHANCEWAITER = "FAIR_CHANCE_WAITER";//8
 
     public static final String TWOWAITERS = "TWOWAITERS"; //9
 
@@ -33,7 +33,9 @@ public class Algorithm {
 
     public static final String TANENBAUM = "TANENBAUM"; //13
 
-    public static final String FAIRTANENBAUM = "FAIRTANENBAUM"; //14
+    public static final String FAIRTIMETANENBAUM = "FAIR_TIME_TANENBAUM"; //14
+
+    public static final String FAIRCHANCETANENBAUM = "FAIR_CHANCE_TANENBAUM";
 
     public static final String RESTRICT = "RESTRICT"; //15
 

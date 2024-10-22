@@ -1,24 +1,18 @@
 package algorithms.semaphore.fair_tanenbaum;
 
 import parser.Events;
-
-import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
-
-import parser.Events;
 
 import java.util.concurrent.Semaphore;
 
-public class FairMonitor {
+public class FairChanceMonitor {
     private final String[] states;
     protected Semaphore[] semaphores;
     private final int[] eatTimes;
     Semaphore mutex;
 
-    public FairMonitor(int nrPhilosophers) {
+    public FairChanceMonitor(int nrPhilosophers) {
         eatTimes = new int[nrPhilosophers];
         states = new String[nrPhilosophers];
         semaphores = new Semaphore[nrPhilosophers];

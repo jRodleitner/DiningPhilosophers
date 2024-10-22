@@ -9,6 +9,8 @@ import algorithms.naive.NaivePhilosopher;
 import algorithms.restrict.Restrict;
 import algorithms.restrict.RestrictChopstick;
 import algorithms.restrict.RestrictPhilosopher;
+import algorithms.semaphore.fair_tanenbaum.FairTimeMonitor;
+import algorithms.semaphore.fair_tanenbaum.FairTimeTanenbaumPhilosopher;
 import algorithms.semaphore.roundrobin.RoundRobinScheduler;
 import algorithms.semaphore.roundrobin.RoundRobinChopstick;
 import algorithms.semaphore.roundrobin.RoundRobinPhilosopher;
@@ -16,8 +18,8 @@ import algorithms.semaphore.dijkstra.DijkstraChopstick;
 import algorithms.semaphore.dijkstra.DijkstraPhilosopher;
 import algorithms.semaphore.tanenbaum.Monitor;
 import algorithms.semaphore.tanenbaum.TanenbaumPhilosopher;
-import algorithms.semaphore.fair_tanenbaum.FairTanenbaumPhilosopher;
-import algorithms.semaphore.fair_tanenbaum.FairMonitor;
+import algorithms.semaphore.fair_tanenbaum.FairChanceTanenbaumPhilosopher;
+import algorithms.semaphore.fair_tanenbaum.FairChanceMonitor;
 import algorithms.semaphore.tablesemaphore.TableSemaphore;
 import algorithms.semaphore.tablesemaphore.TableSemaphorePhilosopher;
 import algorithms.timeout.TimeoutChopstick;
@@ -291,15 +293,28 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.FAIRTANENBAUM:
+            case Algorithm.FAIRCHANCETANENBAUM:
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                FairMonitor fairGlobal = new FairMonitor(nrPhilosophers);
+                FairChanceMonitor fairChanceMonitor = new FairChanceMonitor(nrPhilosophers);
 
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    FairTanenbaumPhilosopher philosopher = new FairTanenbaumPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairGlobal);
+                    FairChanceTanenbaumPhilosopher philosopher = new FairChanceTanenbaumPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairChanceMonitor);
+                    philosophers.add(philosopher);
+                }
+                break;
+
+            case Algorithm.FAIRTIMETANENBAUM:
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    chopsticks.add(new SimpleChopstick(i));
+                }
+
+                FairTimeMonitor fairTimeMonitor = new FairTimeMonitor(nrPhilosophers);
+
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    FairTimeTanenbaumPhilosopher philosopher = new FairTimeTanenbaumPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairTimeMonitor);
                     philosophers.add(philosopher);
                 }
                 break;

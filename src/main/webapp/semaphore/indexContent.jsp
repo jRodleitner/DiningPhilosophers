@@ -56,6 +56,18 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+
+        .separator {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right,
+            transparent 0%,
+            #ddd 10%,
+            #ddd 90%,
+            transparent 100%);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +86,7 @@
     </p>
     <img src="../pictures/semaphore.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
+    <div class="separator"></div>
 
     <h2>Table Semaphore Solution</h2>
     <p>
@@ -138,6 +151,8 @@
 
     </code></pre>
 
+    <h3>Table Semaphore Solution Evaluation </h3>
+
     <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: The Table Semaphore approach prevents deadlocks via avoiding the circular-wait condition.</li>
@@ -162,7 +177,7 @@
 
 
 
-
+    <div class="separator"></div>
 
     <h2>Round Robin Solution</h2>
     <p>
@@ -201,6 +216,7 @@
 
 
 
+    <div class="separator"></div>
 
 
     <h2>Tanenbaum Solution</h2>
@@ -318,9 +334,8 @@
 
 
     </code></pre>
-    <p>
 
-    </p>
+    <h3>Tanenbaum Solution Evaluation </h3>
 
     <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
     <ul>
@@ -347,6 +362,7 @@
 
 
 
+    <div class="separator"></div>
 
     <h2>Fair Tanenbaum Solution</h2>
     <p>
@@ -495,9 +511,9 @@
             }
         }
 
-
-
     </code></pre>
+
+    <h3>Fair Tanenbaum Solution Evaluation </h3>
 
     <p>
         Now let us evaluate the Fair Tanenbaum solution based on the key-challenges:
@@ -521,13 +537,21 @@
         </li>
     </ul>
 
+    <p>
+        On the Simulation Animation pages you can find both the fair-chance and fair-time algorithms.
+        The above implementation can easily be changed to account for eat-time fairness, changing just a few lines of code.#
+        If you want more details about how this change could be done, it is shown in the Fair Waiter Solution.
+
+    </p>
+
 
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=FAIR_TANENBAUM" class="button">Fair Tanenbaum Simulation</a>
-    <a href="../animation/?algorithm=FAIR_TANENBAUM" class="button">Fair Tanenbaum Animation</a>
-
+    <a href="../simulation/?algorithm=FAIR_CHANCE_TANENBAUM" class="button">Fair Eat Chance Tanenbaum Simulation</a>
+    <a href="../animation/?algorithm=FAIR_CHANCE_TANENBAUM" class="button">Fair Eat Chance Tanenbaum Animation</a>
+    <a href="../simulation/?algorithm=FAIR_TIME_TANENBAUM" class="button">Fair Eat Time Tanenbaum Simulation</a>
+    <a href="../animation/?algorithm=FAIR_TIME_TANENBAUM" class="button">Fair Eat Time Tanenbaum Animation</a>
 
 
 

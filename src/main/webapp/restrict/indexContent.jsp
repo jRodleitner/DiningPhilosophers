@@ -171,7 +171,11 @@
     </p>
     <a href="../simulation/?algorithm=RESTRICT" class="button">Restrict Simulation</a>
     <a href="../animation/?algorithm=RESTRICT" class="button">Restrict Animation</a>
-</div>
+
+
+
+
+
 
 
 
@@ -216,7 +220,7 @@
 </p>
 <a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
 <a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
-</div>
 
+</div>
 </body>
 </html>

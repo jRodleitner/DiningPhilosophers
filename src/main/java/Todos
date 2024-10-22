@@ -105,11 +105,10 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 12. [x][x][x] Fair Waiter (Eat Time)
 13. [x][x][x] Two Waiters
 14. [x][x][x] Table Semaphore
-
-16. [x][x][x] tanenbaum
-17. [x][x][x] fair_tanenbaum (Eat Chance)
-18. [_][_][_] fair_tanenbaum (Eat Time)
-19. [x][x][_] chandymisra
+15. [x][x][x] tanenbaum
+16. [x][x][x] fair_tanenbaum (Eat Chance)
+17. [x][x][x] fair_tanenbaum (Eat Time)
+18. [x][x][x] chandy-misra
 
 ????:
 15. [x][x][?] dijkstra

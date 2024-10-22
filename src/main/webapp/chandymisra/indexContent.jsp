@@ -103,8 +103,9 @@
             ChandyMisraChopstick rightChopstick;
             ChandyMisraPhilosopher leftNeighbor;
             ChandyMisraPhilosopher rightNeighbor;
-            boolean goingToEatRequest = false;
+            boolean goingToEatRequest = false;  // indicates if the philosopher is requesting to eat
 
+            // Constructor assigns specific chopsticks and neighbors.
             ChandyMisraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
                 super(id, leftChopstick, rightChopstick);
                 this.leftChopstick = (ChandyMisraChopstick) leftChopstick;
@@ -114,42 +115,45 @@
             @Override
             void run() {
                 while (!terminated()) {
-                    checkForRequests();
+                    checkForRequests();  // handle any pending chopstick requests from neighbors.
                     think();
-                    checkForRequests();
-                    requestChopsticksIfNecessary();
+                    checkForRequests();  // ensure any requests are managed before trying to eat.
+                    requestChopsticksIfNecessary();  // attempt to acquire both chopsticks.
                     eating();
-                    checkForRequests();  // Ensure release of chopsticks after last eat
+                    checkForRequests();  //ensure release of chopsticks after eating.
                 }
             }
 
             void requestChopsticksIfNecessary() {
-                goingToEatRequest = true;
+                goingToEatRequest = true;  // signal intention to eat, affecting chopstick transfer logic.
                 waitForChopstick(leftChopstick);
                 waitForChopstick(rightChopstick);
-                goingToEatRequest = false;
+                goingToEatRequest = false;  // reset the request after obtaining chopsticks.
             }
 
             void waitForChopstick(ChandyMisraChopstick chopstick) {
                 synchronized (chopstick) {
+                    // Wait until this philosopher owns the chopstick.
                     while (chopstick.owner != this) {
-                        checkForRequests();  // Release dirty chopstick while waiting
-                        chopstick.wait(10);
+                        checkForRequests();  // handle potential requests for this chopstick while waiting.
+                        chopstick.wait(10);  // re-check requests periodically.
                     }
                 }
             }
 
             void checkForRequests() {
+                // respond to any requests for the left or right chopstick from neighbors.
                 giveUpChopstickIfRequested(leftChopstick, leftNeighbor);
                 giveUpChopstickIfRequested(rightChopstick, rightNeighbor);
             }
 
             void giveUpChopstickIfRequested(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver) {
                 synchronized (chopstick) {
+                    // give up the chopstick if the neighbor has requested to eat, it's dirty, and this philosopher holds it.
                     if (receiver.goingToEatRequest && !chopstick.isClean && chopstick.owner == this) {
-                        chopstick.isClean = true;
-                        chopstick.owner = receiver;
-                        chopstick.notifyAll();  // Notify waiting philosopher
+                        chopstick.isClean = true;  // mark the chopstick as clean before transferring ownership.
+                        chopstick.owner = receiver;  // transfer chopstick ownership to the requesting philosopher.
+                        chopstick.notifyAll();  // notify the waiting philosopher that they now own the chopstick.
                     }
                 }
             }
@@ -158,7 +162,7 @@
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
                 eat();
-                rightChopstick.isClean = false;
+                rightChopstick.isClean = false;  // mark chopsticks as dirty after eating.
                 leftChopstick.isClean = false;
                 putDownLeftChopstick();
                 putDownRightChopstick();
@@ -168,10 +172,11 @@
             void think() {
                 long remainingTime = calculateDuration();
 
+                // Think in small intervals to allow for checking requests during longer thinking times.
                 while (remainingTime > 0) {
                     long sleepTime = min(remainingTime, 10);
                     sleep(sleepTime);
-                    checkForRequests();
+                    checkForRequests();  // handle chopstick requests while thinking.
                     remainingTime -= sleepTime;
                 }
 
@@ -180,10 +185,12 @@
             }
 
             void setNeighbors(ChandyMisraPhilosopher leftNeighbor, ChandyMisraPhilosopher rightNeighbor) {
+                // Establish references to neighboring philosophers for handling chopstick requests.
                 this.leftNeighbor = leftNeighbor;
                 this.rightNeighbor = rightNeighbor;
             }
         }
+
     </code></pre>
     <p>
         <b>Chopstick class: </b>
@@ -203,18 +210,41 @@
                 this.owner = owner;
             }
         }
-    </code></pre>
+    </code></pre>#
+
+    <h3>Chandy Misra Solution Evaluation </h3>
 
     <p>
         Now let us evaluate the Chandy-Misra Algorithm according to the key challenges:
     </p>
     <ul>
-        <li>Deadlocks:</li>
-        <li>Fairness: </li>
-        <li>Concurrency: </li>
-        <li>Implementation:  </li>
-        <li>Performance:  </li>
+        <li>Deadlocks: We avoid deadlocks due to the distributed nature of the algorithm.
+            Philosophers that own a chopstick have to hand over ownership, unless they absolutely need it.
+            This breaks the circular-wait condition.</li>
+        <li>Starvation: We avoid starvation because philosophers must hand over ownership to the requesting neighbour eventually.
+            (Either during their own waiting/thinking phase or when they process requests after eating)</li>
+        <li>Fairness: We only guarantee that philosophers will get a chance to eat at som point, but do not specifically enhance fairness with this approach.</li>
+        <li>Concurrency: The distributed nature of this Algorithm yields a high degree of concurrency.</li>
+        <li>Implementation: The distributed nature and the need to manage the state of each fork (clean or dirty)
+            and the request communication between philosophers lead to a more challenging implementation.
+            </li>
+        <li>Performance: There is a negligible overhead with the logic introduced in this solution.
+            Due to its inherently distributed nature the approach is highly scalable and can be used in large systems.</li>
     </ul>
+
+    <p>
+        This approach is very versatile and can be interpreted in many different ways.
+        The implementation above is just one way the key concepts of dirty/ clean chopsticks and request messages can be implemented.
+
+        It is harder to find a clear and correct explanation to this approach online, compared to many other of the discussed approaches.
+        I have found many chandy misra "solutions" online that misunderstand basic concepts of this solution or are
+        flat out incorrect interpretations.
+        For example one implementation I found simply forgot that philosophers have to request their chopstick back
+        after they handed it to its neighbour, and would just start thinking again.
+        In such cases it is more useful to consult the original source, i.e. literature written by chandy and misra or
+        works expanding on their concepts.
+    </p>
+
 
     <p>
         You can find the respective Simulation and Animation pages here:

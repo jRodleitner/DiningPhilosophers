@@ -49,9 +49,21 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+        .separator {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right,
+            transparent 0%,
+            #ddd 10%,
+            #ddd 90%,
+            transparent 100%);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
+
 <div class="description">
 
 
@@ -182,6 +194,7 @@
 
 
 
+    <div class="separator"></div>
     <h2>Pickup Waiter Solution</h2>
     <p>
         We can reintroduce some concurrency into the system by limiting the waiter's permission to just the chopstick
@@ -229,6 +242,8 @@
         }
     </code></pre>
 
+    <h3>Pickup Waiter Solution Evaluation </h3>
+
     <p>Now let us evaluate the Pickup Waiter approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: As in the Atomic Waiter Solution, we effectively avoid deadlocks by avoiding the circular-wait
@@ -258,6 +273,11 @@
 
 
 
+
+
+
+
+    <div class="separator"></div>
 
     <h2>Intelligent Pickup Waiter Solution</h2>
     <p>
@@ -382,6 +402,8 @@
 
     </code></pre>
 
+    <h3>Intelligent Pickup Waiter Solution Evaluation </h3>
+
     <p>Now let us evaluate the Intelligent Pickup Waiter approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: As in the previous solutions we avoid the circular-wait condition.</li>
@@ -416,7 +438,7 @@
 
 
 
-
+    <div class="separator"></div>
 
     <h2>Fair Waiter Solution</h2>
     <img src="../pictures/fairwaiter.svg" alt="Dining Philosophers Problem" width="520" height="455">
@@ -585,6 +607,8 @@
 
     </code></pre>
 
+    <h3>Fair Waiter Solution Evaluation </h3>
+
     <p>Now let us evaluate the Fair Waiter approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: We effectively prevent deadlocks with this solution, as in the other waiter solutions, by avoiding the circular-wait condition.</li>
@@ -611,15 +635,15 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=FAIREATTIMEWAITER" class="button">Fair Eat Time Waiter Simulation</a>
-    <a href="../animation/?algorithm=FAIREATTIMEWAITER" class="button">Fair Eat Time Waiter Animation</a>
-    <a href="../simulation/?algorithm=FAIRCHANCEWAITER" class="button">Fair Eat Chance Waiter Simulation</a>
-    <a href="../animation/?algorithm=FAIRCHANCEWAITER" class="button">Fair Eat Chance Waiter Animation</a>
+    <a href="../simulation/?algorithm=FAIR_EATTIME_WAITER" class="button">Fair Eat Time Waiter Simulation</a>
+    <a href="../animation/?algorithm=FAIR_EATTIME_WAITER" class="button">Fair Eat Time Waiter Animation</a>
+    <a href="../simulation/?algorithm=FAIR_CHANCE_WAITER" class="button">Fair Eat Chance Waiter Simulation</a>
+    <a href="../animation/?algorithm=FAIR_CHANCE_WAITER" class="button">Fair Eat Chance Waiter Animation</a>
 
 
 
 
-
+    <div class="separator"></div>
 
     <h2>Two Waiters Solution</h2>
     <img src="../pictures/multiplewaiters.svg" alt="Dining Philosophers Problem" width="400" height="350">
@@ -659,6 +683,8 @@
         }
     </code></pre>
 
+    <h3>Two Waiters Solution Evaluation </h3>
+
     <p>Now let us evaluate the Two Waiters approach based on the key-challenges:</p>
     <ul>
         <li>Deadlocks: Prevents deadlocks via avoiding the circular-wait condition</li>
@@ -694,8 +720,7 @@
     <a href="../simulation/?algorithm=TWOWAITERS" class="button">Two Waiters Simulation</a>
     <a href="../animation/?algorithm=TWOWAITERS" class="button">Two Waiters Animation</a>
 
-
-
+</div>
 
 
 </body>
