@@ -1,7 +1,7 @@
 GENERAL TODO:
 
 NEXT:
-[ ] Correct restrict implementation (Semaphores)
+[ ] Correct restrictToken implementation (Semaphores)
 [ ] check all algorithms
 [ ] Server deployment
 [ ] read approaches/ papers for new algorithms
@@ -42,7 +42,7 @@ CHECK:
 [x] fair tanenbaum solution [!RECKECK!]
 [x] dijkstra [!RECHECK!] {very slim chance of deadlock if the randomized sleep times overlap}
 [x] multiple token [!RECHECK!]
-[x] restrict nr philosophers [!RECHECK!]
+[x] restrictToken nr philosophers [!RECHECK!]
 [x] multiple waiters (Two-Waiters) [CHECK]
 [x] GitHub Incoropration
 [x] Basic Simulation Page
@@ -80,11 +80,13 @@ CHECK:
 [x] Test minimum sleep time (eating, thinking)
 [x] Fair Tanenbaum code/description
 [x] Incidence graphs (Algorithms)
+[x] Simulation notes
+[x] Animation Notes
 
-
-21.10
-[ ] Simulation notes
-[ ] Animation Notes
+23.10
+[ ] Restrict Explanations
+[ ] Restrict Waiter Explanation
+[ ] Restrict Token Explanations
 
 
 
@@ -108,8 +110,11 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 16. [x][x][x] fair_tanenbaum (Eat Chance)
 17. [x][x][x] fair_tanenbaum (Eat Time)
 18. [x][x][x] chandy-misra
-19. [x][_][ ] Restrict Waiter
-20. [x][x][?] dijkstra (Instant timeout)
+19. [ ][ ][ ] restrict-token
+20. [x][_][ ] Restrict Waiter
+
+
+21. [x][x][?] dijkstra (Instant timeout)
 ????:
 
 

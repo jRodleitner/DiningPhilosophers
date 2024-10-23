@@ -6,9 +6,10 @@ import algorithms.chandymisra.ChandyMisraPhilosopher;
 import algorithms.hierarchy.HierarchyPhilosopher;
 import algorithms.SimpleChopstick;
 import algorithms.naive.NaivePhilosopher;
-import algorithms.restrict.Restrict;
-import algorithms.restrict.RestrictChopstick;
+import algorithms.restrict.GlobalSemaphore;
 import algorithms.restrict.RestrictPhilosopher;
+import algorithms.restrictToken.RestrictToken;
+import algorithms.restrictToken.RestrictTokenPhilosopher;
 import algorithms.semaphore.fair_tanenbaum.FairTimeMonitor;
 import algorithms.semaphore.fair_tanenbaum.FairTimeTanenbaumPhilosopher;
 import algorithms.semaphore.roundrobin.RoundRobinScheduler;
@@ -85,14 +86,15 @@ public class DiningTable {
                 break;
 
             case Algorithm.RESTRICT:
-                Restrict restrict = new Restrict(nrPhilosophers);
+                GlobalSemaphore globalSemaphore = new GlobalSemaphore(nrPhilosophers);
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    chopsticks.add(new RestrictChopstick(i, restrict));
+                    chopsticks.add(new SimpleChopstick(i));
                 }
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    RestrictPhilosopher philosopher = new RestrictPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
+                    RestrictPhilosopher philosopher = new RestrictPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, globalSemaphore);
                     philosophers.add(philosopher);
                 }
+
                 break;
 
             case Algorithm.HIERARCHY:
@@ -340,8 +342,24 @@ public class DiningTable {
                     chopstick = (ChandyMisraChopstick) chopsticks.get(i);
                     chopstick.setOwner((ChandyMisraPhilosopher) philosophers.get(ownerId));
                 }
+                break;
 
-
+            case Algorithm.RESTRICTTOKEN:
+                System.out.println("RestrictToken Algorithm");
+                RestrictToken restrictToken = new RestrictToken();
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    chopsticks.add(new SimpleChopstick(i));
+                }
+                philosophers.add(new RestrictTokenPhilosopher(0, chopsticks.get(0), chopsticks.get((1) % nrPhilosophers), this, thinkDistr, eatDistr, restrictToken));
+                for (int i = 1; i < nrPhilosophers; i++) {
+                    RestrictTokenPhilosopher residualPhilosophers = new RestrictTokenPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, null);
+                    philosophers.add(residualPhilosophers);
+                }
+                RestrictTokenPhilosopher restrictTokenPhilosopher;
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    restrictTokenPhilosopher = (RestrictTokenPhilosopher) philosophers.get(i);
+                    restrictTokenPhilosopher.setNeighbors((RestrictTokenPhilosopher) philosophers.get((i - 1 + nrPhilosophers) % nrPhilosophers), (RestrictTokenPhilosopher) philosophers.get((i + 1) % nrPhilosophers));
+                }
                 break;
 
         }
