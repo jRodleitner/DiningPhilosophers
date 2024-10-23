@@ -74,42 +74,62 @@
             white-space: pre; /* Ensure code stays on one line */
         }
 
+        .container {
+            display: flex;
+            justify-content: flex-end; /* Aligns the nav to the right */
+        }
+
+
+        .main-content {
+            flex: 1; /* Takes up remaining space */
+            padding-right: 20px; /* Adds some space between the main content and the nav */
+        }
+
 
     </style>
 </head>
 <body>
 <h2>The Dining Philosophers Problem</h2>
-<!-- General Description -->
-<div class="nav">
-    <h4>Page Contents</h4>
-    <ul>
-        <li><a href="#general">General Explanation</a></li>
-        <li><a href="#challenges">Challenges</a></li>
-        <li><a href="#simulation">Simulation</a></li>
-        <li><a href="#implementation">Implementation</a></li>
-        <li><a href="#limitations">Limitations</a></li>
-        <li><a href="#solutions">Solutions</a></li>
-    </ul>
+
+
+<div class="container">
+    <div class="main-content">
+        <div class="description">
+        <p>
+            The Dining Philosophers Problem is a classic thought experiment that is useful to illustrate some of the
+            challenges of designing concurrent systems.
+            These include deadlocks, fairness and ensuring actual concurrency within the system.
+            Essentially the problem can be seen as a simplified metaphor for distributed systems that share needed resources
+            between processes to achieve a goal. In reality processes often need those shared resources to complete
+            their tasks, for example accessing a variable that is read and updated by two or more processes. To ensure
+            consistency of reads and writes,
+            usually only one process at a time is permitted to access the resource.
+            The Dining Philosophers problem was famously introduced by Edsger Dijkstra in 1965 and is frequently referenced
+            in the literature concerning the fields of concurrent programming, operating systems, and synchronization
+            mechanisms.
+            In the following we will explore the Dining Philosophers problem in detail, highlight the challenges we
+            encounter,
+            the limitations and finally some solutions to the problem.
+            If you already know about the fundamentals you can jump to the discussed solutions via the navigation
+            menu to the right.
+        </p>
+        </div>
+    </div>
+    <div class="nav">
+        <h4>Page Contents</h4>
+        <ul>
+            <li><a href="#general">General Explanation</a></li>
+            <li><a href="#challenges">Challenges</a></li>
+            <li><a href="#simulation">Simulation</a></li>
+            <li><a href="#implementation">Implementation</a></li>
+            <li><a href="#limitations">Limitations</a></li>
+            <li><a href="#solutions">Solutions</a></li>
+        </ul>
+    </div>
 </div>
+
 <div class="description">
-    <p>
-        The Dining Philosophers Problem is a classic thought experiment that is useful to illustrate some of the
-        challenges of designing concurrent systems.
-        These include deadlocks, fairness and ensuring actual concurrency within the system.
-        Essentially the problem can be seen as a simplified metaphor for distributed systems that share needed resources
-        between processes to achieve a goal. In reality processes often need those shared resources to complete
-        their tasks, for example accessing a variable that is read and updated by two or more processes. To ensure
-        consistency of reads and writes,
-        usually only one process at a time is permitted to access the resource.
-        The Dining Philosophers problem was famously introduced by Edsger Dijkstra in 1965 and is frequently referenced
-        in the literature concerning the fields of concurrent programming, operating systems, and synchronization
-        mechanisms.
-        In the following we will explore the Dining Philosophers problem in detail, highlight the challenges we
-        encounter,
-        the limitations and finally some solutions to the problem.
-        If you already know about the fundamentals you can jump to the discussed solutions via the above navigation
-        menu.
-    </p>
+
     <img src="pictures/dining.png" alt="Dining Philosophers Problem" width="400" height="350">
 
     <section id="general">
@@ -156,6 +176,8 @@
                 following an exponential distribution.
             </li>
         </ul>
+
+        <img src="pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
         <p>
             To keep track of the philosophers actions we keep a Log for each Philosopher, tracking the following Events:
         </p>
@@ -526,20 +548,20 @@
             Let us now evaluate the Naive Dining Philosophers, based on the introduced challenges.
         </p>
         <ul>
-            <li>Deadlocks: The naive implementation frequently leads to deadlocks, especially when the number of philosophers is 5 or lower.
+            <li><b>Deadlocks:</b> The naive implementation frequently leads to deadlocks, especially when the number of philosophers is 5 or lower.
                 Usually, it is harder to come across deadlocks, when we deal with larger numbers of philosophers,
                 however due to several situations like a changes in the execution environment (Java VM or OS rescheduling tasks), deadlocks could still occur, especially with longer runtimes.
             </li>
-            <li>Starvation: The naive dining philosophers takes no measures against starvation.
+            <li><b>Starvation:</b> The naive dining philosophers takes no measures against starvation.
             </li>
-            <li>Fairness: There is no fairness given in a naive dining philosophers implementation. Essentially the philosophers to achieve a successful pickup, can be successful again, and again.
+            <li><b>Fairness:</b> There is no fairness given in a naive dining philosophers implementation.
             </li>
-            <li>Concurrency: The naive dining philosophers does have a high degree of concurrency (as long as deadlocks do not occur).
+            <li><b>Concurrency:</b> The naive dining philosophers does have a high degree of concurrency (as long as deadlocks do not occur).
                 However, due to the long path in the precedence graph, situations where many adjacent philosophers wait on their right chopstick happen frequently.
             </li>
-            <li>Implementation: Implementation of the naive dining philosophers is rather simple with knowledge about concurrent programming.
+            <li><b>Implementation:</b> Implementation of the naive dining philosophers is rather simple with knowledge about concurrent programming.
             </li>
-            <li>Performance: NA.
+            <li><b>Performance:</b> NA.
             </li>
         </ul>
 

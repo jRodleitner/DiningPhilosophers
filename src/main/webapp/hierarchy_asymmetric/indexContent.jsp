@@ -67,6 +67,45 @@
             border-radius: 10px;
             margin: 20px 0;
         }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
     </style>
 </head>
 <body>
@@ -129,26 +168,40 @@
         Now let us evaluate the Algorithm according to the key challenges we face for designing a dining
         philosophers solution:
     </p>
-    <ul>
-        <li>Deadlocks: The Resource Hierarchy Solution effectively prevents deadlocks via avoiding the circular-wait condition,
-            as defined by Coffman.
-        </li>
-        <li>Starvation: We do not guarantee that a philosopher will get a chance to eat, thus Starvation is possible.
-        </li>
-        <li>Fairness: Resource Hierarchy fails at providing fairness to the system, as no such measures are taken.</li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not blocked from eating by this
-            approach.
-            Theoretically this approach should provide us with a little higher concurrency, since the longest path in
-            the precedence graph is now one shorter.
-            However, in practice this advantage is not noticeable when running the simulations with 5 or fewer
-            philosophers.
-        </li>
-        <li>Implementation: The changes required to implement are straightforward.</li>
-        <li>Performance: Next to no overhead with the newly introduced logic. Theoretically highly scalable but the
-            strict ordering of resources necessitates a static environment during the execution.
-        </li>
-        .
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>The Resource Hierarchy Solution effectively prevents deadlocks via avoiding the circular-wait condition, as defined by Coffman.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>We do not guarantee that a philosopher will get a chance to eat, thus starvation is possible.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>Resource Hierarchy fails at providing fairness to the system, as no such measures are taken.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>Concurrency of the system is given, since the philosophers are not blocked from eating by this approach. Theoretically, this approach should provide us with a little higher concurrency, since the longest path in the precedence graph is now one shorter. However, in practice, this advantage is not noticeable when running the simulations with 5 or fewer philosophers.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement are straightforward.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>Next to no overhead with the newly introduced logic. Theoretically highly scalable, but the strict ordering of resources necessitates a static environment during the execution.</td>
+        </tr>
+        </tbody>
+    </table>
 
     <p>
         The practicality of this approach in the real world is partly questionable, as full knowledge about the system
@@ -221,30 +274,41 @@
     <p>
         Let us again evaluate the given Algorithm according to the key-challenges:
     </p>
-    <ul>
-        <li>Deadlocks: The Asymmetric Solution effectively prevents deadlocks by again avoiding the circular-wait
-            condition.
-        </li>
-        <li>Starvation: We again do not guarantee that a philosopher will get a chance to eat, so Starvation is
-            possible.
-        </li>
-        <li>Fairness: The Asymmetric Solution fails at providing fairness to the system, as no such measures are
-            taken.
-        </li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not prevented from eating.
-            Additionally, we again should theoretically increase concurrency in our system, due to the now minimal paths
-            in the precedence graph.
-            Compared to the naive and the resource hierarchy implementation we now achieve a slightly higher
-            concurrency, but again, this effect is only barely noticeable in simulation runs with 5 or fewer
-            philosophers.
-        </li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, again very
-            straightforward and even a little more intuitive than Resource Hierarchy.
-        </li>
-        <li>Performance: No performance overhead due to the introduced logic. Theoretically highly scalable to arbitrary
-            numbers of philosophers.
-        </li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>The Asymmetric Solution effectively prevents deadlocks by again avoiding the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>We again do not guarantee that a philosopher will get a chance to eat, so starvation is possible.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>The Asymmetric Solution fails at providing fairness to the system, as no such measures are taken.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>Concurrency of the system is given, since the philosophers are not prevented from eating. Additionally, we should theoretically increase concurrency in our system due to the now minimal paths in the precedence graph. Compared to the naive and the resource hierarchy implementation, we achieve slightly higher concurrency, but this effect is only barely noticeable in simulation runs with 5 or fewer philosophers.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement this solution are quite minimal, again very straightforward and even a little more intuitive than Resource Hierarchy.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>No performance overhead due to the introduced logic. Theoretically highly scalable to arbitrary numbers of philosophers.</td>
+        </tr>
+        </tbody>
+    </table>
+
     <p>
         The main drawback to this solution, however, is that it is very close natured to the dining philosophers
         problem,

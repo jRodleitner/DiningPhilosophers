@@ -56,6 +56,45 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
     </style>
 </head>
 <body>
@@ -203,15 +242,41 @@
     <p>
         Now Let us evaluate the Global Token solution according to the key-challenges
     </p>
-    <ul>
-        <li>Deadlocks: We effectively prevent deadlocks by avoiding the circular-wait condition</li>
-        <li>Starvation: No starvation as each philosopher will eventually get the chance to eat.</li>
-        <li>Fairness: Fair eat-chances, as each philosopher gets a turn at eating once every round.
-         Eat-Time fairness depends heavily on chosen distribution.</li>
-        <li>Concurrency: No concurrency since only one philosopher can eat at a time.</li>
-        <li>Implementation: The implementation is rather simple and easy to understand.</li>
-        <li>Performance: The introduced logics' overhead is minimal and managed in distributed way. No central entity, and thus highly scalable.</li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>We effectively prevent deadlocks by avoiding the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>No starvation as each philosopher will eventually get the chance to eat.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>Fair eat-chances, as each philosopher gets a turn at eating once every round. Eat-time fairness depends heavily on the chosen distribution.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>No concurrency since only one philosopher can eat at a time.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The implementation is rather simple and easy to understand.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>The introduced logic's overhead is minimal and managed in a distributed way. No central entity, and thus highly scalable.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -310,17 +375,41 @@
     <p>
         Now Let us evaluate the Multiple Token solution according to the key-challenges
     </p>
-    <ul>
-        <li>Deadlocks: We again prevent deadlocks via avoiding the circular-wait condition</li>
-        <li>Starvation: No starvation as each philosopher will eventually get the chance to eat</li>
-        <li>Fairness: Fair eat-chances, as each philosopher repeatedly earns permission when they receive a token.
-            Potentially unfair eat-times, depending on the chosen distributions of eat- and think-times.</li>
-        <li>Concurrency: Potential high concurrency, as multiple tokens are passed around permitting [n/2]/ &lfloor;n/2&rfloor; at a
-            time to eat.
-        </li>
-        <li>Implementation: The changes that need to be made are a little more extensive than for example the asymmetric solution, but the logic is rather easily expanded on, using the Global Token Solution</li>
-        <li>Performance: Again there is a negligible performance overhead utilizing this additional logic. There is no central entity that philosophers have to go through, so there is a high scalability present in this approach.</li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>We again prevent deadlocks by avoiding the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>No starvation as each philosopher will eventually get the chance to eat.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>Fair eat-chances, as each philosopher repeatedly earns permission when they receive a token. Potentially unfair eat-times, depending on the chosen distributions of eat- and think-times.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>Potential high concurrency, as multiple tokens are passed around permitting ⌊n/2⌋ philosophers to eat at a time.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes that need to be made are a little more extensive than, for example, the asymmetric solution, but the logic is rather easily expanded on, using the Global Token Solution.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>Again, there is a negligible performance overhead utilizing this additional logic. There is no central entity that philosophers have to go through, so there is high scalability present in this approach.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         Although this solution shows promising results (potential high concurrency, eat chance fairness and no deadlocks) and is clearly highly scalable in distributed environments

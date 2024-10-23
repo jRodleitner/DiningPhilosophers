@@ -60,6 +60,14 @@
             white-space: pre;
         }
 
+        .description {
+            line-height: 1.6; /* Increases spacing between lines for readability */
+            color: #333;
+            padding: 3px;
+            margin-bottom: 3px;
+            max-width: 900px;
+        }
+
         .error {
             color: red;
         }
@@ -427,13 +435,61 @@
     <div class="fixed-box">
         <h3>Legend</h3>
         <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUB] = Pick up Both Forks, [PUL] = Pick up left Fork, [PUL] =
-            Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork</p>
+            Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork, [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
         <br>
     </div>
 
 </div>
 <h2>Simulation Notes</h2>
-<p>Execution Time: The Execution Time can be set up to 3000 Simulation units, thus there is a significant waiting time
-    until the results are returned by the server</p>
+<div class="description">
+<p>
+    This is a simulation page that lets you experiment with the different solutions presented on this website.
+    Every simulation run will be unique and dependent on the chosen parameters/ algorithms.
+    Most of the time simulations will be longer than the length of the simulation box, so horizontal scrolling of this
+    box will be necessary.
+    <br>
+    There are several options, with which you can alter the simulation parameters:
+</p>
+<ul>
+
+    <li><b>Number of philosophers: </b>On this Simulation page simulations with 2-9 philosophers is possible. We limit the number of philosophers on here due to Server constraints.</li>
+
+    <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
+        One time "unit" represents a loop iteration that is a step in the simulation timeline.
+        We control the actual time passage via a short waiting period in each iteration to give the philosophers time to complete actions.
+        Philosophers use this reference time to log their respective actions after completion.
+        This results in a quantization effect where each completed act is mapped to a discrete virtual simulation-time point.
+        Note that there is an actual simulation running in the background that utilizes Java Threads.
+        Increasing the simulation time will prolong the execution time of the backend, due to the longer simulation duration and the following processing of the results.
+        The maximum execution time is 1000, this will result in a waiting period of up to 20 seconds before results are visible.
+    </li>
+
+    <li><b>Distribution settings: </b> There are four types of distributions that can be chosen.
+        <ul>
+           <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation this will provoke deadlocks!</li>
+            <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper Bound.</li>
+            <li>Normal:  Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
+                This will simulate philosophers with normally distributed delays, according to the given parameters.</li>
+            <li>Exponential: Parameter lambda = &lambda; = rate parameter. Frequent low values, but sometimes large outliers occur. Lower lambda means that higher values become more likely.</li>
+
+        </ul>
+    </li>
+    <li><b>Simulation Type: </b> Two types are available. The Simulate Pickups mode lets you track the pick-ups and put-downs of the philosophers.
+        Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little more performant and will return results quicker.
+        This helps to track the behavior of the algorithms.
+        The "simple" mode will only display thinking and eating.</li>
+
+</ul>
+
+<p>
+    Bear in mind that for  simulation runs simulation timelines can differ in length, as philosophers log actions only after they finished an action.
+    When the solution is completed there is a cut-off point and philosophers are no longer able to log their actions.
+    Especially for the exponential and normal distributions longer run times might be necessary, since large outliers are possible with these distributions.
+
+    <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
+
+
+</p>
+</div>
 </body>
 </html>

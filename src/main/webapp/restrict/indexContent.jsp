@@ -56,6 +56,44 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
     </style>
 </head>
 <body>
@@ -147,24 +185,41 @@
     <h3>Restrict Solution Evaluation</h3>
 
     <p>Now let us evaluate the Restrict solution based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular
-            wait condition, as defined by Coffman.
-        </li>
-        <li>Starvation: We do not guarantee that a philosopher will get the chance to eat, so starvation is possible.
-            However, we at least do not starve one philosopher purposefully, as in some other Restrict approaches, found online or in the literature.</li>
-        <li>Fairness: We do not provide any fairness to the system using this solution.</li>
-        <li>Concurrency: We do not explicitly prevent concurrency but in many situations we block a philosopher from eating,
-            when it would be possible. The overall act of blocking one philosopher from eating frequently results in lower performance than the naive implementation.
-            This is simply due to the fact, that we "blindly" block philosophers one after another, irrespective of their current ability to eat.
-        </li>
-        <li>Implementation: The changes required to implement this solution are simple.</li>
-        <li>
-            Performance: For this approach to work we need to know the number of philosophers at the table, so in dynamic situations (philosophers can leave/ come to the table), careful handling would be necessary.
-            We do not get great scalability, as the Restrict entity has to be accessed frequently.
-            This could lead to a performance overhead in bigger systems.
-        </li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>We do not guarantee that a philosopher will get the chance to eat, so starvation is possible. However, we at least do not starve one philosopher purposefully, as in some other Restrict approaches found online or in the literature.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>We do not provide any fairness to the system using this solution.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>We do not explicitly prevent concurrency, but in many situations, we block a philosopher from eating when it would be possible. The overall act of blocking one philosopher from eating frequently results in lower performance than the naive implementation. This is simply due to the fact that we "blindly" block philosophers one after another, irrespective of their current ability to eat.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement this solution are simple.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>For this approach to work, we need to know the number of philosophers at the table, so in dynamic situations (philosophers can leave or come to the table), careful handling would be necessary. We do not get great scalability, as the Restrict entity has to be accessed frequently. This could lead to a performance overhead in bigger systems.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -206,15 +261,40 @@
 
     </code></pre>
 <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
-<ul>
-    <li>Deadlocks: Prevents deadlocks</li>
-    <li>Fairness: We ...</li>
-    <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-    <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-        needed.
-    </li>
-    <li>Performance:</li>
-</ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>We do not guarantee that a philosopher will get the chance to eat, so starvation is possible. However, we at least do not starve one philosopher purposefully, as in some other Restrict approaches found online or in the literature.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>We do not provide any fairness to the system using this solution.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>We do not explicitly prevent concurrency, but in many situations, we block a philosopher from eating when it would be possible. The overall act of blocking one philosopher from eating frequently results in lower performance than the naive implementation. This is simply due to the fact that we "blindly" block philosophers one after another, irrespective of their current ability to eat.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement this solution are simple.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>For this approach to work, we need to know the number of philosophers at the table, so in dynamic situations (philosophers can leave or come to the table), careful handling would be necessary. We do not get great scalability, as the Restrict entity has to be accessed frequently. This could lead to a performance overhead in bigger systems.</td>
+        </tr>
+        </tbody>
+    </table>
 <p>
     You can find the respective Simulation and Animation pages here:
 </p>

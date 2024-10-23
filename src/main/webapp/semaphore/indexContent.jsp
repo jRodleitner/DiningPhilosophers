@@ -68,6 +68,44 @@
             border-radius: 10px;
             margin: 20px 0;
         }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
     </style>
 </head>
 <body>
@@ -154,64 +192,47 @@
     <h3>Table Semaphore Solution Evaluation </h3>
 
     <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: The Table Semaphore approach prevents deadlocks via avoiding the circular-wait condition.</li>
-        <li>Starvation: Is prevented due to the implicit semaphore-queue, that eventually allows all philosophers to eat.</li>
-        <li>Fairness: Fair eat-chance, as philosophers, will eventually get the chance to eat when they try to acquire the table-semaphore.
-            Note that the utilization of the fairness is crucial to prevent barging and to enable the implicit FIFO queue.
-            Eat-time fairness is highly dependent on the chosen distribution and is not managed by this algorithm explicitly.
-        </li>
-        <li>Concurrency: There is a possibility for high concurrency, but similar to the Pickup Waiter Solution, philosophers adjacent to eating neighbours may acquire the semaphore.
-        To manage this we could introduce a monitor to the solution, however there is a smarter solution, called the Tanenbaum solution, that we will explore soon.</li>
-        <li>Implementation: The utilization of Semaphores in this way proves as very simple and requires only minimal modifications to the philosopher class.
-        </li>
-        <li>Performance: Very slight performance overhead due to the globally accessed semaphore</li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>The Table Semaphore approach prevents deadlocks by avoiding the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>Starvation is prevented due to the implicit semaphore-queue, which eventually allows all philosophers to eat.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>Fair eat-chance, as philosophers will eventually get the chance to eat when they try to acquire the table-semaphore. Note that the utilization of the fairness is crucial to prevent barging and to enable the implicit FIFO queue. Eat-time fairness is highly dependent on the chosen distribution and is not managed by this algorithm explicitly.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>There is a possibility for high concurrency, but similar to the Pickup Waiter Solution, philosophers adjacent to eating neighbors may acquire the semaphore. To manage this, we could introduce a monitor to the solution; however, there is a smarter solution called the Tanenbaum solution, which we will explore soon.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The utilization of semaphores in this way proves to be very simple and requires only minimal modifications to the philosopher class.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>There is a very slight performance overhead due to the globally accessed semaphore.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
     <a href="../simulation/?algorithm=TABLESEMAPHORE" class="button">Table Semaphore Simulation</a>
     <a href="../animation/?algorithm=TABLESEMAPHORE" class="button">Table Semaphore Animation</a>
-
-
-
-
-    <div class="separator"></div>
-
-    <h2>Round Robin Solution</h2>
-    <p>
-        There are several ways one could implement a Round Robin Solution
-    </p>
-    <p>
-
-    </p>
-    <pre><code>
-
-    </code></pre>
-    <p>
-
-    </p>
-    <pre><code>
-
-    </code></pre>
-
-    <p>Now let us evaluate the Dijkstra Solution based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: This solution lets us avoid deadlocks via avoiding the Hold-and-wait condition as defined by Coffman.</li>
-        <li>Fairness: We reintroduce ...</li>
-        <li>Concurrency: The Atomic Waiter algorithm removes concurrency from the system</li>
-        <li>Implementation: The changes required to implement this solution are quite minimal, no complex logic
-            needed.
-        </li>
-        <li>Performance:</li>
-    </ul>
-
-    <p>
-        You can find the respective Simulation and Animation pages here:
-    </p>
-    <a href="../simulation/?algorithm=ROUNDROBIN" class="button">Dijkstra Simulation</a>
-    <a href="../animation/?algorithm=ROUNDROBIN" class="button">Dijkstra Animation</a>
 
 
 
@@ -338,21 +359,41 @@
     <h3>Tanenbaum Solution Evaluation </h3>
 
     <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
-    <ul>
-        <li>Deadlocks: Prevents deadlocks via avoiding the circular-wait condition</li>
-        <li>Starvation: Sadly, the Tanenbaum Solution is not Starvation free.
-            Since we only test the left and right philosophers after
-            put-down we cannot guarantee that every philosopher will eventually get a chance to eat.
-            Starvation scenarios are not very likely, but still possible.</li>
-        <li>Fairness: Since we do not avoid starvation there is no fairness in the system.</li>
-        <li>Concurrency: This algorithm achieves good concurrency results, but the calling of the test() function on the two neighbours only,
-            often leads to situations where a philosopher could eat, but cannot because neighbouring philosophers are currently blocked.</li>
-        <li>Implementation: The implementation is more complex than some of the simpler Solutions to the problem.
-            We need to be careful about correct setting of states and correct synchronized access to the monitor.
-        </li>
-        <li>Performance: There is a modest overhead, due to the management of the philosophers via the monitor and the maintained arrays.
-            Similar to the discussed waiter solutions, the utilization of a monitor limits the scalability of this approach.</li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>Prevents deadlocks by avoiding the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>Sadly, the Tanenbaum Solution is not starvation-free. Since we only test the left and right philosophers after a put-down, we cannot guarantee that every philosopher will eventually get a chance to eat. Starvation scenarios are not very likely but still possible.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>Since we do not avoid starvation, there is no fairness in the system.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>This algorithm achieves good concurrency results, but the calling of the <code>test()</code> function on only the two neighbors often leads to situations where a philosopher could eat but cannot because neighboring philosophers are currently blocked.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The implementation is more complex than some of the simpler solutions to the problem. We need to be careful about the correct setting of states and correctly synchronized access to the monitor.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>There is a modest overhead due to the management of the philosophers via the monitor and the maintained arrays. Similar to the discussed waiter solutions, the utilization of a monitor limits the scalability of this approach.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -518,24 +559,41 @@
     <p>
         Now let us evaluate the Fair Tanenbaum solution based on the key-challenges:
     </p>
-    <ul>
-        <li>Deadlocks: Deadlock free, as deadlocks are prevented by avoiding the circular-wait condition</li>
-        <li>Starvation: We now test for each philosopher, whenever a put-down is completed. This theoretically lets us avoid Starvation.</li>
-        <li>Fairness: The test order after a put-down occurred is sorted by the philosophers who have eaten the least.
-            This means that the "poorest" philosophers are always tested first, before we proceed to others.
-            This should ensure that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.   </li>
-        <li>Concurrency: In this approach we still prioritize concurrent performance over fairness.
-            This results in very high concurrency results while still taking fairness into account.</li>
-        <li>Implementation: The changes required to implement this solution are a little more extensive, compared to the "simple" Tanenbaum Solution.
-            We need to take good care that the states and eat-chances are managed correctly.
-        </li>
-        <li>
-            Performance: As with the Tanenbaum Solution we produce a modest overhead by using the arrays. We now also have to sort the order of the testing after each put-down.
-            This further limits the scalability of this approach, as philosophers will have to wait while the waiter reorders the eating states.
-            The usage of insertion sort in this approach (Which has a complexity of n<sup>2</sup>)
-            would indeed scale poorly and force long waiting times in systems with larger numbers of philosophers.
-        </li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>Deadlock-free, as deadlocks are prevented by avoiding the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>We now test for each philosopher whenever a put-down is completed. This theoretically lets us avoid starvation.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>The test order after a put-down occurs is sorted by the philosophers who have eaten the least. This means that the "poorest" philosophers are always tested first, before we proceed to others. This should ensure that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>In this approach, we still prioritize concurrent performance over fairness. This results in very high concurrency results while still taking fairness into account.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement this solution are a little more extensive compared to the "simple" Tanenbaum Solution. We need to take good care that the states and eat-chances are managed correctly.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>As with the Tanenbaum Solution, we produce a modest overhead by using the arrays. We now also have to sort the order of the testing after each put-down. This further limits the scalability of this approach, as philosophers will have to wait while the waiter reorders the eating states. The usage of insertion sort in this approach (which has a complexity of <code>n<sup>2</sup></code>) would indeed scale poorly and force long waiting times in systems with larger numbers of philosophers.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         On the Simulation Animation pages you can find both the fair-chance and fair-time algorithms.

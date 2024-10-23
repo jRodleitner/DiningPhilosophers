@@ -56,6 +56,44 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
 
     </style>
 </head>
@@ -217,20 +255,41 @@
     <p>
         Now let us evaluate the Chandy-Misra Algorithm according to the key challenges:
     </p>
-    <ul>
-        <li>Deadlocks: We avoid deadlocks due to the distributed nature of the algorithm.
-            Philosophers that own a chopstick have to hand over ownership, unless they absolutely need it.
-            This breaks the circular-wait condition.</li>
-        <li>Starvation: We avoid starvation because philosophers must hand over ownership to the requesting neighbour eventually.
-            (Either during their own waiting/thinking phase or when they process requests after eating)</li>
-        <li>Fairness: We only guarantee that philosophers will get a chance to eat at som point, but do not specifically enhance fairness with this approach.</li>
-        <li>Concurrency: The distributed nature of this Algorithm yields a high degree of concurrency.</li>
-        <li>Implementation: The distributed nature and the need to manage the state of each fork (clean or dirty)
-            and the request communication between philosophers lead to a more challenging implementation.
-            </li>
-        <li>Performance: There is a negligible overhead with the logic introduced in this solution.
-            Due to its inherently distributed nature the approach is highly scalable and can be used in large systems.</li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>We avoid deadlocks due to the distributed nature of the algorithm. Philosophers that own a chopstick have to hand over ownership, unless they absolutely need it. This breaks the circular-wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>We avoid starvation because philosophers must hand over ownership to the requesting neighbor eventually. (Either during their own waiting/thinking phase or when they process requests after eating.)</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>We only guarantee that philosophers will get a chance to eat at some point, but do not specifically enhance fairness with this approach.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>The distributed nature of this algorithm yields a high degree of concurrency.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The distributed nature and the need to manage the state of each fork (clean or dirty) and the request communication between philosophers lead to a more challenging implementation.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>There is a negligible overhead with the logic introduced in this solution. Due to its inherently distributed nature, the approach is highly scalable and can be used in large systems.</td>
+        </tr>
+        </tbody>
+    </table>
+
 
     <p>
         This approach is very versatile and can be interpreted in many different ways.

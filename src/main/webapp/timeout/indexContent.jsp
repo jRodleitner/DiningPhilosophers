@@ -55,6 +55,45 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
     </style>
 </head>
 <body>
@@ -159,17 +198,41 @@
     <p>
         Now let us evaluate the Timeout Algorithm according to the key-challenges:
     </p>
-    <ul>
-        <li>Deadlocks: With this approach we prevent deadlocks via avoiding the Hold-and-Wait condition.</li>
-        <li>Starvation: Philosophers are not guaranteed to be able to eat, thus starvation is possible</li>
-        <li>Fairness: We fail at providing fairness to the system, as no such measures are taken.</li>
-        <li>Concurrency: Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach.
-         The degree of concurrency we achieve is practically identical to the naive implementation, as we ideally only intervene when a deadlock has occurred.
-            In the case of a timeout there is kind of a "soft reset" and we start the pickup process anew, harming concurrency minimally. </li>
-        <li>Implementation: Minimal changes are required and the concept is rather easy to understand/ implement. </li>
-        <li>Performance: The approach is highly scalable, and we essentially do not need any information on the system for this approach to work.
-            Not a giant performance overhead, but total eat time might be reduced when frequent timeouts occur and philosophers have to re-attempt picking up. </li>
-    </ul>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>With this approach, we prevent deadlocks by avoiding the Hold-and-Wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>Philosophers are not guaranteed to be able to eat, thus starvation is possible.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>We fail at providing fairness to the system, as no such measures are taken.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach. The degree of concurrency we achieve is practically identical to the naive implementation, as we ideally only intervene when a deadlock has occurred. In the case of a timeout, there is a kind of "soft reset" and we start the pickup process anew, harming concurrency minimally.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>Minimal changes are required, and the concept is rather easy to understand/implement.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>The approach is highly scalable, and we essentially do not need any information on the system for this approach to work. Not a giant performance overhead, but total eat time might be reduced when frequent timeouts occur and philosophers have to re-attempt picking up.</td>
+        </tr>
+        </tbody>
+    </table>
+
     <p>
         A major limitation of this approach is that when a timeout occurs, philosophers must wait for a certain time to
         re-attempt their pickup. When the timeout is chosen very low frequent re-attempts might happen,
