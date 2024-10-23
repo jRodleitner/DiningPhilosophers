@@ -99,7 +99,7 @@
 <body>
 <h2>Restrict Solution</h2>
 <div class="description">
-    <p>The Restrict Solution </p>
+    <h2>Restrict Token Solution</h2>
     <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">#
     <p>
         One effective method to prevent deadlocks in the dining philosophers problem is to limit the number of
@@ -154,32 +154,6 @@
     <pre><code>
         [PseudoCode]
 
-        class RestrictChopstick extends Chopstick {
-
-            Restrict restrict;
-
-            RestrictChopstick(int id, Restrict restrict) {
-                super(id);
-                this.restrict = restrict;
-            }
-
-            @Override
-            synchronized boolean pickUp(Philosopher philosopher) {
-                // Waits until the chopstick is available and the philosopher is not restricted.
-                while (!isAvailable || philosopher.getPhId() == restrict.getRestricted()) {
-                    wait();
-                }
-
-                // Updates the restriction if this chopstick is the philosopher's right chopstick.
-                if (this == philosopher.getRightChopstick()) {
-                    restrict.updateRestricted();
-                }
-
-                // Marks the chopstick as taken.
-                isAvailable = false;
-                return true;
-            }
-        }
     </code></pre>
 
     <h3>Restrict Solution Evaluation</h3>

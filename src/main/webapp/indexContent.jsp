@@ -671,9 +671,9 @@
 
         <div class="description-box">
             <p>
-                To learn about the Chandy Misra solution:
+                To learn about Distributed Solutions:
             </p>
-            <a href="chandymisra" class="button">Chandy-Misra Solution</a>
+            <a href="distributed" class="button">Distributed Solutions</a>
         </div>
 
         <div class="description-box">

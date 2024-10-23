@@ -56,6 +56,19 @@
             font-size: 13px;
             white-space: pre; /* Ensure code stays on one line */
         }
+
+        .separator {
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(to right,
+            transparent 0%,
+            #ddd 10%,
+            #ddd 90%,
+            transparent 100%);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
         .styled-table {
             width: 100%;
             border-collapse: collapse;
@@ -314,9 +327,83 @@
 
 
 
+    <div class="separator"></div>
+
+
+    <h2>Restrict Token Solution</h2>
+
+        <h2>Restrict Token Solution</h2>
+        <p>
+            This approach combines the ideas of tokens, the restrict solution and distributed approaches.
+
+        </p>
+
+        <p>
+            <b>RestrictToken class: </b>
+        </p>
+        <pre><code>
+        [PseudoCode]
+
+
+    </code></pre>
+        <p>
+            <b>Philosopher class:</b>
+
+        </p>
+        <pre><code>
+        [PseudoCode]
+
+    </code></pre>
+
+        <h3>Restrict Token Solution Evaluation</h3>
+
+        <p>Now let us evaluate the Restrict Token solution based on the key-challenges:</p>
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Deadlocks</b></td>
+                <td>By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</td>
+            </tr>
+            <tr>
+                <td><b>Starvation</b></td>
+                <td>We do not guarantee that a philosopher will get the chance to eat, so starvation is possible. However, we at least do not starve one philosopher purposefully, as in some other Restrict approaches found online or in the literature.</td>
+            </tr>
+            <tr>
+                <td><b>Fairness</b></td>
+                <td>We do not provide any fairness to the system using this solution.</td>
+            </tr>
+            <tr>
+                <td><b>Concurrency</b></td>
+                <td>We do not explicitly prevent concurrency, but in many situations, we block a philosopher from eating when it would be possible. The overall act of blocking one philosopher from eating frequently results in lower performance than the naive implementation. This is simply due to the fact that we "blindly" block philosophers one after another, irrespective of their current ability to eat.</td>
+            </tr>
+            <tr>
+                <td><b>Implementation</b></td>
+                <td>The changes required to implement this solution are simple.</td>
+            </tr>
+            <tr>
+                <td><b>Performance</b></td>
+                <td>For this approach to work, we need to know the number of philosophers at the table, so in dynamic situations (philosophers can leave or come to the table), careful handling would be necessary. We do not get great scalability, as the Restrict entity has to be accessed frequently. This could lead to a performance overhead in bigger systems.</td>
+            </tr>
+            </tbody>
+        </table>
+
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+
+    <a href="../simulation/?algorithm=RESTRICT_TOKEN" class="button">Restrict Token Simulation</a>
+    <a href="../animation/?algorithm=RESTRICT_TOKEN" class="button">Restrict Token  Animation</a>
+
 
 
 </div>
+
 
 </body>
 </html>

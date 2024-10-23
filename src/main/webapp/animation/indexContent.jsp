@@ -986,9 +986,15 @@
                 <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Restrict
                 </option>
-                <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                    Chandy-Misra
-                </option>
+
+                <optgroup label="Distributed">
+                    <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Chandy-Misra
+                    </option>
+                    <option value="RESTRICT_TOKEN" <%= "RESTRICT_TOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Restrict Token
+                    </option>
+                </optgroup>
 
                 <optgroup label="Token">
                     <option value="GLOBALTOKEN" <%= "GLOBALTOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
@@ -997,6 +1003,7 @@
                     <option value="MULTIPLETOKEN" <%= "MULTIPLETOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Multiple Token
                     </option>
+
 
                 </optgroup>
 
@@ -1025,9 +1032,6 @@
                     <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Table-Semaphore
                     </option>
-                    <option value="DIJKSTRA" <%= "DIJKSTRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Dijkstra
-                    </option>
                     <option value="TANENBAUM" <%= "TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Tanenbaum
                     </option>
@@ -1037,9 +1041,7 @@
                     <option value="FAIR_TIME_TANENBAUM" <%= "FAIR_TIME_TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Fair Eat Time Tanenbaum
                     </option>
-                    <option value="ROUNDROBIN" <%= "ROUNDROBIN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Round-Robin
-                    </option>
+
                 </optgroup>
             </select>
 
