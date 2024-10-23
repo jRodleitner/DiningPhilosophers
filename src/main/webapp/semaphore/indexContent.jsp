@@ -381,7 +381,7 @@
         </tr>
         <tr>
             <td><b>Concurrency</b></td>
-            <td>This algorithm achieves good concurrency results, but the calling of the <code>test()</code> function on only the two neighbors often leads to situations where a philosopher could eat but cannot because neighboring philosophers are currently blocked.</td>
+            <td>This algorithm achieves good concurrency results, but the calling of the test() function on only the two neighbors often leads to situations where a philosopher could eat but cannot because neighboring philosophers are currently blocked.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -589,7 +589,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>As with the Tanenbaum Solution, we produce a modest overhead by using the arrays. We now also have to sort the order of the testing after each put-down. This further limits the scalability of this approach, as philosophers will have to wait while the waiter reorders the eating states. The usage of insertion sort in this approach (which has a complexity of <code>n<sup>2</sup></code>) would indeed scale poorly and force long waiting times in systems with larger numbers of philosophers.</td>
+            <td>As with the Tanenbaum Solution, we produce a modest overhead by using the arrays. We now also have to sort the order of the testing after each put-down. This further limits the scalability of this approach, as philosophers will have to wait while the waiter reorders the eating states. The usage of insertion sort in this approach (which has a complexity of n<sup>2</sup>) would indeed scale poorly and force long waiting times in systems with larger numbers of philosophers.</td>
         </tr>
         </tbody>
     </table>

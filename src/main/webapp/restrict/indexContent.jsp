@@ -298,8 +298,8 @@
 <p>
     You can find the respective Simulation and Animation pages here:
 </p>
-<a href="../simulation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Simulation</a>
-<a href="../animation/?algorithm=ATOMICWAITER" class="button">Classic Waiter Animation</a>
+<a href="../simulation/?algorithm=RESTRICT" class="button">Classic Waiter Simulation</a>
+<a href="../animation/?algorithm=RESTRICT" class="button">Classic Waiter Animation</a>
 
 </div>
 </body>
