@@ -8,9 +8,9 @@ import simulation.DiningTable;
 
 public class GuestPhilosopher extends AbstractPhilosopher {
 
-    private final ClassicWaiter waiter;
+    private final RestrictWaiter waiter;
 
-    public GuestPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, ClassicWaiter waiter) {
+    public GuestPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, RestrictWaiter waiter) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.waiter = waiter;
     }

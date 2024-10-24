@@ -87,6 +87,9 @@
 
 
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
 <h2>The Dining Philosophers Problem</h2>
@@ -384,8 +387,8 @@
                 Pseudocode for the Naive Philosopher class:
             </p>
 
-            <pre><code>
-        [Pseudocode]
+            <pre style="font-size: 14px;"><code class="language-java">
+
         class Philosopher extends Thread{
             int id;
             Chopstick leftChopstick;
@@ -456,10 +459,11 @@
                 taken,
                 when another philosopher puts down chopstick the waiting philosopher is notified using the notify()
                 method and will immediately pick up the chopstick.
+                This helps us prevent scenarios where one philosopher repeatedly gains permission, starving the other.
             </p>
 
-            <pre><code>
-    [Pseudocode]
+            <pre style="font-size: 14px;"><code class="language-java">
+
     class Chopstick {
         boolean isAvailable = true;
 
@@ -482,8 +486,8 @@
                 The backbone of the simulation is a virtual clock running during the execution.
                 The Philosophers log their Actions according to the current time of the clock.
             </p>
-            <pre><code>
-    [Pseudocode]
+            <pre style="font-size: 14px;"><code class="language-java">
+
     public class Table {
     // List to store chopsticks and philosophers
     ArrayList chopsticks;
@@ -638,13 +642,6 @@
                 when the second chopstick is not available within a fixed timeframe:
             </p>
             <a href="timeout" class="button">Timeout Solution</a>
-        </div>
-
-        <div class="description-box">
-            <p>
-                To learn about the solution that limits the number of philosopher being able to pick up chopsticks:
-            </p>
-            <a href="restrict" class="button">Restrict Solution</a>
         </div>
 
         <div class="description-box">

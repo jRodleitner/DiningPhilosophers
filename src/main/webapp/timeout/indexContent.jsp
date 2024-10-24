@@ -31,7 +31,7 @@
         .description {
             line-height: 1.4; /* Increases spacing between lines for readability */
             color: #333;
-            padding: 14px;
+            padding: 12px;
             margin-bottom: 15px;
             max-width: 800px;
         }
@@ -95,6 +95,9 @@
             border-bottom: 2px solid #009879;
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
 <h2>Timeout Solution</h2>
@@ -111,8 +114,8 @@
         <b>Philosopher class:</b>
         Philosophers start eating if the pickup of the right chopstick was successful, else they put down the left chopstick and wait for a short while before they try again.
     </p>
-    <pre><code>
-        [PseudoCode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
         class TimeoutPhilosopher extends Philosopher {
 
             TimeoutChopstick rightTimeoutChopstick;
@@ -162,8 +165,8 @@
         <b>Chopstick class:</b>
         We introduce a timeout for the pickup of the right chopstick. When the timeout is reached we abort the pickup and return false.
     </p>
-    <pre><code>
-        [PseudoCode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
         class TimeoutChopstick extends Chopstick {
 
             int timeout;

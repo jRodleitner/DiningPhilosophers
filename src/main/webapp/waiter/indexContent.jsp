@@ -100,6 +100,9 @@
             border-bottom: 2px solid #009879;
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
 
@@ -129,8 +132,7 @@
         philosopher ata time,
         permitting the next one in the queue to eat at a time.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class Waiter {
 
@@ -170,8 +172,7 @@
     <p>
 
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class AtomicGuestPhilosopher extends Philosopher {
 
@@ -264,8 +265,7 @@
     <p>
         <b>Philosopher class:</b>
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class PickupGuestPhilosopher extends Philosopher {
 
@@ -366,8 +366,7 @@
         <b>Waiter class: </b>
         Additional to the queue, we utilize a boolean array to keep track of the philosophers eating states.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class IntelligentWaiter {
 
@@ -437,8 +436,7 @@
         <b>Philosopher class:</b>
         Here we need to additionally notify the waiter when eating is finished.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class IntelligentPickupGuestPhilosopher extends Philosopher {
 
@@ -551,8 +549,8 @@
         the first in the queue gains permission. Philosophers wait until it is their turn. After a philosopher finishes eating,
         they return the permission, and the waiter selects the next philosopher who has eaten the least, if present in the queue.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
 
         class FairEatTimeWaiter {
 
@@ -605,8 +603,7 @@
     <p><b>Philosopher class:</b>
         We track the philosophers total eating time, by adding it to the previous eat-time once they finish eating.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class FairEatTimeGuestPhilosopher extends Philosopher {
 
@@ -659,8 +656,8 @@
         The waiter implementation does not change we just determine the minimum eat-chance
         , instead of the minimum eat-time to choose the next philosopher.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
         class FairChanceGuestPhilosopher extends Philosopher {
 
             int eatChances;          // counter for the number of times the philosopher has eaten.
@@ -772,7 +769,7 @@
         the given philosophers.
         For this implementation we choose the Pickup Waiter.
     </p>
-    <pre><code>
+    <pre style="font-size: 14px;"><code class="language-java">
         for (int i = 0; i < nrPhilosophers; i++) {
            forks.add(new Chopstick(i));
         }
@@ -785,7 +782,7 @@
         for (int i = 0; i < nrPhilosophers; i++) {
             selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
 
-            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, selectedWaiter);
+            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), selectedWaiter);
             philosophers.add(philosopher);
         }
     </code></pre>
@@ -847,6 +844,142 @@
     </p>
     <a href="../simulation/?algorithm=TWOWAITERS" class="button">Two Waiters Simulation</a>
     <a href="../animation/?algorithm=TWOWAITERS" class="button">Two Waiters Animation</a>
+
+
+
+    <div class="separator"></div>
+
+    <h2>Restrict Waiter Solution</h2>
+
+    <p>
+        There is a naive version of the waiter solution, in which we track the number of forks on the table.
+        This algorithm is a combination of the waiter and restrict solution, preventing one philosopher from eating at all times.
+        The waiter always provides the chopsticks when requested by a philosopher,
+        unless there are less than two chopsticks remaining on the table.
+        In this case we let the philosopher wait until another philosopher is done eating, and two forks are again on the table.
+    </p>
+
+
+    <p>
+        <b>Waiter class: </b>
+    </p>
+    <pre style="font-size: 14px;"><code class="language-java">
+
+
+        class RestrictWaiter {
+
+            int chopsticksOnTable;           // tracks the number of available chopsticks on the table
+            Lock lock = new FairLock();      // a fair lock
+            Condition enoughChopsticks = lock.newCondition();  // condition to wait for available chopsticks
+
+
+            RestrictWaiter(int nrPhilosophers) {
+                chopsticksOnTable = nrPhilosophers;  // all chopsticks are on the table initially
+            }
+
+
+            void requestPermission() {
+                lock.lock();  // acquire the lock for exclusive access to methods
+                try {
+                    // wait until there are at least two chopsticks available on the table
+                    while (chopsticksOnTable < 2) {
+                        enoughChopsticks.await();
+                    }
+                    chopsticksOnTable -= 2;  // take two chopsticks from the table once available
+                } finally {
+                    lock.unlock();  // release lock to allow other philosophers access
+                }
+            }
+
+
+            void returnChopsticks() {
+                lock.lock();  // acquire the lock for exclusive access to methods
+                try {
+                    chopsticksOnTable += 2;  // return two chopsticks to the table
+                } finally {
+                    enoughChopsticks.signalAll();  // notify all that put-down was completed
+                    lock.unlock();  // release lock to allow other philosophers access
+                }
+            }
+        }
+
+    </code></pre>
+    <p>
+        <b>Philosopher class:</b>
+    </p>
+    <pre style="font-size: 14px;"><code class="language-java">
+
+        class GuestPhilosopher extends Philosopher {
+
+            RestrictWaiter waiter;
+
+
+            GuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, RestrictWaiter waiter) {
+                super(id, leftChopstick, rightChopstick);
+                this.waiter = waiter;
+            }
+
+            @Override
+            void run() {
+
+                while (!terminated()) {
+                    think();
+                    waiter.requestPermission();  // ask waiter whether more than two chopsticks are still available
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                    waiter.returnForks();        // inform the waiter that the philosopher has put down the chopsticks
+                }
+            }
+        }
+
+    </code></pre>
+    <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>By limiting the number of philosophers to (n-1), we prevent deadlocks by avoiding the circular wait condition.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>TODO::.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>TODO:: We do not provide any fairness to the system using this solution. </td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td> We only block philosophers that cannot complete a pick-up, thus we do not limit concurrency compared to the naive implementation. But there is still an issue with possible long wait chains that often times reduce parallelism significantly.</td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement this solution are not very complex and intuitive to understand. But since this solution does not utilize a queue we need a fair lock to prevent barging. This lets the waiter hand permission in the order the philosophers requested it.</td>
+        </tr>
+        <tr>
+            <td><b>Performance</b></td>
+            <td>The additional logic in this solution does not produce a significant, but we still use a central entity to hand out permissions, which limits the scalability of the approach.</td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        Note that this solution can not be used within a multiple waiters setting(blocking one philosopher in each subset makes no sense), thus this approach is inherently limited to one waiter.
+        This approach further highlights the diversity of possible waiter solutions
+    </p>
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=RESTRICT" class="button">Classic Waiter Simulation</a>
+    <a href="../animation/?algorithm=RESTRICT" class="button">Classic Waiter Animation</a>
 
 </div>
 

@@ -108,6 +108,9 @@
             border-bottom: 2px solid #009879;
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
 <h2>Global Token Solution</h2>
@@ -125,8 +128,8 @@
     <p>
         We introduce a Global Token class:
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
 
         public class GlobalToken {
 
@@ -153,8 +156,8 @@
         Philosophers will wait on the "lock" object until notified that a token has been passed to them.
         After they are finished they pass on the token.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
         public class TokenPhilosopher extends Philosopher {
             // Reference to the philosopher to the right of this one, used for passing the token.
             TokenPhilosopher rightPhilosopher = null;
@@ -216,8 +219,7 @@
         <b>Table class:</b>
         We initialize the Philosophers and give a token to the first philosopher:
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         List chopsticks;
         List philosophers;
@@ -323,8 +325,7 @@
         and thus cannot pass on the token.
         We include this change just for completeness.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class Token {
             int id;
@@ -350,8 +351,7 @@
         <b>Table class:</b>
         We hand every other philosopher a token, for example like this:
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         List chopsticks;
         List philosophers;

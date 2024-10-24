@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Token Solution</title>
+
     <style>
         .button {
             display: inline-block; /* Allows padding to be applied properly */
@@ -46,15 +47,7 @@
             max-width: 100%; /* Ensure the width doesn't overflow the container */
         }
 
-        /* Styling for the actual code */
-        code {
-            display: block; /* Ensure the code behaves like a block element */
-            background-color: #f5f5f5; /* Match pre background */
-            color: #333;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 13px;
-            white-space: pre; /* Ensure code stays on one line */
-        }
+
 
         .separator {
             width: 100%;
@@ -107,8 +100,12 @@
             border-bottom: 2px solid #009879;
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
+
 <h2>Resource Hierarchy Solution</h2>
 <div class="description">
     <img src="../pictures/resource.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
@@ -129,8 +126,7 @@
         If the left chopstick id is lower pick up left first, if the right chopstick id is lower, pick up the right
         first.
     </p>
-    <pre><code>
-        [PseudoCode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class HierarchyPhilosopher extends Philosopher {
             //pickup chopstick with lower id first
@@ -236,12 +232,11 @@
         To implement the Asymmetric solution, we again only have to modify the run function in the philosopher class.
         We assign Philosophers with even id as left-handed, philosophers with odd id as right-handed.
     </p>
-    <pre><code>
-        [PseudoCode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
-        public class AsymmetricPhilosopher extends Philosopher {
+        class AsymmetricPhilosopher extends Philosopher {
 
-            public AsymmetricPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+            AsymmetricPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
                 super(id, leftChopstick, rightChopstick);
             }
 
@@ -322,5 +317,8 @@
     <a href="../simulation/?algorithm=ASYMMETRIC" class="button">Asymmetric Simulation</a>
     <a href="../animation/?algorithm=ASYMMETRIC" class="button">Asymmetric Animation</a>
 </div>
+
+
+
 </body>
 </html>

@@ -1,7 +1,6 @@
 GENERAL TODO:
 
 NEXT:
-[ ] Correct restrictToken implementation (Semaphores)
 [ ] check all algorithms
 [ ] Server deployment
 [ ] read approaches/ papers for new algorithms
@@ -83,12 +82,12 @@ CHECK:
 [x] Simulation notes
 [x] Animation Notes
 
-23.10
-[ ] Restrict Explanations
-[ ] Restrict Waiter Explanation
-[ ] Restrict Token Explanations
 
-
+24.10
+[ ] make restrict waiter available
+[ ] Starvation + Fairness Re-evaluation
+[ ] Correct eatTime-fairness calculation ???
+[x] code highlighting
 
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
@@ -96,7 +95,7 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 2.  [x][x][x] Hierarchy
 3.  [x][x][x] Asymmetric
 4.  [x][x][x] Timeout
-5.  [ ][ ][ ] Restrict
+5.  [x][x][x] Restrict
 6.  [x][x][x] Global Token
 7.  [x][x][x] Multiple Token
 8.  [x][x][x] Atomic Waiter
@@ -110,13 +109,14 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 16. [x][x][x] fair_tanenbaum (Eat Chance)
 17. [x][x][x] fair_tanenbaum (Eat Time)
 18. [x][x][x] chandy-misra
-19. [ ][ ][ ] restrict-token
-20. [x][_][ ] Restrict Waiter
+19. [x][x][x] Restrict-Token Chance-Fairness
+20. [x][x][x] Restrict-Token Time-Fairness
+21. [x][x][x] Restrict Waiter
 
 
-21. [x][x][?] dijkstra (Instant timeout)
+
 ????:
-
+21. [x][x][?] dijkstra (Instant timeout)
 
 
 NEXT:
@@ -134,7 +134,6 @@ IDEAS:
 
     Totmannverfahren: separate program entity preventing/ checking for deadlocks.
 
-    Animation: SVG animation using the text-field and the arrows!!!
 
     FORK SEMAPHORE:
     Dijkstra's solution using semaphores:

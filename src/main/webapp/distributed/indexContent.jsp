@@ -109,6 +109,9 @@
         }
 
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
 <h2>Chandy-Misra Solution</h2>
@@ -145,8 +148,7 @@
         <b>Philosopher class: </b>
         To implement theChandy-Misra Solution
     </p>
-    <pre><code>
-        [PseudoCode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class ChandyMisraPhilosopher extends Philosopher {
 
@@ -246,8 +248,8 @@
     <p>
         <b>Chopstick class: </b>
     </p>
-    <pre><code>
-        [PseudoCode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
         class ChandyMisraChopstick extends Chopstick {
 
             ChandyMisraPhilosopher owner;
@@ -261,7 +263,7 @@
                 this.owner = owner;
             }
         }
-    </code></pre>#
+    </code></pre>
 
     <h3>Chandy Misra Solution Evaluation </h3>
 
@@ -330,28 +332,109 @@
     <div class="separator"></div>
 
 
-    <h2>Restrict Token Solution</h2>
-
         <h2>Restrict Token Solution</h2>
         <p>
-            This approach combines the ideas of tokens, the restrict solution and distributed approaches.
-
+            This approach combines the ideas of tokens, the restrict solution and the distributed approach.
+            As in the restrict solution using a semaphore, we again reduce the number of concurrent pick-ups to (n - 1) via introducing a restricting token.
+            Those who hold the token may not attempt to pick up and wait until they are asked to hand over the token by a neighbor.
+            Philosophers request the token from their neighbours whenever they finish eating.
+            The requested philosopher will then hand over the token if present and the number of eatChances/ the eatTime is less than that of the requester.
+            Obviously this approach again ignores the "silent" philosophers rule, to achieve a fully distributed algorithm.
         </p>
 
         <p>
             <b>RestrictToken class: </b>
         </p>
-        <pre><code>
-        [PseudoCode]
+        <pre style="font-size: 14px;"><code class="language-java">
 
 
+        class RestrictToken {
+
+            int restrictId;
+
+
+            RestrictToken() {
+                restrictId = 0;
+            }
+
+
+            synchronized void waitIfRestricted(int id) {
+                // if the current restriction ID matches the philosophers id they wait
+                while (restrictId == id) {
+                    wait();  // Wait until the restriction changes.
+                }
+            }
+
+            // Method to update the restriction to a new philosopher ID.
+            synchronized void updateRestricted(int id) {
+                restrictId = id;  // set the restriction to apply to the new philosopher id
+                notify();
+            }
+        }
     </code></pre>
         <p>
             <b>Philosopher class:</b>
-
         </p>
-        <pre><code>
-        [PseudoCode]
+        <pre style="font-size: 14px;"><code class="language-java">
+
+
+        class RestrictTokenPhilosopher extends Philosopher {
+
+            RestrictToken restrictToken;
+            RestrictTokenPhilosopher leftNeighbour, rightNeighbour;
+            int eatChances = 0;
+
+
+            RestrictTokenPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, RestrictToken restrictToken) {
+                super(id, leftChopstick, rightChopstick);
+                this.restrictToken = restrictToken;
+            }
+
+            @Override
+            void run() {
+                // philosopher alternates between thinking, eating, and managing token
+                while (!terminated()) {
+                    think();
+                    if (restrictToken != null) {
+                        restrictToken.waitIfRestricted(id);  // if holding a token, check if restricted and wait if necessary
+                    }
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    eat();
+                    eatChances++;  // increment the number of times this philosopher has eaten
+                    requestTokenFromNeighbours();  // request tokens from neighbors if they are holding any
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                }
+            }
+
+            synchronized void requestTokenFromNeighbours() {
+                // request tokens from both the left and right neighbors if they hold one
+                RestrictToken receivedLeft = leftNeighbour.handOverTokenIfHolding(this);
+                RestrictToken receivedRight = rightNeighbour.handOverTokenIfHolding(this);
+
+                // if a token was received from a neighbor, assign it to this philosopher
+                if (receivedLeft != null) restrictToken = receivedLeft;
+                if (receivedRight != null) restrictToken = receivedRight;
+            }
+
+            synchronized RestrictToken handOverTokenIfHolding(RestrictTokenPhilosopher requester) {
+                // checks if this philosopher holds a token and if the requester has had fewer eating chances
+                if (restrictToken != null && requester.eatChances > eatChances) {
+                    restrictToken.updateRestricted(requester.getPhId());  // update the restriction to apply to the requester's ID.
+                    RestrictToken token = restrictToken;
+                    restrictToken = null;  // remove the token from this philosopher after transfer
+                    return token;  // return the token to the requester
+                } else {
+                    return null;  // return null if no token is transferred
+                }
+            }
+
+            void setNeighbors(RestrictTokenPhilosopher left, RestrictTokenPhilosopher right) {
+                leftNeighbour = left;
+                rightNeighbour = right;
+            }
+        }
 
     </code></pre>
 
@@ -367,28 +450,32 @@
             </thead>
             <tbody>
             <tr>
-                <td><b>Deadlocks</b></td>
-                <td>By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</td>
+                <td><b>Deadlocks: </b></td>
+                <td>By limiting the number of philosophers to (n-1), we avoid the circular wait condition and thus prevent deadlocks.</td>
             </tr>
             <tr>
-                <td><b>Starvation</b></td>
-                <td>We do not guarantee that a philosopher will get the chance to eat, so starvation is possible. However, we at least do not starve one philosopher purposefully, as in some other Restrict approaches found online or in the literature.</td>
+                <td><b>Starvation: </b></td>
+                <td> TODO:: </td>
             </tr>
             <tr>
-                <td><b>Fairness</b></td>
-                <td>We do not provide any fairness to the system using this solution.</td>
+                <td><b>Fairness: </b></td>
+                <td>
+                    Due to the additional check of lesser eating time/ eat chances of philosophers who are requested for the token we guarantee that the token will be held longer by philosophers wo had more chances/ time to eat.
+                    However, it is not guaranteed that all philosophers will eventually hold the token, so we only prevent starvation of certain philosophers in this way. In usual executions this is the case though, but works better for smaller numbers of philosophers.
+                    In such setups the token will be passed around all philosophers and enhance eat-time eat-chance fairness.
+                </td>
             </tr>
             <tr>
-                <td><b>Concurrency</b></td>
-                <td>We do not explicitly prevent concurrency, but in many situations, we block a philosopher from eating when it would be possible. The overall act of blocking one philosopher from eating frequently results in lower performance than the naive implementation. This is simply due to the fact that we "blindly" block philosophers one after another, irrespective of their current ability to eat.</td>
+                <td><b>Concurrency: </b></td>
+                <td>Due to the distributed nature of this algorithm concurrent performance is good. Additionally, one philosopher is always being blocked, this shortens the longest precedence path, thus waiting chains are shortened. </td>
             </tr>
             <tr>
                 <td><b>Implementation</b></td>
-                <td>The changes required to implement this solution are simple.</td>
+                <td>Implementation is more involving than most of the presented algorithms. We need to be careful about the correct communication between philosophers, and make sure that they will wake up when they pass the token. </td>
             </tr>
             <tr>
                 <td><b>Performance</b></td>
-                <td>For this approach to work, we need to know the number of philosophers at the table, so in dynamic situations (philosophers can leave or come to the table), careful handling would be necessary. We do not get great scalability, as the Restrict entity has to be accessed frequently. This could lead to a performance overhead in bigger systems.</td>
+                <td> The produced overhead is not too significant and the distributed nature of the approach makes it highly scalable. Anyhow, the fairness enhancing functionality might not scale very well for big arrangements since it is not guaranteed that all philosophers will get hold of the token in finite simulation time, and thus adjust for unfairness. </td>
             </tr>
             </tbody>
         </table>

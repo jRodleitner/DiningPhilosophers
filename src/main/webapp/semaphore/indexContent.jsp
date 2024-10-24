@@ -107,6 +107,9 @@
             border-bottom: 2px solid #009879;
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js" defer></script>
 </head>
 <body>
 <h2>Semaphore Solutions</h2>
@@ -142,7 +145,7 @@
         <b>Table Semaphore class:</b>
         We have to enable the fairness parameter of the Semaphore in Java.
     </p>
-    <pre><code>
+    <pre style="font-size: 14px;"><code class="language-java">
         class TableSemaphore {
             Semaphore semaphore;
 
@@ -157,7 +160,7 @@
         Philosophers need to acquire the table semaphore before picking up their
         chopsticks and release it, once they are finished picking up.
     </p>
-    <pre><code>
+    <pre style="font-size: 14px;"><code class="language-java">
         class TableSemaphorePhilosopher extends Philosopher {
 
             final Semaphore semaphore;
@@ -240,6 +243,114 @@
     <div class="separator"></div>
 
 
+
+
+    <h2>Restrict Solution</h2>
+    <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">
+    <p>
+        One effective method to prevent deadlocks in the dining philosophers problem is to limit the number of
+        philosophers allowed to attempt eating at the same time.
+        For a group of n philosophers, we restrict this number to n-1, meaning only n-1 philosophers can try to pick up
+        their chopsticks simultaneously.
+        To achieve this we use a semaphore that is initialized with (n-1) permits.
+
+    </p>
+
+    <p>
+        <b>Global Semaphore class: </b>Philosophers have to acquire one of the permits before they are allowed to pick up.
+    </p>
+    <pre style="font-size: 14px;"><code class="language-java">
+
+        class GlobalSemaphore {
+            Semaphore semaphore;
+
+            GlobalSemaphore(int nrPhilosophers) {
+                semaphore = new Semaphore(nrPhilosophers - 1, true); //enable fairness parameter to prevent barging
+            }
+
+        }
+    </code></pre>
+    <p>
+        <b>Philosopher class:</b>
+    </p>
+    <pre style="font-size: 14px;"><code class="language-java">
+
+        class RestrictPhilosopher extends Philosopher {
+
+            GlobalSemaphore globalSemaphore;
+
+            public RestrictPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, GlobalSemaphore globalSemaphore) {
+                super(id, leftChopstick, rightChopstick);
+                this.globalSemaphore = globalSemaphore;
+            }
+
+            @Override
+            void run() {
+
+                while (!terminated()) {
+                    think();
+                    globalSemaphore.semaphore.acquire(); //acquire the semaphore before pickup, one philosopher will always be blocked
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    globalSemaphore.semaphore.release(); //release the semaphore after pickup
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                }
+            }
+        }
+    </code></pre>
+
+    <h3>Restrict Solution Evaluation</h3>
+
+    <p>Now let us evaluate the Restrict solution based on the key-challenges:</p>
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Aspect</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><b>Deadlocks</b></td>
+            <td>By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</td>
+        </tr>
+        <tr>
+            <td><b>Starvation</b></td>
+            <td>Due to the enabled fairness parameter (prevents barging) and the immediate pickup after put-down, starvation is prevented.</td>
+        </tr>
+        <tr>
+            <td><b>Fairness</b></td>
+            <td>We do not provide any additional fairness to the system with this solution, but we use a semaphore with a FIFO queue, so any philosopher that wants to eat will eventually get the chance to.</td>
+        </tr>
+        <tr>
+            <td><b>Concurrency</b></td>
+            <td>Good concurrency is possible, but in many situations long waiting chains occur, leading to low or no concurrency. </td>
+        </tr>
+        <tr>
+            <td><b>Implementation</b></td>
+            <td>The changes required to implement this solution are very simple using the Java Semaphore mechanism. It is important to keep in mind that the queueing has to be enabled via the fairness parameter, to prevent starvation due to repeated barging.</td>
+        </tr>
+        <tr>
+            <td><b>Performance: </b></td>
+            <td> There is a negligible overhead using the one Semaphore. The approach is also scalable, bet highly dependent on the semaphore implementation.
+                Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait.</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <p>
+        You can find the respective Simulation and Animation pages here:
+    </p>
+    <a href="../simulation/?algorithm=RESTRICT" class="button">Restrict Simulation</a>
+    <a href="../animation/?algorithm=RESTRICT" class="button">Restrict Animation</a>
+
+
+    <div class="separator"></div>
+
+
     <h2>Tanenbaum Solution</h2>
     <p>
         This classic Solution was proposed by Andrew S. Tanenbaum in his famous book "Modern Operating Systems".
@@ -261,8 +372,7 @@
         The access to the Monitor is exclusive via the philosophers usage of the Monitor Semaphore (called mutex here).
         We use arrays to keep track of the philosophers states and an array that contains a semaphore for each philosopher.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class Monitor {
 
@@ -302,8 +412,7 @@
         The semaphore is released via the test() method.
         If the initial test failed philosophers have to wait until a neighbour calls it again on them.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
 
         class tanenbaumPhilosopher extends Philosopher {
 
@@ -419,8 +528,8 @@
         To promote fairness we reorder the philosophers according to their eat-chances,
         and call those who had the least chances to eat first.
     </p>
-    <pre><code>
-        [Pseudocode]
+    <pre style="font-size: 14px;"><code class="language-java">
+
         class FairMonitor {
 
             String[] states; // array to track the states
@@ -502,7 +611,7 @@
         <b>Philosopher class:</b>
     </p>
 
-    <pre><code>
+    <pre style="font-size: 14px;"><code class="language-java">
         class FairTanenbaumPhilosopher extends Philosopher {
 
             FairMonitor monitor;
@@ -554,6 +663,9 @@
 
     </code></pre>
 
+
+
+
     <h3>Fair Tanenbaum Solution Evaluation </h3>
 
     <p>
@@ -597,7 +709,7 @@
 
     <p>
         On the Simulation Animation pages you can find both the fair-chance and fair-time algorithms.
-        The above implementation can easily be changed to account for eat-time fairness, changing just a few lines of code.#
+        The above implementation can easily be changed to account for eat-time fairness, changing just a few lines of code.
         If you want more details about how this change could be done, it is shown in the Fair Waiter Solution.
 
     </p>

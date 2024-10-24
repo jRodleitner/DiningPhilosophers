@@ -4,23 +4,23 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class ClassicWaiter {
+public class RestrictWaiter {
 
-    private int forksOnTable;
+    private int chopsticksOnTable;
     private final Lock lock = new ReentrantLock(true); // Fair lock (enabled by true flag)
-    private final Condition enoughForks = lock.newCondition();
+    private final Condition enoughChopsticks = lock.newCondition();
 
-    public ClassicWaiter(int nrPhilosophers) {
-        forksOnTable = nrPhilosophers;
+    public RestrictWaiter(int nrPhilosophers) {
+        chopsticksOnTable = nrPhilosophers;
     }
 
     protected void requestPermission() throws InterruptedException {
         lock.lock();
         try {
-            while (forksOnTable < 2) {
-                enoughForks.await(); // Wait for enough forks
+            while (chopsticksOnTable < 2) {
+                enoughChopsticks.await();
             }
-            forksOnTable -= 2;
+            chopsticksOnTable -= 2;
         } finally {
             lock.unlock();
         }
@@ -30,9 +30,9 @@ public class ClassicWaiter {
     protected void returnForks() {
         lock.lock();
         try {
-            forksOnTable += 2;
+            chopsticksOnTable += 2;
         } finally {
-            enoughForks.signalAll();
+            enoughChopsticks.signalAll();
             lock.unlock();
         }
     }

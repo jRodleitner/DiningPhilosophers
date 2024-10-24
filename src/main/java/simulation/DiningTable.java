@@ -30,7 +30,7 @@ import algorithms.token.multipletoken.Token;
 import algorithms.token.singletoken.GlobalToken;
 import algorithms.token.singletoken.TokenPhilosopher;
 import algorithms.*;
-import algorithms.waiter.classic.ClassicWaiter;
+import algorithms.waiter.classic.RestrictWaiter;
 import algorithms.waiter.classic.GuestPhilosopher;
 import algorithms.waiter.fairwaiter.FairChanceGuestPhilosopher;
 import algorithms.waiter.fairwaiter.FairChanceWaiter;
@@ -160,9 +160,9 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                ClassicWaiter classicWaiter = new ClassicWaiter(nrPhilosophers);
+                RestrictWaiter restrictWaiter = new RestrictWaiter(nrPhilosophers);
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    GuestPhilosopher philosopher = new GuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, classicWaiter);
+                    GuestPhilosopher philosopher = new GuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, restrictWaiter);
                     philosophers.add(philosopher);
                 }
                 break;

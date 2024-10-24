@@ -46,7 +46,7 @@ public class Execute {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        System.out.println(execute(3, 300, Algorithm.RESTRICTTOKEN, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200, false));
+        System.out.println(execute(5, 5000, Algorithm.NAIVE, true, Distribution.INTERVAL, 50, 100, Distribution.INTERVAL, 50, 100, 200, false));
         /*int number = 12;
         int std = 20;
         System.out.println(Distribution.exponentialDistributionDuration(number));
