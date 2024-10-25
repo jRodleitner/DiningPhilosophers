@@ -17,11 +17,9 @@ SIMULATION:
 
 OPTIONALS:
 TIMEOUT(Time-index)
-[-] make static classes objects!
-[-] arbitrator ????
-[!] intelligent waiter ???
 [ ] Separate Events for: Timeout, Waiter etc...?? (Animation)
-[ ] other simulation type: currStatus check
+[ ] Correct eatTime-fairness calculation ???
+
 Completed:
 
 CHECK:
@@ -58,6 +56,7 @@ CHECK:
 [x] Backwards/ Forwards option
 [x] Display Philosopher names in svg
 [x] Dijkstra Simple Simulation Logic
+[x] make static classes objects
 [x] distribution webpage min/max different for distributions
 [x] determine default values: normal and exp
 [x] exp function overhaul
@@ -81,14 +80,13 @@ CHECK:
 [x] Incidence graphs (Algorithms)
 [x] Simulation notes
 [x] Animation Notes
-
-
-24.10
-[x] make restrict waiter available
-[ ] Starvation + Fairness Re-evaluation
-[ ] Correct eatTime-fairness calculation ???
 [x] code highlighting
 [x] Mobile resizing
+
+25.10
+[ ] Starvation + Fairness Re-evaluation
+[ ] Statistics explanation (animation/ simulation)
+
 
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
@@ -111,13 +109,13 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 17. [x][x][x] fair_tanenbaum (Eat Time)
 18. [x][x][x] chandy-misra
 19. [x][x][x] Restrict-Token Chance-Fairness
-20. [x][x][x] Restrict-Token Time-Fairness
+20. [ ][ ][ ] Restrict-Token Time-Fairness
 21. [x][x][x] Restrict Waiter
 
 
 
 ????:
-21. [x][x][?] dijkstra (Instant timeout)
+22. [ ][ ][?] dijkstra (Instant timeout)
 
 
 NEXT:

@@ -15,8 +15,8 @@ import algorithms.semaphore.fair_tanenbaum.FairTimeTanenbaumPhilosopher;
 import algorithms.semaphore.roundrobin.RoundRobinScheduler;
 import algorithms.semaphore.roundrobin.RoundRobinChopstick;
 import algorithms.semaphore.roundrobin.RoundRobinPhilosopher;
-import algorithms.semaphore.dijkstra.DijkstraChopstick;
-import algorithms.semaphore.dijkstra.DijkstraPhilosopher;
+import algorithms.semaphore.instant_timeout.InstantTimeoutChopstick;
+import algorithms.semaphore.instant_timeout.InstantTimeoutPhilosopher;
 import algorithms.semaphore.tanenbaum.Monitor;
 import algorithms.semaphore.tanenbaum.TanenbaumPhilosopher;
 import algorithms.semaphore.fair_tanenbaum.FairChanceTanenbaumPhilosopher;
@@ -270,14 +270,14 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.DIJKSTRA:
+            case Algorithm.INSTANTTIMEOUT:
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    chopsticks.add(new DijkstraChopstick(i));
+                    chopsticks.add(new InstantTimeoutChopstick(i));
                 }
 
 
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    DijkstraPhilosopher philosopher = new DijkstraPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
+                    InstantTimeoutPhilosopher philosopher = new InstantTimeoutPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr);
                     philosophers.add(philosopher);
                 }
                 break;

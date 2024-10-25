@@ -1,12 +1,12 @@
-package algorithms.semaphore.dijkstra;
+package algorithms.semaphore.instant_timeout;
 
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 
 import java.util.concurrent.Semaphore;
 
-public class DijkstraChopstick extends AbstractChopstick {
-    public DijkstraChopstick(int id) {
+public class InstantTimeoutChopstick extends AbstractChopstick {
+    public InstantTimeoutChopstick(int id) {
         super(id);
         forkSemaphore = new Semaphore(1, true);
     }

@@ -1,4 +1,4 @@
-package algorithms.semaphore.dijkstra;
+package algorithms.semaphore.instant_timeout;
 
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
@@ -6,8 +6,8 @@ import algorithms.Distribution;
 import parser.Events;
 import simulation.DiningTable;
 
-public class DijkstraPhilosopher extends AbstractPhilosopher {
-    public DijkstraPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
+public class InstantTimeoutPhilosopher extends AbstractPhilosopher {
+    public InstantTimeoutPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
     }
 

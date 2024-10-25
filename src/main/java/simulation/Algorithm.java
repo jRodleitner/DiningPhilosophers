@@ -29,7 +29,7 @@ public class Algorithm {
 
     public static final String ROUNDROBIN = "ROUNDROBIN";    //11
 
-    public static final String DIJKSTRA = "DIJKSTRA";//12
+    public static final String INSTANTTIMEOUT = "INSTANTTIMEOUT";//12
 
     public static final String TANENBAUM = "TANENBAUM"; //13
 
