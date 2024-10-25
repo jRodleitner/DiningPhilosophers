@@ -149,120 +149,118 @@
         To implement theChandy-Misra Solution
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class ChandyMisraPhilosopher extends Philosopher {
 
-        class ChandyMisraPhilosopher extends Philosopher {
+        ChandyMisraChopstick leftChopstick;
+        ChandyMisraChopstick rightChopstick;
+        ChandyMisraPhilosopher leftNeighbor;
+        ChandyMisraPhilosopher rightNeighbor;
+        boolean goingToEatRequest = false;  // indicates if the philosopher is requesting to eat
 
-            ChandyMisraChopstick leftChopstick;
-            ChandyMisraChopstick rightChopstick;
-            ChandyMisraPhilosopher leftNeighbor;
-            ChandyMisraPhilosopher rightNeighbor;
-            boolean goingToEatRequest = false;  // indicates if the philosopher is requesting to eat
+        // Constructor assigns specific chopsticks and neighbors.
+        ChandyMisraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+            super(id, leftChopstick, rightChopstick);
+            this.leftChopstick = (ChandyMisraChopstick) leftChopstick;
+            this.rightChopstick = (ChandyMisraChopstick) rightChopstick;
+        }
 
-            // Constructor assigns specific chopsticks and neighbors.
-            ChandyMisraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-                super(id, leftChopstick, rightChopstick);
-                this.leftChopstick = (ChandyMisraChopstick) leftChopstick;
-                this.rightChopstick = (ChandyMisraChopstick) rightChopstick;
-            }
-
-            @Override
-            void run() {
-                while (!terminated()) {
-                    checkForRequests();  // handle any pending chopstick requests from neighbors.
-                    think();
-                    checkForRequests();  // ensure any requests are managed before trying to eat.
-                    requestChopsticksIfNecessary();  // attempt to acquire both chopsticks.
-                    eating();
-                    checkForRequests();  //ensure release of chopsticks after eating.
-                }
-            }
-
-            void requestChopsticksIfNecessary() {
-                goingToEatRequest = true;  // signal intention to eat, affecting chopstick transfer logic.
-                waitForChopstick(leftChopstick);
-                waitForChopstick(rightChopstick);
-                goingToEatRequest = false;  // reset the request after obtaining chopsticks.
-            }
-
-            void waitForChopstick(ChandyMisraChopstick chopstick) {
-                synchronized (chopstick) {
-                    // Wait until this philosopher owns the chopstick.
-                    while (chopstick.owner != this) {
-                        checkForRequests();  // handle potential requests for this chopstick while waiting.
-                        chopstick.wait(10);  // re-check requests periodically.
-                    }
-                }
-            }
-
-            void checkForRequests() {
-                // respond to any requests for the left or right chopstick from neighbors.
-                giveUpChopstickIfRequested(leftChopstick, leftNeighbor);
-                giveUpChopstickIfRequested(rightChopstick, rightNeighbor);
-            }
-
-            void giveUpChopstickIfRequested(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver) {
-                synchronized (chopstick) {
-                    // give up the chopstick if the neighbor has requested to eat, it's dirty, and this philosopher holds it.
-                    if (receiver.goingToEatRequest && !chopstick.isClean && chopstick.owner == this) {
-                        chopstick.isClean = true;  // mark the chopstick as clean before transferring ownership.
-                        chopstick.owner = receiver;  // transfer chopstick ownership to the requesting philosopher.
-                        chopstick.notifyAll();  // notify the waiting philosopher that they now own the chopstick.
-                    }
-                }
-            }
-
-            void eating() {
-                pickUpLeftChopstick();
-                pickUpRightChopstick();
-                eat();
-                rightChopstick.isClean = false;  // mark chopsticks as dirty after eating.
-                leftChopstick.isClean = false;
-                putDownLeftChopstick();
-                putDownRightChopstick();
-            }
-
-            @Override
-            void think() {
-                long remainingTime = calculateDuration();
-
-                // Think in small intervals to allow for checking requests during longer thinking times.
-                while (remainingTime > 0) {
-                    long sleepTime = min(remainingTime, 10);
-                    sleep(sleepTime);
-                    checkForRequests();  // handle chopstick requests while thinking.
-                    remainingTime -= sleepTime;
-                }
-
-                sbLog(id, Events.THINK);
-                lastAction = Events.THINK;
-            }
-
-            void setNeighbors(ChandyMisraPhilosopher leftNeighbor, ChandyMisraPhilosopher rightNeighbor) {
-                // Establish references to neighboring philosophers for handling chopstick requests.
-                this.leftNeighbor = leftNeighbor;
-                this.rightNeighbor = rightNeighbor;
+        @Override
+        void run() {
+            while (!terminated()) {
+                checkForRequests();  // handle any pending chopstick requests from neighbors.
+                think();
+                checkForRequests();  // ensure any requests are managed before trying to eat.
+                requestChopsticksIfNecessary();  // attempt to acquire both chopsticks.
+                eating();
+                checkForRequests();  //ensure release of chopsticks after eating.
             }
         }
+
+        void requestChopsticksIfNecessary() {
+            goingToEatRequest = true;  // signal intention to eat, affecting chopstick transfer logic.
+            waitForChopstick(leftChopstick);
+            waitForChopstick(rightChopstick);
+            goingToEatRequest = false;  // reset the request after obtaining chopsticks.
+        }
+
+        void waitForChopstick(ChandyMisraChopstick chopstick) {
+            synchronized (chopstick) {
+                // Wait until this philosopher owns the chopstick.
+                while (chopstick.owner != this) {
+                    checkForRequests();  // handle potential requests for this chopstick while waiting.
+                    chopstick.wait(10);  // re-check requests periodically.
+                }
+            }
+        }
+
+        void checkForRequests() {
+            // respond to any requests for the left or right chopstick from neighbors.
+            giveUpChopstickIfRequested(leftChopstick, leftNeighbor);
+            giveUpChopstickIfRequested(rightChopstick, rightNeighbor);
+        }
+
+        void giveUpChopstickIfRequested(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver) {
+            synchronized (chopstick) {
+                // give up the chopstick if the neighbor has requested to eat, it's dirty, and this philosopher holds it.
+                if (receiver.goingToEatRequest && !chopstick.isClean && chopstick.owner == this) {
+                    chopstick.isClean = true;  // mark the chopstick as clean before transferring ownership.
+                    chopstick.owner = receiver;  // transfer chopstick ownership to the requesting philosopher.
+                    chopstick.notifyAll();  // notify the waiting philosopher that they now own the chopstick.
+                }
+            }
+        }
+
+        void eating() {
+            pickUpLeftChopstick();
+            pickUpRightChopstick();
+            eat();
+            rightChopstick.isClean = false;  // mark chopsticks as dirty after eating.
+            leftChopstick.isClean = false;
+            putDownLeftChopstick();
+            putDownRightChopstick();
+        }
+
+        @Override
+        void think() {
+            long remainingTime = calculateDuration();
+
+            // Think in small intervals to allow for checking requests during longer thinking times.
+            while (remainingTime > 0) {
+                long sleepTime = min(remainingTime, 10);
+                sleep(sleepTime);
+                checkForRequests();  // handle chopstick requests while thinking.
+                remainingTime -= sleepTime;
+            }
+
+            sbLog(id, Events.THINK);
+            lastAction = Events.THINK;
+        }
+
+        void setNeighbors(ChandyMisraPhilosopher leftNeighbor, ChandyMisraPhilosopher rightNeighbor) {
+            // Establish references to neighboring philosophers for handling chopstick requests.
+            this.leftNeighbor = leftNeighbor;
+            this.rightNeighbor = rightNeighbor;
+        }
+    }
 
     </code></pre>
     <p>
         <b>Chopstick class: </b>
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class ChandyMisraChopstick extends Chopstick {
 
-        class ChandyMisraChopstick extends Chopstick {
+        ChandyMisraPhilosopher owner;
+        boolean isClean = false;
 
-            ChandyMisraPhilosopher owner;
-            boolean isClean = false;
-
-            ChandyMisraChopstick(int id) {
-                super(id);
-            }
-
-            void setOwner(ChandyMisraPhilosopher owner) {
-                this.owner = owner;
-            }
+        ChandyMisraChopstick(int id) {
+            super(id);
         }
+
+        void setOwner(ChandyMisraPhilosopher owner) {
+            this.owner = owner;
+        }
+    }
     </code></pre>
 
     <h3>Chandy Misra Solution Evaluation </h3>

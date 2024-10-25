@@ -11,7 +11,7 @@ public class Algorithm {
 
     public static final String TIMEOUT = "TIMEOUT";  //5
 
-    public static final String CLASSICWAITER = "CLASSICWAITER";
+    public static final String RESTRICTWAITER = "RESTRICTWAITER";
 
     public static final String ATOMICWAITER = "ATOMICWAITER";  //6
 

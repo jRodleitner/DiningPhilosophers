@@ -116,86 +116,85 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class TimeoutPhilosopher extends Philosopher {
+    class TimeoutPhilosopher extends Philosopher {
 
-            TimeoutChopstick rightTimeoutChopstick;
+        TimeoutChopstick rightTimeoutChopstick;
 
-            TimeoutPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-                super(id, leftChopstick, rightChopstick);
-                rightTimeoutChopstick = (TimeoutChopstick) rightChopstick;
-            }
+        TimeoutPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+            super(id, leftChopstick, rightChopstick);
+            rightTimeoutChopstick = (TimeoutChopstick) rightChopstick;
+        }
 
-            @Override
-            void run() {
-                // The philosopher attempts to think and then pick up chopsticks.
-                while (!terminated()) {
-                    think();
-                    pickUpLeftChopstick();
-                    boolean successfulPickup = pickUpRightWithTimeout();
+        @Override
+        void run() {
+            // The philosopher attempts to think and then pick up chopsticks.
+            while (!terminated()) {
+                think();
+                pickUpLeftChopstick();
+                boolean successfulPickup = pickUpRightWithTimeout();
 
-                    // If the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait.
-                    while (!successfulPickup) {
-                        putDownLeftChopstick();
-                        int random = randomValue(1, 25); //random wait time between 1 and 25ms
-                        sleep(random);
-                        pickUpLeftChopstick();
-                        successfulPickup = pickUpRightWithTimeout();
-                    }
-
-                    // Once both chopsticks are acquired, the philosopher eats.
-                    eat();
+                // If the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait.
+                while (!successfulPickup) {
                     putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
-            }
-
-            boolean pickUpRightWithTimeout() {
-                // Attempts to pick up the right chopstick with a timeout.
-                boolean successfulPickup = rightTimeoutChopstick.pickUpRight(this);
-
-                if (successfulPickup) {
-                    Log("[PUR]", virtualClock.getTime());
+                    int random = randomValue(1, 25); //random wait time between 1 and 25ms
+                    sleep(random);
+                    pickUpLeftChopstick();
+                    successfulPickup = pickUpRightWithTimeout();
                 }
 
-                return successfulPickup;
+                // Once both chopsticks are acquired, the philosopher eats.
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         }
+
+        boolean pickUpRightWithTimeout() {
+            // Attempts to pick up the right chopstick with a timeout.
+            boolean successfulPickup = rightTimeoutChopstick.pickUpRight(this);
+
+            if (successfulPickup) {
+                Log("[PUR]", virtualClock.getTime());
+            }
+
+            return successfulPickup;
+        }
+    }
     </code></pre>
     <p>
         <b>Chopstick class:</b>
         We introduce a timeout for the pickup of the right chopstick. When the timeout is reached we abort the pickup and return false.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class TimeoutChopstick extends Chopstick {
 
-        class TimeoutChopstick extends Chopstick {
+        int timeout;
 
-            int timeout;
+        TimeoutChopstick(int id, int timeout) {
+            super(id);
+            this.timeout = timeout;
+        }
 
-            TimeoutChopstick(int id, int timeout) {
-                super(id);
-                this.timeout = timeout;
-            }
+        synchronized boolean pickUpRight(Philosopher philosopher) {
+            // Tracks time to ensure the philosopher does not wait indefinitely.
+            long startTime = currentTime();
+            long remainingTime = timeout;
 
-            synchronized boolean pickUpRight(Philosopher philosopher) {
-                // Tracks time to ensure the philosopher does not wait indefinitely.
-                long startTime = currentTime();
-                long remainingTime = timeout;
-
-                // Waits until the chopstick is available or the timeout expires.
-                while (!isAvailable) {
-                    if (remainingTime <= 0) {
-                        return false;
-                    }
-
-                    wait(remainingTime);
-                    remainingTime = timeout - (currentTime() - startTime);
+            // Waits until the chopstick is available or the timeout expires.
+            while (!isAvailable) {
+                if (remainingTime <= 0) {
+                    return false;
                 }
 
-                // If the chopstick becomes available, it is marked as taken.
-                isAvailable = false;
-                return true;
+                wait(remainingTime);
+                remainingTime = timeout - (currentTime() - startTime);
             }
+
+            // If the chopstick becomes available, it is marked as taken.
+            isAvailable = false;
+            return true;
         }
+    }
     </code></pre>
     <h3>Timeout Solution Evaluation </h3>
     <p>

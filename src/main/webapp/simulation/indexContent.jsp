@@ -12,7 +12,8 @@
             /*background-color: #FF6F61;*/
             background-image: radial-gradient(circle, #FFC857, #008080, #FFDAB9);
             border-radius: 10px;
-            padding: 20px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .container1 {
@@ -24,10 +25,10 @@
         }
 
         .scrollable-box {
-            width: 1150px;
-            height: 411px;
+            width: 75%;
+            height: 420px;
             border: 1px solid #ccc;
-            padding: 10px;
+            padding: 5px;
             overflow-y: scroll;
             overflow-x: scroll;
             background-color: #f8f8f8;
@@ -45,14 +46,19 @@
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
             border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .form-container {
-            max-width: 700px; /* Adjust based on your form's size */
+            max-width: 25%; /* Adjust based on your form's size */
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f8f8f8;
             border-radius: 10px;
+        }
+
+        .soft-red-text {
+            color: #cc6666; /* A muted red that’s easier on the eyes */
         }
 
         pre {
@@ -328,6 +334,9 @@
                     <option value="TWOWAITERS" <%= "TWOWAITERS".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Two Waiters
                     </option>
+                    <option value="RESTRICTWAITER" <%= "RESTRICTWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Restrict Waiter
+                    </option>
                 </optgroup>
 
                 <optgroup label="Semaphore">
@@ -435,8 +444,9 @@
 <div class="container1">
     <div class="fixed-box">
         <h3>Legend</h3>
-        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUB] = Pick up Both Forks, [PUL] = Pick up left Fork, [PUL] =
-            Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork, [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
+        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUL] = Pick up left Chopstick, [PUL] = Pick up right Chopstick,
+            [PDR] = Put down right Chopstick, [PDL] = Put down left Chopstick,
+            [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
         <br>
     </div>
 

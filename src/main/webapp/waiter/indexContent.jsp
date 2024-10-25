@@ -133,74 +133,72 @@
         permitting the next one in the queue to eat at a time.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class Waiter {
 
-        class Waiter {
+        Philosopher permittedPhilosopher;  // The philosopher currently allowed to proceed.
+        Queue queuedPhilosophers;          // Queue of philosophers waiting for permission.
 
-            Philosopher permittedPhilosopher;  // The philosopher currently allowed to proceed.
-            Queue queuedPhilosophers;          // Queue of philosophers waiting for permission.
+        Waiter(int nrPhilosophers) {
+            permittedPhilosopher = null;
+            queuedPhilosophers = new Queue();
+        }
 
-            Waiter(int nrPhilosophers) {
-                permittedPhilosopher = null;
-                queuedPhilosophers = new Queue();
-            }
+        // Method for philosophers to request permission to proceed.
+        synchronized void requestPermission(Philosopher philosopher) {
+            queuedPhilosophers.add(philosopher);
 
-            // Method for philosophers to request permission to proceed.
-            synchronized void requestPermission(Philosopher philosopher) {
-                queuedPhilosophers.add(philosopher);
-
-                // If no philosopher has permission, assign one from the queue.
-                if (permittedPhilosopher == null) {
-                    permittedPhilosopher = queuedPhilosophers.poll();
-                }
-
-                // Wait until this philosopher is the one permitted to proceed.
-                while (!philosopher.equals(permittedPhilosopher)) {
-                    wait();
-                }
-            }
-
-            // Method to return permission, allowing the next philosopher in line to proceed.
-            synchronized void returnPermission() {
-                // Grant permission to the next philosopher in the queue.
+            // If no philosopher has permission, assign one from the queue.
+            if (permittedPhilosopher == null) {
                 permittedPhilosopher = queuedPhilosophers.poll();
+            }
 
-                // Notify all waiting philosophers that permission has changed.
-                notifyAll();
+            // Wait until this philosopher is the one permitted to proceed.
+            while (!philosopher.equals(permittedPhilosopher)) {
+                wait();
             }
         }
+
+        // Method to return permission, allowing the next philosopher in line to proceed.
+        synchronized void returnPermission() {
+            // Grant permission to the next philosopher in the queue.
+            permittedPhilosopher = queuedPhilosophers.poll();
+
+            // Notify all waiting philosophers that permission has changed.
+            notifyAll();
+        }
+    }
     </code></pre>
     <p>
 
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class AtomicGuestPhilosopher extends Philosopher {
 
-        class AtomicGuestPhilosopher extends Philosopher {
+        Waiter waiter;
+        AtomicGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+            super(id, leftChopstick, rightChopstick);
+            this.waiter = waiter;
+        }
 
-            Waiter waiter;
-            AtomicGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
-                super(id, leftChopstick, rightChopstick);
-                this.waiter = waiter;
-            }
+        @Override
+        public void run() {
 
-            @Override
-            public void run() {
+            while (!terminated()) {
+                think();
+                //request permission before pickup
+                waiter.requestPermission(this);
 
-                while (!terminated()) {
-                    think();
-                    //request permission before pickup
-                    waiter.requestPermission(this);
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
 
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-
-                    //return permission after putdown
-                    waiter.returnPermission();
-                }
+                //return permission after putdown
+                waiter.returnPermission();
             }
         }
+    }
 
     </code></pre>
     <h3>Atomic Waiter Solution Evaluation</h3>
@@ -266,35 +264,34 @@
         <b>Philosopher class:</b>
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class PickupGuestPhilosopher extends Philosopher {
 
-        class PickupGuestPhilosopher extends Philosopher {
+        Waiter waiter;
+        AtomicGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
+            super(id, leftChopstick, rightChopstick);
+            this.waiter = waiter;
+        }
 
-            Waiter waiter;
-            AtomicGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Waiter waiter) {
-                super(id, leftChopstick, rightChopstick);
-                this.waiter = waiter;
-            }
+        @Override
+        public void run() {
 
-            @Override
-            public void run() {
+            while (!terminated()) {
+                think();
+                //request permission before pickup
+                waiter.requestPermission(this);
 
-                while (!terminated()) {
-                    think();
-                    //request permission before pickup
-                    waiter.requestPermission(this);
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
 
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
+                //return permission after pickup
+                waiter.returnPermission();
 
-                    //return permission after pickup
-                    waiter.returnPermission();
-
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         }
+    }
     </code></pre>
 
     <h3>Pickup Waiter Solution Evaluation </h3>
@@ -367,69 +364,68 @@
         Additional to the queue, we utilize a boolean array to keep track of the philosophers eating states.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class IntelligentWaiter {
 
-        class IntelligentWaiter {
+        Philosopher permittedPhilosopher;  // The philosopher currently allowed to eat.
+        Queue philosophersQueue;           // Queue of philosophers waiting for permission to eat.
+        int nrPhilosophers;
+        boolean[] eatStates;               // Tracks whether each philosopher is currently eating.
 
-            Philosopher permittedPhilosopher;  // The philosopher currently allowed to eat.
-            Queue philosophersQueue;           // Queue of philosophers waiting for permission to eat.
-            int nrPhilosophers;
-            boolean[] eatStates;               // Tracks whether each philosopher is currently eating.
-
-            IntelligentWaiter(int nrPhilosophers) {
-                this.nrPhilosophers = nrPhilosophers;
-                permittedPhilosopher = null;
-                philosophersQueue = new Queue();
-                eatStates = new Boolean[nrPhilosophers];
-            }
-
-            // Method for philosophers to request permission to eat.
-            synchronized void requestPermission(Philosopher philosopher) {
-                philosophersQueue.add(philosopher);  // Add the requesting philosopher to the queue.
-
-                // If no philosopher has permission, assign one from the queue.
-                if (permittedPhilosopher == null) {
-                    permittedPhilosopher = philosophersQueue.poll();
-                }
-
-                // Wait until this philosopher is the one permitted to eat.
-                while (philosopher != permittedPhilosopher) {
-                    wait();  // Wait until it is this philosopher's turn.
-                }
-
-                setEatState(philosopher);  // Update the philosopher's state to eating.
-            }
-
-            // Method to return permission, allowing the next philosopher to eat based on neighbor states.
-            synchronized void returnPermission() {
-                // Iterate through the queued philosophers to find a suitable candidate.
-                for Each philosopher in philosophersQueue {
-                    int leftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;  // Left philosopher's index.
-                    int rightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;                   // Right philosopher's index.
-
-                    // Check if neighboring philosophers are not eating.
-                    if (!eatStates[leftPhilosopher] && !eatStates[rightPhilosopher] && philosopher != permittedPhilosopher) {
-                        permittedPhilosopher = philosopher;  // Grant permission to this philosopher.
-                        philosophersQueue.remove(philosopher);
-                        notifyAll();  // Notify waiting philosophers.
-                        return;  // Exit after assigning permission.
-                    }
-                }
-
-                // If no suitable philosopher is found, assign the next one in the queue.
-                permittedPhilosopher = philosophersQueue.poll();
-                notifyAll();  // Notify that a philosopher was chosen from the queue.
-            }
-
-            // Method to set the state of a philosopher as eating.
-            void setEatState(Philosopher philosopher) {
-                eatStates[philosopher.getPhId()] = true;
-            }
-
-            // Method to reset the state of a philosopher after they finish eating.
-            synchronized void removeEatState(Philosopher philosopher) {
-                eatStates[philosopher.getPhId()] = false;
-            }
+        IntelligentWaiter(int nrPhilosophers) {
+            this.nrPhilosophers = nrPhilosophers;
+            permittedPhilosopher = null;
+            philosophersQueue = new Queue();
+            eatStates = new Boolean[nrPhilosophers];
         }
+
+        // Method for philosophers to request permission to eat.
+        synchronized void requestPermission(Philosopher philosopher) {
+            philosophersQueue.add(philosopher);  // Add the requesting philosopher to the queue.
+
+            // If no philosopher has permission, assign one from the queue.
+            if (permittedPhilosopher == null) {
+                permittedPhilosopher = philosophersQueue.poll();
+            }
+
+            // Wait until this philosopher is the one permitted to eat.
+            while (philosopher != permittedPhilosopher) {
+                wait();  // Wait until it is this philosopher's turn.
+            }
+
+            setEatState(philosopher);  // Update the philosopher's state to eating.
+        }
+
+        // Method to return permission, allowing the next philosopher to eat based on neighbor states.
+        synchronized void returnPermission() {
+            // Iterate through the queued philosophers to find a suitable candidate.
+            for Each philosopher in philosophersQueue {
+                int leftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;  // Left philosopher's index.
+                int rightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;                   // Right philosopher's index.
+
+                // Check if neighboring philosophers are not eating.
+                if (!eatStates[leftPhilosopher] && !eatStates[rightPhilosopher] && philosopher != permittedPhilosopher) {
+                    permittedPhilosopher = philosopher;  // Grant permission to this philosopher.
+                    philosophersQueue.remove(philosopher);
+                    notifyAll();  // Notify waiting philosophers.
+                    return;  // Exit after assigning permission.
+                }
+            }
+
+            // If no suitable philosopher is found, assign the next one in the queue.
+            permittedPhilosopher = philosophersQueue.poll();
+            notifyAll();  // Notify that a philosopher was chosen from the queue.
+        }
+
+        // Method to set the state of a philosopher as eating.
+        void setEatState(Philosopher philosopher) {
+            eatStates[philosopher.getPhId()] = true;
+        }
+
+        // Method to reset the state of a philosopher after they finish eating.
+        synchronized void removeEatState(Philosopher philosopher) {
+            eatStates[philosopher.getPhId()] = false;
+        }
+    }
 
     </code></pre>
     <p>
@@ -437,38 +433,36 @@
         Here we need to additionally notify the waiter when eating is finished.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class IntelligentPickupGuestPhilosopher extends Philosopher {
 
-        class IntelligentPickupGuestPhilosopher extends Philosopher {
+        IntelligentWaiter waiter;
 
-            IntelligentWaiter waiter;
-
-            IntelligentPickupGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, IntelligentWaiter waiter) {
-                super(id, leftChopstick, rightChopstick);
-                this.waiter = waiter;
-            }
-
-            @Override
-            void run() {
-                while (!terminated()) {
-                    think();
-
-                    //request permission before pickup and set state "eating" to true
-                    waiter.requestPermission(this);
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-
-                    //return permission after pickup
-                    waiter.returnPermission();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-
-                    //notify waiter after putdown
-                    waiter.removeEatState(this);
-                }
-            }
+        IntelligentPickupGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, IntelligentWaiter waiter) {
+            super(id, leftChopstick, rightChopstick);
+            this.waiter = waiter;
         }
 
+        @Override
+        void run() {
+            while (!terminated()) {
+                think();
+
+                //request permission before pickup and set state "eating" to true
+                waiter.requestPermission(this);
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+
+                //return permission after pickup
+                waiter.returnPermission();
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
+
+                //notify waiter after putdown
+                waiter.removeEatState(this);
+            }
+        }
+    }
 
     </code></pre>
 
@@ -550,53 +544,51 @@
         they return the permission, and the waiter selects the next philosopher who has eaten the least, if present in the queue.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class FairEatTimeWaiter {
 
+        Philosopher permittedPhilosopher;
+        Queue philosophersQueue;
 
-        class FairEatTimeWaiter {
+        fairEatTimeWaiter() {
+            permittedPhilosopher = null;
+            philosophersQueue = new Queue();
+        }
 
-            Philosopher permittedPhilosopher;
-            Queue philosophersQueue;
+        synchronized void requestPermission(Philosopher philosopher) {
+            philosophersQueue.add(philosopher);
 
-            fairEatTimeWaiter() {
-                permittedPhilosopher = null;
-                philosophersQueue = new Queue();
+            if (permittedPhilosopher == null) {
+                permittedPhilosopher = philosophersQueue.poll(); // Assign the first philosopher if none is permitted
             }
 
-            synchronized void requestPermission(Philosopher philosopher) {
-                philosophersQueue.add(philosopher);
-
-                if (permittedPhilosopher == null) {
-                    permittedPhilosopher = philosophersQueue.poll(); // Assign the first philosopher if none is permitted
-                }
-
-                while philosopher != permittedPhilosopher {
-                    wait(); // Wait until it's this philosopher's turn
-                }
-            }
-
-            synchronized void returnPermission(Philosopher philosopher) {
-                boolean foundOtherPhilosopher = false;
-                Long minEats = MAX_VALUE;
-
-                //find the philosopher with the minimum eatTimes
-                for Each philosopher in philosophersQueue {
-                    if (philosopher.eatTimes < minEats && philosopher != currentPhilosopher) {
-                        minEats = philosopher.eatTimes; //alternatively minimum eatTime
-                        permittedPhilosopher = philosopher;
-                        foundOtherPhilosopher = true;
-                    }
-                }
-
-                //if we do not find a philosopher we set null and pick the first in the queue
-                if (!foundOtherPhilosopher) {
-                    permittedPhilosopher = null;
-                } else {
-                    philosophersQueue.remove(permittedPhilosopher);
-                }
-
-                notifyAll(); // Notify all that permission was returned
+            while philosopher != permittedPhilosopher {
+                wait(); // Wait until it's this philosopher's turn
             }
         }
+
+        synchronized void returnPermission(Philosopher philosopher) {
+            boolean foundOtherPhilosopher = false;
+            Long minEats = MAX_VALUE;
+
+            //find the philosopher with the minimum eatTimes
+            for Each philosopher in philosophersQueue {
+                if (philosopher.eatTimes < minEats && philosopher != currentPhilosopher) {
+                    minEats = philosopher.eatTimes; //alternatively minimum eatTime
+                    permittedPhilosopher = philosopher;
+                    foundOtherPhilosopher = true;
+                }
+            }
+
+            //if we do not find a philosopher we set null and pick the first in the queue
+            if (!foundOtherPhilosopher) {
+                permittedPhilosopher = null;
+            } else {
+                philosophersQueue.remove(permittedPhilosopher);
+            }
+
+            notifyAll(); // Notify all that permission was returned
+        }
+    }
 
     </code></pre>
 
@@ -604,48 +596,47 @@
         We track the philosophers total eating time, by adding it to the previous eat-time once they finish eating.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class FairEatTimeGuestPhilosopher extends Philosopher {
 
-        class FairEatTimeGuestPhilosopher extends Philosopher {
+        FairEatTimeWaiter waiter;
+        long eatTimes;
 
-            FairEatTimeWaiter waiter;
-            long eatTimes;
+        FairEatTimeGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairEatTimeWaiter waiter) {
+            super(id, leftChopstick, rightChopstick);
+            this.waiter = waiter;
+            eatTimes = 0;
+        }
 
-            FairEatTimeGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairEatTimeWaiter waiter) {
-                super(id, leftChopstick, rightChopstick);
-                this.waiter = waiter;
-                eatTimes = 0;
-            }
+        @Override
+        void run() {
+            while (!terminated()) {
+                think();
 
-            @Override
-            void run() {
-                while (!terminated()) {
-                    think();
+                //request permission before pickup
+                waiter.requestPermission(this);
 
-                    //request permission before pickup
-                    waiter.requestPermission(this);
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
 
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
+                //return permission after pickup
+                waiter.returnPermission(this);
 
-                    //return permission after pickup
-                    waiter.returnPermission(this);
+                //calculate the total eat time until this point.
+                eatTimes += eatFair();
 
-                    //calculate the total eat time until this point.
-                    eatTimes += eatFair();
-
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
-            }
-
-            //we return the calculated eat-time.
-            long eatFair() {
-                Long duration = calculateDuration();
-                sleep(duration);
-                sbLog("[ E ]", VirtualClock.getTime());
-                return duration;
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         }
+
+        //we return the calculated eat-time.
+        long eatFair() {
+            Long duration = calculateDuration();
+            sleep(duration);
+            sbLog("[ E ]", VirtualClock.getTime());
+            return duration;
+        }
+    }
 
     </code></pre>
 
@@ -657,41 +648,40 @@
         , instead of the minimum eat-time to choose the next philosopher.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class FairChanceGuestPhilosopher extends Philosopher {
 
-        class FairChanceGuestPhilosopher extends Philosopher {
+        int eatChances;          // counter for the number of times the philosopher has eaten.
+        FairChanceWaiter waiter;
 
-            int eatChances;          // counter for the number of times the philosopher has eaten.
-            FairChanceWaiter waiter;
+        FairChanceGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairChanceWaiter waiter) {
+            super(id, leftChopstick, rightChopstick);
+            eatChances = 0;
+            this.waiter = waiter;
+        }
 
-            FairChanceGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairChanceWaiter waiter) {
-                super(id, leftChopstick, rightChopstick);
-                eatChances = 0;
-                this.waiter = waiter;
-            }
+        @Override
+        void run() {
+            // philosopher attempts to think, request permission, and eat in a loop.
+            while (!terminated()) {
+                think();
 
-            @Override
-            void run() {
-                // philosopher attempts to think, request permission, and eat in a loop.
-                while (!terminated()) {
-                    think();
+                // request permission before pickup.
+                waiter.requestPermission(this);
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
 
-                    // request permission before pickup.
-                    waiter.requestPermission(this);
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
+                // return permission after pickup.
+                waiter.returnPermission(this);
+                eat();
 
-                    // return permission after pickup.
-                    waiter.returnPermission(this);
-                    eat();
+                // Increment the count of eating chances.
+                eatChances++;
 
-                    // Increment the count of eating chances.
-                    eatChances++;
-
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         }
+    }
 
 
     </code></pre>
@@ -770,21 +760,21 @@
         For this implementation we choose the Pickup Waiter.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
-        for (int i = 0; i < nrPhilosophers; i++) {
-           forks.add(new Chopstick(i));
-        }
+    for (int i = 0; i < nrPhilosophers; i++) {
+       forks.add(new Chopstick(i));
+    }
 
-        Waiter splitWaiter = new Waiter(nrPhilosophers);
-        Waiter splitWaiter1 = new Waiter(nrPhilosophers);
+    Waiter splitWaiter = new Waiter(nrPhilosophers);
+    Waiter splitWaiter1 = new Waiter(nrPhilosophers);
 
-        Waiter selectedWaiter;
-        boolean assignToTwo = nrPhilosophers > 3;
-        for (int i = 0; i < nrPhilosophers; i++) {
-            selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
+    Waiter selectedWaiter;
+    boolean assignToTwo = nrPhilosophers > 3;
+    for (int i = 0; i < nrPhilosophers; i++) {
+        selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
 
-            PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), selectedWaiter);
-            philosophers.add(philosopher);
-        }
+        PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), selectedWaiter);
+        philosophers.add(philosopher);
+    }
     </code></pre>
 
     <h3>Two Waiters Solution Evaluation </h3>
@@ -864,76 +854,73 @@
         <b>Waiter class: </b>
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class RestrictWaiter {
+
+        int chopsticksOnTable;           // tracks the number of available chopsticks on the table
+        Lock lock = new FairLock();      // a fair lock
+        Condition enoughChopsticks = lock.newCondition();  // condition to wait for available chopsticks
 
 
-        class RestrictWaiter {
-
-            int chopsticksOnTable;           // tracks the number of available chopsticks on the table
-            Lock lock = new FairLock();      // a fair lock
-            Condition enoughChopsticks = lock.newCondition();  // condition to wait for available chopsticks
+        RestrictWaiter(int nrPhilosophers) {
+            chopsticksOnTable = nrPhilosophers;  // all chopsticks are on the table initially
+        }
 
 
-            RestrictWaiter(int nrPhilosophers) {
-                chopsticksOnTable = nrPhilosophers;  // all chopsticks are on the table initially
-            }
-
-
-            void requestPermission() {
-                lock.lock();  // acquire the lock for exclusive access to methods
-                try {
-                    // wait until there are at least two chopsticks available on the table
-                    while (chopsticksOnTable < 2) {
-                        enoughChopsticks.await();
-                    }
-                    chopsticksOnTable -= 2;  // take two chopsticks from the table once available
-                } finally {
-                    lock.unlock();  // release lock to allow other philosophers access
+        void requestPermission() {
+            lock.lock();  // acquire the lock for exclusive access to methods
+            try {
+                // wait until there are at least two chopsticks available on the table
+                while (chopsticksOnTable < 2) {
+                    enoughChopsticks.await();
                 }
-            }
-
-
-            void returnChopsticks() {
-                lock.lock();  // acquire the lock for exclusive access to methods
-                try {
-                    chopsticksOnTable += 2;  // return two chopsticks to the table
-                } finally {
-                    enoughChopsticks.signalAll();  // notify all that put-down was completed
-                    lock.unlock();  // release lock to allow other philosophers access
-                }
+                chopsticksOnTable -= 2;  // take two chopsticks from the table once available
+            } finally {
+                lock.unlock();  // release lock to allow other philosophers access
             }
         }
+
+
+        void returnChopsticks() {
+            lock.lock();  // acquire the lock for exclusive access to methods
+            try {
+                chopsticksOnTable += 2;  // return two chopsticks to the table
+            } finally {
+                enoughChopsticks.signalAll();  // notify all that put-down was completed
+                lock.unlock();  // release lock to allow other philosophers access
+            }
+        }
+    }
 
     </code></pre>
     <p>
         <b>Philosopher class:</b>
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    class GuestPhilosopher extends Philosopher {
 
-        class GuestPhilosopher extends Philosopher {
-
-            RestrictWaiter waiter;
+        RestrictWaiter waiter;
 
 
-            GuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, RestrictWaiter waiter) {
-                super(id, leftChopstick, rightChopstick);
-                this.waiter = waiter;
-            }
+        GuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, RestrictWaiter waiter) {
+            super(id, leftChopstick, rightChopstick);
+            this.waiter = waiter;
+        }
 
-            @Override
-            void run() {
+        @Override
+        void run() {
 
-                while (!terminated()) {
-                    think();
-                    waiter.requestPermission();  // ask waiter whether more than two chopsticks are still available
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                    waiter.returnForks();        // inform the waiter that the philosopher has put down the chopsticks
-                }
+            while (!terminated()) {
+                think();
+                waiter.requestPermission();  // ask waiter whether more than two chopsticks are still available
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
+                waiter.returnForks();        // inform the waiter that the philosopher has put down the chopsticks
             }
         }
+    }
 
     </code></pre>
     <p>Now let us evaluate the Classic Waiter approach based on the key-challenges:</p>
@@ -978,8 +965,8 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=RESTRICT" class="button">Classic Waiter Simulation</a>
-    <a href="../animation/?algorithm=RESTRICT" class="button">Classic Waiter Animation</a>
+    <a href="../simulation/?algorithm=RESTRICTWAITER" class="button">Restrict Waiter Simulation</a>
+    <a href="../animation/?algorithm=RESTRICTWAITER" class="button">Restrict Waiter Animation</a>
 
 </div>
 

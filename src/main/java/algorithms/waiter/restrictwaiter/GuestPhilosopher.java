@@ -1,4 +1,4 @@
-package algorithms.waiter.classic;
+package algorithms.waiter.restrictwaiter;
 
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;

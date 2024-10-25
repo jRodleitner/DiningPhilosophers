@@ -130,24 +130,23 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
+    public class GlobalToken {
 
-        public class GlobalToken {
+        TokenPhilosopher philosopher;
 
-            TokenPhilosopher philosopher;
-
-            public GlobalToken(TokenPhilosopher philosopher){
-                this.philosopher = philosopher;
-            }
-
-
-            protected synchronized void passToken(){
-                philosopher.rightPhilosopher.acceptToken(this);
-                philosopher.token = null;
-                philosopher = philosopher.rightPhilosopher;
-            }
-
-
+        public GlobalToken(TokenPhilosopher philosopher){
+            this.philosopher = philosopher;
         }
+
+
+        protected synchronized void passToken(){
+            philosopher.rightPhilosopher.acceptToken(this);
+            philosopher.token = null;
+            philosopher = philosopher.rightPhilosopher;
+        }
+
+
+    }
 
     </code></pre>
     <p>
@@ -157,63 +156,62 @@
         After they are finished they pass on the token.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+    public class TokenPhilosopher extends Philosopher {
+        // Reference to the philosopher to the right of this one, used for passing the token.
+        TokenPhilosopher rightPhilosopher = null;
 
-        public class TokenPhilosopher extends Philosopher {
-            // Reference to the philosopher to the right of this one, used for passing the token.
-            TokenPhilosopher rightPhilosopher = null;
+        // The global token that controls the ability to access the chopsticks.
+        volatile GlobalToken token;
 
-            // The global token that controls the ability to access the chopsticks.
-            volatile GlobalToken token;
+        // Object used for waiting for the passing of a token
+        final Object tokenLock = new Object();
 
-            // Object used for waiting for the passing of a token
-            final Object tokenLock = new Object();
+        TokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick) {
+            super(id, leftChopstick, rightChopstick);
+        }
 
-            TokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick) {
-                super(id, leftChopstick, rightChopstick);
-            }
+        void setToken(GlobalToken token) {
+            this.token = token;
+        }
 
-            void setToken(GlobalToken token) {
-                this.token = token;
-            }
+        // Method to set the philosopher to the right of this one for token passing.
+        void setRightPhilosopher(TokenPhilosopher rightPhilosopher) {
+            this.rightPhilosopher = rightPhilosopher;
+        }
 
-            // Method to set the philosopher to the right of this one for token passing.
-            void setRightPhilosopher(TokenPhilosopher rightPhilosopher) {
-                this.rightPhilosopher = rightPhilosopher;
-            }
-
-            // Method to accept a token when it is passed from another philosopher.
-            void acceptToken(GlobalToken token) {
-                synchronized (tokenLock) {
-                    this.token = token; // Update the local reference to the token.
-                    tokenLock.notify(); // Notify the waiting philosopher that the token is now available.
-                }
-            }
-
-            @Override
-            public void run() {
-                while (!terminated()) {
-                    think();
-
-                    // Wait until this philosopher has the token.
-                    synchronized (tokenLock) {
-                        while (token == null) {
-                            tokenLock.wait(); // Wait for the token to become available.
-                        }
-                    }
-
-                    // Once the token is acquired, the philosopher can attempt to eat.
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    eat();
-
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-
-                    // Pass the token to the next philosopher.
-                    token.passToken();
-                }
+        // Method to accept a token when it is passed from another philosopher.
+        void acceptToken(GlobalToken token) {
+            synchronized (tokenLock) {
+                this.token = token; // Update the local reference to the token.
+                tokenLock.notify(); // Notify the waiting philosopher that the token is now available.
             }
         }
+
+        @Override
+        public void run() {
+            while (!terminated()) {
+                think();
+
+                // Wait until this philosopher has the token.
+                synchronized (tokenLock) {
+                    while (token == null) {
+                        tokenLock.wait(); // Wait for the token to become available.
+                    }
+                }
+
+                // Once the token is acquired, the philosopher can attempt to eat.
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+                eat();
+
+                putDownLeftChopstick();
+                putDownRightChopstick();
+
+                // Pass the token to the next philosopher.
+                token.passToken();
+            }
+        }
+    }
     </code></pre>
     <p>
         <b>Table class:</b>
@@ -221,35 +219,35 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        List chopsticks;
-        List philosophers;
+    List chopsticks;
+    List philosophers;
 
-        for (int i = 0; i < nrPhilosophers; i++) {
-            chopsticks.add(new Chopstick(i)); // Adds a chopstick for each philosopher
-        }
+    for (int i = 0; i < nrPhilosophers; i++) {
+        chopsticks.add(new Chopstick(i)); // Adds a chopstick for each philosopher
+    }
 
-        for (int i = 0; i < nrPhilosophers; i++) {
+    for (int i = 0; i < nrPhilosophers; i++) {
 
-            TokenPhilosopher philosopher = new TokenPhilosopher(
-                i,
-                chopsticks.get(i), // Left chopstick
-                chopsticks.get((i + 1) % nrPhilosophers) // Right chopstick
-            );
-            philosophers.add(philosopher);
-        }
+        TokenPhilosopher philosopher = new TokenPhilosopher(
+            i,
+            chopsticks.get(i), // Left chopstick
+            chopsticks.get((i + 1) % nrPhilosophers) // Right chopstick
+        );
+        philosophers.add(philosopher);
+    }
 
-        // Set the reference to the right-hand neighbor for each philosopher
-        for (int i = 0; i < nrPhilosophers; i++) {
-            TokenPhilosopher philosopher = philosophers.get(i);
-            philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
-        }
+    // Set the reference to the right-hand neighbor for each philosopher
+    for (int i = 0; i < nrPhilosophers; i++) {
+        TokenPhilosopher philosopher = philosophers.get(i);
+        philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
+    }
 
-        // Select the initial philosopher to start with the token
-        TokenPhilosopher initialPhilosopher = philosophers.getFirst();
+    // Select the initial philosopher to start with the token
+    TokenPhilosopher initialPhilosopher = philosophers.getFirst();
 
-        // Create the global token and assign it to the initial philosopher
-        GlobalToken token = new GlobalToken(initialPhilosopher);
-        initialPhilosopher.setToken(token); // The initial philosopher now holds the token
+    // Create the global token and assign it to the initial philosopher
+    GlobalToken token = new GlobalToken(initialPhilosopher);
+    initialPhilosopher.setToken(token); // The initial philosopher now holds the token
     </code></pre>
 
     <h3>Global Token Solution Evaluation</h3>
@@ -327,24 +325,24 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class Token {
-            int id;
-            TokenPhilosopher philosopher;
-            public Token(int id, TokenPhilosopher philosopher){
-                this.id = id;
-                this.philosopher = philosopher;
-            }
-
-
-            synchronized void passToken() {
-                while (philosopher.rightPhilosopher.token != null){
-                    Thread.sleep(10);
-                }
-                philosopher.rightPhilosopher.acceptToken(this);
-                philosopher.token = null;
-                philosopher = philosopher.rightPhilosopher;
-            }
+    class Token {
+        int id;
+        TokenPhilosopher philosopher;
+        public Token(int id, TokenPhilosopher philosopher){
+            this.id = id;
+            this.philosopher = philosopher;
         }
+
+
+        synchronized void passToken() {
+            while (philosopher.rightPhilosopher.token != null){
+                Thread.sleep(10);
+            }
+            philosopher.rightPhilosopher.acceptToken(this);
+            philosopher.token = null;
+            philosopher = philosopher.rightPhilosopher;
+        }
+    }
 
     </code></pre>
     <p>
@@ -353,34 +351,34 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        List chopsticks;
-        List philosophers;
+    List chopsticks;
+    List philosophers;
 
-        for (int i = 0; i < nrPhilosophers; i++) {
-            chopsticks.add(new Chopstick(i)); // Create a new chopstick with ID 'i' and add it to the list.
-        }
+    for (int i = 0; i < nrPhilosophers; i++) {
+        chopsticks.add(new Chopstick(i)); // Create a new chopstick with ID 'i' and add it to the list.
+    }
 
 
-        for (int i = 0; i < nrPhilosophers; i++) {
-            TokenPhilosopher philosopher = new TokenPhilosopher(
-                i,
-                chopsticks.get(i), // Left chopstick
-                chopsticks.get((i + 1) % nrPhilosophers) // Right chopstick
-            );
-            philosophers.add(philosopher);
-        }
+    for (int i = 0; i < nrPhilosophers; i++) {
+        TokenPhilosopher philosopher = new TokenPhilosopher(
+            i,
+            chopsticks.get(i), // Left chopstick
+            chopsticks.get((i + 1) % nrPhilosophers) // Right chopstick
+        );
+        philosophers.add(philosopher);
+    }
 
-        // Set reference to the right-hand neighbor for each philosopher.
-        for (int i = 0; i < nrPhilosophers; i++) {
-            TokenPhilosopher philosopher = philosophers.get(i);
-            philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
-        }
+    // Set reference to the right-hand neighbor for each philosopher.
+    for (int i = 0; i < nrPhilosophers; i++) {
+        TokenPhilosopher philosopher = philosophers.get(i);
+        philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
+    }
 
-        // Assign tokens to every other philosopher.
-        for (int i = 0; i < nrPhilosophers - 1; i += 2) {
-            TokenPhilosopher philosopher = philosophers.get(i);
-            philosopher.setToken(new Token(i, philosopher));
-        }
+    // Assign tokens to every other philosopher.
+    for (int i = 0; i < nrPhilosophers - 1; i += 2) {
+        TokenPhilosopher philosopher = philosophers.get(i);
+        philosopher.setToken(new Token(i, philosopher));
+    }
 
     </code></pre>
     <h3>Multiple Token Solution Evaluation</h3>

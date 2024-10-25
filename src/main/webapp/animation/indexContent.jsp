@@ -13,8 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dining Philosophers Animation</title>
     <style>
+
         .container {
-            height: 500px;
             display: flex;
             flex-direction: row;
             justify-content: space-between;
@@ -23,10 +23,13 @@
             /*background-color: #FF6F61;*/
             background-image: radial-gradient(circle, #FFC857, #008080, #FFDAB9);
             border-radius: 10px;
-            padding: 20px;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .svg-container {
+            width: 75%;
+            height: 420px;
             display: flex;
             flex-direction: column; /* Stack the SVG and buttons vertically */
             align-items: center; /* Center the content horizontally */
@@ -88,27 +91,33 @@
             transform-origin: center;
         }
 
+
+
         .form-container {
-            max-width: 290px; /* Adjust based on your form's size */
-            height: 488px;
+            max-width: 25%; /* Adjust based on your form's size */
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f8f8f8;
             border-radius: 10px;
         }
 
+        .soft-red-text {
+            color: #cc6666; /* A muted red that’s easier on the eyes */
+        }
+
         .scrollable-box {
-            width: 400px;
-            height: 466px;
-            border: 1px solid #ccc;
+
+            width: 1500px;
+            height: 400px;
+            border: 2px solid #ccc;
             padding: 20px;
             overflow-y: scroll;
             overflow-x: scroll;
             background-color: #f8f8f8;
             font-family: "Courier New", Courier, monospace;
             font-size: 12px;
-
             border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
         .container1 {
@@ -146,8 +155,8 @@
     <div class="svg-container">
 
 
-        <svg id="dining-philosophers-animation" xmlns="http://www.w3.org/2000/svg" width="490px" height="438px"
-             viewBox="-0.5 -0.5 490 434">
+        <svg id="dining-philosophers-animation" xmlns="http://www.w3.org/2000/svg" width="490px" height="445px"
+             viewBox="-3 -3 490 445">
             <rect fill="#f8f8f8" width="100%" height="100%" x="0" y="0"></rect>
             <!--Ellipses-->
             <ellipse id="philosopher0" cx="244.25" cy="392" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"></ellipse>
@@ -966,6 +975,7 @@
 
         </script>
     </div>
+
     <div class="form-container">
         <h3>Dining Philosophers Simulation</h3>
         <form name="animationForm" action="/animation" method="post">
@@ -1025,6 +1035,9 @@
                     </option>
                     <option value="TWOWAITERS" <%= "TWOWAITERS".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Two Waiters
+                    </option>
+                    <option value="RESTRICTWAITER" <%= "RESTRICTWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Restrict Waiter
                     </option>
                 </optgroup>
 
@@ -1122,10 +1135,15 @@
             <br>
             <br>
             <input type="submit" value="&#9654; Run Simulation" style="font-size: 16px; padding: 10px 20px;">
-            <p style="font-size: 12px; font-family: 'Courier New', Courier, monospace; ">To play back the animation, run the Dining Philosophers simulation first.</p>
+            <div class="soft-red-text"><p style="font-size: 13px; font-family: 'Courier New', Courier, monospace; ">To play back the animation, run the Dining Philosophers simulation first.</p></div>
+
         </form>
 
     </div>
+
+</div>
+<br>
+<div class="container1">
     <div class="scrollable-box">
         <c:if test="${not empty result}">
             <pre>${result}</pre>
@@ -1136,8 +1154,9 @@
 <div class="container1">
     <div class="fixed-box">
         <h3>Legend</h3>
-        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUB] = Pick up Both Forks, [PUL] = Pick up left Fork, [PUL] =
-            Pick up right Fork, [PDR] = Put down right Fork, [PDL] = Put down left Fork, [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
+        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUL] = Pick up left Chopstick, [PUL] = Pick up right Chopstick,
+            [PDR] = Put down right Chopstick, [PDL] = Put down left Chopstick,
+            [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
         <br>
     </div>
 

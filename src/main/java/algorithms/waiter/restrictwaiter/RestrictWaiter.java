@@ -1,4 +1,4 @@
-package algorithms.waiter.classic;
+package algorithms.waiter.restrictwaiter;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

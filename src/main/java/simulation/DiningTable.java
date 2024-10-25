@@ -30,8 +30,8 @@ import algorithms.token.multipletoken.Token;
 import algorithms.token.singletoken.GlobalToken;
 import algorithms.token.singletoken.TokenPhilosopher;
 import algorithms.*;
-import algorithms.waiter.classic.RestrictWaiter;
-import algorithms.waiter.classic.GuestPhilosopher;
+import algorithms.waiter.restrictwaiter.RestrictWaiter;
+import algorithms.waiter.restrictwaiter.GuestPhilosopher;
 import algorithms.waiter.fairwaiter.FairChanceGuestPhilosopher;
 import algorithms.waiter.fairwaiter.FairChanceWaiter;
 import algorithms.waiter.fairwaiter.FairEatTimeGuestPhilosopher;
@@ -155,7 +155,7 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.CLASSICWAITER:
+            case Algorithm.RESTRICTWAITER:
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new SimpleChopstick(i));
                 }

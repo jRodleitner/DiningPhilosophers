@@ -85,6 +85,45 @@
             padding-right: 20px; /* Adds some space between the main content and the nav */
         }
 
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        .styled-table thead tr {
+            background-color: #216477;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+            border: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+
+        .styled-table td {
+            vertical-align: top;
+        }
+
+        .styled-table th {
+            border-bottom: 2px solid #009879;
+        }
+
 
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
@@ -551,23 +590,41 @@
         <p>
             Let us now evaluate the Naive Dining Philosophers, based on the introduced challenges.
         </p>
-        <ul>
-            <li><b>Deadlocks:</b> The naive implementation frequently leads to deadlocks, especially when the number of philosophers is 5 or lower.
-                Usually, it is harder to come across deadlocks, when we deal with larger numbers of philosophers,
-                however due to several situations like a changes in the execution environment (Java VM or OS rescheduling tasks), deadlocks could still occur, especially with longer runtimes.
-            </li>
-            <li><b>Starvation:</b> The naive dining philosophers takes no measures against starvation.
-            </li>
-            <li><b>Fairness:</b> There is no fairness given in a naive dining philosophers implementation.
-            </li>
-            <li><b>Concurrency:</b> The naive dining philosophers does have a high degree of concurrency (as long as deadlocks do not occur).
-                However, due to the long path in the precedence graph, situations where many adjacent philosophers wait on their right chopstick happen frequently.
-            </li>
-            <li><b>Implementation:</b> Implementation of the naive dining philosophers is rather simple with knowledge about concurrent programming.
-            </li>
-            <li><b>Performance:</b> NA.
-            </li>
-        </ul>
+        <table class="styled-table">
+            <thead>
+            <tr>
+                <th>Aspect</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>Deadlocks</b></td>
+                <td>The naive implementation frequently leads to deadlocks, especially when the number of philosophers is 5 or lower. Usually, it is harder to come across deadlocks when dealing with larger numbers of philosophers. However, due to factors like changes in the execution environment (Java VM or OS rescheduling tasks), deadlocks could still occur, especially with longer runtimes.</td>
+            </tr>
+            <tr>
+                <td><b>Starvation</b></td>
+                <td>The naive dining philosophers take no measures against starvation.</td>
+            </tr>
+            <tr>
+                <td><b>Fairness</b></td>
+                <td>There is no fairness in a naive dining philosophers implementation.</td>
+            </tr>
+            <tr>
+                <td><b>Concurrency</b></td>
+                <td>The naive dining philosophers solution has a high degree of concurrency (as long as deadlocks do not occur). However, due to the long path in the precedence graph, situations where many adjacent philosophers wait on their right chopstick happen frequently.</td>
+            </tr>
+            <tr>
+                <td><b>Implementation</b></td>
+                <td>Implementation of the naive dining philosophers is relatively simple with knowledge of concurrent programming.</td>
+            </tr>
+            <tr>
+                <td><b>Performance</b></td>
+                <td>NA</td>
+            </tr>
+            </tbody>
+        </table>
+
 
         <p>
             We see, that the Naive Dining Philosophers performs rather poorly when we measure it against these challenges.

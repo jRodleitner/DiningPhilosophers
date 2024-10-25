@@ -84,10 +84,11 @@ CHECK:
 
 
 24.10
-[ ] make restrict waiter available
+[x] make restrict waiter available
 [ ] Starvation + Fairness Re-evaluation
 [ ] Correct eatTime-fairness calculation ???
 [x] code highlighting
+[x] Mobile resizing
 
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:

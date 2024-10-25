@@ -128,34 +128,34 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class HierarchyPhilosopher extends Philosopher {
-            //pickup chopstick with lower id first
+    class HierarchyPhilosopher extends Philosopher {
+        //pickup chopstick with lower id first
 
-            HierarchyPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-                super(id, leftChopstick, rightChopstick);
-            }
-
-        @Override
-            run() {
-                while (!terminate()) {
-                    think();
-
-                    //pick up chopstick with lower id first
-                    if(leftChopstick.getId() < rightChopstick.getId()){
-                        pickUpLeftChopstick();
-                        pickUpRightChopstick();
-                        eat();
-                        putDownLeftChopstick();
-                        putDownRightChopstick();
-                    } else {
-                        pickUpRightChopstick();
-                        pickUpLeftChopstick();
-                        eat();
-                        putDownRightChopstick();
-                        putDownLeftChopstick();
-                    }
-            }
+        HierarchyPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+            super(id, leftChopstick, rightChopstick);
         }
+
+    @Override
+        run() {
+            while (!terminate()) {
+                think();
+
+                //pick up chopstick with lower id first
+                if(leftChopstick.getId() < rightChopstick.getId()){
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                } else {
+                    pickUpRightChopstick();
+                    pickUpLeftChopstick();
+                    eat();
+                    putDownRightChopstick();
+                    putDownLeftChopstick();
+                }
+        }
+    }
     </code></pre>
 
     <h3>Hierarchy Solution Evaluation</h3>
@@ -234,34 +234,34 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class AsymmetricPhilosopher extends Philosopher {
+    class AsymmetricPhilosopher extends Philosopher {
 
-            AsymmetricPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-                super(id, leftChopstick, rightChopstick);
-            }
+        AsymmetricPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+            super(id, leftChopstick, rightChopstick);
+        }
 
-            @Override
-            run() {
-                //philosophers with even id pick up left first, philosophers with odd id pick up right first
-                boolean even = id % 2 == 0;
-                while (!terminated()) {
-                    think();
-                    if(even){
-                        pickUpLeftChopstick();
-                        pickUpRightChopstick();
-                        eat();
-                        putDownLeftChopstick();
-                        putDownRightChopstick();
-                    } else {
-                        pickUpRightChopstick();
-                        pickUpLeftChopstick();
-                        eat();
-                        putDownRightChopstick();
-                        putDownLeftChopstick();
-                    }
+        @Override
+        run() {
+            //philosophers with even id pick up left first, philosophers with odd id pick up right first
+            boolean even = id % 2 == 0;
+            while (!terminated()) {
+                think();
+                if(even){
+                    pickUpLeftChopstick();
+                    pickUpRightChopstick();
+                    eat();
+                    putDownLeftChopstick();
+                    putDownRightChopstick();
+                } else {
+                    pickUpRightChopstick();
+                    pickUpLeftChopstick();
+                    eat();
+                    putDownRightChopstick();
+                    putDownLeftChopstick();
                 }
             }
         }
+    }
     </code></pre>
 
     <h3>Asymmetric Solution Evaluation</h3>

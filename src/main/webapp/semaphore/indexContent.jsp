@@ -161,34 +161,34 @@
         chopsticks and release it, once they are finished picking up.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
-        class TableSemaphorePhilosopher extends Philosopher {
+    class TableSemaphorePhilosopher extends Philosopher {
 
-            final Semaphore semaphore;
-            TableSemaphorePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, TableSemaphore tableSemaphore) {
-                super(id, leftChopstick, rightChopstick);
-                this.semaphore = tableSemaphore.semaphore;
-            }
-
-            @Override
-            void run() {
-                while (!terminated()) {
-                    think();
-
-                    //acquire the table-semaphore before pickup
-                    semaphore.acquire();
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-
-                    //release semaphore after pickup
-                    semaphore.release();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-
-                }
-            }
-
+        final Semaphore semaphore;
+        TableSemaphorePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, TableSemaphore tableSemaphore) {
+            super(id, leftChopstick, rightChopstick);
+            this.semaphore = tableSemaphore.semaphore;
         }
+
+        @Override
+        void run() {
+            while (!terminated()) {
+                think();
+
+                //acquire the table-semaphore before pickup
+                semaphore.acquire();
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+
+                //release semaphore after pickup
+                semaphore.release();
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
+
+            }
+        }
+
+    }
 
     </code></pre>
 
@@ -275,30 +275,30 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class RestrictPhilosopher extends Philosopher {
+    class RestrictPhilosopher extends Philosopher {
 
-            GlobalSemaphore globalSemaphore;
+        GlobalSemaphore globalSemaphore;
 
-            public RestrictPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, GlobalSemaphore globalSemaphore) {
-                super(id, leftChopstick, rightChopstick);
-                this.globalSemaphore = globalSemaphore;
-            }
+        public RestrictPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, GlobalSemaphore globalSemaphore) {
+            super(id, leftChopstick, rightChopstick);
+            this.globalSemaphore = globalSemaphore;
+        }
 
-            @Override
-            void run() {
+        @Override
+        void run() {
 
-                while (!terminated()) {
-                    think();
-                    globalSemaphore.semaphore.acquire(); //acquire the semaphore before pickup, one philosopher will always be blocked
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    globalSemaphore.semaphore.release(); //release the semaphore after pickup
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
+            while (!terminated()) {
+                think();
+                globalSemaphore.semaphore.acquire(); //acquire the semaphore before pickup, one philosopher will always be blocked
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+                globalSemaphore.semaphore.release(); //release the semaphore after pickup
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
             }
         }
+    }
     </code></pre>
 
     <h3>Restrict Solution Evaluation</h3>
@@ -374,36 +374,36 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class Monitor {
+    class Monitor {
 
-            String[] states; //array to keep track of the philosophers states
-            Semaphore[] semaphores;
-            Semaphore mutex; //semaphore to gain exclusive access to the monitor
+        String[] states; //array to keep track of the philosophers states
+        Semaphore[] semaphores;
+        Semaphore mutex; //semaphore to gain exclusive access to the monitor
 
-            Monitor(int nrPhilosophers) {
-                states = new String[nrPhilosophers];
-                semaphores = new Semaphore[nrPhilosophers];
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    states[i] = Events.THINK;
-                    semaphores[i] = new Semaphore(0); //initialize to no initial permission
-                }
-                mutex = new Semaphore(1, true); //enable fairness parameter and initialize semaphore to one permit for mutual exclusion
+        Monitor(int nrPhilosophers) {
+            states = new String[nrPhilosophers];
+            semaphores = new Semaphore[nrPhilosophers];
+            for (int i = 0; i < nrPhilosophers; i++) {
+                states[i] = Events.THINK;
+                semaphores[i] = new Semaphore(0); //initialize to no initial permission
             }
+            mutex = new Semaphore(1, true); //enable fairness parameter and initialize semaphore to one permit for mutual exclusion
+        }
 
-            //tests whether either the two adjacent philosophers is currently eating
-            void test(int id) {
-                int left = (id + states.length - 1) % states.length;
-                int right = (id + 1) % states.length;
+        //tests whether either the two adjacent philosophers is currently eating
+        void test(int id) {
+            int left = (id + states.length - 1) % states.length;
+            int right = (id + 1) % states.length;
 
-                if (states[id] == Events.HUNGRY &&
-                    states[left] != Events.EAT &&
-                    states[right] != Events.EAT) {
+            if (states[id] == Events.HUNGRY &&
+                states[left] != Events.EAT &&
+                states[right] != Events.EAT) {
 
-                    states[id] = Events.EAT;
-                    semaphores[id].release(); //release the semaphore of the philosopher that can now eat
-                }
+                states[id] = Events.EAT;
+                semaphores[id].release(); //release the semaphore of the philosopher that can now eat
             }
         }
+    }
 
     </code></pre>
     <p>
@@ -414,53 +414,53 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class tanenbaumPhilosopher extends Philosopher {
+    class tanenbaumPhilosopher extends Philosopher {
 
-            Monitor monitor;
+        Monitor monitor;
 
-            tanenbaumPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Monitor monitor) {
-                super(id, leftChopstick, rightChopstick);
-                this.monitor = monitor;
-            }
+        tanenbaumPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, Monitor monitor) {
+            super(id, leftChopstick, rightChopstick);
+            this.monitor = monitor;
+        }
 
-            @Override
-            void run() {
-                while (!terminated()) {
-                    think();
-                    pickUp();
-                    eat();
-                    putDown();
-                }
-            }
-
-            void pickUp() {
-                monitor.mutex.acquire(); //gain exclusive access to the monitor
-                monitor.states[id] = Events.HUNGRY; //update the state to hungry
-                monitor.test(id); //test whether eating is possible
-                monitor.mutex.release(); //release exclusive access to the monitor
-
-                monitor.semaphores[id].acquire(); // has to be released by the test() method
-
-                pickUpLeftChopstick();
-                pickUpRightChopstick();
-            }
-
-            void putDown() {
-                putDownLeftChopstick();
-                putDownRightChopstick();
-
-                monitor.mutex.acquire(); //gain exclusive access to the monitor
-                monitor.states[id] = Events.THINK; //update the state to thinking
-                int left = (id + monitor.states.length - 1) % monitor.states.length;
-                int right = (id + 1) % monitor.states.length;
-
-                //test for each neighbour
-                monitor.test(left);
-                monitor.test(right);
-
-                monitor.mutex.release(); //release exclusive access to the monitor
+        @Override
+        void run() {
+            while (!terminated()) {
+                think();
+                pickUp();
+                eat();
+                putDown();
             }
         }
+
+        void pickUp() {
+            monitor.mutex.acquire(); //gain exclusive access to the monitor
+            monitor.states[id] = Events.HUNGRY; //update the state to hungry
+            monitor.test(id); //test whether eating is possible
+            monitor.mutex.release(); //release exclusive access to the monitor
+
+            monitor.semaphores[id].acquire(); // has to be released by the test() method
+
+            pickUpLeftChopstick();
+            pickUpRightChopstick();
+        }
+
+        void putDown() {
+            putDownLeftChopstick();
+            putDownRightChopstick();
+
+            monitor.mutex.acquire(); //gain exclusive access to the monitor
+            monitor.states[id] = Events.THINK; //update the state to thinking
+            int left = (id + monitor.states.length - 1) % monitor.states.length;
+            int right = (id + 1) % monitor.states.length;
+
+            //test for each neighbour
+            monitor.test(left);
+            monitor.test(right);
+
+            monitor.mutex.release(); //release exclusive access to the monitor
+        }
+    }
 
 
     </code></pre>
@@ -530,80 +530,80 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-        class FairMonitor {
+    class FairMonitor {
 
-            String[] states; // array to track the states
-            Semaphore[] semaphores;
-            int[] eatTimes; // array to track the number of times each philosopher has eaten
-            Semaphore mutex; // Semaphore for mutual exclusion for accessing the monitor
+        String[] states; // array to track the states
+        Semaphore[] semaphores;
+        int[] eatTimes; // array to track the number of times each philosopher has eaten
+        Semaphore mutex; // Semaphore for mutual exclusion for accessing the monitor
 
-            FairMonitor(int nrPhilosophers) {
-                eatTimes = new int[nrPhilosophers];
-                states = new String[nrPhilosophers];
-                semaphores = new Semaphore[nrPhilosophers];
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    states[i] = Events.THINK; // All philosophers start in the think state
-                    semaphores[i] = new Semaphore(0);
-                }
-                mutex = new Semaphore(1, true); // mutex starts with one permit for mutual exclusion, enable fairness parameter
+        FairMonitor(int nrPhilosophers) {
+            eatTimes = new int[nrPhilosophers];
+            states = new String[nrPhilosophers];
+            semaphores = new Semaphore[nrPhilosophers];
+            for (int i = 0; i < nrPhilosophers; i++) {
+                states[i] = Events.THINK; // All philosophers start in the think state
+                semaphores[i] = new Semaphore(0);
             }
+            mutex = new Semaphore(1, true); // mutex starts with one permit for mutual exclusion, enable fairness parameter
+        }
 
-            void test(int id) {
-                int left = (id + states.length - 1) % states.length;
-                int right = (id + 1) % states.length;
+        void test(int id) {
+            int left = (id + states.length - 1) % states.length;
+            int right = (id + 1) % states.length;
 
-                // If the philosopher is hungry and both neighbors are not eating, allow the philosopher to eat
-                if (states[id] == Events.HUNGRY &&
-                    states[left] != Events.EAT &&
-                    states[right] != Events.EAT) {
+            // If the philosopher is hungry and both neighbors are not eating, allow the philosopher to eat
+            if (states[id] == Events.HUNGRY &&
+                states[left] != Events.EAT &&
+                states[right] != Events.EAT) {
 
-                    states[id] = Events.EAT; // update the philosophers state to eating
-                    semaphores[id].release(); // grant permission for the philosopher to proceed
-                }
-            }
-
-            void updateEatTime(int id) {
-                eatTimes[id]++; // Increment the number of times the philosopher has eaten
-            }
-
-            void updateState(int id, String state) {
-                states[id] = state; // Update the state of the specified philosopher
-            }
-
-            void checkAll() {
-                int[] sortedIndices = sortByEatingTimes(); // sort philosophers by how many times they have eaten
-                // test each philosopher in the sorted order to ensure fair access
-                for (int index : sortedIndices) {
-                    test(index);
-                }
-            }
-
-            int[] sortByEatingTimes() {
-                EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length]; // create an array to hold eat times with indices
-                for (int i = 0; i < eatTimes.length; i++) {
-                    sortArray[i] = new EatTimeWithIndex(eatTimes[i], i); // populate the array with eat times and corresponding philosopher IDs
-                }
-
-                Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime)); // sort the array by eat times in ascending order
-
-                int[] sortedIndices = new int[eatTimes.length]; // create an array to hold sorted philosopher IDs
-                for (int i = 0; i < sortArray.length; i++) {
-                    sortedIndices[i] = sortArray[i].index; // extract the philosopher IDs from the sorted array
-                }
-
-                return sortedIndices; // return the sorted philosopher IDs
-            }
-
-            static class EatTimeWithIndex {
-                int eatTime; // stores the number of times a philosopher has eaten
-                int index; // stores the philosopher's ID
-
-                eatTimeWithIndex(int eatTime, int index) {
-                    this.eatTime = eatTime; // initialize eat time
-                    this.index = index; // initialize philosopher ID
-                }
+                states[id] = Events.EAT; // update the philosophers state to eating
+                semaphores[id].release(); // grant permission for the philosopher to proceed
             }
         }
+
+        void updateEatTime(int id) {
+            eatTimes[id]++; // Increment the number of times the philosopher has eaten
+        }
+
+        void updateState(int id, String state) {
+            states[id] = state; // Update the state of the specified philosopher
+        }
+
+        void checkAll() {
+            int[] sortedIndices = sortByEatingTimes(); // sort philosophers by how many times they have eaten
+            // test each philosopher in the sorted order to ensure fair access
+            for (int index : sortedIndices) {
+                test(index);
+            }
+        }
+
+        int[] sortByEatingTimes() {
+            EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length]; // create an array to hold eat times with indices
+            for (int i = 0; i < eatTimes.length; i++) {
+                sortArray[i] = new EatTimeWithIndex(eatTimes[i], i); // populate the array with eat times and corresponding philosopher IDs
+            }
+
+            Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime)); // sort the array by eat times in ascending order
+
+            int[] sortedIndices = new int[eatTimes.length]; // create an array to hold sorted philosopher IDs
+            for (int i = 0; i < sortArray.length; i++) {
+                sortedIndices[i] = sortArray[i].index; // extract the philosopher IDs from the sorted array
+            }
+
+            return sortedIndices; // return the sorted philosopher IDs
+        }
+
+        static class EatTimeWithIndex {
+            int eatTime; // stores the number of times a philosopher has eaten
+            int index; // stores the philosopher's ID
+
+            eatTimeWithIndex(int eatTime, int index) {
+                this.eatTime = eatTime; // initialize eat time
+                this.index = index; // initialize philosopher ID
+            }
+        }
+    }
 
     </code></pre>
 
@@ -612,54 +612,54 @@
     </p>
 
     <pre style="font-size: 14px;"><code class="language-java">
-        class FairTanenbaumPhilosopher extends Philosopher {
+    class FairTanenbaumPhilosopher extends Philosopher {
 
-            FairMonitor monitor;
+        FairMonitor monitor;
 
-            FairTanenbaumPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairMonitor monitor) {
-                super(id, leftChopstick, rightChopstick);
-                this.monitor = monitor;
-            }
+        FairTanenbaumPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairMonitor monitor) {
+            super(id, leftChopstick, rightChopstick);
+            this.monitor = monitor;
+        }
 
-            @Override
-            void run() {
-                while (!terminated()) {
-                    think();
-                    pickUp();
-                    eats();
-                    putDown();
-                }
-            }
-
-            void pickUp() {
-                monitor.mutex.acquire(); // gain exclusive access to the monitor
-                monitor.updateState(id, Events.HUNGRY); // update the philosopher's state to hungry
-                monitor.test(id); // Test if the philosopher can start eating
-                monitor.mutex.release(); // release exclusive access to the monitor
-
-                monitor.semaphores[id].acquire(); // wait until permission is granted to proceed
-
-                pickUpLeftChopstick();
-                pickUpRightChopstick();
-            }
-
-            void eats() {
-                eat(); // Simulate eating
-                monitor.mutex.acquire(); // gain exclusive access to the monitor
-                monitor.updateEatTime(id); // update the number of times this philosopher has eaten
-                monitor.mutex.release(); // release exclusive access to the monitor
-            }
-
-            void putDown() {
-                putDownLeftChopstick();
-                putDownRightChopstick();
-
-                monitor.mutex.acquire(); // gain exclusive access to the monitor
-                monitor.updateState(id, Events.THINK); // update the philosopher's state to thinking
-                monitor.checkAll(); // re-evaluate all philosophers to allow the next one to eat
-                monitor.mutex.release(); // release exclusive access to the monitor
+        @Override
+        void run() {
+            while (!terminated()) {
+                think();
+                pickUp();
+                eats();
+                putDown();
             }
         }
+
+        void pickUp() {
+            monitor.mutex.acquire(); // gain exclusive access to the monitor
+            monitor.updateState(id, Events.HUNGRY); // update the philosopher's state to hungry
+            monitor.test(id); // Test if the philosopher can start eating
+            monitor.mutex.release(); // release exclusive access to the monitor
+
+            monitor.semaphores[id].acquire(); // wait until permission is granted to proceed
+
+            pickUpLeftChopstick();
+            pickUpRightChopstick();
+        }
+
+        void eats() {
+            eat(); // Simulate eating
+            monitor.mutex.acquire(); // gain exclusive access to the monitor
+            monitor.updateEatTime(id); // update the number of times this philosopher has eaten
+            monitor.mutex.release(); // release exclusive access to the monitor
+        }
+
+        void putDown() {
+            putDownLeftChopstick();
+            putDownRightChopstick();
+
+            monitor.mutex.acquire(); // gain exclusive access to the monitor
+            monitor.updateState(id, Events.THINK); // update the philosopher's state to thinking
+            monitor.checkAll(); // re-evaluate all philosophers to allow the next one to eat
+            monitor.mutex.release(); // release exclusive access to the monitor
+        }
+    }
 
     </code></pre>
 
