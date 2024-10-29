@@ -798,7 +798,7 @@
         </tr>
         <tr>
             <td><b>Fairness</b></td>
-            <td>Very similar to the Pickup Solution, but one big consideration here is that philosophers at the "corners" of the subset might be able to eat less often, leading to "poor" philosophers.</td>
+            <td>TODO::</td>
         </tr>
         <tr>
             <td><b>Concurrency</b></td>

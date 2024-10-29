@@ -39,12 +39,12 @@
 
         .fixed-box {
             width: 1500px;
-            height: 150px;
+            max-height: 300px;
             border: 1px solid #ccc;
-            padding: 5px;
-            background-color: #f8f8f8;
+            padding: 20px;
+            background-color: #FFFACD;
             font-family: "Courier New", Courier, monospace;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -444,9 +444,15 @@
 <div class="container1">
     <div class="fixed-box">
         <h3>Legend</h3>
-        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUL] = Pick up left Chopstick, [PUL] = Pick up right Chopstick,
-            [PDR] = Put down right Chopstick, [PDL] = Put down left Chopstick,
-            [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
+        <ul>
+            <li>[ T ] = Think</li>
+            <li>[PUL] = Pick Up Left</li>
+            <li>[PUR] = Pick Up Right</li>
+            <li>[ E ] = Eat</li>
+            <li>[PDL] = Put Down Left</li>
+            <li>[PDR] = Put Down Right</li>
+            <li>[ B ] = Blocked (Whenever waiting for a Chopstick occurs)</li>
+        </ul>
         <br>
     </div>
 
@@ -454,16 +460,15 @@
 <h2>Simulation Notes</h2>
 <div class="description">
 <p>
-    This is a simulation page that lets you experiment with the different solutions presented on this website.
-    Every simulation run will be unique and dependent on the chosen parameters/ algorithms.
-    Most of the time simulations will be longer than the length of the simulation box, so horizontal scrolling of this
-    box will be necessary.
+    This simulation page lets you experiment with the various solutions presented.
+    Each run results in a unique timeline, based on the chosen algorithm and parameters.
+    The timelines often exceed the box width, so horizontal scrolling may be needed.
     <br>
     There are several options, with which you can alter the simulation parameters:
 </p>
 <ul>
 
-    <li><b>Number of philosophers: </b>On this Simulation page simulations with 2-9 philosophers is possible. We limit the number of philosophers on here due to Server constraints.</li>
+    <li><b>Number of philosophers: </b>Simulations with 2-9 philosophers are possible.</li>
 
     <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
         One time "unit" represents a loop iteration that is a step in the simulation timeline.
@@ -494,7 +499,7 @@
 
 <p>
     Bear in mind that for  simulation runs simulation timelines can differ in length, as philosophers log actions only after they finished an action.
-    When the solution is completed there is a cut-off point and philosophers are no longer able to log their actions.
+    When the simulation is completed there is a cut-off point and philosophers are no longer able to log their actions.
     Especially for the exponential and normal distributions longer run times might be necessary, since large outliers are possible with these distributions.
 
     <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">

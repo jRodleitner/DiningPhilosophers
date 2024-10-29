@@ -51,13 +51,13 @@
         }
 
         .fixed-box {
-            max-width: 1500px;
-            max-height: 150px;
+            width: 1500px;
+            max-height: 300px;
             border: 2px solid #ccc;
             padding: 20px;
-            background-color: #f8f8f8;
+            background-color: #FFFACD;
             font-family: "Courier New", Courier, monospace;
-            font-size: 12px;
+            font-size: 14px;
             border-radius: 10px;
         }
 
@@ -1150,13 +1150,21 @@
         </c:if>
     </div>
 </div>
+
 <br>
+
 <div class="container1">
     <div class="fixed-box">
         <h3>Legend</h3>
-        <p>[ T ] = Think, [ E ] = Eat, [ B ] = Blocked, [PUL] = Pick up left Chopstick, [PUL] = Pick up right Chopstick,
-            [PDR] = Put down right Chopstick, [PDL] = Put down left Chopstick,
-            [   ] = Philosopher does nothing (other philosopher performs pickup/putdown)</p>
+        <ul>
+            <li>[ T ] = Think</li>
+            <li>[PUL] = Pick Up Left</li>
+            <li>[PUR] = Pick Up Right</li>
+            <li>[ E ] = Eat</li>
+            <li>[PDL] = Put Down Left</li>
+            <li>[PDR] = Put Down Right</li>
+            <li>[ B ] = Blocked (Whenever waiting for a Chopstick occurs)</li>
+        </ul>
         <br>
     </div>
 
@@ -1165,16 +1173,11 @@
 <h2>Animation Notes</h2>
 <div class="description">
     <p>
-        This Animation page that lets you experiment with a visual representation of the presented algorithms.
-        You have to run a simulation before the animation is available.
-        Every simulation run will be unique and dependent on the chosen parameters/ algorithms.
-        You can play back/pause the simulation, navigate backwards, forwards and return to the beginning using the respective buttons.
-        Additionally, you can change the playback speed via the drop-down menu.
-        Increasing speeds can be especially useful with longer simulation runs.
-        The animation is limited to the classic 5-philosopher setup as presented by Dijkstra.
-        Every frame of the animation is based on the current point in the timelines returned by the simulation backend.
-        The animation processes the timelines column by column, so you can use the scroll-box on the right to reference the animation.
-        This should help in understanding how the timelines should be read.
+        This Animation page lets you explore visual representations of the algorithms.
+        Start by running a simulation, as each run is unique and depends on your chosen parameters and algorithms.
+        You can play, pause, navigate backward, forward, or restart, and adjust playback speed in the drop-down menu.
+        The animation follows Dijkstra’s classic 5-philosopher setup, displaying frames based on the simulation's timeline data.
+        Use the scroll-box on the bottom to view timelines in sync with the animation for better understanding.
         <br>
         There are several options, with which you can alter the simulation parameters:
     </p>
@@ -1209,8 +1212,8 @@
     </ul>
 
     <p>
-        Bear in mind that for  simulation runs simulation timelines can differ in length, as philosophers log actions only after they finished an action.
-        When the solution is completed there is a cut-off point and philosophers are no longer able to log their actions.
+        Bear in mind that for  simulation runs, simulation timelines can differ in length, as philosophers log actions only after they finished an action.
+        When the simulation is completed there is a cut-off point and philosophers are no longer able to log their actions.
         Especially for the exponential and normal distributions longer run times might be necessary, since large outliers are possible with these distributions.
 
 

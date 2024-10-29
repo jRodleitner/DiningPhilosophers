@@ -52,7 +52,7 @@ public class FairTimeTanenbaumPhilosopher extends AbstractPhilosopher {
         monitor.mutex.release();
     }
 
-    protected Long eatFair() throws InterruptedException {
+    protected long eatFair() throws InterruptedException {
         if(!simulatePickups){
             table.lockClock();
             table.advanceTime();

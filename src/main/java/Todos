@@ -2,7 +2,6 @@ GENERAL TODO:
 
 NEXT:
 [ ] check all algorithms
-[ ] Server deployment
 [ ] read approaches/ papers for new algorithms
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
@@ -74,11 +73,15 @@ CHECK:
 [x] Animation Notes
 [x] code highlighting
 [x] Mobile resizing
+[x] Server deployment
 
-25.10
-[ ] Correct eatTime-fairness calculation ???
-[ ] Starvation + Fairness Re-evaluation [ ] Explain wait mechanism further
+
+30.10
+[ ] Correct eatTime-fairness calculation
+[ ] Starvation + Fairness Re-evaluation
+[ ] Explain wait mechanism further
 [ ] Statistics explanation (animation/ simulation)
+[ ] move eatFair() into abstract class???
 
 
 
@@ -117,9 +120,9 @@ NEXT:
 
 
 FINALLY:
-22. [ ][ ] paper-solution
-23. [ ][ ] paper-solution
-24. [ ][ ] paper-solution
+22. [ ][ ][ ] paper-solution
+23. [ ][ ][ ] paper-solution
+24. [ ][ ][ ] paper-solution
 
 IDEAS:
 
