@@ -161,8 +161,7 @@
     <h3>Hierarchy Solution Evaluation</h3>
     <img src="../pictures/precedence_hierarchy.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        Now let us evaluate the Algorithm according to the key challenges we face for designing a dining
-        philosophers solution:
+        Now let us evaluate the Resource Hierarchy algorithm according to the key challenges:
     </p>
     <table class="styled-table">
         <thead>

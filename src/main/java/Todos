@@ -7,14 +7,6 @@ NEXT:
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
 
-
-
-AND FINALLY: (...HOW EVEN...AHHH...)
-
-WIP:
-
-SIMULATION:
-
 OPTIONALS:
 TIMEOUT(Time-index)
 [ ] Separate Events for: Timeout, Waiter etc...?? (Animation)
@@ -84,8 +76,10 @@ CHECK:
 [x] Mobile resizing
 
 25.10
-[ ] Starvation + Fairness Re-evaluation
+[ ] Correct eatTime-fairness calculation ???
+[ ] Starvation + Fairness Re-evaluation [ ] Explain wait mechanism further
 [ ] Statistics explanation (animation/ simulation)
+
 
 
 

@@ -11,7 +11,7 @@ public abstract class AbstractChopstick {
         this.id = id;
     }
 
-    public Integer getId(){
+    public int getId(){
         return id;
     }
 

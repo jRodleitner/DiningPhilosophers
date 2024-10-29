@@ -8,9 +8,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dining Philosophers Animation</title>
     <style>
 
@@ -42,6 +39,34 @@
         .button-container {
             display: flex;
             gap: 10px; /* Adds space between the buttons */
+        }
+
+
+        .container1 {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px; /* Adds space between the form and the result box */
+        }
+
+        .fixed-box {
+            max-width: 1500px;
+            max-height: 150px;
+            border: 2px solid #ccc;
+            padding: 20px;
+            background-color: #f8f8f8;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 12px;
+            border-radius: 10px;
+        }
+
+        .form-container {
+            max-width: 25%; /* Adjust based on your form's size */
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border-radius: 10px;
         }
 
         .hidden {
@@ -93,13 +118,6 @@
 
 
 
-        .form-container {
-            max-width: 25%; /* Adjust based on your form's size */
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: #f8f8f8;
-            border-radius: 10px;
-        }
 
         .soft-red-text {
             color: #cc6666; /* A muted red that’s easier on the eyes */
@@ -120,24 +138,6 @@
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
         }
 
-        .container1 {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 10px; /* Adds space between the form and the result box */
-        }
-
-        .fixed-box {
-            max-width: 1500px;
-            max-height: 150px;
-            border: 2px solid #ccc;
-            padding: 20px;
-            background-color: #f8f8f8;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 12px;
-            border-radius: 10px;
-        }
 
         .description {
             line-height: 1.6; /* Increases spacing between lines for readability */
@@ -156,7 +156,7 @@
 
 
         <svg id="dining-philosophers-animation" xmlns="http://www.w3.org/2000/svg" width="490px" height="445px"
-             viewBox="-3 -3 490 445">
+             viewBox="-3 -3 490 445" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto;">
             <rect fill="#f8f8f8" width="100%" height="100%" x="0" y="0"></rect>
             <!--Ellipses-->
             <ellipse id="philosopher0" cx="244.25" cy="392" rx="60" ry="40" fill="#fff2cc" stroke="#d6b656"></ellipse>
