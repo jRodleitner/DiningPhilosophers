@@ -3,15 +3,14 @@ package algorithms.semaphore.fair_tanenbaum;
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
-
 import parser.Events;
 import simulation.DiningTable;
 
-public class FairChanceTanenbaumPhilosopher extends AbstractPhilosopher {
+public class TanenbaumPhilosopher_TimeBased extends AbstractPhilosopher {
 
-    private final FairChanceMonitor monitor;
+    private final FairMonitor_TimeBased monitor;
 
-    public FairChanceTanenbaumPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairChanceMonitor monitor) {
+    public TanenbaumPhilosopher_TimeBased(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairMonitor_TimeBased monitor) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.monitor = monitor;
     }
@@ -45,9 +44,9 @@ public class FairChanceTanenbaumPhilosopher extends AbstractPhilosopher {
     }
 
     private void eats() throws InterruptedException {
-        eat();
+        long eatTime = eatFair();
         monitor.mutex.acquire();
-        monitor.updateEatTime(id);
+        monitor.updateEatTime(id, eatTime);
         monitor.mutex.release();
     }
 
@@ -63,4 +62,3 @@ public class FairChanceTanenbaumPhilosopher extends AbstractPhilosopher {
         monitor.mutex.release();
     }
 }
-

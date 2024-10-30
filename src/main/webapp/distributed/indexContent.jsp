@@ -332,7 +332,7 @@
 
         <h2>Restrict Token Solution</h2>
         <p>
-            This approach combines the ideas of tokens, the restrict solution and the distributed approach.
+            This approach combines the ideas of tokens, the restrict solution and a distributed approach.
             As in the restrict solution using a semaphore, we again reduce the number of concurrent pick-ups to (n - 1) via introducing a restricting token.
             Those who hold the token may not attempt to pick up and wait until they are asked to hand over the token by a neighbor.
             Philosophers request the token from their neighbours whenever they finish eating.
@@ -479,11 +479,17 @@
         </table>
 
     <p>
+        Depending on the implementation, we account for eat-chance fairness or eat-time fairness, when handing over the token.
+    </p>
+
+    <p>
         You can find the respective Simulation and Animation pages here:
     </p>
 
-    <a href="../simulation/?algorithm=RESTRICT_TOKEN" class="button">Restrict Token Simulation</a>
-    <a href="../animation/?algorithm=RESTRICT_TOKEN" class="button">Restrict Token  Animation</a>
+    <a href="../simulation/?algorithm=CHANCE_RESTRICT_TOKEN" class="button">Restrict Token (Chance-based) Simulation</a>
+    <a href="../animation/?algorithm=CHANCE_RESTRICT_TOKEN" class="button">Restrict Token (Chance-based) Animation</a>
+    <a href="../simulation/?algorithm=TIME_RESTRICT_TOKEN" class="button">Restrict Token (Time-based) Simulation</a>
+    <a href="../animation/?algorithm=TIME_RESTRICT_TOKEN" class="button">Restrict Token  (Time-based) Animation</a>
 
 
 

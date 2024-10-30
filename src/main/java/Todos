@@ -10,7 +10,7 @@ OPTIONALS:
 TIMEOUT(Time-index)
 [ ] Separate Events for: Timeout, Waiter etc...?? (Animation)
 [ ] Correct eatTime-fairness calculation ???
-
+[ ] Correct eatTime-fairness calculation (less clear stdv, but more exact)
 Completed:
 
 CHECK:
@@ -77,11 +77,14 @@ CHECK:
 
 
 30.10
-[ ] Correct eatTime-fairness calculation
+[x] Time fairnsess restrict token incorporation
 [ ] Starvation + Fairness Re-evaluation
 [ ] Explain wait mechanism further
-[ ] Statistics explanation (animation/ simulation)
-[ ] move eatFair() into abstract class???
+[_] Statistics explanation (animation/ simulation)
+[x] move eatFair() into abstract class???
+[ ] complete wording overhaul
+[ ] correct pseudocode comments
+
 
 
 
@@ -106,13 +109,15 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 17. [x][x][x] fair_tanenbaum (Eat Time)
 18. [x][x][x] chandy-misra
 19. [x][x][x] Restrict-Token Chance-Fairness
-20. [ ][ ][ ] Restrict-Token Time-Fairness
+20. [x][x][x] Restrict-Token Time-Fairness
 21. [x][x][x] Restrict Waiter
 
 
+22. [?][?][?] dijkstra (Instant timeout)
+
 
 ????:
-22. [ ][ ][?] dijkstra (Instant timeout)
+
 
 
 NEXT:
@@ -120,9 +125,9 @@ NEXT:
 
 
 FINALLY:
-22. [ ][ ][ ] paper-solution
 23. [ ][ ][ ] paper-solution
 24. [ ][ ][ ] paper-solution
+25. [ ][ ][ ] paper-solution
 
 IDEAS:
 

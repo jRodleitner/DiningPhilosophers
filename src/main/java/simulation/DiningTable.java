@@ -9,9 +9,10 @@ import algorithms.naive.NaivePhilosopher;
 import algorithms.restrict.GlobalSemaphore;
 import algorithms.restrict.RestrictPhilosopher;
 import algorithms.restrictToken.RestrictToken;
-import algorithms.restrictToken.RestrictTokenPhilosopher;
-import algorithms.semaphore.fair_tanenbaum.FairTimeMonitor;
-import algorithms.semaphore.fair_tanenbaum.FairTimeTanenbaumPhilosopher;
+import algorithms.restrictToken.RestrictTokenPhilosopher_ChanceBased;
+import algorithms.restrictToken.RestrictTokenPhilosopher_TimeBased;
+import algorithms.semaphore.fair_tanenbaum.FairMonitor_TimeBased;
+import algorithms.semaphore.fair_tanenbaum.TanenbaumPhilosopher_TimeBased;
 import algorithms.semaphore.roundrobin.RoundRobinScheduler;
 import algorithms.semaphore.roundrobin.RoundRobinChopstick;
 import algorithms.semaphore.roundrobin.RoundRobinPhilosopher;
@@ -19,8 +20,8 @@ import algorithms.semaphore.instant_timeout.InstantTimeoutChopstick;
 import algorithms.semaphore.instant_timeout.InstantTimeoutPhilosopher;
 import algorithms.semaphore.tanenbaum.Monitor;
 import algorithms.semaphore.tanenbaum.TanenbaumPhilosopher;
-import algorithms.semaphore.fair_tanenbaum.FairChanceTanenbaumPhilosopher;
-import algorithms.semaphore.fair_tanenbaum.FairChanceMonitor;
+import algorithms.semaphore.fair_tanenbaum.TanenbaumPhilosopher_ChanceBased;
+import algorithms.semaphore.fair_tanenbaum.FairMonitor_ChanceBased;
 import algorithms.semaphore.tablesemaphore.TableSemaphore;
 import algorithms.semaphore.tablesemaphore.TableSemaphorePhilosopher;
 import algorithms.timeout.TimeoutChopstick;
@@ -30,12 +31,12 @@ import algorithms.token.multipletoken.Token;
 import algorithms.token.singletoken.GlobalToken;
 import algorithms.token.singletoken.TokenPhilosopher;
 import algorithms.*;
+import algorithms.waiter.fairwaiter.FairWaiter_TimeBased;
 import algorithms.waiter.restrictwaiter.RestrictWaiter;
 import algorithms.waiter.restrictwaiter.GuestPhilosopher;
-import algorithms.waiter.fairwaiter.FairChanceGuestPhilosopher;
-import algorithms.waiter.fairwaiter.FairChanceWaiter;
-import algorithms.waiter.fairwaiter.FairEatTimeGuestPhilosopher;
-import algorithms.waiter.fairwaiter.FairEatTimeWaiter;
+import algorithms.waiter.fairwaiter.GuestPhilosopher_ChanceBased;
+import algorithms.waiter.fairwaiter.FairWaiter_ChanceBased;
+import algorithms.waiter.fairwaiter.GuestPhilosopher_TimeBased;
 import algorithms.waiter.intelligent.IntelligentPickupGuestPhilosopher;
 import algorithms.waiter.intelligent.IntelligentWaiter;
 import algorithms.waiter.queuewaiter.AtomicGuestPhilosopher;
@@ -208,9 +209,9 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                FairEatTimeWaiter fairEatTimeWaiter = new FairEatTimeWaiter();
+                FairWaiter_TimeBased fairWaiterTimeBased = new FairWaiter_TimeBased();
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    FairEatTimeGuestPhilosopher philosopher = new FairEatTimeGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairEatTimeWaiter);
+                    GuestPhilosopher_TimeBased philosopher = new GuestPhilosopher_TimeBased(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairWaiterTimeBased);
                     philosophers.add(philosopher);
                 }
                 break;
@@ -220,9 +221,9 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                FairChanceWaiter fairChanceWaiter = new FairChanceWaiter();
+                FairWaiter_ChanceBased fairWaiterChanceBased = new FairWaiter_ChanceBased();
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    FairChanceGuestPhilosopher philosopher = new FairChanceGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairChanceWaiter);
+                    GuestPhilosopher_ChanceBased philosopher = new GuestPhilosopher_ChanceBased(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairWaiterChanceBased);
                     philosophers.add(philosopher);
                 }
                 break;
@@ -240,7 +241,6 @@ public class DiningTable {
                 for (int i = 0; i < nrPhilosophers; i++) {
                     selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
 
-                    // Create and add philosopher
                     PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, selectedWaiter);
                     philosophers.add(philosopher);
                 }
@@ -300,10 +300,10 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                FairChanceMonitor fairChanceMonitor = new FairChanceMonitor(nrPhilosophers);
+                FairMonitor_ChanceBased fairMonitorChanceBased = new FairMonitor_ChanceBased(nrPhilosophers);
 
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    FairChanceTanenbaumPhilosopher philosopher = new FairChanceTanenbaumPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairChanceMonitor);
+                    TanenbaumPhilosopher_ChanceBased philosopher = new TanenbaumPhilosopher_ChanceBased(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairMonitorChanceBased);
                     philosophers.add(philosopher);
                 }
                 break;
@@ -313,10 +313,10 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                FairTimeMonitor fairTimeMonitor = new FairTimeMonitor(nrPhilosophers);
+                FairMonitor_TimeBased fairMonitorTimeBased = new FairMonitor_TimeBased(nrPhilosophers);
 
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    FairTimeTanenbaumPhilosopher philosopher = new FairTimeTanenbaumPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairTimeMonitor);
+                    TanenbaumPhilosopher_TimeBased philosopher = new TanenbaumPhilosopher_TimeBased(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, fairMonitorTimeBased);
                     philosophers.add(philosopher);
                 }
                 break;
@@ -344,21 +344,37 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.RESTRICTTOKEN:
-                System.out.println("RestrictToken Algorithm");
+            case Algorithm.RESTRICTTOKENCHANCE:
                 RestrictToken restrictToken = new RestrictToken();
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new SimpleChopstick(i));
                 }
-                philosophers.add(new RestrictTokenPhilosopher(0, chopsticks.get(0), chopsticks.get((1) % nrPhilosophers), this, thinkDistr, eatDistr, restrictToken));
+                philosophers.add(new RestrictTokenPhilosopher_ChanceBased(0, chopsticks.get(0), chopsticks.get((1) % nrPhilosophers), this, thinkDistr, eatDistr, restrictToken));
                 for (int i = 1; i < nrPhilosophers; i++) {
-                    RestrictTokenPhilosopher residualPhilosophers = new RestrictTokenPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, null);
+                    RestrictTokenPhilosopher_ChanceBased residualPhilosophers = new RestrictTokenPhilosopher_ChanceBased(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, null);
                     philosophers.add(residualPhilosophers);
                 }
-                RestrictTokenPhilosopher restrictTokenPhilosopher;
+                RestrictTokenPhilosopher_ChanceBased restrictTokenPhilosopherChanceBased;
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    restrictTokenPhilosopher = (RestrictTokenPhilosopher) philosophers.get(i);
-                    restrictTokenPhilosopher.setNeighbors((RestrictTokenPhilosopher) philosophers.get((i - 1 + nrPhilosophers) % nrPhilosophers), (RestrictTokenPhilosopher) philosophers.get((i + 1) % nrPhilosophers));
+                    restrictTokenPhilosopherChanceBased = (RestrictTokenPhilosopher_ChanceBased) philosophers.get(i);
+                    restrictTokenPhilosopherChanceBased.setNeighbors((RestrictTokenPhilosopher_ChanceBased) philosophers.get((i - 1 + nrPhilosophers) % nrPhilosophers), (RestrictTokenPhilosopher_ChanceBased) philosophers.get((i + 1) % nrPhilosophers));
+                }
+                break;
+
+            case Algorithm.RESTRICTTOKENTIME:
+                RestrictToken restrictToken_1 = new RestrictToken();
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    chopsticks.add(new SimpleChopstick(i));
+                }
+                philosophers.add(new RestrictTokenPhilosopher_TimeBased(0, chopsticks.get(0), chopsticks.get((1) % nrPhilosophers), this, thinkDistr, eatDistr, restrictToken_1));
+                for (int i = 1; i < nrPhilosophers; i++) {
+                    RestrictTokenPhilosopher_TimeBased residualPhilosophers = new RestrictTokenPhilosopher_TimeBased(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, null);
+                    philosophers.add(residualPhilosophers);
+                }
+                RestrictTokenPhilosopher_TimeBased restrictTokenPhilosopher_1;
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    restrictTokenPhilosopher_1 = (RestrictTokenPhilosopher_TimeBased) philosophers.get(i);
+                    restrictTokenPhilosopher_1.setNeighbors((RestrictTokenPhilosopher_TimeBased) philosophers.get((i - 1 + nrPhilosophers) % nrPhilosophers), (RestrictTokenPhilosopher_TimeBased) philosophers.get((i + 1) % nrPhilosophers));
                 }
                 break;
 

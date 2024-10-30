@@ -90,6 +90,21 @@ public abstract class AbstractPhilosopher extends Thread {
         lastAction = Events.EAT;
     }
 
+    protected long eatFair() throws InterruptedException {
+        if(!simulatePickups){
+            table.lockClock();
+            table.advanceTime();
+            sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
+            table.unlockClock();
+        }
+
+        long duration = eatDistr.calculateDuration();
+        TimeUnit.MILLISECONDS.sleep(duration);
+        sbLog(id, Events.EAT, table.getCurrentTime());
+        lastAction = Events.EAT;
+        return duration;
+    }
+
     protected void putDownLeftChopstick() {
 
         if(simulatePickups) {

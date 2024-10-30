@@ -3,16 +3,15 @@ package algorithms.semaphore.fair_tanenbaum;
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
+
 import parser.Events;
 import simulation.DiningTable;
 
-import java.util.concurrent.TimeUnit;
+public class TanenbaumPhilosopher_ChanceBased extends AbstractPhilosopher {
 
-public class FairTimeTanenbaumPhilosopher extends AbstractPhilosopher {
+    private final FairMonitor_ChanceBased monitor;
 
-    private final FairTimeMonitor monitor;
-
-    public FairTimeTanenbaumPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairTimeMonitor monitor) {
+    public TanenbaumPhilosopher_ChanceBased(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, FairMonitor_ChanceBased monitor) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.monitor = monitor;
     }
@@ -46,25 +45,10 @@ public class FairTimeTanenbaumPhilosopher extends AbstractPhilosopher {
     }
 
     private void eats() throws InterruptedException {
-        long eatTime = eatFair();
+        eat();
         monitor.mutex.acquire();
-        monitor.updateEatTime(id, eatTime);
+        monitor.updateEatTime(id);
         monitor.mutex.release();
-    }
-
-    protected long eatFair() throws InterruptedException {
-        if(!simulatePickups){
-            table.lockClock();
-            table.advanceTime();
-            sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
-            table.unlockClock();
-        }
-
-        long duration = eatDistr.calculateDuration();
-        TimeUnit.MILLISECONDS.sleep(duration);
-        sbLog(id, Events.EAT, table.getCurrentTime());
-        lastAction = Events.EAT;
-        return duration;
     }
 
 
@@ -79,3 +63,4 @@ public class FairTimeTanenbaumPhilosopher extends AbstractPhilosopher {
         monitor.mutex.release();
     }
 }
+

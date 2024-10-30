@@ -7,13 +7,13 @@ import java.util.Comparator;
 import java.util.concurrent.Semaphore;
 
 
-public class FairTimeMonitor {
+public class FairMonitor_TimeBased {
     private final String[] states;
     protected Semaphore[] semaphores;
     private final long[] eatTimes;
     Semaphore mutex;
 
-    public FairTimeMonitor(int nrPhilosophers) {
+    public FairMonitor_TimeBased(int nrPhilosophers) {
         eatTimes = new long[nrPhilosophers];
         states = new String[nrPhilosophers];
         semaphores = new Semaphore[nrPhilosophers];

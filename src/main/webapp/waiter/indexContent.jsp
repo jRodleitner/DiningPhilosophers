@@ -549,7 +549,7 @@
         Philosopher permittedPhilosopher;
         Queue philosophersQueue;
 
-        fairEatTimeWaiter() {
+        fairWaiterTimeBased() {
             permittedPhilosopher = null;
             philosophersQueue = new Queue();
         }
@@ -729,10 +729,11 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=FAIR_EATTIME_WAITER" class="button">Fair Eat Time Waiter Simulation</a>
-    <a href="../animation/?algorithm=FAIR_EATTIME_WAITER" class="button">Fair Eat Time Waiter Animation</a>
-    <a href="../simulation/?algorithm=FAIR_CHANCE_WAITER" class="button">Fair Eat Chance Waiter Simulation</a>
-    <a href="../animation/?algorithm=FAIR_CHANCE_WAITER" class="button">Fair Eat Chance Waiter Animation</a>
+    <a href="../simulation/?algorithm=FAIR_CHANCE_WAITER" class="button">Fair Waiter (Chance-based) Simulation</a>
+    <a href="../animation/?algorithm=FAIR_CHANCE_WAITER" class="button">Fair Waiter (Chance-based) Animation</a>
+    <a href="../simulation/?algorithm=FAIR_EATTIME_WAITER" class="button">Fair Waiter (Time-based) Simulation</a>
+    <a href="../animation/?algorithm=FAIR_EATTIME_WAITER" class="button">Fair Waiter (Time-based) Animation</a>
+
 
 
 

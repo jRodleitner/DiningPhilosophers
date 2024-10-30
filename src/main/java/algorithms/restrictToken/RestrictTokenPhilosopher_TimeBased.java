@@ -3,19 +3,16 @@ package algorithms.restrictToken;
 import algorithms.AbstractChopstick;
 import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
-import parser.Events;
 import simulation.DiningTable;
 
-import java.util.concurrent.TimeUnit;
 
-
-public class TimeRestrictTokenPhilosopher extends AbstractPhilosopher {
+public class RestrictTokenPhilosopher_TimeBased extends AbstractPhilosopher {
 
     private RestrictToken restrictToken;
-    private TimeRestrictTokenPhilosopher leftNeighbour, rightNeighbour;
-    public long eatTime = 0;
+    private RestrictTokenPhilosopher_TimeBased leftNeighbour, rightNeighbour;
+    protected long eatTime = 0;
 
-    public TimeRestrictTokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, RestrictToken restrictToken) {
+    public RestrictTokenPhilosopher_TimeBased(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, RestrictToken restrictToken) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.restrictToken = restrictToken;
     }
@@ -49,7 +46,7 @@ public class TimeRestrictTokenPhilosopher extends AbstractPhilosopher {
         if(receivedRgt != null) restrictToken = receivedRgt;
     }
 
-    public synchronized RestrictToken handOverTokenIfHolding(TimeRestrictTokenPhilosopher requester) {
+    public synchronized RestrictToken handOverTokenIfHolding(RestrictTokenPhilosopher_TimeBased requester) {
         if(restrictToken != null && requester.eatTime > eatTime) {
             restrictToken.updateRestricted(requester.getPhId());
             RestrictToken token = restrictToken;
@@ -60,23 +57,9 @@ public class TimeRestrictTokenPhilosopher extends AbstractPhilosopher {
     }
 
 
-    public void setNeighbors(TimeRestrictTokenPhilosopher left, TimeRestrictTokenPhilosopher right) {
+    public void setNeighbors(RestrictTokenPhilosopher_TimeBased left, RestrictTokenPhilosopher_TimeBased right) {
         leftNeighbour = left;
         rightNeighbour = right;
     }
 
-    protected long eatFair() throws InterruptedException {
-        if(!simulatePickups){
-            table.lockClock();
-            table.advanceTime();
-            sbLog(id, Events.PICKUP, table.getCurrentTime()); //If we do not simulate the pickups we just indicate that the pickup was successful at this point
-            table.unlockClock();
-        }
-
-        long duration = eatDistr.calculateDuration();
-        TimeUnit.MILLISECONDS.sleep(duration);
-        sbLog(id, Events.EAT, table.getCurrentTime());
-        lastAction = Events.EAT;
-        return duration;
-    }
 }

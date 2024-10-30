@@ -596,7 +596,7 @@
             </tr>
             <tr>
                 <td><b>Performance</b></td>
-                <td>We will base the performance evaluations of solutions on this implementation.</td>
+                <td>We will base the performance of solutions on this implementation.</td>
             </tr>
             </tbody>
         </table>

@@ -4,19 +4,19 @@ package algorithms.waiter.fairwaiter;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class FairEatTimeWaiter {
+public class FairWaiter_TimeBased {
 
-    private volatile FairEatTimeGuestPhilosopher permittedPhilosopher;
-    private final Deque<FairEatTimeGuestPhilosopher> queuedPhilosophers;
+    private volatile GuestPhilosopher_TimeBased permittedPhilosopher;
+    private final Deque<GuestPhilosopher_TimeBased> queuedPhilosophers;
 
 
-    public FairEatTimeWaiter() {
+    public FairWaiter_TimeBased() {
         permittedPhilosopher = null;
         queuedPhilosophers = new ArrayDeque<>();
     }
 
 
-    public synchronized void requestPermission(FairEatTimeGuestPhilosopher philosopher) throws InterruptedException {
+    public synchronized void requestPermission(GuestPhilosopher_TimeBased philosopher) throws InterruptedException {
         queuedPhilosophers.add(philosopher);
 
         if (permittedPhilosopher == null) {
@@ -29,10 +29,10 @@ public class FairEatTimeWaiter {
 
     }
 
-    public synchronized void returnPermission(FairEatTimeGuestPhilosopher philosopher) throws InterruptedException {
+    public synchronized void returnPermission(GuestPhilosopher_TimeBased philosopher) throws InterruptedException {
         boolean foundOtherPhilosopherInQueue = false;
         long minEatTime = Integer.MAX_VALUE;
-        for (FairEatTimeGuestPhilosopher ph : queuedPhilosophers) {
+        for (GuestPhilosopher_TimeBased ph : queuedPhilosophers) {
             if (ph.eatTime < minEatTime && !ph.equals(philosopher)) {
                 minEatTime = ph.eatTime;
                 permittedPhilosopher = ph;

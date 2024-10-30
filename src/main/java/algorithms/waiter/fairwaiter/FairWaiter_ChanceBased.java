@@ -3,19 +3,19 @@ package algorithms.waiter.fairwaiter;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class FairChanceWaiter {
+public class FairWaiter_ChanceBased {
 
-    private volatile FairChanceGuestPhilosopher permittedPhilosopher;
-    private final Deque<FairChanceGuestPhilosopher> queuedPhilosophers;
+    private volatile GuestPhilosopher_ChanceBased permittedPhilosopher;
+    private final Deque<GuestPhilosopher_ChanceBased> queuedPhilosophers;
 
 
-    public FairChanceWaiter() {
+    public FairWaiter_ChanceBased() {
         permittedPhilosopher = null;
         queuedPhilosophers = new ArrayDeque<>();
     }
 
 
-    public synchronized void requestPermission(FairChanceGuestPhilosopher philosopher) throws InterruptedException {
+    public synchronized void requestPermission(GuestPhilosopher_ChanceBased philosopher) throws InterruptedException {
         queuedPhilosophers.add(philosopher);
 
         if (permittedPhilosopher == null) {
@@ -28,10 +28,10 @@ public class FairChanceWaiter {
 
     }
 
-    public synchronized void returnPermission(FairChanceGuestPhilosopher philosopher) throws InterruptedException {
+    public synchronized void returnPermission(GuestPhilosopher_ChanceBased philosopher) throws InterruptedException {
         boolean foundOtherPhilosopherInQueue = false;
         int minEatChances = Integer.MAX_VALUE;
-        for (FairChanceGuestPhilosopher ph : queuedPhilosophers) {
+        for (GuestPhilosopher_ChanceBased ph : queuedPhilosophers) {
             if (ph.eatChances < minEatChances && !ph.equals(philosopher)) {
                 minEatChances = ph.eatChances;
                 permittedPhilosopher = ph;

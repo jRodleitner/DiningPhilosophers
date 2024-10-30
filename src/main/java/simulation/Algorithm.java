@@ -41,7 +41,9 @@ public class Algorithm {
 
     public static final String CHANDYMISRA = "CHANDYMISRA"; //16
 
-    public static final String RESTRICTTOKEN = "RESTRICT_TOKEN";
+    public static final String RESTRICTTOKENCHANCE = "CHANCE_RESTRICT_TOKEN";
+
+    public static final String RESTRICTTOKENTIME = "TIME_RESTRICT_TOKEN";
 
 
 

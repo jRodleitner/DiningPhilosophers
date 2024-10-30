@@ -718,10 +718,10 @@
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
-    <a href="../simulation/?algorithm=FAIR_CHANCE_TANENBAUM" class="button">Fair Eat Chance Tanenbaum Simulation</a>
-    <a href="../animation/?algorithm=FAIR_CHANCE_TANENBAUM" class="button">Fair Eat Chance Tanenbaum Animation</a>
-    <a href="../simulation/?algorithm=FAIR_TIME_TANENBAUM" class="button">Fair Eat Time Tanenbaum Simulation</a>
-    <a href="../animation/?algorithm=FAIR_TIME_TANENBAUM" class="button">Fair Eat Time Tanenbaum Animation</a>
+    <a href="../simulation/?algorithm=FAIR_CHANCE_TANENBAUM" class="button">Fair Tanenbaum (Chance-based) Simulation</a>
+    <a href="../animation/?algorithm=FAIR_CHANCE_TANENBAUM" class="button">Fair Tanenbaum (Chance-based) Animation</a>
+    <a href="../simulation/?algorithm=FAIR_TIME_TANENBAUM" class="button">Fair Tanenbaum (Time-based) Simulation</a>
+    <a href="../animation/?algorithm=FAIR_TIME_TANENBAUM" class="button">Fair Tanenbaum (Time-Based) Animation</a>
 
 
 

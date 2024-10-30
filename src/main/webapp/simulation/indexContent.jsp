@@ -300,8 +300,11 @@
                     <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Chandy-Misra
                     </option>
-                    <option value="RESTRICT_TOKEN" <%= "RESTRICT_TOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Restrict Token
+                    <option value="CHANCE_RESTRICT_TOKEN" <%= "CHANCE_RESTRICT_TOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Restrict Token (Chance-based)
+                    </option>
+                    <option value="TIME_RESTRICT_TOKEN" <%= "TIME_RESTRICT_TOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Restrict Token (Time-based)
                     </option>
                 </optgroup>
 
@@ -312,6 +315,7 @@
                     <option value="MULTIPLETOKEN" <%= "MULTIPLETOKEN".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Multiple Token
                     </option>
+
 
                 </optgroup>
 
@@ -326,10 +330,10 @@
                         Intelligent Pickup Waiter
                     </option>
                     <option value="FAIR_CHANCE_WAITER" <%= "FAIR_CHANCE_WAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Fair Eat Chance Waiter
+                        Fair Waiter (Chance-based)
                     </option>
                     <option value="FAIR_EATTIME_WAITER" <%= "FAIR_EATTIME_WAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Fair Eat Time Waiter
+                        Fair Waiter (Time-based)
                     </option>
                     <option value="TWOWAITERS" <%= "TWOWAITERS".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Two Waiters
@@ -347,10 +351,10 @@
                         Tanenbaum
                     </option>
                     <option value="FAIR_CHANCE_TANENBAUM" <%= "FAIR_CHANCE_TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Fair Chance Tanenbaum
+                        Fair Tanenbaum (Chance-based)
                     </option>
                     <option value="FAIR_TIME_TANENBAUM" <%= "FAIR_TIME_TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Fair Eat Time Tanenbaum
+                        Fair Tanenbaum (Time-based)
                     </option>
 
                 </optgroup>

@@ -6,13 +6,13 @@ import algorithms.Distribution;
 import simulation.DiningTable;
 
 
-public class RestrictTokenPhilosopher extends AbstractPhilosopher {
+public class RestrictTokenPhilosopher_ChanceBased extends AbstractPhilosopher {
 
     private RestrictToken restrictToken;
-    private RestrictTokenPhilosopher leftNeighbour, rightNeighbour;
+    private RestrictTokenPhilosopher_ChanceBased leftNeighbour, rightNeighbour;
     public int eatChances = 0;
 
-    public RestrictTokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, RestrictToken restrictToken) {
+    public RestrictTokenPhilosopher_ChanceBased(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, RestrictToken restrictToken) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
         this.restrictToken = restrictToken;
     }
@@ -47,7 +47,7 @@ public class RestrictTokenPhilosopher extends AbstractPhilosopher {
         if(receivedRgt != null) restrictToken = receivedRgt;
     }
 
-    public synchronized RestrictToken handOverTokenIfHolding(RestrictTokenPhilosopher requester) {
+    public synchronized RestrictToken handOverTokenIfHolding(RestrictTokenPhilosopher_ChanceBased requester) {
         if(restrictToken != null && requester.eatChances > eatChances) {
             restrictToken.updateRestricted(requester.getPhId());
             RestrictToken token = restrictToken;
@@ -58,7 +58,7 @@ public class RestrictTokenPhilosopher extends AbstractPhilosopher {
     }
 
 
-    public void setNeighbors(RestrictTokenPhilosopher left, RestrictTokenPhilosopher right) {
+    public void setNeighbors(RestrictTokenPhilosopher_ChanceBased left, RestrictTokenPhilosopher_ChanceBased right) {
         leftNeighbour = left;
         rightNeighbour = right;
     }

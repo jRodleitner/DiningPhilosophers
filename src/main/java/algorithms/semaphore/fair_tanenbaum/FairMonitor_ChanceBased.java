@@ -6,13 +6,13 @@ import java.util.Comparator;
 
 import java.util.concurrent.Semaphore;
 
-public class FairChanceMonitor {
+public class FairMonitor_ChanceBased {
     private final String[] states;
     protected Semaphore[] semaphores;
     private final int[] eatTimes;
     Semaphore mutex;
 
-    public FairChanceMonitor(int nrPhilosophers) {
+    public FairMonitor_ChanceBased(int nrPhilosophers) {
         eatTimes = new int[nrPhilosophers];
         states = new String[nrPhilosophers];
         semaphores = new Semaphore[nrPhilosophers];
