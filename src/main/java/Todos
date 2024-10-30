@@ -78,13 +78,12 @@ CHECK:
 
 30.10
 [x] Time fairnsess restrict token incorporation
-[ ] Starvation + Fairness Re-evaluation
-[ ] Explain wait mechanism further
-[_] Statistics explanation (animation/ simulation)
 [x] move eatFair() into abstract class???
+[x] Explain wait mechanism further
+[_] Statistics explanation (animation/ simulation)
 [ ] complete wording overhaul
 [ ] correct pseudocode comments
-
+[ ] Starvation + Fairness Re-evaluation
 
 
 
@@ -117,8 +116,6 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 
 
 ????:
-
-
 
 NEXT:
 
