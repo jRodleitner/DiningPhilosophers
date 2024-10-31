@@ -397,8 +397,8 @@
             Please note that the Animation is currently limited to the classic 5-philosopher setup, while the Simulation
             Page allows you to experiment with 2 to 9 philosophers.
         </p>
-        <a href="../simulation/?algorithm=NAIVE" class="button">Naive Simulation</a>
-        <a href="../animation/?algorithm=NAIVE" class="button">Naive Animation</a>
+        <a href="../simulation/?algorithm=NAIVE" class="button">Simulation Page</a>
+        <a href="../animation/?algorithm=NAIVE" class="button">Animation Page</a>
         <br>
         <br>
     </section>
@@ -415,7 +415,7 @@
                 on GitHub here. //link to GitHub
             </p>
             <p>
-                <b>Pseudocode Naive Philosopher class:</b>
+                <b>Pseudocode Philosopher class:</b>
             </p>
 
             <pre style="font-size: 14px;"><code class="language-java">
@@ -484,7 +484,7 @@
         }
     </code></pre>
             <p>
-                <b>Pseudocode Naive Chopstick class:</b>
+                <b>Pseudocode Chopstick class: </b>
                 The synchronized keyword ensures exclusive access to the pickUp() and putDown() methods.
                 Philosophers have to enter a waiting state using the wait() method if the chopstick is currently
                 taken, when another philosopher puts down chopstick the waiting philosopher is notified using the
@@ -512,7 +512,7 @@
     }
     </code></pre>
             <p>
-                <b>Pseudocode for Dining Table class</b>
+                <b>Dining Table class: </b>
                 The backbone of the simulation is a virtual clock running during the execution.
                 The Philosophers log their Actions according to the current time of the clock.
             </p>
@@ -626,6 +626,13 @@
             </tr>
             </tbody>
         </table>
+
+        <p>
+            You can find the respective Simulation and Animation page here:
+        </p>
+
+        <a href="../simulation/?algorithm=NAIVE" class="button">Naive Simulation</a>
+        <a href="../animation/?algorithm=NAIVE" class="button">Naive Animation</a>
 
         <h3>Improving the naive implementation</h3>
         <p>

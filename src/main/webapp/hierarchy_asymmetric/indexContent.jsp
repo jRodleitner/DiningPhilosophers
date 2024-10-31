@@ -178,15 +178,18 @@
         </tr>
         <tr>
             <td><b>Starvation and Fairness</b></td>
-            <td>We do not guarantee that a philosopher will get a chance to eat, thus starvation is possible.</td>
+            <td>
+                The Resource Hierarchy Solution does not guarantee that a philosopher will get a chance to eat by itself.
+                We combine this approach with the FIFO (First in First Out) enhanced chopstick pickup, guaranteeing that philosophers will eventually get the chance to acquire their chopsticks.
+                This transforms the Resource Hierarchy Solution to a starvation-free solution. However, we take no additional measures to enhance fairness.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>Resource Hierarchy fails at providing fairness to the system, as no such measures are taken.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Concurrency of the system is given, since the philosophers are not blocked from eating by this approach. Theoretically, this approach should provide us with a little higher concurrency, since the longest path in the precedence graph is now one shorter. However, in practice, this advantage is not noticeable when running the simulations with 5 or fewer philosophers.</td>
+            <td>
+                Concurrency of the system is enhanced slightly compared to the naive approach. Theoretically, this approach should provide us with improved concurrency, since the longest path in the precedence graph is now one shorter.
+            </td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -282,16 +285,19 @@
             <td>The Asymmetric Solution effectively prevents deadlocks by again avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>We again do not guarantee that a philosopher will get a chance to eat, so starvation is possible.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Again, the resource Asymmetric Solution does not guarantee that a philosopher will get a chance to eat by itself.
+                We enhance this solution, using the FIFO-enabled pickup of chopsticks to transforms the Asymmetric Solution to a starvation-free solution.
+                We take no additional measures to enhance fairness.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>The Asymmetric Solution fails at providing fairness to the system, as no such measures are taken.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Concurrency of the system is given, since the philosophers are not prevented from eating. Additionally, we should theoretically increase concurrency in our system due to the now minimal paths in the precedence graph. Compared to the naive and the resource hierarchy implementation, we achieve slightly higher concurrency, but this effect is only barely noticeable in simulation runs with 5 or fewer philosophers.</td>
+            <td>Concurrency of the system is further improved on. We increase concurrency in our system, due to the now minimal paths in the precedence graph.
+                Compared to the naive and the Resource Hierarchy implementation, we achieve better concurrency,
+                but this effect is often barely noticeable in simulation runs with 5 or 4 philosophers.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
