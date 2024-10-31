@@ -346,6 +346,8 @@
             document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
             document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
 
+            playAnimation();
+
             const scrollThreshold = 10; // Scroll threshold in pixels
             const floatingBox = document.getElementById('floatingBox');
 
@@ -484,8 +486,8 @@
         <div class="button-container">
             <button id="backward-button">&#9194; Backward</button>
             <button id="forward-button">&#9193; Forward</button>
-            <button id="play-button">&#9654; Play</button>
-            <button id="pause-button" class="hidden">&#9208; Pause</button>
+            <button id="play-button" class="hidden">&#9654; Play</button>
+            <button id="pause-button">&#9208; Pause</button>
             <button id="restart-button">&#128260; Reset</button>
             <select id="speedSelect" onchange="updateInterval()">
                 <option value="1000">Slow</option>
@@ -941,6 +943,8 @@
                 if (interval === null) {
                     interval = setInterval(() => {
                         if (timeStep < maxTimeStep - 1) {
+                            document.getElementById("play-button").classList.add("hidden");
+                            document.getElementById("pause-button").classList.remove("hidden");
                             timeStep++;
                             renderTimeStep();
                         } else {
@@ -962,6 +966,9 @@
 
             document.getElementById("forward-button").addEventListener("click", () => {
                 if (timeStep < maxTimeStep - 1) {
+                    document.getElementById("pause-button").classList.add("hidden");
+                    document.getElementById("play-button").classList.remove("hidden");
+                    pauseAnimation()
                     timeStep++;
                     renderTimeStep();
                 }
@@ -969,21 +976,24 @@
 
             document.getElementById("backward-button").addEventListener("click", () => {
                 if (timeStep > 0) {
+                    document.getElementById("pause-button").classList.add("hidden");
+                    document.getElementById("play-button").classList.remove("hidden");
+                    pauseAnimation()
                     timeStep--;
                     renderTimeStep();
                 }
             });
 
-            document.getElementById("play-button").addEventListener("click", () => {
-                document.getElementById("play-button").classList.add("hidden");
-                document.getElementById("pause-button").classList.remove("hidden");
-                playAnimation();
-            });
-
             document.getElementById("pause-button").addEventListener("click", () => {
                 document.getElementById("pause-button").classList.add("hidden");
                 document.getElementById("play-button").classList.remove("hidden");
-                pauseAnimation();
+                pauseAnimation()
+            });
+
+            document.getElementById("play-button").addEventListener("click", () => {
+                document.getElementById("play-button").classList.add("hidden");
+                document.getElementById("pause-button").classList.remove("hidden");
+                playAnimation()
             });
 
             document.getElementById("restart-button").addEventListener("click", () => {

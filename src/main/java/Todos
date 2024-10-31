@@ -85,7 +85,7 @@ CHECK:
 
 31.10
 [_] correct pseudocode comments
-[ ] Starvation + Fairness Re-evaluation
+[_] Starvation + Fairness Re-evaluation
 [ ] complete wording overhaul
 [ ] instant timeout
 
