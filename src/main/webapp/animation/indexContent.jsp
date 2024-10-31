@@ -50,16 +50,7 @@
             gap: 10px; /* Adds space between the form and the result box */
         }
 
-        .fixed-box {
-            width: 1500px;
-            max-height: 300px;
-            border: 2px solid #ccc;
-            padding: 20px;
-            background-color: #FFFACD;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 14px;
-            border-radius: 10px;
-        }
+
 
         .form-container {
             max-width: 25%; /* Adjust based on your form's size */
@@ -156,7 +147,24 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-size: 16px;
             z-index: 1000; /* Ensures it stays on top */
-            transition: opacity 0.5s; /* Smooth fade-out */
+            transition: opacity 0.5s;
+        }
+
+        .floating-box_1 {
+            position: absolute;
+            top: 180px;
+            left: 130px;
+            padding: 15px;
+            opacity: 80%;
+            background-color: #FFFACD;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-family: "Courier New", Courier, monospace;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 13px;
+            font-weight: bold;
+            z-index: 1000; /* Ensures it stays on top */
+            /*transition: opacity 0.5s; /* Smooth fade-out */
         }
 
         .hidebox {
@@ -346,7 +354,7 @@
             document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
             document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
 
-            playAnimation();
+
 
             const scrollThreshold = 10; // Scroll threshold in pixels
             const floatingBox = document.getElementById('floatingBox');
@@ -354,10 +362,13 @@
             window.addEventListener('scroll', () => {
                 if (window.scrollY > scrollThreshold) {
                     floatingBox.classList.add('hidebox'); // Hide box after threshold
+
                 } else {
                     floatingBox.classList.remove('hidebox'); // Show box if above threshold
                 }
             });
+
+            playAnimation();
         };
 
     </script>
@@ -369,10 +380,19 @@
     <span style="color: red; font-size: 16px; font-weight: bold;">&#8595;</span> Scroll down for Animation notes.
 </div>
 
+<div class="floating-box_1" >
+    [ T ]   = Think <br>
+    [PUL]   = Pick Up Left <br>
+    [PUR]   = Pick Up Right <br>
+    [ E ]   = Eat <br>
+    [PDL]   = Put Down Left <br>
+    [PDR]   = Put Down Right <br>
+    [ B ]   = Blocked <br>
+</div>
+
 <h2>Animation Page</h2>
 <div class="container">
     <div class="svg-container">
-
 
         <svg id="dining-philosophers-animation" xmlns="http://www.w3.org/2000/svg" width="490px" height="445px"
              viewBox="-3 -3 490 445" preserveAspectRatio="xMidYMid meet" style="width: 100%; height: auto;">
@@ -1201,22 +1221,7 @@
 
 <br>
 
-<div class="container1">
-    <div class="fixed-box">
-        <h3>Legend</h3>
-        <ul>
-            <li>[ T ] = Think</li>
-            <li>[PUL] = Pick Up Left</li>
-            <li>[PUR] = Pick Up Right</li>
-            <li>[ E ] = Eat</li>
-            <li>[PDL] = Put Down Left</li>
-            <li>[PDR] = Put Down Right</li>
-            <li>[ B ] = Blocked (Whenever waiting for a Chopstick occurs)</li>
-        </ul>
-        <br>
-    </div>
 
-</div>
 
 <h2>Animation Notes</h2>
 <div class="description">

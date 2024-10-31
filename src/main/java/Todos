@@ -9,8 +9,8 @@ NEXT:
 OPTIONALS:
 TIMEOUT(Time-index)
 [ ] Separate Events for: Timeout, Waiter etc...?? (Animation)
-[ ] Correct eatTime-fairness calculation ???
 [ ] Correct eatTime-fairness calculation (less clear stdv, but more exact)
+[ ] instant timeout
 Completed:
 
 CHECK:
@@ -87,7 +87,7 @@ CHECK:
 [_] correct pseudocode comments
 [_] Starvation + Fairness Re-evaluation
 [ ] complete wording overhaul
-[ ] instant timeout
+
 
 
 
