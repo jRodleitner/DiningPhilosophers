@@ -16,8 +16,9 @@
             background-color: #216477; /* Teal background color */
             text-decoration: none; /* Removes the underline from links */
             padding: 10px 20px; /* Adds padding to make the link look like a button */
-            border-radius: 20px; /* Rounds the corners of the button */
+            border-radius: 10px; /* Rounds the corners of the button */
             font-weight: bold; /* Makes the text bold */
+            border: 4px solid #ccc;
             transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
             margin: 5px 0; /* Adds space between buttons */
         }

@@ -10,6 +10,7 @@
             background-color: #216477; /* Teal background color */
             text-decoration: none; /* Removes the underline from links */
             padding: 10px 20px; /* Adds padding to make the link look like a button */
+            border: 4px solid #ccc;
             border-radius: 10px; /* Rounds the corners of the button */
             font-weight: bold; /* Makes the text bold */
             font-size: 14px; /* Sets the font size for the button text */
@@ -643,7 +644,7 @@
             For exactly this reason, we utilize fair semaphores, to improve our naive implementation.
             This will prevent barging and thus the re-acquiring of chopsticks. (contrary to the previous chopstick
             class)
-            Note that we introduce an overhead, due to the managed FIFO queue.
+            Note that we introduce an overhead, due to the managed FIFO queues.
         </p>
         <pre style="font-size: 14px;"><code class="language-java">
             class Chopstick {
@@ -681,6 +682,7 @@
             <tr>
                 <td><b>Starvation</b></td>
                 <td>
+                    Starvation is still possible due to deadlocks, but at least we prevent barging, and thus the re-acquiring of chopsticks.
                 </td>
             </tr>
             <tr>

@@ -7,6 +7,7 @@
             display: inline-block; /* Allows padding to be applied properly */
             color: white; /* White font color */
             background-color: #216477; /* Teal background color */
+            border: 4px solid #ccc;
             text-decoration: none; /* Removes the underline from links */
             padding: 10px 20px; /* Adds padding to make the link look like a button */
             border-radius: 20px; /* Rounds the corners of the button */
