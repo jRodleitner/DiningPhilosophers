@@ -558,7 +558,7 @@
 
     <h3>Statistics</h3>
     <p>
-    A simulation run will output detailed statistics, including:
+    A simulation run will output detailed statistics, including the measures:
     </p>
 
 

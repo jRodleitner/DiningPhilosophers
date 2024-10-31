@@ -41,7 +41,7 @@
             color: #333;
             padding: 3px;
             margin-bottom: 3px;
-            max-width: 900px;
+            max-width: 800px;
         }
 
         .description-box {
@@ -331,8 +331,8 @@
                 Large values mean bad fairness, while values near zero indicate good fairness.
             </li>
 
-            <li><b>Eat Time Fairness:</b> We also track the accumulated simulation time, that philosophers spent eating and
-                calculate the standard deviation.
+            <li><b>Eat Time Fairness:</b> We also track the total simulation time that philosophers spent eating
+                and calculate the standard deviation.
                 Large values again mean bad fairness, while small values mean good fairness.
                 This measure depends heavily on the chosen distribution, for example, the exponential distribution might
                 return large outliers.
@@ -532,7 +532,7 @@
             chopsticks.add(new Chopstick());
         }
 
-        // Initialize philosophers, each with a left and right chopstick
+        // initialize philosophers, each with a left and right chopstick
         for (int i = 0; i < numPhilosophers; i++) {
             Chopstick leftChopstick = chopsticks.get(i);
             Chopstick rightChopstick = chopsticks.get((i + 1) % numPhilosophers);
@@ -606,7 +606,7 @@
             </tr>
             <tr>
                 <td><b>Fairness</b></td>
-                <td>There is no guaranteed fairness in our naive dining philosophers implementation.</td>
+                <td>TODO:: </td>
             </tr>
             <tr>
                 <td><b>Concurrency</b></td>
