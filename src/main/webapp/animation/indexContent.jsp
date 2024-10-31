@@ -116,9 +116,6 @@
             transform-origin: center;
         }
 
-
-
-
         .soft-red-text {
             color: #cc6666; /* A muted red that’s easier on the eyes */
         }
@@ -147,9 +144,229 @@
             max-width: 900px;
         }
 
+        .floating-box {
+            position: fixed;
+            top: 100px; /* Distance from the bottom of the viewport */
+            right: 120px; /* Distance from the right of the viewport */
+            padding: 15px;
+            opacity: 80%;
+            background-color: #AAAA;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            z-index: 1000; /* Ensures it stays on top */
+            transition: opacity 0.5s; /* Smooth fade-out */
+        }
+
+        .hidebox {
+            opacity: 0;
+            pointer-events: none;
+        }
+
     </style>
+    <script>
+        function updateLabels() {
+            // Update labels for thinkDistribution
+            var thinkDistribution = document.getElementById('thinkDistribution').value;
+            var thinkParam1Label = document.getElementById('thinkparam1Label');
+            var thinkParam2Label = document.getElementById('thinkparam2Label');
+            //var thinkParam1Input = document.getElementById('thinkparam1');
+            var thinkParam2Input = document.getElementById('thinkparam2');
+
+            if (thinkDistribution === 'INTERVAL') {
+                thinkParam1Label.textContent = 'Lb:';
+                thinkParam2Label.textContent = 'Ub:';
+                thinkParam2Label.style.display = 'inline';
+                thinkParam2Input.style.display = 'inline';
+            } else if (thinkDistribution === 'DETERMINISTIC') {
+                thinkParam1Label.textContent = 'det:';
+                thinkParam2Label.style.display = 'none';
+                thinkParam2Input.style.display = 'none';
+            } else if (thinkDistribution === 'NORMAL') {
+                thinkParam1Label.textContent = 'mu:';
+                thinkParam2Label.textContent = 'sigma:';
+                thinkParam2Label.style.display = 'inline';
+                thinkParam2Input.style.display = 'inline';
+            } else if (thinkDistribution === 'EXP') {
+                thinkParam1Label.textContent = 'lambda:';
+                thinkParam2Label.style.display = 'none';
+                thinkParam2Input.style.display = 'none';
+            }
+
+            // Update labels for eatDistribution
+            var eatDistribution = document.getElementById('eatDistribution').value;
+            var eatParam1Label = document.getElementById('eatparam1Label');
+            var eatParam2Label = document.getElementById('eatparam2Label');
+            //var eatParam1Input = document.getElementById('eatparam1');
+            var eatParam2Input = document.getElementById('eatparam2');
+
+            if (eatDistribution === 'INTERVAL') {
+                eatParam1Label.textContent = 'Lb:';
+                eatParam2Label.textContent = 'Ub:';
+                eatParam2Label.style.display = 'inline';
+                eatParam2Input.style.display = 'inline';
+            } else if (eatDistribution === 'DETERMINISTIC') {
+                eatParam1Label.textContent = 'det:';
+                eatParam2Label.style.display = 'none';
+                eatParam2Input.style.display = 'none';
+            } else if (eatDistribution === 'NORMAL') {
+                eatParam1Label.textContent = 'mu:';
+                eatParam2Label.textContent = 'sigma:';
+                eatParam2Label.style.display = 'inline';
+                eatParam2Input.style.display = 'inline';
+            } else if (eatDistribution === 'EXP') {
+                eatParam1Label.textContent = 'lambda:';
+                eatParam2Label.style.display = 'none';
+                eatParam2Input.style.display = 'none';
+            }
+
+            // Update visibility for timeout
+            var algorithm = document.getElementById('algorithm').value;
+            var timeoutLabel = document.getElementById('timeoutLabel');
+            var timeoutInput = document.getElementById('timeout');
+
+            if (algorithm === 'TIMEOUT') {
+                timeoutLabel.style.display = 'inline';
+                timeoutInput.style.display = 'inline';
+            } else {
+                timeoutLabel.style.display = 'none';
+                timeoutInput.style.display = 'none';
+            }
+
+            const thinkparam1 = document.getElementById('thinkparam1');
+            const thinkparam2 = document.getElementById('thinkparam2');
+
+            switch (thinkDistribution) {
+                case 'INTERVAL':
+                    thinkparam1.min = 30;
+                    thinkparam1.max = 400;
+                    thinkparam2.min = 30;
+                    thinkparam2.max = 400;
+                    break;
+                case 'DETERMINISTIC':
+                    thinkparam1.min = 30;
+                    thinkparam1.max = 400;
+                    break;
+                case 'NORMAL':
+                    thinkparam1.min = 50;
+                    thinkparam1.max = 400;
+                    thinkparam2.min = 0;
+                    thinkparam2.max = 20;
+                    break;
+                case 'EXP':
+                    thinkparam1.min = 3;
+                    thinkparam1.max = 12;
+                    break;
+
+            }
+
+            const eatparam1 = document.getElementById('eatparam1');
+            const eatparam2 = document.getElementById('eatparam2');
+
+            switch (eatDistribution) {
+                case 'INTERVAL':
+                    eatparam1.min = 30;
+                    eatparam1.max = 400;
+                    eatparam2.min = 30;
+                    eatparam2.max = 400;
+                    break;
+                case 'DETERMINISTIC':
+                    eatparam1.min = 30;
+                    eatparam1.max = 400;
+                    break;
+                case 'NORMAL':
+                    eatparam1.min = 50;
+                    eatparam1.max = 200;
+                    eatparam2.min = 1;
+                    eatparam2.max = 40;
+                    break;
+                case 'EXP':
+                    eatparam1.min = 3;
+                    eatparam1.max = 12;
+                    break;
+
+            }
+
+        }
+
+        function updateThinkDistribution() {
+            const thinkDistribution = document.getElementById('thinkDistribution').value;
+            const thinkparam1 = document.getElementById('thinkparam1');
+            const thinkparam2 = document.getElementById('thinkparam2');
+
+            switch (thinkDistribution) {
+                case 'INTERVAL':
+                    thinkparam1.setAttribute('value', "50");  // Set default value for Interval
+                    thinkparam2.setAttribute('value', "100"); // Set default value for Interval
+                    break;
+                case 'DETERMINISTIC':
+                    thinkparam1.setAttribute('value', "100");  // Set default value for Deterministic
+                    break;
+                case 'NORMAL':
+                    thinkparam1.setAttribute('value', "75");  // Set default value for Normal
+                    thinkparam2.setAttribute('value', "5");  // Set default value for Normal
+                    break;
+                case 'EXP':
+                    thinkparam1.setAttribute('value', "5");   // Set default value for Exponential
+                    break;
+
+            }
+        }
+
+        function updateEatDistribution() {
+            const eatDistribution = document.getElementById('eatDistribution').value;
+            const eatparam1 = document.getElementById('eatparam1');
+            const eatparam2 = document.getElementById('eatparam2');
+
+            switch (eatDistribution) {
+                case 'INTERVAL':
+                    eatparam1.setAttribute('value', "50");  // Set default value for Interval
+                    eatparam2.setAttribute('value', "100"); // Set default value for Interval
+                    break;
+                case 'DETERMINISTIC':
+                    eatparam1.setAttribute('value', "100");
+                    break;
+                case 'NORMAL':
+                    eatparam1.setAttribute('value', "75");  // Set default value for Normal
+                    eatparam2.setAttribute('value', "5");  // Set default value for Normal
+                    break;
+                case 'EXP':
+                    eatparam1.setAttribute('value', "5");   // Set default value for Exponential
+                    break;
+
+            }
+
+        }
+
+        window.onload = function () {
+            updateLabels();
+
+            document.getElementById('algorithm').addEventListener('change', updateLabels);
+            document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
+            document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
+
+            const scrollThreshold = 10; // Scroll threshold in pixels
+            const floatingBox = document.getElementById('floatingBox');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > scrollThreshold) {
+                    floatingBox.classList.add('hidebox'); // Hide box after threshold
+                } else {
+                    floatingBox.classList.remove('hidebox'); // Show box if above threshold
+                }
+            });
+        };
+
+    </script>
+
 </head>
 <body>
+
+<div class="floating-box" id="floatingBox">
+    <span style="color: red; font-size: 16px; font-weight: bold;">&#8595;</span> Scroll down for Animation notes.
+</div>
+
 <h2>Animation Page</h2>
 <div class="container">
     <div class="svg-container">
@@ -791,189 +1008,7 @@
             renderTimeStep();
         </script>
 
-        <script>
-            function updateLabels() {
-                // Update labels for thinkDistribution
-                var thinkDistribution = document.getElementById('thinkDistribution').value;
-                var thinkParam1Label = document.getElementById('thinkparam1Label');
-                var thinkParam2Label = document.getElementById('thinkparam2Label');
-                //var thinkParam1Input = document.getElementById('thinkparam1');
-                var thinkParam2Input = document.getElementById('thinkparam2');
 
-                if (thinkDistribution === 'INTERVAL') {
-                    thinkParam1Label.textContent = 'Lb:';
-                    thinkParam2Label.textContent = 'Ub:';
-                    thinkParam2Label.style.display = 'inline';
-                    thinkParam2Input.style.display = 'inline';
-                } else if (thinkDistribution === 'DETERMINISTIC') {
-                    thinkParam1Label.textContent = 'det:';
-                    thinkParam2Label.style.display = 'none';
-                    thinkParam2Input.style.display = 'none';
-                } else if (thinkDistribution === 'NORMAL') {
-                    thinkParam1Label.textContent = 'mu:';
-                    thinkParam2Label.textContent = 'sigma:';
-                    thinkParam2Label.style.display = 'inline';
-                    thinkParam2Input.style.display = 'inline';
-                } else if (thinkDistribution === 'EXP') {
-                    thinkParam1Label.textContent = 'lambda:';
-                    thinkParam2Label.style.display = 'none';
-                    thinkParam2Input.style.display = 'none';
-                }
-
-                // Update labels for eatDistribution
-                var eatDistribution = document.getElementById('eatDistribution').value;
-                var eatParam1Label = document.getElementById('eatparam1Label');
-                var eatParam2Label = document.getElementById('eatparam2Label');
-                //var eatParam1Input = document.getElementById('eatparam1');
-                var eatParam2Input = document.getElementById('eatparam2');
-
-                if (eatDistribution === 'INTERVAL') {
-                    eatParam1Label.textContent = 'Lb:';
-                    eatParam2Label.textContent = 'Ub:';
-                    eatParam2Label.style.display = 'inline';
-                    eatParam2Input.style.display = 'inline';
-                } else if (eatDistribution === 'DETERMINISTIC') {
-                    eatParam1Label.textContent = 'det:';
-                    eatParam2Label.style.display = 'none';
-                    eatParam2Input.style.display = 'none';
-                } else if (eatDistribution === 'NORMAL') {
-                    eatParam1Label.textContent = 'mu:';
-                    eatParam2Label.textContent = 'sigma:';
-                    eatParam2Label.style.display = 'inline';
-                    eatParam2Input.style.display = 'inline';
-                } else if (eatDistribution === 'EXP') {
-                    eatParam1Label.textContent = 'lambda:';
-                    eatParam2Label.style.display = 'none';
-                    eatParam2Input.style.display = 'none';
-                }
-
-                // Update visibility for timeout
-                var algorithm = document.getElementById('algorithm').value;
-                var timeoutLabel = document.getElementById('timeoutLabel');
-                var timeoutInput = document.getElementById('timeout');
-
-                if (algorithm === 'TIMEOUT') {
-                    timeoutLabel.style.display = 'inline';
-                    timeoutInput.style.display = 'inline';
-                } else {
-                    timeoutLabel.style.display = 'none';
-                    timeoutInput.style.display = 'none';
-                }
-
-                const thinkparam1 = document.getElementById('thinkparam1');
-                const thinkparam2 = document.getElementById('thinkparam2');
-
-                switch (thinkDistribution) {
-                    case 'INTERVAL':
-                        thinkparam1.min = 30;
-                        thinkparam1.max = 400;
-                        thinkparam2.min = 30;
-                        thinkparam2.max = 400;
-                        break;
-                    case 'DETERMINISTIC':
-                        thinkparam1.min = 30;
-                        thinkparam1.max = 400;
-                        break;
-                    case 'NORMAL':
-                        thinkparam1.min = 50;
-                        thinkparam1.max = 400;
-                        thinkparam2.min = 0;
-                        thinkparam2.max = 20;
-                        break;
-                    case 'EXP':
-                        thinkparam1.min = 3;
-                        thinkparam1.max = 12;
-                        break;
-
-                }
-
-                const eatparam1 = document.getElementById('eatparam1');
-                const eatparam2 = document.getElementById('eatparam2');
-
-                switch (eatDistribution) {
-                    case 'INTERVAL':
-                        eatparam1.min = 30;
-                        eatparam1.max = 400;
-                        eatparam2.min = 30;
-                        eatparam2.max = 400;
-                        break;
-                    case 'DETERMINISTIC':
-                        eatparam1.min = 30;
-                        eatparam1.max = 400;
-                        break;
-                    case 'NORMAL':
-                        eatparam1.min = 50;
-                        eatparam1.max = 200;
-                        eatparam2.min = 1;
-                        eatparam2.max = 40;
-                        break;
-                    case 'EXP':
-                        eatparam1.min = 3;
-                        eatparam1.max = 12;
-                        break;
-
-                }
-
-            }
-
-            function updateThinkDistribution() {
-                const thinkDistribution = document.getElementById('thinkDistribution').value;
-                const thinkparam1 = document.getElementById('thinkparam1');
-                const thinkparam2 = document.getElementById('thinkparam2');
-
-                switch (thinkDistribution) {
-                    case 'INTERVAL':
-                        thinkparam1.setAttribute('value', "50");  // Set default value for Interval
-                        thinkparam2.setAttribute('value', "100"); // Set default value for Interval
-                        break;
-                    case 'DETERMINISTIC':
-                        thinkparam1.setAttribute('value', "100");  // Set default value for Deterministic
-                        break;
-                    case 'NORMAL':
-                        thinkparam1.setAttribute('value', "75");  // Set default value for Normal
-                        thinkparam2.setAttribute('value', "5");  // Set default value for Normal
-                        break;
-                    case 'EXP':
-                        thinkparam1.setAttribute('value', "5");   // Set default value for Exponential
-                        break;
-
-                }
-            }
-
-            function updateEatDistribution() {
-                const eatDistribution = document.getElementById('eatDistribution').value;
-                const eatparam1 = document.getElementById('eatparam1');
-                const eatparam2 = document.getElementById('eatparam2');
-
-                switch (eatDistribution) {
-                    case 'INTERVAL':
-                        eatparam1.setAttribute('value', "50");  // Set default value for Interval
-                        eatparam2.setAttribute('value', "100"); // Set default value for Interval
-                        break;
-                    case 'DETERMINISTIC':
-                        eatparam1.setAttribute('value', "100");
-                        break;
-                    case 'NORMAL':
-                        eatparam1.setAttribute('value', "75");  // Set default value for Normal
-                        eatparam2.setAttribute('value', "5");  // Set default value for Normal
-                        break;
-                    case 'EXP':
-                        eatparam1.setAttribute('value', "5");   // Set default value for Exponential
-                        break;
-
-                }
-
-            }
-
-            window.onload = function () {
-                updateLabels();
-
-                document.getElementById('algorithm').addEventListener('change', updateLabels);
-                document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
-                document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
-            };
-
-        </script>
     </div>
 
     <div class="form-container">
@@ -1179,8 +1214,8 @@
         This Animation page lets you explore visual representations of the algorithms.
         Start by running a simulation, as each run is unique and depends on your chosen parameters and algorithms.
         You can play, pause, navigate backward, forward, or restart, and adjust playback speed in the drop-down menu.
-        The animation follows Dijkstra’s classic 5-philosopher setup, displaying frames based on the simulation's timeline data.
-        Use the scroll-box on the bottom to view timelines in sync with the animation for better understanding.
+        The animation follows Dijkstras classic 5-philosopher setup, displaying frame by frame, based on the timeline data.
+        Use the scroll-box on the bottom to view the respective timelines.
         <br>
         There are several options, with which you can alter the simulation parameters:
     </p>
@@ -1197,7 +1232,7 @@
 
         </li>
 
-        <li><b>Distribution settings: </b> There are four types of distributions that can be chosen.
+        <li><b>Distribution settings: </b> There are four distributions you can choose from.
             <ul>
                 <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation this will provoke deadlocks!</li>
                 <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper Bound.</li>
@@ -1207,20 +1242,39 @@
 
             </ul>
         </li>
-        <li><b>Simulation Type: </b> Two types are available. The Simulate Pickups mode lets you track the pick-ups and put-downs of the philosophers.
+        <li><b>Simulation Type: </b> Two types are available. The "Simulate Pickups"-mode lets you track the pick-ups and put-downs of the philosophers.
             This helps to track the behavior of the algorithms.
             Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little more performant and will return results quicker.
             The "simple" mode will only display thinking and eating.</li>
 
     </ul>
 
+    <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
+
+    <h3>Statistics</h3>
     <p>
-        Bear in mind that for  simulation runs, simulation timelines can differ in length, as philosophers log actions only after they finished an action.
-        When the simulation is completed there is a cut-off point and philosophers are no longer able to log their actions.
-        Especially for the exponential and normal distributions longer run times might be necessary, since large outliers are possible with these distributions.
+        A simulation run will output detailed statistics, including:
+    </p>
 
 
-        <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
+    <uL>
+        <li><b>Concurrency: </b> total combined (simulated) eating time, divided by length of the timeline. Maximum
+            concurrency is bounded by 2 for 5-philosophers. Results close to this value
+            indicate good concurrency.
+        </li>
+        <li><b>Eat-chance fairness: </b> Standard deviation of all the philosophers eat chances (The times philosophers
+            successfully picked up both chopsticks and ate)
+        </li>
+        <li><b>Eat-time fairness: </b> Standard deviation of the philosophers accumulated simulation time spent eating.
+            (The number of blocks per timeline that indicate eating)
+        </li>
+    </uL>
+
+    <p>
+        Remember, philosophers log actions only after finishing them, so their timelines can vary in length.
+        When the simulation ends, no more actions are logged.
+        For exponential and normal distributions, longer run times may help capture outliers that can extend action
+        times.
 
 
     </p>

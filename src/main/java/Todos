@@ -81,10 +81,13 @@ CHECK:
 [x] move eatFair() into abstract class???
 [x] Explain wait mechanism further
 [_] Statistics explanation (animation/ simulation)
-[ ] complete wording overhaul
+[_] Correct eat-chance/ time explanation
+
+
 [ ] correct pseudocode comments
 [ ] Starvation + Fairness Re-evaluation
-
+[ ] complete wording overhaul
+[ ] instant timeout
 
 
 

@@ -331,8 +331,8 @@
                 Large values mean bad fairness, while values near zero indicate good fairness.
             </li>
 
-            <li><b>Eat Time Fairness:</b> We also track the accumulated times from the distributions for each
-                philosopher and calculate the standard deviation.
+            <li><b>Eat Time Fairness:</b> We also track the accumulated simulation time, that philosophers spent eating and
+                calculate the standard deviation.
                 Large values again mean bad fairness, while small values mean good fairness.
                 This measure depends heavily on the chosen distribution, for example, the exponential distribution might
                 return large outliers.
@@ -358,7 +358,7 @@
                 Simulation Time excluding Pick-ups/ Put-downs).
                 During the course of the simulation we also track the total Eating Time <b>e</b> (The total combined
                 simulation time philosophers spent eating).
-                We then calculate <b>l/n</b> to determine the concurrency within the system during the course of the
+                We then calculate <b>e/l</b> to determine the concurrency within the system during the course of the
                 simulation. With this measure, the bigger the value, the better. For the classic 5-Philosopher setup,
                 values close to two are a very good result, as this means that, most of the simulation time two
                 philosophers were eating in parallel.
@@ -641,7 +641,8 @@
         </p>
         <p>
             For exactly this reason, we utilize fair semaphores, to improve our naive implementation.
-            This will prevent barging and thus the re-acquiring of chopsticks. (contrary to the previous chopstick class)
+            This will prevent barging and thus the re-acquiring of chopsticks. (contrary to the previous chopstick
+            class)
             Note that we introduce an overhead, due to the managed FIFO queue.
         </p>
         <pre style="font-size: 14px;"><code class="language-java">

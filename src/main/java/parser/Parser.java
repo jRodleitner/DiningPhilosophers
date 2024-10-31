@@ -71,7 +71,6 @@ public class Parser {
             }
         }
 
-        //TODO change deadlock check to last of philosopher
         ArrayList<Integer> phEatTimes = new ArrayList<>();
         ArrayList<Integer> phEatChances = new ArrayList<>();
         for(Statistic st: statistics){
@@ -85,9 +84,9 @@ public class Parser {
         sb.append("\n").append(global).append("\n").append("\n");
 
         double denominator = simulatePickups ? (maxLength.get() - nrPickups.get()) : maxLength.get();
-        sb.append("Concurrency: ").append(String.format("%.3f", ((double) global.getTotalEatTime() / denominator))).append(" (Values < 1 mean no concurrency)").append("\n");
-        sb.append("Chance Fairness: ").append(String.format("%.5f", calculateStandardDeviation(phEatChances))).append(" (standard deviation of eat chances, the lower the better)").append("\n");
-        sb.append("Eat Time Fairness: ").append(String.format("%.5f", calculateStandardDeviation(phEatTimes))).append(" (standard deviation of eat times, the lower the better)");
+        sb.append("Concurrency: ").append(String.format("%.3f", ((double) global.getTotalEatTime() / denominator))).append(" (The higher the better. Values < 1 mean no concurrency)").append("\n");
+        sb.append("Chance Fairness: ").append(String.format("%.5f", calculateStandardDeviation(phEatChances))).append(" (Standard deviation of eat chances, the lower the better)").append("\n");
+        sb.append("Eat Time Fairness: ").append(String.format("%.5f", calculateStandardDeviation(phEatTimes))).append(" (Standard deviation of eat times, the lower the better)");
 
 
         if(deadlock) sb.append("\n\n A deadlock occurred!");

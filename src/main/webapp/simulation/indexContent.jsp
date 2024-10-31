@@ -74,8 +74,29 @@
             max-width: 900px;
         }
 
+        .floating-box {
+            position: fixed;
+            top: 100px; /* Distance from the bottom of the viewport */
+            right: 120px; /* Distance from the right of the viewport */
+            padding: 15px;
+            opacity: 80%;
+            background-color: #AAAA;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            z-index: 1000; /* Ensures it stays on top */
+            transition: opacity 0.5s; /* Smooth fade-out */
+        }
+
         .error {
             color: red;
+        }
+
+        /* Hidden state */
+        .hidebox {
+            opacity: 0;
+            pointer-events: none;
         }
     </style>
     <script>
@@ -258,12 +279,29 @@
             document.getElementById('algorithm').addEventListener('change', updateLabels);
             document.getElementById('eatDistribution').addEventListener('change', updateEatDistribution);
             document.getElementById('thinkDistribution').addEventListener('change', updateThinkDistribution);
+
+            const scrollThreshold = 10;
+            const floatingBox = document.getElementById('floatingBox');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > scrollThreshold) {
+                    floatingBox.classList.add('hidebox'); // Hide box after threshold
+                } else {
+                    floatingBox.classList.remove('hidebox'); // Show box if above threshold
+                }
+            });
         };
 
 
     </script>
+
 </head>
 <body>
+
+<div class="floating-box" id="floatingBox">
+    <span style="color: red; font-size: 16px; font-weight: bold;">&#8595;</span> Scroll down for Simulation notes.
+</div>
+
 <h2>Dining Philosophers Simulation Page</h2>
 
 <div class="container">
@@ -463,53 +501,88 @@
 </div>
 <h2>Simulation Notes</h2>
 <div class="description">
-<p>
-    This simulation page lets you experiment with the various solutions presented.
-    Each run results in a unique timeline, based on the chosen algorithm and parameters.
-    The timelines often exceed the box width, so horizontal scrolling may be needed.
-    <br>
-    There are several options, with which you can alter the simulation parameters:
-</p>
-<ul>
+    <p>
+        This simulation page lets you experiment with the various solutions presented.
+        Each run results in a unique timeline, based on the chosen algorithm and parameters.
+        The timelines often exceed the box width, so horizontal scrolling may be needed.
+        <br>
+        There are several options, with which you can alter the simulation parameters:
+    </p>
+    <ul>
 
-    <li><b>Number of philosophers: </b>Simulations with 2-9 philosophers are possible.</li>
+        <li><b>Number of philosophers: </b>Simulations with 2-9 philosophers are possible.</li>
 
-    <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
-        One time "unit" represents a loop iteration that is a step in the simulation timeline.
-        We control the actual time passage via a short waiting period in each iteration to give the philosophers time to complete actions.
-        Philosophers use this reference time to log their respective actions after completion.
-        This results in a quantization effect where each completed act is mapped to a discrete virtual simulation-time point.
-        Note that there is an actual simulation running in the background that utilizes Java Threads.
-        Increasing the simulation time will prolong the execution time of the backend, due to the longer simulation duration and the following processing of the results.
-        The maximum execution time is 1000, this will result in a waiting period of up to 20 seconds before results are visible.
-    </li>
+        <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
+            One time "unit" represents a loop iteration that is a step in the simulation timeline.
+            We control the actual time passage via a short waiting period in each iteration to give the philosophers
+            time to complete actions.
+            Philosophers use this reference time to log their respective actions after completion.
+            This results in a quantization effect where each completed act is mapped to a discrete virtual
+            simulation-time point.
+            Note that there is an actual simulation running in the background that utilizes Java Threads.
+            Increasing the simulation time will prolong the execution time of the backend, due to the longer simulation
+            duration and the following processing of the results.
+            The maximum execution time is 1000, this will result in a waiting period of up to 20 seconds before results
+            are visible.
+        </li>
 
-    <li><b>Distribution settings: </b> There are four types of distributions that can be chosen.
-        <ul>
-           <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation this will provoke deadlocks!</li>
-            <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper Bound.</li>
-            <li>Normal:  Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
-                This will simulate philosophers with normally distributed delays, according to the given parameters.</li>
-            <li>Exponential: Parameter lambda = &lambda; = rate parameter. Frequent low values, but sometimes large outliers occur. Lower lambda means that higher values become more likely.</li>
+        <li><b>Distribution settings: </b> There are four distributions you can choose from.
+            <ul>
+                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation this will
+                    provoke deadlocks!
+                </li>
+                <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper
+                    Bound.
+                </li>
+                <li>Normal: Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
+                    This will simulate philosophers with normally distributed delays, according to the given parameters.
+                </li>
+                <li>Exponential: Parameter lambda = &lambda; = rate parameter. Frequent low values, but sometimes large
+                    outliers occur. Lower lambda means that higher values become more likely.
+                </li>
 
-        </ul>
-    </li>
-    <li><b>Simulation Type: </b> Two types are available. The Simulate Pickups mode lets you track the pick-ups and put-downs of the philosophers.
-        Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little more performant and will return results quicker.
-        This helps to track the behavior of the algorithms.
-        The "simple" mode will only display thinking and eating.</li>
+            </ul>
+        </li>
+        <li><b>Simulation Type: </b> Two types are available. The "Simulate Pickups"-mode lets you track the pick-ups and
+            put-downs of the philosophers.
+            Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little
+            more performant and will return results quicker.
+            This helps to track the behavior of the algorithms.
+            The "simple" mode will only display thinking and eating.
+        </li>
 
-</ul>
-
-<p>
-    Bear in mind that for  simulation runs simulation timelines can differ in length, as philosophers log actions only after they finished an action.
-    When the simulation is completed there is a cut-off point and philosophers are no longer able to log their actions.
-    Especially for the exponential and normal distributions longer run times might be necessary, since large outliers are possible with these distributions.
+    </ul>
 
     <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
 
 
-</p>
+    <h3>Statistics</h3>
+    <p>
+    A simulation run will output detailed statistics, including:
+    </p>
+
+
+    <uL>
+        <li><b>Concurrency: </b> total combined (simulated) eating time, divided by length of the timeline. Maximum
+            concurrency is bounded by [n/2](even n) or ⌊5/2⌋(odd n) for n-philosophers. Results close to this value
+            indicate good concurrency.
+        </li>
+        <li><b>Eat-chance fairness: </b> Standard deviation of all the philosophers eat chances (The times philosophers
+            successfully picked up both chopsticks and ate)
+        </li>
+        <li><b>Eat-time fairness: </b> Standard deviation of the philosophers accumulated simulation time spent eating.
+            (The number of blocks per timeline that indicate eating)
+        </li>
+    </uL>
+
+    <p>
+        Remember, philosophers log actions only after finishing them, so their timelines can vary in length.
+        When the simulation ends, no more actions are logged.
+        For exponential and normal distributions, longer run times may help capture outliers that can extend action
+        times.
+
+
+    </p>
 </div>
 </body>
 </html>
