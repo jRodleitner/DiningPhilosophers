@@ -87,12 +87,12 @@ CHECK:
 [_] correct pseudocode comments
 [_] Starvation + Fairness Re-evaluation
 [ ] complete wording overhaul
-
+[ ] secure backend
 
 
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
-1.  [x][x][ ] Naive
+1.  [x][x][x] Naive
 2.  [x][x][ ] Hierarchy
 3.  [x][x][ ] Asymmetric
 4.  [x][x][ ] Timeout

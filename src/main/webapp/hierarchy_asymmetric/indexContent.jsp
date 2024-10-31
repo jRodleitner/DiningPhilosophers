@@ -177,7 +177,7 @@
             <td>The Resource Hierarchy Solution effectively prevents deadlocks via avoiding the circular-wait condition, as defined by Coffman.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
+            <td><b>Starvation and Fairness</b></td>
             <td>We do not guarantee that a philosopher will get a chance to eat, thus starvation is possible.</td>
         </tr>
         <tr>

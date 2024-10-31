@@ -598,21 +598,20 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Starvation</b></td>
-                <td>Letting the philosophers wait for a notification to acquire the chopstick lowers the risk of
-                    starvation but does not prevent it. Rescheduling or suspension of threads (by Operating System or
-                    Java VM) could allow philosophers to acquire chopsticks repeatedly before their neighbor.
-                    Why this is the case, and the way we can solve it follows below.
+                <td><b>Starvation and Fairness</b></td>
+                <td>Due to the possibility of deadlocks, starvation is a fundamental problem in our naive approach.
+                    However, letting the philosophers wait for a notification to acquire the chopstick lowers the risk of
+                    starvation (when we are lucky and no deadlocks occur), but does not prevent it.
+                    Rescheduling or suspension of threads by Operating System or
+                    Java VM could allow philosophers to acquire chopsticks repeatedly before their neighbor.
+                    Why this is the case, and the way we can solve this follows below.
                 </td>
-            </tr>
-            <tr>
-                <td><b>Fairness</b></td>
-                <td>TODO:: </td>
             </tr>
             <tr>
                 <td><b>Concurrency</b></td>
                 <td>The naive dining philosophers solution has a limited potential of concurrency (as long as deadlocks
                     do not occur). This is due to the long path in the precedence graph, leading to long waiting chains.
+                    Simulations frequently have low/no concurrency because of this.
                 </td>
             </tr>
             <tr>
@@ -641,8 +640,8 @@
             parameters, that will enable a FIFO (First In First Out) queue on the waiting threads.
         </p>
         <p>
-            For exactly this reason, we utilize fair semaphores, to improve our naive implementation.
-            This will prevent barging and thus the re-acquiring of chopsticks. (contrary to the previous chopstick
+            For exactly this reason, we utilize fair semaphores to control access to chopsticks in the solutions we explore.
+            This will prevent barging and thus the re-acquiring of chopsticks. (contrary to the "naive" chopstick
             class)
             Note that we introduce an overhead, due to the managed FIFO queues.
         </p>
@@ -680,15 +679,12 @@
             </thead>
             <tbody>
             <tr>
-                <td><b>Starvation</b></td>
+                <td><b>Starvation and Fairness</b></td>
                 <td>
-                    Starvation is still possible due to deadlocks, but at least we prevent barging, and thus the re-acquiring of chopsticks.
+                    Starvation is still possible due to the possibility of deadlocks, but at least we prevent barging, and therefor the re-acquiring of chopsticks.
                 </td>
             </tr>
-            <tr>
-                <td><b>Fairness</b></td>
-                <td></td>
-            </tr>
+
 
             </tbody>
         </table>
