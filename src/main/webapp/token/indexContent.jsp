@@ -158,13 +158,13 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
     public class TokenPhilosopher extends Philosopher {
-        // Reference to the philosopher to the right of this one, used for passing the token.
+        // reference to the philosopher to the right
         TokenPhilosopher rightPhilosopher = null;
 
-        // The global token that controls the ability to access the chopsticks.
+        //  global token that controls access
         volatile GlobalToken token;
 
-        // Object used for waiting for the passing of a token
+        // object used for waiting on the passing of a token
         final Object tokenLock = new Object();
 
         TokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick) {
@@ -175,16 +175,15 @@
             this.token = token;
         }
 
-        // Method to set the philosopher to the right of this one for token passing.
         void setRightPhilosopher(TokenPhilosopher rightPhilosopher) {
             this.rightPhilosopher = rightPhilosopher;
         }
 
-        // Method to accept a token when it is passed from another philosopher.
+        // method to accept a token, called from another philosopher.
         void acceptToken(GlobalToken token) {
             synchronized (tokenLock) {
-                this.token = token; // Update the local reference to the token.
-                tokenLock.notify(); // Notify the waiting philosopher that the token is now available.
+                this.token = token; // update the local reference to accept the token.
+                tokenLock.notify(); // notify the waiting philosopher that the token is now available.
             }
         }
 
@@ -193,14 +192,14 @@
             while (!terminated()) {
                 think();
 
-                // Wait until this philosopher has the token.
+                // wait until this philosopher holds the token
                 synchronized (tokenLock) {
                     while (token == null) {
-                        tokenLock.wait(); // Wait for the token to become available.
+                        tokenLock.wait(); // wait for the passing of the token.
                     }
                 }
 
-                // Once the token is acquired, the philosopher can attempt to eat.
+                // once the token is acquired, the philosopher can attempt to eat.
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
                 eat();
@@ -208,7 +207,7 @@
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                // Pass the token to the next philosopher.
+                // pass the token to the next philosopher.
                 token.passToken();
             }
         }
@@ -224,31 +223,30 @@
     List philosophers;
 
     for (int i = 0; i < nrPhilosophers; i++) {
-        chopsticks.add(new Chopstick(i)); // Adds a chopstick for each philosopher
+        chopsticks.add(new Chopstick(i));
     }
 
     for (int i = 0; i < nrPhilosophers; i++) {
 
         TokenPhilosopher philosopher = new TokenPhilosopher(
             i,
-            chopsticks.get(i), // Left chopstick
-            chopsticks.get((i + 1) % nrPhilosophers) // Right chopstick
+            chopsticks.get(i),
+            chopsticks.get((i + 1) % nrPhilosophers)
         );
         philosophers.add(philosopher);
     }
 
-    // Set the reference to the right-hand neighbor for each philosopher
+    // set the reference to the right-hand neighbor for each philosopher
     for (int i = 0; i < nrPhilosophers; i++) {
         TokenPhilosopher philosopher = philosophers.get(i);
         philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
     }
 
-    // Select the initial philosopher to start with the token
     TokenPhilosopher initialPhilosopher = philosophers.getFirst();
 
-    // Create the global token and assign it to the initial philosopher
+    // create the global token and assign it to the initial philosopher
     GlobalToken token = new GlobalToken(initialPhilosopher);
-    initialPhilosopher.setToken(token); // The initial philosopher now holds the token
+    initialPhilosopher.setToken(token); // the initial philosopher holds the token
     </code></pre>
 
     <h3>Global Token Solution Evaluation</h3>
@@ -268,20 +266,20 @@
             <td>We effectively prevent deadlocks by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>No starvation as each philosopher will eventually get the chance to eat.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free, as each philosopher will eventually get the chance to eat.
+                Fair eat-chances, as each philosopher gets a turn at eating once every round.
+                Eat-time fairness depends heavily on the chosen distribution.</td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>Fair eat-chances, as each philosopher gets a turn at eating once every round. Eat-time fairness depends heavily on the chosen distribution.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>No concurrency since only one philosopher can eat at a time.</td>
+            <td>No concurrency, only one philosopher can eat at a time.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
-            <td>The implementation is rather simple and easy to understand.</td>
+            <td>The implementation is rather simple and requires only an additional Token class. </td>
         </tr>
         <tr>
             <td><b>Performance</b></td>
@@ -399,16 +397,17 @@
             <td>We again prevent deadlocks by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>No starvation as each philosopher will eventually get the chance to eat.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free, as each philosopher will eventually get the chance to eat.
+                Fair eat-chances, as each philosopher repeatedly earns permission when they receive a token.
+                Potentially unfair eat-times, depending on the chosen distributions of eat- and think-times.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>Fair eat-chances, as each philosopher repeatedly earns permission when they receive a token. Potentially unfair eat-times, depending on the chosen distributions of eat- and think-times.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Potential high concurrency, as multiple tokens are passed around permitting ⌊n/2⌋ philosophers to eat at a time.</td>
+            <td>Potential high concurrency, as multiple tokens are passed around permitting ⌊n/2⌋/ [n/2] philosophers to eat at a time. However, there is a possibility of "traffic jams" that can eliminate any concurrency. (Explained in more detail below)</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>

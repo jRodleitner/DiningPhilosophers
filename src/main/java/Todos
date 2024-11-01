@@ -93,12 +93,12 @@ CHECK:
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]:
 1.  [x][x][x] Naive
-2.  [x][x][ ] Hierarchy
-3.  [x][x][ ] Asymmetric
-4.  [x][x][ ] Timeout
+2.  [x][x][x] Hierarchy
+3.  [x][x][x] Asymmetric
+4.  [x][x][x] Timeout
 5.  [x][x][ ] Restrict
-6.  [x][x][ ] Global Token
-7.  [x][x][ ] Multiple Token
+6.  [x][x][x] Global Token
+7.  [x][x][x] Multiple Token
 8.  [x][x][ ] Atomic Waiter
 9.  [x][x][ ] Pickup Waiter
 10. [x][x][ ] Intelligent Pickup Waiter

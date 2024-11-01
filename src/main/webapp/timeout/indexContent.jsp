@@ -214,16 +214,20 @@
             <td>With this approach, we prevent deadlocks by avoiding the Hold-and-Wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>Philosophers are not guaranteed to be able to eat, thus starvation is possible.</td>
-        </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>We fail at providing fairness to the system, as no such measures are taken.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>Philosophers are not guaranteed to be able to eat due to the timeout, thus starvation is possible.
+                This is even though we use the FIFO-enhanced chopstick pickup.
+                Depending on the chosen timeout, starvation likeliness can change. (Very low timeout values increase the risk)
+                Due to these issues, we can not guarantee any fairness to the philosophers using this solution.
+            </td>
         </tr>
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Concurrency of the system is given, since the philosophers are not actively blocked from eating by this approach. The degree of concurrency we achieve is practically identical to the naive implementation, as we ideally only intervene when a deadlock has occurred. In the case of a timeout, there is a kind of "soft reset" and we start the pickup process anew, harming concurrency minimally.</td>
+            <td>The concurrency potential of the system is limited.
+                The degree of concurrency we achieve is practically identical to the naive implementation,
+                as we ideally only intervene when a deadlock has occurred.
+                In the case of a timeout, there is a kind of "soft reset" and we start the pickup process anew,
+                harming concurrency minimally.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -238,11 +242,11 @@
 
     <p>
         A major limitation of this approach is that when a timeout occurs, philosophers must wait for a certain time to
-        re-attempt their pickup. When the timeout is chosen very low frequent re-attempts might happen,
-        on the contrary if we choose high values for the timeout we might take a very long to realize a deadlock has occurred, harming concurrency/ system progress.
+        re-attempt their pickup. When the timeout is chosen very low, frequent re-attempts might happen.
+        On the contrary if we choose high values for the timeout we might take a very long to realize a deadlock has occurred, harming concurrency/ system progress.
         The waiting time has to be reasonably chosen and randomized, to prevent recurring deadlocks.
         If we choose fixed values, for example 10ms, it might happen that the philosophers all try to pick up their left
-        chopsticks again and again, just with a delay of 10ms.
+        chopsticks again and again, just with a delay of 10ms. This would (arguably) result in an even worse condition: A livelock (Consuming resources without system progress)
     </p>
     <p>
         You can find the respective Simulation and Animation pages here:

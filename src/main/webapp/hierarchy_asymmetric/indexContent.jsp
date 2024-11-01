@@ -181,7 +181,8 @@
             <td>
                 The Resource Hierarchy Solution does not guarantee that a philosopher will get a chance to eat by itself.
                 We combine this approach with the FIFO (First in First Out) enhanced chopstick pickup, guaranteeing that philosophers will eventually get the chance to acquire their chopsticks.
-                This transforms the Resource Hierarchy Solution to a starvation-free solution. However, we take no additional measures to enhance fairness.
+                This transforms the Resource Hierarchy Solution to a starvation-free solution.
+                We take no additional measures to enhance fairness, both eat-chance and time-fairness depend heavily on the chosen distribution.
             </td>
         </tr>
 
@@ -289,7 +290,7 @@
             <td>
                 Again, the resource Asymmetric Solution does not guarantee that a philosopher will get a chance to eat by itself.
                 We enhance this solution, using the FIFO-enabled pickup of chopsticks to transforms the Asymmetric Solution to a starvation-free solution.
-                We take no additional measures to enhance fairness.
+                We take no additional measures to enhance fairness, both eat-chance and time-fairness depend heavily on the chosen distribution.
             </td>
         </tr>
 
