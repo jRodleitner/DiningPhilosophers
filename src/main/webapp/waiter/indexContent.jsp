@@ -218,13 +218,13 @@
             <td>We again prevent deadlocks by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>The introduction of a queue on the philosophers' requests guarantees that each philosopher will eventually get a chance to eat.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free: The introduction of a queue on the philosophers' requests guarantees that each philosopher will eventually get a chance to eat.
+                Eat-chance and time-fairness depend heavily on the chosen distribution. The waiter will hand out permission eventually,but does not account for fairness.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>Fair eat-chance, as philosophers will eventually get the chance to eat whenever they request it. Eat-time fairness is highly dependent on the chosen distribution and is not managed by this algorithm.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
             <td>The Atomic Waiter algorithm removes concurrency from the system, permitting only one philosopher at a time.</td>
@@ -311,20 +311,23 @@
             <td>As in the Atomic Waiter Solution, we effectively avoid deadlocks by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>The queue lets us avoid starvation.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free: As in the Atomic Waiter solution, every philosopher, when requested, will eventually get a chance to eat.
+                Eat-chance and time-fairness depend heavily on the chosen distribution. The waiter will hand out permission eventually,but does not account for fairness.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>As in the Atomic Waiter solution, every philosopher, when requested, will eventually get a chance to eat. For eat-chance fairness, we can infer that philosophers who request to eat more often will gain permission more often. Eat-time fairness is again dependent on the chosen distribution and not explicitly managed. However, due to the now enabled parallelism, philosophers now get more chances to eat.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>We reintroduce concurrency, but permission is frequently given to philosophers adjacent to currently eating neighbors. Depending on the order of the requests, this limits the degree of concurrency during execution. This results in—on average—lower concurrency than the naive implementation.</td>
+            <td>
+                We reintroduce concurrency, but permission is frequently given to philosophers adjacent to currently eating neighbors.
+                The waiter will then block until this philosopher finished picking up.
+                Depending on the order of the requests, this limits the degree of concurrency during execution. </td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
-            <td>Very simple, we only need to move one line in the Atomic Waiter Solution.</td>
+            <td>Very simple, we only need to move one line in the Atomic Waiter Solution to regain concurrency.</td>
         </tr>
         <tr>
             <td><b>Performance</b></td>
@@ -379,50 +382,49 @@
             eatStates = new Boolean[nrPhilosophers];
         }
 
-        // Method for philosophers to request permission to eat.
         synchronized void requestPermission(Philosopher philosopher) {
-            philosophersQueue.add(philosopher);  // Add the requesting philosopher to the queue.
+            philosophersQueue.add(philosopher);  // add the requesting philosopher to the queue
 
-            // If no philosopher has permission, assign one from the queue.
+            // if no philosopher has permission, assign the first one from the queue
             if (permittedPhilosopher == null) {
                 permittedPhilosopher = philosophersQueue.poll();
             }
 
-            // Wait until this philosopher is the one permitted to eat.
+            // wait until this philosopher is the one permitted to eat
             while (philosopher != permittedPhilosopher) {
-                wait();  // Wait until it is this philosopher's turn.
+                wait();
             }
 
-            setEatState(philosopher);  // Update the philosopher's state to eating.
+            setEatState(philosopher);  // update the philosopher's state to eating.
         }
 
-        // Method to return permission, allowing the next philosopher to eat based on neighbor states.
+        // method to return permission,and to determine the next philosopher to permit, based on neighbor states
         synchronized void returnPermission() {
             // Iterate through the queued philosophers to find a suitable candidate.
             for Each philosopher in philosophersQueue {
                 int leftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;  // Left philosopher's index.
                 int rightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;                   // Right philosopher's index.
 
-                // Check if neighboring philosophers are not eating.
+                // check if neighboring philosophers are not eating
                 if (!eatStates[leftPhilosopher] && !eatStates[rightPhilosopher] && philosopher != permittedPhilosopher) {
-                    permittedPhilosopher = philosopher;  // Grant permission to this philosopher.
+                    permittedPhilosopher = philosopher;  // grant permission to this philosopher.
                     philosophersQueue.remove(philosopher);
-                    notifyAll();  // Notify waiting philosophers.
-                    return;  // Exit after assigning permission.
+                    notifyAll();  // notify waiting philosophers
+                    return;
                 }
             }
 
-            // If no suitable philosopher is found, assign the next one in the queue.
+            // if no suitable philosopher is found, assign the next one in the queue.
             permittedPhilosopher = philosophersQueue.poll();
-            notifyAll();  // Notify that a philosopher was chosen from the queue.
+            notifyAll();
         }
 
-        // Method to set the state of a philosopher as eating.
+        // update state to eating
         void setEatState(Philosopher philosopher) {
             eatStates[philosopher.getPhId()] = true;
         }
 
-        // Method to reset the state of a philosopher after they finish eating.
+        // update state to not eating
         synchronized void removeEatState(Philosopher philosopher) {
             eatStates[philosopher.getPhId()] = false;
         }
@@ -483,16 +485,18 @@
             <td>As in the previous solutions, we avoid the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>Theoretically, there is a very slim chance of starvation in a limited time environment like ours (If we let the simulation run indefinitely, philosophers will eventually be permitted at some point). In rare cases, skipping philosophers could lead to some philosophers being repeatedly permitted, while others never get a chance to eat.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free, but only in unlimited execution time.
+                Theoretically, there is a very slim chance of starvation in a limited time environment like ours (If we let the simulation run indefinitely, philosophers will eventually be permitted at some point, due to the queuing mechanism). In rare cases, skipping philosophers could lead to some philosophers being permitted repeatedly, while others never/rarely get a chance to eat.
+                We sometimes skip philosophers in the queue to enhance concurrency. We always prefer philosophers that are currently able to eat, over those that requested first. This reduces the overall eat-chance and eat-time fairness in our system.
+            </td>
+
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>We sometimes skip philosophers in the queue to enhance concurrency. We always prefer philosophers that are currently able to eat, which lowers eat-chance and eat-time fairness in our system.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>This approach lets us enhance concurrency in our system by avoiding handing permission to a philosopher adjacent to a currently eating neighbor, when possible.</td>
+            <td>Good: This approach lets us enhance concurrency in our system by avoiding handing permission to a philosopher adjacent to a currently eating neighbor, whenever possible.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -500,7 +504,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is now more processing of the queue and an additional array. Additionally, philosophers now have to access the waiter an additional time when removing their "eating" state. This leads to poor scalability since the waiter potentially has to go through a queue of r (number of requests) to check whether adjacent philosophers are eating each time a request is returned. During this time, the waiter cannot accept requests/putdowns/removal of eat states, forcing other philosophers to wait.</td>
+            <td>There is now more processing of the queue and an additional array. Additionally, philosophers now have to access the waiter an additional time when removing their "eating" state. This again leads to poor scalability since the waiter potentially has to go through a queue of r (number of requests) to check whether adjacent philosophers are eating each time a request is returned. During this time, the waiter cannot accept requests/putdowns/removal of eat states, forcing other philosophers to wait.</td>
         </tr>
         </tbody>
     </table>
@@ -508,10 +512,7 @@
     <p>
 
         The Solution yields good results concerning concurrency, however
-        there is still one drawback to this solution, as a waiter will always assign the permission to the
-        philosopher that requested the chopsticks first, or one that is currently able to eat.
-        This results in the fact that when philosophers request eating more frequently they will repeatedly be allowed
-        to eat.
+        there is still no account of fairness.
     </p>
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -703,15 +704,19 @@
             <td>We effectively prevent deadlocks with this solution, as in the other waiter solutions, by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Fairness</b></td>
+            <td><b>Starvation and Fairness</b></td>
             <td>
-                For the eat-chance fairness implementation, we allow the philosopher to eat who has eaten the least times. Similarly, the eat-time approach additionally takes the distribution of eat-times into account and can potentially compensate for large outliers. We act on this prioritization whenever possible (if no philosopher is in the queue, we pick the first one that requests the chopsticks). Note that in a limited simulation time, one philosopher will frequently have had more opportunities to eat than the others. Both approaches let us effectively enhance different aspects of fairness.
+                Starvation-free: We prioritize those with the least eat-chances/ time or pick the next in line, so any request will eventually be fulfilled.
+                For the eat-chance fairness implementation, we allow the philosopher to eat who has eaten the least times. Similarly, the eat-time approach additionally takes the distribution of eat-times into account and can potentially compensate for large outliers.
+                We act on this prioritization whenever possible (if no philosopher is in the queue, we pick the first one that requests the chopsticks).
+                Note that in a limited simulation time, one philosopher will naturally have had more opportunities to eat than the others.
+                Both approaches let us effectively enhance different aspects of fairness.
             </td>
         </tr>
         <tr>
             <td><b>Concurrency</b></td>
             <td>
-                With this solution, we clearly prioritize fairness over parallelism. We frequently assign philosophers adjacent to eating neighbors permission, which can in some cases (simulation runs) lead to no concurrency in the system at all.
+                Limited: With this solution, we clearly prioritize fairness over parallelism. We frequently assign philosophers adjacent to eating neighbors permission, which can in some cases (simulation runs) lead to no concurrency in the system at all.
             </td>
         </tr>
         <tr>
@@ -747,7 +752,7 @@
         One of the main drawbacks of the waiter solution would be its scalability.
         Modern systems often maintain hundreds, if not thousands of threads that compete for resources.
         The waiters being accessed mutually exclusive (one after another) by several hundreds, if not thousands of philosophers,
-        instead of being accessed by 2-9 would produce a big overhead with long waiting times.
+        instead of being accessed by a few would produce a big overhead with long waiting times.
         An idea to address this, would be to introduce more than one waiter into the system.
         Each of the waiters would then be assigned to manage a subset of the philosophers.
         There is of course going to be an overlap in the forks at the "corners" of the setup.
@@ -795,16 +800,17 @@
             <td>Prevents deadlocks by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>Each waiter manages its own queue, so each philosopher in the subset will eventually get the chance to eat.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free: Each waiter manages its own queue, so each philosopher in the subset will eventually get the chance to eat.
+                If we choose the Pickup Waiter as a base, eat-chance and time-fairness depend heavily on the chosen distribution.
+                Depending on which of the Fair Waiter Solutions we choose, we can enhance different aspects of fairness.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>TODO::</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>By reducing the overhead of exclusive waiter access, we consistently achieve high concurrency. Due to distributed requests, we gain the advantage of assigning permission to philosophers adjacent to eating neighbors less often. Therefore, this solution will—on average—outperform the Pickup Waiter Solution in simulations.</td>
+            <td>Good: By reducing the overhead of exclusive waiter access, we consistently achieve high concurrency. Due to distributed requests, we gain the advantage of assigning permission to philosophers adjacent to eating neighbors less often. Therefore, this solution will—on average—outperform the Pickup/ Fair Waiter Solutions in simulations.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -819,7 +825,7 @@
 
     <p>
         The advantage of this solution is that we can use the previously presented waiters to manage the respective subsets with a few considerations.
-        The Fair Waiter Solution would be capable of ensuring fairness, but only within the managed subset.
+        The Fair Waiter Solution is capable of ensuring fairness, but only within the managed subset.
         The Intelligent Pickup Waiter performance would be decreased, since it is not possible with the current implementation
         to check whether philosophers adjacent to the managed set are currently eating.
         To manage this, some kind of communication would be required between the waiters (Or global tracking of the states, but this would again limit scalability).
@@ -828,7 +834,7 @@
         Dynamic environments would be harder to manage, because of considerations like:
         If a philosopher joins the table, which waiter is responsible?
         When many philosophers join or leave the table, do we reduce/increase the number of waiters and redistribute the subsets?
-        The correct balance of sub-sets is necessary to improve performance, this is hard to determine during runtime.
+        The correct balance of sub-sets is necessary to improve performance. This should be hard to determine during runtime.
 
     </p>
     <p>
@@ -844,7 +850,7 @@
     <h2>Restrict Waiter Solution</h2>
 
     <p>
-        There is a naive version of the waiter solution, in which we track the number of forks on the table.
+        There is a naive version of the waiter solution, in which we simply track the number of forks on the table.
         This algorithm is a combination of the waiter and restrict solution, preventing one philosopher from eating at all times.
         The waiter always provides the chopsticks when requested by a philosopher,
         unless there are less than two chopsticks remaining on the table.
@@ -939,24 +945,28 @@
             <td>By limiting the number of philosophers to (n-1), we prevent deadlocks by avoiding the circular wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>TODO::.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free, but only due to the fair lock, that manages a FIFO queue of the waiting philosophers and the utilization of the FIFO-enhanced pickups of chopsticks.
+                Eat- and Time- fairness depend heavily on the chosen distribution and are not managed.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>TODO:: We do not provide any fairness to the system using this solution. </td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td> We only block philosophers that cannot complete a pick-up, thus we do not limit concurrency compared to the naive implementation. But there is still an issue with possible long wait chains that often times reduce parallelism significantly.</td>
+            <td>
+                Limited: We only block philosophers that would not be able to complete a pick-up.
+                The main drawback of this solution is that we "blindly" base our permission on number of chopsticks on the table, not the capability of eating.
+                The result are frequent long waiting chains, that limit concurrency.
+            </td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
-            <td>The changes required to implement this solution are not very complex and intuitive to understand. But since this solution does not utilize a queue we need a fair lock to prevent barging. This lets the waiter hand permission in the order the philosophers requested it.</td>
+            <td>The changes required to implement this solution are not very complex and are intuitive to understand. But since this solution does not utilize a queue we need a fair lock to prevent barging. This lets the waiter hand permission in the order the philosophers requested it.</td>
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>The additional logic in this solution does not produce a significant, but we still use a central entity to hand out permissions, which limits the scalability of the approach.</td>
+            <td>The additional logic in this solution does not produce a significant overhead. We still use a central entity to hand out permissions, which limits the scalability of the approach.</td>
         </tr>
         </tbody>
     </table>

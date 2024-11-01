@@ -225,7 +225,7 @@
         void think() {
             long remainingTime = calculateDuration();
 
-            // Think in small intervals to allow for checking requests during longer thinking times.
+            // think in small intervals to allow for checking requests during longer thinking times
             while (remainingTime > 0) {
                 long sleepTime = min(remainingTime, 10);
                 sleep(sleepTime);
@@ -238,7 +238,7 @@
         }
 
         void setNeighbors(ChandyMisraPhilosopher leftNeighbor, ChandyMisraPhilosopher rightNeighbor) {
-            // Establish references to neighboring philosophers for handling chopstick requests.
+
             this.leftNeighbor = leftNeighbor;
             this.rightNeighbor = rightNeighbor;
         }
@@ -282,16 +282,15 @@
             <td>We avoid deadlocks due to the distributed nature of the algorithm. Philosophers that own a chopstick have to hand over ownership, unless they absolutely need it. This breaks the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>We avoid starvation because philosophers must hand over ownership to the requesting neighbor eventually. (Either during their own waiting/thinking phase or when they process requests after eating.)</td>
-        </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>We only guarantee that philosophers will get a chance to eat at some point, but do not specifically enhance fairness with this approach.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free: We avoid starvation because philosophers must hand over ownership to the requesting neighbor eventually. (Either during their own waiting/thinking phase or when they process requests after eating.)
+                We only guarantee that philosophers will get a chance to eat at some point, but do not specifically enhance fairness with this approach.
+            </td>
         </tr>
         <tr>
             <td><b>Concurrency</b></td>
-            <td>The distributed nature of this algorithm yields a high degree of concurrency.</td>
+            <td>Very Good: The distributed handling of pickups and the avoidance of waiting chains yields a high degree of concurrency.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -299,7 +298,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a negligible overhead with the logic introduced in this solution. Due to its inherently distributed nature, the approach is highly scalable and can be used in large systems.</td>
+            <td>There is a slight overhead with the logic introduced in this solution. Due to its inherently distributed nature, the approach is highly scalable and can be used in large systems.</td>
         </tr>
         </tbody>
     </table>
@@ -453,20 +452,18 @@
                 <td>By limiting the number of philosophers to (n-1), we avoid the circular wait condition and thus prevent deadlocks.</td>
             </tr>
             <tr>
-                <td><b>Starvation: </b></td>
-                <td> TODO:: </td>
-            </tr>
-            <tr>
-                <td><b>Fairness: </b></td>
+                <td><b>Starvation and Fairness </b></td>
                 <td>
+
                     Due to the additional check of lesser eating time/ eat chances of philosophers who are requested for the token we guarantee that the token will be held longer by philosophers wo had more chances/ time to eat.
                     However, it is not guaranteed that all philosophers will eventually hold the token, so we only prevent starvation of certain philosophers in this way. In usual executions this is the case though, but works better for smaller numbers of philosophers.
                     In such setups the token will be passed around all philosophers and enhance eat-time eat-chance fairness.
                 </td>
             </tr>
+
             <tr>
                 <td><b>Concurrency: </b></td>
-                <td>Due to the distributed nature of this algorithm concurrent performance is good. Additionally, one philosopher is always being blocked, this shortens the longest precedence path, thus waiting chains are shortened. </td>
+                <td>Limited: Due to the distributed nature of this algorithm concurrent performance is usually good, but waiting chains are still an issue. Additionally, one philosopher is always being blocked (not attempting pickups at all), this shortens the longest precedence path, thus waiting chains are shortened. </td>
             </tr>
             <tr>
                 <td><b>Implementation</b></td>

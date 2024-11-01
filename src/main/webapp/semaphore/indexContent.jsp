@@ -210,15 +210,15 @@
         </tr>
         <tr>
             <td><b>Starvation</b></td>
-            <td>Starvation is prevented due to the implicit semaphore-queue, which eventually allows all philosophers to eat.</td>
+            <td>
+                Starvation is prevented due to the implicit semaphore-queue, which eventually allows all philosophers to eat.
+                Eat-chance and time-fairness depend heavily on the chosen distribution and are not managed here.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>Fair eat-chance, as philosophers will eventually get the chance to eat when they try to acquire the table-semaphore. Note that the utilization of the fairness is crucial to prevent barging and to enable the implicit FIFO queue. Eat-time fairness is highly dependent on the chosen distribution and is not managed by this algorithm explicitly.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>There is a possibility for high concurrency, but similar to the Pickup Waiter Solution, philosophers adjacent to eating neighbors may acquire the semaphore. To manage this, we could introduce a monitor to the solution; however, there is a smarter solution called the Tanenbaum solution, which we will explore soon.</td>
+            <td>Limited: There is a possibility for high concurrency, but similar to the Pickup Waiter Solution, philosophers adjacent to eating neighbors may acquire the semaphore. </td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a very slight performance overhead due to the globally accessed semaphore.</td>
+            <td>There is a very slight performance overhead due to the globally accessed semaphore. Scalability is limited due to the managed FIFO-queue. </td>
         </tr>
         </tbody>
     </table>
@@ -318,16 +318,16 @@
             <td>By limiting the number of philosophers to (n-1), we eliminate the possibility of the circular wait condition, as defined by Coffman.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>Due to the enabled fairness parameter (prevents barging) and the immediate pickup after put-down, starvation is prevented.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Starvation-free: Due to the enabled fairness parameter (prevents barging) and the immediate pickup after put-down (FIFO-enhanced pickup), starvation is prevented.
+                Eat-chance and time-fairness depend heavily on the chosen distribution and are not managed here.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>We do not provide any additional fairness to the system with this solution, but we use a semaphore with a FIFO queue, so any philosopher that wants to eat will eventually get the chance to.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Good concurrency is possible, but in many situations long waiting chains occur, leading to low or no concurrency. </td>
+            <td>Limited: Good concurrency is possible, but in many situations long waiting chains occur, leading to low or no concurrency in simulation runs.  </td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -335,11 +335,14 @@
         </tr>
         <tr>
             <td><b>Performance: </b></td>
-            <td> There is a negligible overhead using the one Semaphore. The approach is also scalable, bet highly dependent on the semaphore implementation.
+            <td> There is a negligible overhead using the multiple-permit Semaphore. The approach is also scalable, bet highly dependent on the semaphore implementation.
                 Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait.</td>
         </tr>
         </tbody>
     </table>
+
+
+
 
 
     <p>
@@ -482,16 +485,18 @@
             <td>Prevents deadlocks by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>Sadly, the Tanenbaum Solution is not starvation-free. Since we only test the left and right philosophers after a put-down, we cannot guarantee that every philosopher will eventually get a chance to eat. Starvation scenarios are not very likely but still possible.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Sadly, the Tanenbaum Solution is not starvation-free.
+                Since we only test the left and right philosophers after a put-down, we cannot guarantee that every philosopher will eventually get a chance to eat.
+                Starvation scenarios are not very likely but still possible.
+                Since we do not avoid starvation, there is no guaranteed fairness in the system.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>Since we do not avoid starvation, there is no fairness in the system.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>This algorithm achieves good concurrency results, but the calling of the test() function on only the two neighbors often leads to situations where a philosopher could eat but cannot because neighboring philosophers are currently blocked.</td>
+            <td>Good: This algorithm achieves good concurrency results, but the calling of the test() function on only the two neighbors often leads to situations where a philosopher could eat but cannot because neighboring philosophers are currently blocked.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -685,16 +690,17 @@
             <td>Deadlock-free, as deadlocks are prevented by avoiding the circular-wait condition.</td>
         </tr>
         <tr>
-            <td><b>Starvation</b></td>
-            <td>We now test for each philosopher whenever a put-down is completed. This theoretically lets us avoid starvation.</td>
+            <td><b>Starvation and Fairness</b></td>
+            <td>
+                Most likely Starvation-free: We now test for each philosopher whenever a put-down is completed, prioritized by the least chances/ time.
+                The test order after a put-down occurs is sorted by the philosophers who have eaten the least. This means that the "poorest" philosophers are always tested first, before we proceed to others.
+                This should ensure that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.
+            </td>
         </tr>
-        <tr>
-            <td><b>Fairness</b></td>
-            <td>The test order after a put-down occurs is sorted by the philosophers who have eaten the least. This means that the "poorest" philosophers are always tested first, before we proceed to others. This should ensure that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.</td>
-        </tr>
+
         <tr>
             <td><b>Concurrency</b></td>
-            <td>In this approach, we still prioritize concurrent performance over fairness. This results in very high concurrency results while still taking fairness into account.</td>
+            <td>Very Good: In this approach, we still prioritize concurrent performance over fairness. This results in very high concurrency results while still taking fairness into account.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>

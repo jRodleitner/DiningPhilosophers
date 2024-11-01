@@ -96,23 +96,23 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 2.  [x][x][x] Hierarchy
 3.  [x][x][x] Asymmetric
 4.  [x][x][x] Timeout
-5.  [x][x][ ] Restrict
+5.  [x][x][x] Restrict
 6.  [x][x][x] Global Token
 7.  [x][x][x] Multiple Token
-8.  [x][x][ ] Atomic Waiter
-9.  [x][x][ ] Pickup Waiter
-10. [x][x][ ] Intelligent Pickup Waiter
-11. [x][x][ ] Fair Waiter (Eat Chance)
-12. [x][x][ ] Fair Waiter (Eat Time)
-13. [x][x][ ] Two Waiters
-18. [x][x][ ] chandy-misra
-19. [x][x][ ] Restrict-Token Chance-Fairness
-20. [x][x][ ] Restrict-Token Time-Fairness
-21. [x][x][ ] Restrict Waiter
-14. [x][x][ ] Table Semaphore
-15. [x][x][ ] tanenbaum
-16. [x][x][ ] fair_tanenbaum (Eat Chance)
-17. [x][x][ ] fair_tanenbaum (Eat Time)
+8.  [x][x][x] Atomic Waiter
+9.  [x][x][x] Pickup Waiter
+10. [x][x][x] Intelligent Pickup Waiter
+11. [x][x][x] Fair Waiter (Eat Chance)
+12. [x][x][x] Fair Waiter (Eat Time)
+13. [x][x][x] Two Waiters
+18. [x][x][x] chandy-misra
+19. [x][x][x] Restrict-Token Chance-Fairness
+20. [x][x][x] Restrict-Token Time-Fairness
+21. [x][x][x] Restrict Waiter
+14. [x][x][x] Table Semaphore
+15. [x][x][x] tanenbaum
+16. [x][x][x] fair_tanenbaum (Eat Chance)
+17. [x][x][x] fair_tanenbaum (Eat Time)
 
 
 22. [?][?][?] dijkstra (Instant timeout)
