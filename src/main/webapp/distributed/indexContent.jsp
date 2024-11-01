@@ -448,21 +448,21 @@
             </thead>
             <tbody>
             <tr>
-                <td><b>Deadlocks: </b></td>
+                <td><b>Deadlocks </b></td>
                 <td>By limiting the number of philosophers to (n-1), we avoid the circular wait condition and thus prevent deadlocks.</td>
             </tr>
             <tr>
                 <td><b>Starvation and Fairness </b></td>
                 <td>
-
+                    Starvation-free due to the FIFO-enhanced pickup of chopsticks.
                     Due to the additional check of lesser eating time/ eat chances of philosophers who are requested for the token we guarantee that the token will be held longer by philosophers wo had more chances/ time to eat.
-                    However, it is not guaranteed that all philosophers will eventually hold the token, so we only prevent starvation of certain philosophers in this way. In usual executions this is the case though, but works better for smaller numbers of philosophers.
-                    In such setups the token will be passed around all philosophers and enhance eat-time eat-chance fairness.
+                    However, it is not guaranteed that all philosophers will eventually hold the token, so we only prevent unfair treatment of certain philosophers in this way. In usual executions fairness is, in fact, enhanced, but works better for smaller numbers of philosophers.
+                    In such setups the token will be passed around all philosophers and improve eat-time eat-chance fairness.
                 </td>
             </tr>
 
             <tr>
-                <td><b>Concurrency: </b></td>
+                <td><b>Concurrency</b></td>
                 <td>Limited: Due to the distributed nature of this algorithm concurrent performance is usually good, but waiting chains are still an issue. Additionally, one philosopher is always being blocked (not attempting pickups at all), this shortens the longest precedence path, thus waiting chains are shortened. </td>
             </tr>
             <tr>
