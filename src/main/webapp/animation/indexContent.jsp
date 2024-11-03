@@ -48,6 +48,7 @@
             justify-content: space-between;
             align-items: flex-start;
             gap: 10px; /* Adds space between the form and the result box */
+            position: relative;
         }
 
 
@@ -152,19 +153,19 @@
 
         .floating-box_1 {
             position: absolute;
-            top: 180px;
-            left: 130px;
-            padding: 15px;
-            opacity: 80%;
+            bottom: 3%;
+            right: 1%;
+            padding: 10px;
+            opacity: 100%;
             background-color: #FFFACD;
             border: 1px solid #ccc;
             border-radius: 10px;
             font-family: "Courier New", Courier, monospace;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-size: 13px;
+            font-size: clamp(4px, 2vw, 13px);
             font-weight: bold;
-            z-index: 1000; /* Ensures it stays on top */
-            /*transition: opacity 0.5s; /* Smooth fade-out */
+            z-index: 1000;
+            cursor: pointer;
         }
 
         .hidebox {
@@ -380,18 +381,11 @@
     <span style="color: red; font-size: 16px; font-weight: bold;">&#8595;</span> Scroll down for Animation notes.
 </div>
 
-<div class="floating-box_1" >
-    [ T ]   = Think <br>
-    [PUL]   = Pick Up Left <br>
-    [PUR]   = Pick Up Right <br>
-    [ E ]   = Eat <br>
-    [PDL]   = Put Down Left <br>
-    [PDR]   = Put Down Right <br>
-    [ B ]   = Blocked <br>
-</div>
+
 
 <h2>Animation Page</h2>
 <div class="container">
+
     <div class="svg-container">
 
         <svg id="dining-philosophers-animation" xmlns="http://www.w3.org/2000/svg" width="490px" height="445px"
@@ -1216,6 +1210,16 @@
         <c:if test="${not empty result}">
             <pre>${result}</pre>
         </c:if>
+    </div>
+    <div class="floating-box_1" onclick="this.style.display='none'">
+        <h4>Legend:</h4>
+        [ T ] = Think  <br>
+        [PUL] = Pick Up Left <br>
+        [PUR] = Pick Up Right <br>
+        [ E ] = Eat <br>
+        [PDL] = Put Down Left <br>
+        [PDR] = Put Down Right <br>
+        [ B ] = Blocked <br>
     </div>
 </div>
 

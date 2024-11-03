@@ -14,6 +14,7 @@
             border-radius: 10px;
             padding: 10px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .container1 {
@@ -87,6 +88,23 @@
             font-size: 16px;
             z-index: 1000; /* Ensures it stays on top */
             transition: opacity 0.5s; /* Smooth fade-out */
+        }
+
+        .floating-box_1 {
+            position: absolute;
+            bottom: 4%;
+            right: 29%;
+            padding: 10px;
+            opacity: 100%;
+            background-color: #FFFACD;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-family: "Courier New", Courier, monospace;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: clamp(4px, 2vw, 13px);
+            font-weight: bold;
+            z-index: 1000;
+            cursor: pointer;
         }
 
         .error {
@@ -312,6 +330,17 @@
         </c:if>
     </div>
 
+    <div class="floating-box_1" onclick="this.style.display='none'">
+        <h4>Legend:</h4>
+        [ T ] = Think  <br>
+        [PUL] = Pick Up Left <br>
+        [PUR] = Pick Up Right <br>
+        [ E ] = Eat <br>
+        [PDL] = Put Down Left <br>
+        [PDR] = Put Down Right <br>
+        [ B ] = Blocked <br>
+    </div>
+
     <!-- Form Container -->
     <div class="form-container">
 
@@ -483,22 +512,6 @@
     </div>
 </div>
 <br>
-<div class="container1">
-    <div class="fixed-box">
-        <h3>Legend</h3>
-        <ul>
-            <li>[ T ] = Think</li>
-            <li>[PUL] = Pick Up Left</li>
-            <li>[PUR] = Pick Up Right</li>
-            <li>[ E ] = Eat</li>
-            <li>[PDL] = Put Down Left</li>
-            <li>[PDR] = Put Down Right</li>
-            <li>[ B ] = Blocked (Whenever waiting for a Chopstick occurs)</li>
-        </ul>
-        <br>
-    </div>
-
-</div>
 <h2>Simulation Notes</h2>
 <div class="description">
     <p>

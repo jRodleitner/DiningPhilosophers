@@ -258,7 +258,7 @@ public class DiningTable {
                 }
                 break;
 
-            case Algorithm.ROUNDROBIN:
+            /*case Algorithm.ROUNDROBIN:
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new RoundRobinChopstick(i));
                 }
@@ -268,7 +268,7 @@ public class DiningTable {
                     RoundRobinPhilosopher philosopher = new RoundRobinPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, scheduler);
                     philosophers.add(philosopher);
                 }
-                break;
+                break;*/
 
             case Algorithm.INSTANTTIMEOUT:
                 for (int i = 0; i < nrPhilosophers; i++) {

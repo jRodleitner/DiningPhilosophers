@@ -86,9 +86,9 @@ CHECK:
 31.10
 
 3.11
-[_] correct pseudocode comments
 [x] Starvation + Fairness Re-evaluation
 [x] secure backend
+[_] correct pseudocode comments
 [ ] test backend security
 [ ] complete wording overhaul
 
