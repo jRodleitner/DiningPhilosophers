@@ -1,5 +1,7 @@
 package simulation;
 
+import java.util.List;
+
 public class Algorithm {
     public static final String NAIVE = "NAIVE"; //0
     public static final String ASYMMETRIC = "ASYMMETRIC"; //1
@@ -27,8 +29,6 @@ public class Algorithm {
 
     public static final String TABLESEMAPHORE = "TABLESEMAPHORE";   //10
 
-    public static final String ROUNDROBIN = "ROUNDROBIN";    //11
-
     public static final String INSTANTTIMEOUT = "INSTANTTIMEOUT";//12
 
     public static final String TANENBAUM = "TANENBAUM"; //13
@@ -46,6 +46,30 @@ public class Algorithm {
     public static final String RESTRICTTOKENTIME = "TIME_RESTRICT_TOKEN";
 
 
+    public static final List<String> ALL_ALGORITHMS = List.of(
+            NAIVE,
+            ASYMMETRIC,
+            HIERARCHY,
+            GLOBALTOKEN,
+            MULTIPLETOKEN,
+            TIMEOUT,
+            RESTRICTWAITER,
+            ATOMICWAITER,
+            PICKUPWAITER,
+            INTELLIGENTWAITER,
+            FAIREATTIMEWAITER,
+            FAIRCHANCEWAITER,
+            TWOWAITERS,
+            TABLESEMAPHORE,
+            INSTANTTIMEOUT,
+            TANENBAUM,
+            FAIRTIMETANENBAUM,
+            FAIRCHANCETANENBAUM,
+            RESTRICT,
+            CHANDYMISRA,
+            RESTRICTTOKENCHANCE,
+            RESTRICTTOKENTIME
+    );
 
 
 

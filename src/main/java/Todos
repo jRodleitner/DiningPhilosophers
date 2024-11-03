@@ -84,10 +84,14 @@ CHECK:
 [x] Correct eat-chance/ time explanation
 
 31.10
+
+3.11
 [_] correct pseudocode comments
-[_] Starvation + Fairness Re-evaluation
+[x] Starvation + Fairness Re-evaluation
+[x] secure backend
+[ ] test backend security
 [ ] complete wording overhaul
-[ ] secure backend
+
 
 
 
