@@ -26,16 +26,20 @@ public class SimulationServlet extends HttpServlet {
         int timeout = Integer.parseInt(request.getParameter("timeout"));
 
         System.out.println(nrPhilosophers + " " + simulationTime);
-        // Call the execute function with the given parameters
+
         List<String> result= null;
-        try {
-            result = Execute.execute(nrPhilosophers, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, false);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(RequestCheck.checkSimulationRequestValidity(nrPhilosophers, simulationTime, algorithm, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout)){
+            try {
+                result = Execute.execute(nrPhilosophers, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, false);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            request.setAttribute("result", result.getFirst());
+        } else {
+            request.setAttribute("result", "[Invalid Request ERROR]:  Invalid Simulation Parameters");
         }
 
-        // Set the result and parameters as request attributes
-        request.setAttribute("result", result.getFirst());
 
         request.setAttribute("algorithm", algorithm);
         request.setAttribute("nrPhil", nrPhilosophers);

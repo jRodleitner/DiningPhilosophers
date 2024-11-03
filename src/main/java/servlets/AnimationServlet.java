@@ -24,18 +24,25 @@ public class AnimationServlet extends HttpServlet {
         double eatPar2 = Double.parseDouble(request.getParameter("eatparam2"));
         int timeout = Integer.parseInt(request.getParameter("timeout"));
 
-        System.out.println(5 + " " + simulationTime);
-        // Call the execute function with the given parameters
         List<String> result = null;
-        try {
-            result = Execute.execute(5, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, true);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        if(RequestCheck.checkAnimationRequestValidity(simulationTime, algorithm, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout)){
+            try {
+                result = Execute.execute(5, simulationTime, algorithm, simulationType, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout, true);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            request.setAttribute("result", result.getFirst());
+            request.setAttribute("animationresult", result.get(1));
+
+        } else {
+            request.setAttribute("result", " [Invalid Request ERROR]: Invalid Simulation Parameters");
+            request.setAttribute("animationresult", " [Invalid Request ERROR]: Invalid Simulation Parameters");
+
         }
 
+
         // Set the result and parameters as request attributes
-        request.setAttribute("result", result.getFirst());
-        request.setAttribute("animationresult", result.get(1));
+
 
         request.setAttribute("algorithm", algorithm);
         request.setAttribute("simulationTime", simulationTime);

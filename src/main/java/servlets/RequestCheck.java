@@ -5,7 +5,7 @@ import simulation.Algorithm;
 
 public class RequestCheck {
     private static final int MIN_PHILOSOPHERS = 2;
-    private static final int MAX_PHILOSOPHERS = 2;
+    private static final int MAX_PHILOSOPHERS = 9;
     private static final int TIME_MIN = 100;
     private static final int TIME_MAX = 1000;
     private static final int TIMEOUT_MIN = 10;
@@ -23,22 +23,19 @@ public class RequestCheck {
     private static final int MAX_ANIMATION_TIME = 500;
     private static final int ANIMATION_PHILOSOPHERS = 5;
 
-    public static boolean checkSimulationRequestValidity(int nrPhil, int simulationTime, String algorithm, boolean simulatePickups, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout, boolean animate) {
+    public static boolean checkSimulationRequestValidity(int nrPhil, int simulationTime, String algorithm, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout) {
         return checkPhilosopherCount(nrPhil, MIN_PHILOSOPHERS, MAX_PHILOSOPHERS) &&
                 checkSimulationTimeBounds(simulationTime, TIME_MIN, TIME_MAX) &&
                 isValidAlgorithm(algorithm) &&
                 checkTimeout(timeout) &&
-                !animate &&
                 checkDistribution(eatDistribution, eatPar1, eatPar2) &&
                 checkDistribution(thinkDistribution, thinkPar1, thinkPar2);
     }
 
-    public static boolean checkAnimationRequestValidity(int nrPhil, int simulationTime, String algorithm, boolean simulatePickups, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout, boolean animate) {
-        return nrPhil == ANIMATION_PHILOSOPHERS &&
-                checkSimulationTimeBounds(simulationTime, TIME_MIN, MAX_ANIMATION_TIME) &&
+    public static boolean checkAnimationRequestValidity( int simulationTime, String algorithm, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout) {
+        return checkSimulationTimeBounds(simulationTime, TIME_MIN, MAX_ANIMATION_TIME) &&
                 isValidAlgorithm(algorithm) &&
                 checkTimeout(timeout) &&
-                animate &&
                 checkDistribution(eatDistribution, eatPar1, eatPar2) &&
                 checkDistribution(thinkDistribution, thinkPar1, thinkPar2);
     }
