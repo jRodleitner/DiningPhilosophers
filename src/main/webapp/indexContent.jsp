@@ -319,12 +319,14 @@
             The goal is to make sure that every philosopher has a fair chance to eat (and not starve), we call this
             fairness.
 
-            In the following we want to consider Starvation as philosophers not being able to eat at all.
+            In the following we want to consider starvation as philosophers not being able to eat at all.
+            Thus, if there is no starvation in our system, and philosophers who want to pick up chopsticks will eventually succeed,
+            then we guarantee fairness.
 
             With our solution, we aim to prevent deadlocks while also ensuring fairness as much as possible.
         </p>
         <p>
-            To measure fairness in our system we introduce two measures:
+            Additional to the basic notion of fairness of eventually succeeding to pick up, we introduce two measures:
         </p>
         <ul>
             <li><b>Eat Chance Fairness:</b> We count how often each philosopher eats and calculate the standard

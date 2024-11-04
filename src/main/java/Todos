@@ -89,8 +89,11 @@ CHECK:
 [x] Starvation + Fairness Re-evaluation
 [x] secure backend
 [_] correct pseudocode comments
+[_] complete wording overhaul
+
+
+Paul:
 [ ] test backend security
-[ ] complete wording overhaul
 
 
 

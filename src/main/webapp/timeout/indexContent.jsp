@@ -216,7 +216,7 @@
         <tr>
             <td><b>Starvation and Fairness</b></td>
             <td>Philosophers are not guaranteed to be able to eat due to the timeout, thus starvation is possible.
-                This is even though we use the FIFO-enhanced chopstick pickup.
+                This is the case, even we use the FIFO-enhanced chopstick pickup.
                 Depending on the chosen timeout, starvation likeliness can change. (Very low timeout values increase the risk)
                 Due to these issues, we can not guarantee any fairness to the philosophers using this solution.
             </td>
@@ -227,7 +227,7 @@
                 The degree of concurrency we achieve is practically identical to the naive implementation,
                 as we ideally only intervene when a deadlock has occurred.
                 In the case of a timeout, there is a kind of "soft reset" and we start the pickup process anew,
-                harming concurrency minimally.</td>
+                lowering concurrency.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
