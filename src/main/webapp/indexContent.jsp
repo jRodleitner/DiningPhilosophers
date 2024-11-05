@@ -92,6 +92,7 @@
             font-family: Arial, sans-serif;
             margin: 20px 0;
             font-size: 16px;
+            border: 2px;
             text-align: left;
         }
 
@@ -308,22 +309,19 @@
         <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
             Starvation happens when one or more philosophers rarely, or never, get a chance to eat. The prime example
-            for starvation are deadlocks,
-            where all philosophers starve.
-            When we try to design solutions we might come across an option that prevents deadlocks but is also blocking
-            certain philosophers from eating, causing starvation.
-            Examples for situations in which starvation could occur are, if one philosopher repeatedly grabs the
-            chopstick first, stopping the neighbor from eating,
-            or if one philosopher takes a very long time to eat, making neighbors wait for access to the
+            for starvation are deadlocks, which starve all philosophers.
+            Other examples for starvation are: One philosopher repeatedly grabs the
+            chopstick first, stopping the neighbor from eating.
+            One philosopher takes a very long time to eat, making neighbors wait for access to the
             chopstick.
             The goal is to make sure that every philosopher has a fair chance to eat (and not starve), we call this
             fairness.
 
-            In the following we want to consider starvation as philosophers not being able to eat at all.
-            Thus, if there is no starvation in our system, and philosophers who want to pick up chopsticks will eventually succeed,
-            then we guarantee fairness.
+            In the following we want to consider starvation as philosophers not being able to eat at all after a certain point.
+            Thus, if there is no starvation in our system, philosophers who want to pick up chopsticks will eventually succeed.
+            With this definition we guarantee fairness whenever a system is starvation-free.
 
-            With our solution, we aim to prevent deadlocks while also ensuring fairness as much as possible.
+            With our solution, we aim to prevent deadlocks while also maintaining fairness as much as possible.
         </p>
         <p>
             Additional to the basic notion of fairness of eventually succeeding to pick up, we introduce two measures:
@@ -341,6 +339,119 @@
                 return large outliers.
             </li>
         </ul>
+        <p>
+            In the context of implementations we sadly have to accept that scheduling of threads (and consequently philosophers) is never fair.
+            The Java VM and Operating system work in "mysterious ways" and depending on system configuration (for example, number of processor cores) algorithms
+            will behave vastly different. These scheduling and re-scheduling effects can lead to unexpected starvation effects.
+        </p>
+
+        <p>
+            Here an example for the naive expectation how the philosophers would behave:
+        </p>
+        <table class="styled-table">
+            <tr>
+                <th>Philosopher 1</th>
+                <th>Philosopher 2</th>
+                <th>Philosopher 3</th>
+            </tr>
+            <tr>
+                <td>Attempt to pick up left chopstick</td>
+                <td>Think</td>
+                <td>Think</td>
+            </tr>
+            <tr>
+                <td>Acquire left chopstick</td>
+                <td>Think</td>
+                <td>Attempt to pick up left chopstick</td>
+            </tr>
+            <tr>
+                <td>Attempt to pick up right chopstick</td>
+                <td>Attempt to pick up left chopstick</td>
+                <td>Acquire left chopstick</td>
+            </tr>
+            <tr>
+                <td>Acquire right chopstick</td>
+                <td>Wait for left chopstick</td>
+                <td>Attempt to pick up right chopstick</td>
+            </tr>
+            <tr>
+                <td>Eat</td>
+                <td>Wait for left chopstick</td>
+                <td>Wait for right chopstick</td>
+            </tr>
+            <tr>
+                <td>Eat</td>
+                <td>Wait for left chopstick</td>
+                <td>Wait for right chopstick</td>
+            </tr>
+            <tr>
+                <td>Put down left chopstick</td>
+                <td>Wait for left chopstick</td>
+                <td>Wait for right chopstick</td>
+            </tr>
+            <tr>
+                <td>Put down right chopstick</td>
+                <td>Acquire left chopstick</td>
+                <td>Wait for right chopstick</td>
+            </tr>
+        </table>
+
+        <p>
+            Here a more realistic schedule where philosophers 2 and 3 are suspended by the scheduler to run other processes:
+        </p>
+        <table class="styled-table">
+            <tr>
+                <th>Philosopher 1</th>
+                <th>Philosopher 2</th>
+                <th>Philosopher 3</th>
+            </tr>
+            <tr>
+                <td> Attempt to pick up left chopstick.</td>
+                <td> Think</td>
+                <td> Think</td>
+            </tr>
+            <tr>
+                <td> Acquire left chopstick.</td>
+                <td></td>
+                <td> Attempt to pick up left chopstick.</td>
+            </tr>
+            <tr>
+                <td> Attempt to pick up right chopstick</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> Acquire right chopstick</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td> Eat</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Eat</td>
+                <td>Think</td>
+                <td>Acquire left chopstick</td>
+            </tr>
+            <tr>
+                <td>Put down left chopstick</td>
+                <td>Attempt to pick up left chopstick</td>
+                <td>Attempt to pick up right chopstick</td>
+            </tr>
+            <tr>
+                <td>Put down right chopstick</td>
+                <td>Acquire left chopstick</td>
+                <td>Wait for right chopstick</td>
+            </tr>
+        </table>
+
+        <p>
+            It is obvious that scheduling can change the behavior significantly,
+            so this is something to bear in mind when implementing solutions.
+        </p>
+
 
         <h3>Concurrency</h3>
         <img src="pictures/concurrency.png" alt="Dining Philosophers Problem" width="400" height="350">
@@ -371,8 +482,8 @@
 
         <h3>Implementation</h3>
         <p>
-            We should also consider how difficult the implementation of a solution is, compared to other solutions.
-            Most of the solutions we will explore, are rather simple to implement, while some others will utilize more
+            We should also consider how difficult the implementation of a solution is when compared to other solutions.
+            Many will be rather simple to implement, while some others will utilize more
             complex concepts.
         </p>
         <h3>Performance</h3>
@@ -380,6 +491,7 @@
             Finally, we want to evaluate algorithms based on the overhead they produce and how scalable they are.
             Some Solutions use several data structures and synchronization mechanisms, that produce additional
             computational effort.
+            In our case, scalability refers to increasing the number of philosophers.
         </p>
 
 
@@ -388,10 +500,10 @@
         <h2>Simulation</h2>
 
         <p>
-            This website offers both a Simulation Page and an Animation Page, both powered by a Java Threads-based
+            This website offers a Simulation Page and an Animation Page, both powered by a Java Threads-based
             backend that is in principle very similar to the pseudocode provided later.
             The Simulation Page allows you to run a simulation and view the resulting simulation output as a string,
-            with detailed notes available on that page.
+            with detailed notes on the simulation settings available on that page.
             The Animation Page lets you run a simulation that is then visually animated, with further details also
             provided on that page.
             To see the Naive Dining Philosophers in action, you can try either the Simulation Page or the Animation
@@ -412,7 +524,7 @@
                 the Dining Philosophers problem.
                 The philosophers actions are logged over time, based on a virtual clock running during the simulation.
                 For simplicity, most of the Java boilerplate (Necessary for Java programs but not useful for
-                understanding of the discussed concepts) and some simulation logic for consistency have been omitted .
+                understanding of the discussed concepts) and some simulation logic for consistency of logs have been omitted.
                 If you are interested in the full implementation of this project, it is available
                 on GitHub here. //link to GitHub
             </p>
@@ -603,10 +715,10 @@
                 <td><b>Starvation and Fairness</b></td>
                 <td>Due to the possibility of deadlocks, starvation is a fundamental problem in our naive approach.
                     However, letting the philosophers wait for a notification to acquire the chopstick lowers the risk of
-                    starvation (when we are lucky and no deadlocks occur), but does not prevent it.
+                    starvation (when we are lucky and no deadlocks occur), but does not prevent it. (wait(), notify() pattern in Chopstick class)
                     Rescheduling or suspension of threads by Operating System or
                     Java VM could allow philosophers to acquire chopsticks repeatedly before their neighbor.
-                    Why this is the case, and the way we can solve this follows below.
+                    The solution to this follows below.
                 </td>
             </tr>
             <tr>
@@ -647,11 +759,14 @@
             This concept is called Barging and has to be prevented to ensure fairness in our solutions.
             Luckily, many of the synchronization methods in Java (for example Semaphores) allow so-called fairness
             parameters, that will enable a FIFO (First In First Out) queue on the waiting threads.
+
         </p>
         <p>
             For exactly this reason, we utilize fair semaphores to control access to chopsticks in the solutions we explore.
             This will prevent barging and thus the re-acquiring of chopsticks. (contrary to the "naive" chopstick
             class)
+            Now, even if the Operating System or Java VM re-schedule or suspend threads, we can guarantee that the
+            longest waiting philosopher will acquire the chopstick first. (if no deadlock occurs -of course)
             Note that we introduce an overhead, due to the managed FIFO queues.
         </p>
         <pre style="font-size: 14px;"><code class="language-java">
@@ -702,7 +817,7 @@
     <section id="limitations">
         <h2>Limitations</h2>
         <p>
-            Before exploring solutions, let us first discuss the main limitations of the problem.
+            Before exploring solutions, let us discuss the main limitations of the problem.
             One key limitation is that the maximum concurrency is restricted by the rules.
             Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to
             <b>[n/2]</b> for even numbers of philosophers <b>(n)</b> and <b>⌊n/2⌋</b> for odd n.
@@ -712,19 +827,22 @@
             processes may share more than two resources, which cannot be replicated using the dining philosophers
             problem
             without significantly changing its rules.
-            Another limitation is the assumption of preemption, where eating or thinking can be interrupted.
+
+            <!-- Another limitation is the assumption of preemption, where eating or thinking can be interrupted.
             In real-world systems, tasks are often non-preemptive, meaning they must run to completion without being
-            suspended or terminated.
+            suspended or terminated. -->
+
             Other constraints, such as the assumed homogeneity of resources (in reality, resources may have different
             constraints), time constraints (some processes must 'eat' within a specific timeframe), or unexpected
             unavailability (processes may crash or terminate), are also typically not accounted for.
+
             As a result, many solutions we will explore may not directly apply to such real-world systems.
         </p>
 
         <h4>Correct Solutions:</h4>
         <p>
-            Finding a correct solution to the dining philosophers proved to be no simple task.
-            Many approaches have been proven to be technically incorrect in a later re-evaluation.
+            Finding a correct solution to the dining philosophers has been shown to be no trivial task.
+            Many approaches have been proven to be incorrect in a later re-evaluation.
             <br>
             Correct solutions must be:
         <ul>

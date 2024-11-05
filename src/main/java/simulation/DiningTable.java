@@ -1,5 +1,6 @@
 package simulation;
 
+import algorithms.alternator.AlternatorPhilosopher;
 import algorithms.asymmetric.AsymmetricPhilosopher;
 import algorithms.chandymisra.ChandyMisraChopstick;
 import algorithms.chandymisra.ChandyMisraPhilosopher;
@@ -341,6 +342,24 @@ public class DiningTable {
                     int ownerId = Math.min(i, leftPhilosopherId);  // The owner is the philosopher with the lower ID
                     chopstick = (ChandyMisraChopstick) chopsticks.get(i);
                     chopstick.setOwner((ChandyMisraPhilosopher) philosophers.get(ownerId));
+                }
+                break;
+
+            case Algorithm.ALTERNATOR:
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    chopsticks.add(new SimpleChopstick(i));
+                }
+
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    AlternatorPhilosopher alternatorPhilosopher = new AlternatorPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, nrPhilosophers);
+                    philosophers.add(alternatorPhilosopher);
+                }
+
+                AlternatorPhilosopher alternatorPhilosopher;
+                for (int i = 0; i < nrPhilosophers; i++) {
+                    alternatorPhilosopher = (AlternatorPhilosopher) philosophers.get(i);
+                    alternatorPhilosopher.setNeighbors((AlternatorPhilosopher)  philosophers.get((i - 1 + nrPhilosophers) % nrPhilosophers),(AlternatorPhilosopher) philosophers.get((i + 1) % nrPhilosophers));
+
                 }
                 break;
 

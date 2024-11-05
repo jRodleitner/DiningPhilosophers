@@ -215,8 +215,8 @@
         </tr>
         <tr>
             <td><b>Starvation and Fairness</b></td>
-            <td>Philosophers are not guaranteed to be able to eat due to the timeout, thus starvation is possible.
-                This is the case, even we use the FIFO-enhanced chopstick pickup.
+            <td>
+                Starvation is unlikely, but philosophers are not guaranteed to be able to eat due to the timeout.
                 Depending on the chosen timeout, starvation likeliness can change. (Very low timeout values increase the risk)
                 Due to these issues, we can not guarantee any fairness to the philosophers using this solution.
             </td>

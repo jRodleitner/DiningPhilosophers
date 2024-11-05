@@ -303,7 +303,7 @@
     <img src="../pictures/multiple-token_questionmanrk.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
         The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness to the system,
-        but it essentially eliminates Concurrency.
+        but it removes Concurrency.
         The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency in our
         system under ideal conditions to [n/2] for even n and &lfloor;n/2&rfloor; for uneven n.
         Two adjacent philosopher can never eat at the same time, so the idea is to just hand

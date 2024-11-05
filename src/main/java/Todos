@@ -2,7 +2,6 @@ GENERAL TODO:
 
 NEXT:
 [ ] check all algorithms
-[ ] read approaches/ papers for new algorithms
 [ ] try simplifying animation/ simulation page
 [ ] inspect simulation logic for each Algorithm!!!
 
@@ -10,7 +9,7 @@ OPTIONALS:
 TIMEOUT(Time-index)
 [ ] Separate Events for: Timeout, Waiter etc...?? (Animation)
 [ ] Correct eatTime-fairness calculation (less clear stdv, but more exact)
-[ ] instant timeout
+23. [?][?][?] dijkstra (Instant timeout)
 Completed:
 
 CHECK:
@@ -74,7 +73,7 @@ CHECK:
 [x] code highlighting
 [x] Mobile resizing
 [x] Server deployment
-
+[x] read approaches/ papers for new algorithms
 
 30.10
 [x] Time fairnsess restrict token incorporation
@@ -112,17 +111,17 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]:
 11. [x][x][x] Fair Waiter (Eat Chance)
 12. [x][x][x] Fair Waiter (Eat Time)
 13. [x][x][x] Two Waiters
-18. [x][x][x] chandy-misra
-19. [x][x][x] Restrict-Token Chance-Fairness
-20. [x][x][x] Restrict-Token Time-Fairness
-21. [x][x][x] Restrict Waiter
-14. [x][x][x] Table Semaphore
-15. [x][x][x] tanenbaum
-16. [x][x][x] fair_tanenbaum (Eat Chance)
-17. [x][x][x] fair_tanenbaum (Eat Time)
+14. [x][x][x] chandy-misra
+15. [x][x][x] Restrict-Token Chance-Fairness
+16. [x][x][x] Restrict-Token Time-Fairness
+17. [x][x][x] Restrict Waiter
+18. [x][x][x] Table Semaphore
+19. [x][x][x] tanenbaum
+20. [x][x][x] fair_tanenbaum (Eat Chance)
+21. [x][x][x] fair_tanenbaum (Eat Time)
 
+22. [ ][ ][ ] personal waiter solution
 
-22. [?][?][?] dijkstra (Instant timeout)
 
 
 ????:

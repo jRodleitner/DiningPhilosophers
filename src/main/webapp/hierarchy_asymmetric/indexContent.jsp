@@ -179,9 +179,9 @@
         <tr>
             <td><b>Starvation and Fairness</b></td>
             <td>
-                The Resource Hierarchy Solution does not guarantee that a philosopher will get a chance to eat by itself.
+                The Resource Hierarchy Solution, by itself, does not guarantee that a philosopher will get a chance to eat.
                 We combine this approach with the FIFO (First in First Out) enhanced chopstick pickup, guaranteeing that philosophers will eventually get the chance to acquire their chopsticks.
-                This transforms the Resource Hierarchy Solution to a starvation-free solution, with guaranteed acquiring of chopsticks.
+                This transforms Resource Hierarchy to a starvation-free solution, with guaranteed acquiring of chopsticks.
                 We take no additional measures to enhance both eat-chance and time-fairness. They depend heavily on the chosen distribution.
             </td>
         </tr>
@@ -204,7 +204,7 @@
     </table>
 
     <p>
-        The practicality of this approach in the real world is partly questionable, as full knowledge about the system
+        Full knowledge about the system
         is necessary in advance to properly initialize the hierarchy.
         This is often hard to achieve in real-world systems.
         Dynamic changes are also hard to account for: What if a philosopher joins the table? We would essentially need
@@ -289,7 +289,7 @@
             <td><b>Starvation and Fairness</b></td>
             <td>
                 Again, the resource Asymmetric Solution does not guarantee that a philosopher will get a chance to eat by itself.
-                We enhance this solution, using the FIFO-enabled pickup of chopsticks to transforms the Asymmetric Solution to a starvation-free solution,
+                We enhance this solution, using the FIFO-enabled pickup of chopsticks to transform it to a starvation-free solution,
                 with a guarantee of eventual pickup.
                 We take no additional measures to enhance both eat-chance and time-fairness. They depend heavily on the chosen distribution.
             </td>
@@ -299,7 +299,7 @@
             <td><b>Concurrency</b></td>
             <td>Concurrency of the system is further improved on. We increase concurrency in our system, due to the now minimal paths in the precedence graph.
                 Compared to the naive and the Resource Hierarchy implementation, we achieve better concurrency,
-                but this effect is often barely noticeable in simulation runs with 5 or 4 philosophers.</td>
+                but this effect is often barely noticeable in simulation runs with 5 or 4 philosophers and low simulation times.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -311,13 +311,6 @@
         </tr>
         </tbody>
     </table>
-
-    <p>
-        The main drawback to this solution, however, is that it is very close natured to the dining philosophers
-        problem,
-        meaning that it is not applicable to cases, where processes share more than one resource with each other.
-        Additionally, we still do not address Fairness and Starvation in our system.
-    </p>
 
     <p>
         You can find the respective Simulation and Animation pages here:

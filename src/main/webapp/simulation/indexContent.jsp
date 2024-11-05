@@ -433,7 +433,7 @@
             <input type="number" id="nrPhil" name="nrPhil" min="2" max="9"
                    value="${param.nrPhil != null ? param.nrPhil : '5'}" required><br><br>
 
-            <label for="simulationTime">Simulation Time (100-1000):</label>
+            <label for="simulationTime">Simulation Time Steps (100-1000):</label>
             <input type="number" id="simulationTime" name="simulationTime" min="100" max="1000"
                    value="${param.simulationTime != null ? param.simulationTime : '100'}" required><br><br>
 

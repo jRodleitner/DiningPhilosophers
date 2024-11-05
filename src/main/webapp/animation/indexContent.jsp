@@ -1122,7 +1122,7 @@
 
             <br><br>
 
-            <label for="simulationTime">Simulation Time (100-500):</label>
+            <label for="simulationTime">Simulation Time Steps (100-500):</label>
             <input type="number" id="simulationTime" name="simulationTime" min="100" max="500"
                    value="${param.simulationTime != null ? param.simulationTime : '100'}" required><br><br>
 
