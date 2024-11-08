@@ -983,6 +983,7 @@
 
 </div>
 
+<a href="../semaphore/" class="button">➡ Next: Semaphore Solutions ➡</a>
 
 </body>
 </html>

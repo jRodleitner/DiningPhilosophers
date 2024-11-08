@@ -444,5 +444,7 @@
     <a href="../simulation/?algorithm=MULTIPLETOKEN" class="button">Multiple Token Simulation</a>
     <a href="../animation/?algorithm=MULTIPLETOKEN" class="button">Multiple Token Animation</a>
 </div>
+
+<a href="../waiter/" class="button">➡ Next: Waiter Solutions ➡</a>
 </body>
 </html>

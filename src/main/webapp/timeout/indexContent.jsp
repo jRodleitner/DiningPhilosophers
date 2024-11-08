@@ -254,5 +254,7 @@
     <a href="../simulation/?algorithm=TIMEOUT" class="button">Timeout Simulation</a>
     <a href="../animation/?algorithm=TIMEOUT" class="button">Timeout Animation</a>
 </div>
+
+<a href="../token/" class="button">➡ Next: Token Solutions ➡</a>
 </body>
 </html>

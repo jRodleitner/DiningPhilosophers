@@ -947,12 +947,13 @@
                     <a href="distributed" class="button">Distributed Solutions</a>
                 </div>
 
-                <div class="description-box">
+                <!--<div class="description-box">
                     <p>
                         To learn about some advanced solutions based on more recent literature:
                     </p>
                     <a href="advanced" class="button">Advanced Solutions</a>
-                </div>
+                </div> -->
+
                 </div>
             </div>
             <div class="post-it">

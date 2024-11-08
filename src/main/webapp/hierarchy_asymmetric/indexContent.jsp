@@ -326,6 +326,7 @@
     <a href="../animation/?algorithm=ASYMMETRIC" class="button">Asymmetric Animation</a>
 </div>
 
+<a href="../timeout/" class="button">➡ Next: Timeout Solution ➡</a>
 
 
 </body>
