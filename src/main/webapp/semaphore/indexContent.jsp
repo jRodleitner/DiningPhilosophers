@@ -527,8 +527,8 @@
 
     <h2>Fair Tanenbaum Solution</h2>
     <p>
-        We can try to enhance the performance, including fairness, of the Tanenbaum solution by tracking the eat-chances.
-        For this purpose we maintain an additional array of eat times that is updated whenever philosophers are done eating.
+        We can try to enhance the performance, including fairness, of the Tanenbaum solution by tracking the eat-chances/ eat-times.
+        For this purpose we maintain an additional array of eat chances/eat times that is updated whenever philosophers are done eating.
         We then check this array whenever a philosopher puts the chopsticks down.
         Instead of calling test() on the two adjacent philosophers we now call the test() function on all philosophers, prioritized by the previously tracked eat-chances.
     </p>
