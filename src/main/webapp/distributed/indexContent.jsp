@@ -158,7 +158,6 @@
         ChandyMisraPhilosopher rightNeighbor;
         boolean goingToEatRequest = false;  // indicates if the philosopher is requesting to eat
 
-        // Constructor assigns specific chopsticks and neighbors.
         ChandyMisraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
             super(id, leftChopstick, rightChopstick);
             this.leftChopstick = (ChandyMisraChopstick) leftChopstick;
@@ -170,43 +169,43 @@
             while (!terminated()) {
                 checkForRequests();  // handle any pending chopstick requests from neighbors.
                 think();
-                checkForRequests();  // ensure any requests are managed before trying to eat.
-                requestChopsticksIfNecessary();  // attempt to acquire both chopsticks.
+                checkForRequests();  // manage requests before trying to eat
+                requestChopsticksIfNecessary();  // attempt to acquire both chopsticks
                 eating();
-                checkForRequests();  //ensure release of chopsticks after eating.
+                checkForRequests();  //check if release of chopsticks is necessary after eating
             }
         }
 
         void requestChopsticksIfNecessary() {
-            goingToEatRequest = true;  // signal intention to eat, affecting chopstick transfer logic.
+            goingToEatRequest = true;  // signal intention to eat, affecting chopstick transfer logic
             waitForChopstick(leftChopstick);
             waitForChopstick(rightChopstick);
-            goingToEatRequest = false;  // reset the request after obtaining chopsticks.
+            goingToEatRequest = false;  // reset the request after obtaining chopsticks
         }
 
         void waitForChopstick(ChandyMisraChopstick chopstick) {
             synchronized (chopstick) {
-                // Wait until this philosopher owns the chopstick.
+                // wait until this philosopher owns the chopstick
                 while (chopstick.owner != this) {
-                    checkForRequests();  // handle potential requests for this chopstick while waiting.
-                    chopstick.wait(10);  // re-check requests periodically.
+                    checkForRequests();  // handle potential requests for this chopstick while waiting
+                    chopstick.wait(10);  // re-check requests periodically
                 }
             }
         }
 
         void checkForRequests() {
-            // respond to any requests for the left or right chopstick from neighbors.
+            // respond to any requests for the left or right chopstick from neighbors
             giveUpChopstickIfRequested(leftChopstick, leftNeighbor);
             giveUpChopstickIfRequested(rightChopstick, rightNeighbor);
         }
 
         void giveUpChopstickIfRequested(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver) {
             synchronized (chopstick) {
-                // give up the chopstick if the neighbor has requested to eat, it's dirty, and this philosopher holds it.
+                // give up the chopstick if the neighbor has requested to eat, it's dirty, and this philosopher holds it
                 if (receiver.goingToEatRequest && !chopstick.isClean && chopstick.owner == this) {
-                    chopstick.isClean = true;  // mark the chopstick as clean before transferring ownership.
-                    chopstick.owner = receiver;  // transfer chopstick ownership to the requesting philosopher.
-                    chopstick.notifyAll();  // notify the waiting philosopher that they now own the chopstick.
+                    chopstick.isClean = true;  // mark the chopstick as clean before transferring ownership
+                    chopstick.owner = receiver;  // transfer chopstick ownership to the requesting philosopher
+                    chopstick.notifyAll();  // notify the waiting philosopher that they now own the chopstick
                 }
             }
         }
@@ -298,7 +297,10 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a slight overhead with the logic introduced in this solution. Due to its inherently distributed nature, the approach is highly scalable and can be used in large systems.</td>
+            <td>There is a slight overhead with the logic introduced in this solution.
+                By design of this solution philosophers are required to fulfill requests during their think and pickup phase,
+                thus philosophers repeatedly check for requests during thinking/ waiting. (busy waiting)
+                Due to its inherently distributed nature, the approach is highly scalable and can be used in large systems.</td>
         </tr>
         </tbody>
     </table>
@@ -363,7 +365,6 @@
                 }
             }
 
-            // Method to update the restriction to a new philosopher ID.
             synchronized void updateRestricted(int id) {
                 restrictId = id;  // set the restriction to apply to the new philosopher id
                 notify();

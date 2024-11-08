@@ -829,7 +829,7 @@
 
                 Semaphore chopstickSemaphore;  // semaphore controlling access to the chopstick.
 
-                SimpleChopstick(int id) {
+                Chopstick(int id) {
                     super(id);
                     chopstickSemaphore = new Semaphore(1, true);  // semaphore with one permit and enabled fairness parameter
                 }

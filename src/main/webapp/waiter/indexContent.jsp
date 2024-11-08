@@ -4,26 +4,26 @@
     <title>Waiter Solution</title>
     <style>
         .button {
-            display: inline-block; /* Allows padding to be applied properly */
-            color: white; /* White font color */
-            background-color: #216477; /* Teal background color */
+            display: inline-block;
+            color: white;
+            background-color: #216477;
             border: 4px solid #ccc;
-            text-decoration: none; /* Removes the underline from links */
-            padding: 10px 20px; /* Adds padding to make the link look like a button */
-            border-radius: 20px; /* Rounds the corners of the button */
-            font-weight: bold; /* Makes the text bold */
-            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
-            margin: 5px 0; /* Adds space between buttons */
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 5px 0;
         }
 
         /* Hover Effect */
         .button:hover {
-            background-color: #438699; /* Darker teal on hover */
-            color: #e0e0e0; /* Optional: Change text color slightly on hover */
+            background-color: #438699;
+            color: #e0e0e0;
         }
 
         .description {
-            line-height: 1.4; /* Increases spacing between lines for readability */
+            line-height: 1.4;
             color: #333;
             padding: 14px;
             margin-bottom: 15px;
@@ -34,21 +34,21 @@
             background-color: #f5f5f5;
             border: 1px solid #ccc;
             padding: 5px;
-            overflow-x: auto; /* Allow horizontal scrolling */
-            white-space: nowrap; /* Prevent line wrapping */
-            border-radius: 5px; /* Rounded corners */
+            overflow-x: auto;
+            white-space: nowrap;
+            border-radius: 5px;
             font-family: "Courier New", Courier, monospace;
-            max-width: 100%; /* Ensure the width doesn't overflow the container */
+            max-width: 100%;
         }
 
-        /* Styling for the actual code */
+
         code {
-            display: block; /* Ensure the code behaves like a block element */
-            background-color: #f5f5f5; /* Match pre background */
+            display: block;
+            background-color: #f5f5f5;
             color: #333;
             font-family: "Courier New", Courier, monospace;
             font-size: 13px;
-            white-space: pre; /* Ensure code stays on one line */
+            white-space: pre;
         }
         .separator {
             width: 100%;
@@ -136,35 +136,35 @@
     <pre style="font-size: 14px;"><code class="language-java">
     class Waiter {
 
-        Philosopher permittedPhilosopher;  // The philosopher currently allowed to proceed.
-        Queue queuedPhilosophers;          // Queue of philosophers waiting for permission.
+        Philosopher permittedPhilosopher;  // the philosopher currently allowed to proceed
+        Queue queuedPhilosophers;          // queue of philosophers waiting for permission
 
         Waiter(int nrPhilosophers) {
             permittedPhilosopher = null;
             queuedPhilosophers = new Queue();
         }
 
-        // Method for philosophers to request permission to proceed.
+        // method for philosophers to request permission
         synchronized void requestPermission(Philosopher philosopher) {
             queuedPhilosophers.add(philosopher);
 
-            // If no philosopher has permission, assign one from the queue.
+            // if no philosopher has permission, assign one from the queue
             if (permittedPhilosopher == null) {
                 permittedPhilosopher = queuedPhilosophers.poll();
             }
 
-            // Wait until this philosopher is the one permitted to proceed.
+            // wait until this philosopher is the one permitted to proceed
             while (!philosopher.equals(permittedPhilosopher)) {
                 wait();
             }
         }
 
-        // Method to return permission, allowing the next philosopher in line to proceed.
+        // method to return permission, picking the next philosopher
         synchronized void returnPermission() {
-            // Grant permission to the next philosopher in the queue.
+            // grant permission to the next philosopher in the queue.
             permittedPhilosopher = queuedPhilosophers.poll();
 
-            // Notify all waiting philosophers that permission has changed.
+            // notify all waiting philosophers that permitted philosopher has changed
             notifyAll();
         }
     }
@@ -220,8 +220,8 @@
         <tr>
             <td><b>Starvation and Fairness</b></td>
             <td>
-                Starvation-free: The introduction of a queue on the philosophers' requests guarantees that each philosopher will eventually get a chance to eat.
-                Eat-chance and time-fairness depend heavily on the chosen distribution. The waiter will hand out permission eventually,but does not account for fairness.
+                Starvation-free: The introduction of a queue on the philosophers requests guarantees that each philosopher will eventually get a chance to eat.
+                Eat-chance and time-fairness depend heavily on the chosen distribution. The waiter will hand out permission eventually, but does not account for additional fairness.
             </td>
         </tr>
 
@@ -235,7 +235,9 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a slight performance overhead using this solution, as the waiter has to process one philosopher's request after another and has to maintain a queue of size r (number of requests). From this, we can conclude that scalability (as in most waiter solutions) is poor.</td>
+            <td>There is a slight performance overhead using this solution, as the waiter has to process one
+                philosophers request after another and has to maintain a queue of size r (number of requests).
+                From this, we can conclude that scalability (as in most waiter solutions) is poor. (Compared to the Global Token Solution where scalability is very good)</td>
         </tr>
         </tbody>
     </table>
@@ -252,13 +254,13 @@
     <div class="separator"></div>
     <h2>Pickup Waiter Solution</h2>
     <p>
-        We can reintroduce some concurrency into the system by limiting the waiter's permission to just the chopstick
+        We can reintroduce some concurrency into the system by limiting the waiters permission to just the chopstick
         pickup phase. This way, multiple philosophers can receive permission from the waiter and eat at the same time.
         This approach helps us attain concurrency again, but still prevents deadlocks by avoiding the circular wait
         condition.
         The main drawback of this solution is that the waiter will always assign the permission to the philosopher that
         requested the chopsticks first.
-        Thus, an adjacent philosopher will frequently attain permission, limiting the concurrency.
+        Thus, an adjacent philosopher will frequently attain permission, limiting the concurrency. (similar to the naive approach)
     </p>
 
     <p>
@@ -314,7 +316,7 @@
             <td><b>Starvation and Fairness</b></td>
             <td>
                 Starvation-free: As in the Atomic Waiter solution, every philosopher, when requested, will eventually get a chance to eat.
-                Eat-chance and time-fairness depend heavily on the chosen distribution. The waiter will hand out permission eventually,but does not account for fairness.
+                Eat-chance and time-fairness depend heavily on the chosen distribution. The waiter will hand out permission eventually,but does not account for additional fairness.
             </td>
         </tr>
 
@@ -336,8 +338,6 @@
         </tbody>
     </table>
 
-
-
     <p>
         You can find the respective Simulation and Animation pages here:
     </p>
@@ -354,7 +354,7 @@
 
     <h2>Intelligent Pickup Waiter Solution</h2>
     <p>
-        To improve our Pickup waiter solution, we check if the current philosopher in the queue is next to a philosopher
+        To improve our Pickup waiter solution, we check if the current philosopher first in the queue is next to a philosopher
         that is currently eating.
         If that is the case, we skip this philosopher and allow another philosopher in the queue (that is not adjacent
         to a currently eating philosopher and is not a currently eating philosopher) to eat.
@@ -370,10 +370,10 @@
     <pre style="font-size: 14px;"><code class="language-java">
     class IntelligentWaiter {
 
-        Philosopher permittedPhilosopher;  // The philosopher currently allowed to eat.
-        Queue philosophersQueue;           // Queue of philosophers waiting for permission to eat.
+        Philosopher permittedPhilosopher;  // the philosopher currently allowed to eat
+        Queue philosophersQueue;
         int nrPhilosophers;
-        boolean[] eatStates;               // Tracks whether each philosopher is currently eating.
+        boolean[] eatStates;               // tracks whether a philosopher is eating
 
         IntelligentWaiter(int nrPhilosophers) {
             this.nrPhilosophers = nrPhilosophers;
@@ -400,10 +400,10 @@
 
         // method to return permission,and to determine the next philosopher to permit, based on neighbor states
         synchronized void returnPermission() {
-            // Iterate through the queued philosophers to find a suitable candidate.
+            // iterate through the queued philosophers to find a suitable candidate.
             for Each philosopher in philosophersQueue {
-                int leftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;  // Left philosopher's index.
-                int rightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;                   // Right philosopher's index.
+                int leftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;
+                int rightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;
 
                 // check if neighboring philosophers are not eating
                 if (!eatStates[leftPhilosopher] && !eatStates[rightPhilosopher] && philosopher != permittedPhilosopher) {
@@ -433,7 +433,7 @@
     </code></pre>
     <p>
         <b>Philosopher class:</b>
-        Here we need to additionally notify the waiter when eating is finished.
+        Here we need to notify the waiter when eating is finished.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
     class IntelligentPickupGuestPhilosopher extends Philosopher {
@@ -457,11 +457,12 @@
 
                 //return permission after pickup
                 waiter.returnPermission();
+
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                //notify waiter after putdown
+                //notify waiter after put down
                 waiter.removeEatState(this);
             }
         }
@@ -512,7 +513,7 @@
     <p>
 
         The Solution yields good results concerning concurrency, however
-        there is still no account of fairness.
+        there is still no account of additional fairness and starvation is possible in time-limited environments.
     </p>
     <p>
         You can find the respective Simulation and Animation pages here:
@@ -560,11 +561,11 @@
             philosophersQueue.add(philosopher);
 
             if (permittedPhilosopher == null) {
-                permittedPhilosopher = philosophersQueue.poll(); // Assign the first philosopher if none is permitted
+                permittedPhilosopher = philosophersQueue.poll(); // assign the first philosopher if none is permitted
             }
 
             while philosopher != permittedPhilosopher {
-                wait(); // Wait until it's this philosopher's turn
+                wait(); // wait until it is this philosopher's turn
             }
         }
 
@@ -588,7 +589,7 @@
                 philosophersQueue.remove(permittedPhilosopher);
             }
 
-            notifyAll(); // Notify all that permission was returned
+            notifyAll(); // notify all that permission was returned
         }
     }
 
@@ -652,7 +653,7 @@
     <pre style="font-size: 14px;"><code class="language-java">
     class FairChanceGuestPhilosopher extends Philosopher {
 
-        int eatChances;          // counter for the number of times the philosopher has eaten.
+        int eatChances;          // counter for the number of times the philosopher has eaten
         FairChanceWaiter waiter;
 
         FairChanceGuestPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick, FairChanceWaiter waiter) {
@@ -667,16 +668,16 @@
             while (!terminated()) {
                 think();
 
-                // request permission before pickup.
+                // request permission before pickup
                 waiter.requestPermission(this);
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
 
-                // return permission after pickup.
+                // return permission after pickup
                 waiter.returnPermission(this);
                 eat();
 
-                // Increment the count of eating chances.
+                // increment the count of eating chances
                 eatChances++;
 
                 putDownLeftChopstick();
@@ -775,9 +776,9 @@
     Waiter splitWaiter1 = new Waiter(nrPhilosophers);
 
     Waiter selectedWaiter;
-    boolean assignToTwo = nrPhilosophers > 3;
+    boolean assignToTwo = nrPhilosophers > 3; //only assign more than one waiter if more than 3 philosophers are simulated
     for (int i = 0; i < nrPhilosophers; i++) {
-        selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
+        selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter; //philosophers with low ids are assigned the first waiter, the remaining the second
 
         PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), selectedWaiter);
         philosophers.add(philosopher);
@@ -864,8 +865,8 @@
     <pre style="font-size: 14px;"><code class="language-java">
     class RestrictWaiter {
 
-        int chopsticksOnTable;           // tracks the number of available chopsticks on the table
-        Lock lock = new FairLock();      // a fair lock
+        int chopsticksOnTable;                  // tracks the number of available chopsticks on the table
+        Lock lock =  new ReentrantLock(true);   // Fair lock (enabled by true flag)
         Condition enoughChopsticks = lock.newCondition();  // condition to wait for available chopsticks
 
 
