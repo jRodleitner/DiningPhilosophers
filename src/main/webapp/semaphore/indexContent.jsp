@@ -11,26 +11,26 @@
     <title>Token Solution</title>
     <style>
         .button {
-            display: inline-block; /* Allows padding to be applied properly */
-            color: white; /* White font color */
-            background-color: #216477; /* Teal background color */
-            text-decoration: none; /* Removes the underline from links */
-            padding: 10px 20px; /* Adds padding to make the link look like a button */
-            border-radius: 10px; /* Rounds the corners of the button */
+            display: inline-block;
+            color: white;
+            background-color: #216477;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
             border: 4px solid #ccc;
-            font-weight: bold; /* Makes the text bold */
-            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
-            margin: 5px 0; /* Adds space between buttons */
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 5px 0;
         }
 
         /* Hover Effect */
         .button:hover {
-            background-color: #438699; /* Darker teal on hover */
-            color: #e0e0e0; /* Optional: Change text color slightly on hover */
+            background-color: #438699;
+            color: #e0e0e0;
         }
 
         .description {
-            line-height: 1.4; /* Increases spacing between lines for readability */
+            line-height: 1.4;
             color: #333;
             padding: 14px;
             margin-bottom: 15px;
@@ -41,21 +41,21 @@
             background-color: #f5f5f5;
             border: 1px solid #ccc;
             padding: 5px;
-            overflow-x: auto; /* Allow horizontal scrolling */
-            white-space: nowrap; /* Prevent line wrapping */
-            border-radius: 5px; /* Rounded corners */
+            overflow-x: auto;
+            white-space: nowrap;
+            border-radius: 5px;
             font-family: "Courier New", Courier, monospace;
-            max-width: 100%; /* Ensure the width doesn't overflow the container */
+            max-width: 100%;
         }
 
-        /* Styling for the actual code */
+
         code {
-            display: block; /* Ensure the code behaves like a block element */
-            background-color: #f5f5f5; /* Match pre background */
+            display: block;
+            background-color: #f5f5f5;
             color: #333;
             font-family: "Courier New", Courier, monospace;
             font-size: 13px;
-            white-space: pre; /* Ensure code stays on one line */
+            white-space: pre;
         }
 
         .separator {
@@ -118,11 +118,11 @@
     <p>
         Semaphores are a frequently used synchronization mechanism for concurrent systems to manage access to resources.
         The concept was introduced to the computer science community by none other than Edsger Dijkstra himself.
-        In the following we will use Binary semaphores, which can only take values 0 and 1, this means they will allow
+        In the following we will use binary semaphores, which can only take values 0 and 1, this means they will allow
         access to one thread only (also called mutex).
         The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the
         semaphore will be locked.
-        Threads trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time
+        Threads (Philosophers) trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time
         the initial thread releases the semaphore,
         after which they will be the permitted thread.
     </p>
@@ -139,7 +139,7 @@
         up, they release the semaphore, and another philosopher can proceed.
         Functionally, this approach is similar to the previously presented Pickup Waiter Solution.
         In fact, it could even be argued, that in this case the Semaphore acts as an implicit waiter, because it maintains a FIFO queue, due to the enabled fairness parameter.
-        This approach is therefore useful for an introductory example on how semaphores work in principle.
+        This approach is therefore useful for an introductory example on how fair semaphores work in principle.
     </p>
 
     <p>
@@ -226,7 +226,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a very slight performance overhead due to the globally accessed semaphore. Scalability is limited due to the managed FIFO-queue. </td>
+            <td>There is a very slight performance overhead due to the globally accessed semaphore. Scalability is limited due to the managed FIFO-queue, but should be slightly more light weight than the waiter solution. </td>
         </tr>
         </tbody>
     </table>
@@ -331,13 +331,18 @@
         </tr>
         <tr>
             <td><b>Implementation</b></td>
-            <td>The changes required to implement this solution are very simple using the Java Semaphore mechanism. It is important to keep in mind that the queueing has to be enabled via the fairness parameter, to prevent starvation due to repeated barging.</td>
+            <td>
+                The changes required to implement this solution are very simple using the Java Semaphore mechanism.
+                It is important to keep in mind that the queueing has to be enabled via the fairness parameter,
+                to prevent starvation due to repeated barging.
+            </td>
         </tr>
         <tr>
             <td><b>Performance: </b></td>
-            <td> There is a negligible overhead using the multiple-permit Semaphore. The approach is also scalable, bet highly dependent on the semaphore implementation.
+            <td>
+                There is a negligible overhead using the multiple-permit Semaphore. The approach is also scalable, but highly dependent on the semaphore implementation.
                 Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait.</td>
-        </tr>
+            </tr>
         </tbody>
     </table>
 
@@ -694,7 +699,7 @@
             <td>
                 Most likely Starvation-free: We now test for each philosopher whenever a put-down is completed, prioritized by the least chances/ time.
                 The test order after a put-down occurs is sorted by the philosophers who have eaten the least. This means that the "poorest" philosophers are always tested first, before we proceed to others.
-                This should ensure that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.
+                This should guarantee that, even if they are currently not able to eat, they will eventually get the chance to do so in a later iteration.
             </td>
         </tr>
 
