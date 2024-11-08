@@ -11,26 +11,26 @@
     <title>Token Solution</title>
     <style>
         .button {
-            display: inline-block; /* Allows padding to be applied properly */
-            color: white; /* White font color */
-            background-color: #216477; /* Teal background color */
+            display: inline-block;
+            color: white;
+            background-color: #216477;
             border: 4px solid #ccc;
-            text-decoration: none; /* Removes the underline from links */
-            padding: 10px 20px; /* Adds padding to make the link look like a button */
-            border-radius: 10px; /* Rounds the corners of the button */
-            font-weight: bold; /* Makes the text bold */
-            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
-            margin: 5px 0; /* Adds space between buttons */
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 5px 0;
         }
 
         /* Hover Effect */
         .button:hover {
-            background-color: #438699; /* Darker teal on hover */
-            color: #e0e0e0; /* Optional: Change text color slightly on hover */
+            background-color: #438699;
+            color: #e0e0e0;
         }
 
         .description {
-            line-height: 1.4; /* Increases spacing between lines for readability */
+            line-height: 1.4;
             color: #333;
             padding: 14px;
             margin-bottom: 15px;
@@ -41,21 +41,21 @@
             background-color: #f5f5f5;
             border: 1px solid #ccc;
             padding: 5px;
-            overflow-x: auto; /* Allow horizontal scrolling */
-            white-space: nowrap; /* Prevent line wrapping */
-            border-radius: 5px; /* Rounded corners */
+            overflow-x: auto;
+            white-space: nowrap;
+            border-radius: 5px;
             font-family: "Courier New", Courier, monospace;
-            max-width: 100%; /* Ensure the width doesn't overflow the container */
+            max-width: 100%;
         }
 
-        /* Styling for the actual code */
+
         code {
-            display: block; /* Ensure the code behaves like a block element */
-            background-color: #f5f5f5; /* Match pre background */
+            display: block;
+            background-color: #f5f5f5;
             color: #333;
             font-family: "Courier New", Courier, monospace;
             font-size: 13px;
-            white-space: pre; /* Ensure code stays on one line */
+            white-space: pre;
         }
 
         .separator {
@@ -178,7 +178,7 @@
             this.rightPhilosopher = rightPhilosopher;
         }
 
-        // method to accept a token, called from another philosopher.
+        // method to accept a token, called from another philosopher (only one philosopher can call)
         void acceptToken(GlobalToken token) {
             synchronized (tokenLock) {
                 this.token = token; // update the local reference to accept the token.
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>The introduced logic's overhead is minimal and managed in a distributed way. No central entity, and thus highly scalable.</td>
+            <td>The introduced logics overhead is minimal and managed in a distributed way. No central entity, and thus highly scalable.</td>
         </tr>
         </tbody>
     </table>
@@ -303,7 +303,7 @@
     <p>
         The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness,
         but it removes Concurrency.
-        The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency in our
+        The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency is limited in our
         system under ideal conditions to [n/2] for even n and &lfloor;n/2&rfloor; for uneven n.
         Two adjacent philosopher can never eat at the same time, so the idea is to just hand
         every other philosopher a token and prevent the token from being passed on to the next philosopher if it holds a
@@ -317,9 +317,10 @@
 
     <p>
         We only modify the Token class, for cases where the next philosopher still holds on to a token.
-        This is not likely to happen, because the philosophers cannot eat until the adjacent philosopher is done eating,
-        and thus cannot pass on the token.
-        We include this change just for completeness.
+        This is not likely to happen, because the philosophers cannot start eating until the adjacent philosopher is done eating,
+        and thus cannot pass on the token. (mutual exclusion managed by the fork semaphore
+        via usage of the pick-up method in the philosopher class)
+        We include this change just for completeness, to illustrate this concept.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -345,7 +346,7 @@
     </code></pre>
     <p>
         <b>Table class:</b>
-        We hand every other philosopher a token, for example like this:
+        We hand every other philosopher a token:
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -353,26 +354,26 @@
     List philosophers;
 
     for (int i = 0; i < nrPhilosophers; i++) {
-        chopsticks.add(new Chopstick(i)); // Create a new chopstick with ID 'i' and add it to the list.
+        chopsticks.add(new Chopstick(i)); // create a new chopstick with ID 'i' and add it to the list
     }
 
 
     for (int i = 0; i < nrPhilosophers; i++) {
         TokenPhilosopher philosopher = new TokenPhilosopher(
             i,
-            chopsticks.get(i), // Left chopstick
-            chopsticks.get((i + 1) % nrPhilosophers) // Right chopstick
+            chopsticks.get(i), // left chopstick
+            chopsticks.get((i + 1) % nrPhilosophers) // right chopstick
         );
         philosophers.add(philosopher);
     }
 
-    // Set reference to the right-hand neighbor for each philosopher.
+    // set reference to the right-hand neighbor for each philosopher
     for (int i = 0; i < nrPhilosophers; i++) {
         TokenPhilosopher philosopher = philosophers.get(i);
         philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
     }
 
-    // Assign tokens to every other philosopher.
+    // assign tokens to every other philosopher
     for (int i = 0; i < nrPhilosophers - 1; i += 2) {
         TokenPhilosopher philosopher = philosophers.get(i);
         philosopher.setToken(new Token(i, philosopher));
