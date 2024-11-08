@@ -97,27 +97,27 @@ Paul:
 
 
 
-Algorithm [descriptions]|[pseudocode]|[evaluations]:
-1.  [x][x][x] Naive
-2.  [x][x][x] Hierarchy
-3.  [x][x][x] Asymmetric
-4.  [x][x][x] Timeout
-5.  [x][x][x] Restrict
-6.  [x][x][x] Global Token
-7.  [x][x][x] Multiple Token
-8.  [x][x][x] Atomic Waiter
-9.  [x][x][x] Pickup Waiter
-10. [x][x][x] Intelligent Pickup Waiter
-11. [x][x][x] Fair Waiter (Eat Chance)
+Algorithm [descriptions]|[pseudocode]|[evaluations]|[overhaul]:
+1.  [x][x][x][x] Naive
+2.  [x][x][x][ ] Hierarchy
+3.  [x][x][x][ ] Asymmetric
+4.  [x][x][x][ ] Timeout
+5.  [x][x][x][ ] Restrict
+6.  [x][x][x][ ] Global Token
+7.  [x][x][x][ ] Multiple Token
+8.  [x][x][x][ ] Atomic Waiter
+9.  [x][x][x][ ] Pickup Waiter
+10. [x][x][x][ ] Intelligent Pickup Waiter
+11. [x][x][x][ ] Fair Waiter (Eat Chance)
 12. [x][x][x] Fair Waiter (Eat Time)
-13. [x][x][x] Two Waiters
-14. [x][x][x] chandy-misra
-15. [x][x][x] Restrict-Token Chance-Fairness
+13. [x][x][x][ ] Two Waiters
+14. [x][x][x][ ] chandy-misra
+15. [x][x][x][ ] Restrict-Token Chance-Fairness
 16. [x][x][x] Restrict-Token Time-Fairness
-17. [x][x][x] Restrict Waiter
-18. [x][x][x] Table Semaphore
-19. [x][x][x] tanenbaum
-20. [x][x][x] fair_tanenbaum (Eat Chance)
+17. [x][x][x][ ] Restrict Waiter
+18. [x][x][x][ ] Table Semaphore
+19. [x][x][x][ ] tanenbaum
+20. [x][x][x][ ] fair_tanenbaum (Eat Chance)
 21. [x][x][x] fair_tanenbaum (Eat Time)
 
 22. [ ][ ][ ] personal waiter solution

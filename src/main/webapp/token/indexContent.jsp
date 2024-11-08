@@ -122,8 +122,7 @@
         The Token Solution is surely one of the most intuitive solutions to avoid deadlocks.
         At the start of the simulation a token is handed to the first philosopher, who holds on to it until the eating
         is finished.
-        After which the token is handed on counter-clock wise to the adjacent philosopher, thus only one philosopher can
-        eat at a time.
+        Then, the token is passed counterclockwise to the adjacent philosopher, so only one philosopher can eat at a time.
     </p>
 
     <p>
@@ -302,7 +301,7 @@
     <h2>Multiple Token Solution</h2>
     <img src="../pictures/multiple-token_questionmanrk.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness to the system,
+        The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness,
         but it removes Concurrency.
         The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency in our
         system under ideal conditions to [n/2] for even n and &lfloor;n/2&rfloor; for uneven n.

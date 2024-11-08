@@ -663,7 +663,7 @@
 
         @Override
         void run() {
-            // philosopher attempts to think, request permission, and eat in a loop.
+
             while (!terminated()) {
                 think();
 
