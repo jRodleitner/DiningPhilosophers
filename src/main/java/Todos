@@ -99,9 +99,9 @@ Paul:
 
 Algorithm [descriptions]|[pseudocode]|[evaluations]|[overhaul]:
 1.  [x][x][x][x] Naive
-2.  [x][x][x][ ] Hierarchy
-3.  [x][x][x][ ] Asymmetric
-4.  [x][x][x][ ] Timeout
+2.  [x][x][x][x] Hierarchy
+3.  [x][x][x][x] Asymmetric
+4.  [x][x][x][x] Timeout
 5.  [x][x][x][ ] Restrict
 6.  [x][x][x][ ] Global Token
 7.  [x][x][x][ ] Multiple Token

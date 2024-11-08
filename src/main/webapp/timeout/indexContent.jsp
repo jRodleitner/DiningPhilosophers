@@ -107,8 +107,7 @@
     <p>
         The Timeout solution aims to prevent deadlocks by stopping philosophers from holding onto chopsticks indefinitely.
         The philosophers first attempt to pick up the first chopstick as usual and then try to pick up their second chopstick with a time limit.
-        If a philosopher reaches the timeout before acquiring both chopsticks, they put down the chopstick they initially picked up and wait for a short time before trying to pick up again.
-
+        If a philosopher reaches the timeout before acquiring both chopsticks, they put down the chopstick they initially picked up and wait for a short time before trying to attempt a pickup again.
     </p>
 
     <p>
@@ -128,13 +127,13 @@
 
         @Override
         void run() {
-            // The philosopher attempts to think and then pick up chopsticks.
+
             while (!terminated()) {
                 think();
                 pickUpLeftChopstick();
                 boolean successfulPickup = pickUpRightWithTimeout();
 
-                // If the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait.
+                // if the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait
                 while (!successfulPickup) {
                     putDownLeftChopstick();
                     int random = randomValue(1, 25); //random wait time between 1 and 25ms
@@ -143,7 +142,7 @@
                     successfulPickup = pickUpRightWithTimeout();
                 }
 
-                // Once both chopsticks are acquired, the philosopher eats.
+                // once both chopsticks are acquired, the philosopher eats
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
@@ -151,7 +150,7 @@
         }
 
         boolean pickUpRightWithTimeout() {
-            // Attempts to pick up the right chopstick with a timeout.
+            // attempts to pick up the right chopstick with a timeout
             boolean successfulPickup = rightTimeoutChopstick.pickUpRight(this);
 
             if (successfulPickup) {
@@ -177,11 +176,11 @@
         }
 
         synchronized boolean pickUpRight(Philosopher philosopher) {
-            // Tracks time to ensure the philosopher does not wait indefinitely.
+            // tracks time to ensure the philosopher does not wait indefinitely
             long startTime = currentTime();
             long remainingTime = timeout;
 
-            // Waits until the chopstick is available or the timeout expires.
+            // wait until the chopstick is available or the timeout expires
             while (!isAvailable) {
                 if (remainingTime <= 0) {
                     return false;
@@ -217,6 +216,7 @@
             <td><b>Starvation and Fairness</b></td>
             <td>
                 Starvation is unlikely, but philosophers are not guaranteed to be able to eat due to the timeout.
+                (Additionally the wait(), notify() pattern, makes re-acquiring possible)
                 Depending on the chosen timeout, starvation likeliness can change. (Very low timeout values increase the risk)
                 Due to these issues, we can not guarantee any fairness to the philosophers using this solution.
             </td>
@@ -246,7 +246,7 @@
         On the contrary if we choose high values for the timeout we might take a very long to realize a deadlock has occurred, harming concurrency/ system progress.
         The waiting time has to be reasonably chosen and randomized, to prevent recurring deadlocks.
         If we choose fixed values, for example 10ms, it might happen that the philosophers all try to pick up their left
-        chopsticks again and again, just with a delay of 10ms. This would (arguably) result in an even worse condition: A livelock (Consuming resources without system progress)
+        chopsticks again and again, just with a delay of 10ms. This would (arguably) result in an arguably even worse condition: A livelock (Consuming resources without system progress)
     </p>
     <p>
         You can find the respective Simulation and Animation pages here:
