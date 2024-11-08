@@ -12,25 +12,25 @@
 
     <style>
         .button {
-            display: inline-block; /* Allows padding to be applied properly */
-            color: white; /* White font color */
-            background-color: #216477; /* Teal background color */
-            text-decoration: none; /* Removes the underline from links */
-            padding: 5px 10px; /* Adds padding to make the link look like a button */
-            border-radius: 10px; /* Rounds the corners of the button */
-            font-weight: bold; /* Makes the text bold */
+            display: inline-block;
+            color: white;
+            background-color: #216477;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
             border: 4px solid #ccc;
-            transition: background-color 0.4s ease, color 0.4s ease; /* Smooth transition on hover */
-            margin: 5px 0; /* Adds space between buttons */
+            transition: background-color 0.4s ease, color 0.4s ease;
+            margin: 5px 0;
         }
 
         .button:hover {
-            background-color: #438699; /* Darker teal on hover */
-            color: #e0e0e0; /* Optional: Change text color slightly on hover */
+            background-color: #438699;
+            color: #e0e0e0;
         }
 
         .description {
-            line-height: 1.4; /* Increases spacing between lines for readability */
+            line-height: 1.4;
             color: #333;
             padding: 14px;
             margin-bottom: 15px;
@@ -41,11 +41,11 @@
             background-color: #f5f5f5;
             border: 1px solid #ccc;
             padding: 5px;
-            overflow-x: auto; /* Allow horizontal scrolling */
-            white-space: nowrap; /* Prevent line wrapping */
-            border-radius: 5px; /* Rounded corners */
+            overflow-x: auto;
+            white-space: nowrap;
+            border-radius: 5px;
             font-family: "Courier New", Courier, monospace;
-            max-width: 100%; /* Ensure the width doesn't overflow the container */
+            max-width: 100%;
         }
 
 
@@ -119,7 +119,7 @@
         This forces all philosophers, except one, to act "left-handed" (they pick up the left chopstick first).
         One philosopher (the last one in the circle) will act as the "right-handed," picking up their right chopstick
         first.
-        At least one philosopher is guaranteed be able to proceed.
+        With this approach we guarantee that at least one philosopher can proceed.
 
     <p>
         <b>Philosopher class:</b>
@@ -179,7 +179,7 @@
         <tr>
             <td><b>Starvation and Fairness</b></td>
             <td>
-                The Resource Hierarchy Solution, by itself, does not guarantee that a philosopher will get a chance to eat.
+                The Resource Hierarchy Solution, on itself, does not guarantee that a philosopher will get a chance to eat.
                 We combine this approach with the FIFO (First in First Out) enhanced chopstick pickup, guaranteeing that philosophers will eventually get the chance to acquire their chopsticks.
                 This transforms Resource Hierarchy to a starvation-free solution, with guaranteed acquiring of chopsticks.
                 We take no additional measures to enhance both eat-chance and time-fairness. They depend heavily on the chosen distribution.
@@ -189,7 +189,9 @@
         <tr>
             <td><b>Concurrency</b></td>
             <td>
-                Concurrency of the system is enhanced slightly compared to the naive approach. Theoretically, this approach should provide us with improved concurrency, since the longest path in the precedence graph is now one shorter.
+                Concurrency of the system is enhanced, compared to the naive approach.
+                Theoretically, this approach should provide us with improved concurrency,
+                since the longest path in the precedence graph is now one shorter.
             </td>
         </tr>
         <tr>
@@ -198,7 +200,9 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>Next to no overhead with the newly introduced logic. Theoretically highly scalable, but the strict ordering of resources necessitates a static environment during the execution.</td>
+            <td>Next to no overhead with the newly introduced logic.
+                Highly scalable, but the strict ordering of resources necessitates a highly static environment.
+                The larger the number of philosophers, the less the benefit of only turning one philosopher "right-handed".</td>
         </tr>
         </tbody>
     </table>
@@ -298,8 +302,8 @@
         <tr>
             <td><b>Concurrency</b></td>
             <td>Concurrency of the system is further improved on. We increase concurrency in our system, due to the now minimal paths in the precedence graph.
-                Compared to the naive and the Resource Hierarchy implementation, we achieve better concurrency,
-                but this effect is often barely noticeable in simulation runs with 5 or 4 philosophers and low simulation times.</td>
+                Compared to the naive and the Resource Hierarchy implementation, we achieve better concurrency.
+                Note that this effect is often barely noticeable in simulation runs with 5 or 4 philosophers and low simulation times.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -307,7 +311,10 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>No performance overhead due to the introduced logic. Theoretically highly scalable to arbitrary numbers of philosophers.</td>
+            <td>
+                No performance overhead due to the introduced logic. Highly scalable to arbitrary numbers of philosophers.
+                This approach is also more applicable to dynamic situations.
+            </td>
         </tr>
         </tbody>
     </table>

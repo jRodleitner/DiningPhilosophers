@@ -796,7 +796,7 @@
             </tr>
             <tr>
                 <td><b>Performance</b></td>
-                <td>We will base the performance of solutions on this implementation.</td>
+                <td>We will base the performance of solutions on this implementation. Large numbers of philosophers will lead to long wait chains. </td>
             </tr>
             </tbody>
         </table>
