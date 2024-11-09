@@ -11,25 +11,25 @@
     <title>About</title>
     <style>
         .button {
-            display: inline-block; /* Allows padding to be applied properly */
-            color: white; /* White font color */
-            background-color: #216477; /* Teal background color */
-            text-decoration: none; /* Removes the underline from links */
-            padding: 10px 20px; /* Adds padding to make the link look like a button */
-            border-radius: 20px; /* Rounds the corners of the button */
-            font-weight: bold; /* Makes the text bold */
-            transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
-            margin: 5px 0; /* Adds space between buttons */
+            display: inline-block;
+            color: white;
+            background-color: #216477;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            margin: 5px 0;
         }
 
         /* Hover Effect */
         .button:hover {
-            background-color: #438699; /* Darker teal on hover */
-            color: #e0e0e0; /* Optional: Change text color slightly on hover */
+            background-color: #438699;
+            color: #e0e0e0;
         }
 
         .description {
-            line-height: 1.4; /* Increases spacing between lines for readability */
+            line-height: 1.4;
             color: #333;
             padding: 14px;
             margin-bottom: 15px;
@@ -40,13 +40,12 @@
 <body>
 <h2>About</h2>
 <div class="description">
-    <p>The Token Solution </p>
-    <img src="../pictures/timeout_.svg" alt="Dining Philosophers Problem" width="400" height="350">
-</div>
-<h2>Asymmetric Solution</h2>
-<div class="description">
-    <p>The Token Solution </p>
-    <img src="../pictures/timeout_.svg" alt="Dining Philosophers Problem" width="400" height="350">
+    Hi, my name is Jona, I am a Computer Science Student at Johannes Kepler University in Linz, Austria.
+    This Website is the Project for my Bachelors Thesis and aims to provide a deep understanding of the
+    Dining Philosophers Problem.
+    I present and evaluate several Algorithms, with which you can interact and learn about on the
+    Simulation and Animation pages.
+
 </div>
 </body>
 </html>

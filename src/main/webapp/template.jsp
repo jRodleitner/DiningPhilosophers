@@ -92,7 +92,7 @@
 </main>
 
 <footer>
-    <p>Jona Albin Elia Rodleitner - Johannes Kepler University Linz - 2024</p>
+    <p>Jona Rodleitner -2024-</p>
 </footer>
 </body>
 </html>

@@ -359,9 +359,6 @@
                 <option value="TIMEOUT" <%= "TIMEOUT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                     Timeout
                 </option>
-                <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                    Restrict
-                </option>
 
                 <optgroup label="Distributed">
                     <option value="CHANDYMISRA" <%= "CHANDYMISRA".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
@@ -413,6 +410,9 @@
                 <optgroup label="Semaphore">
                     <option value="TABLESEMAPHORE" <%= "TABLESEMAPHORE".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Table-Semaphore
+                    </option>
+                    <option value="RESTRICT" <%= "RESTRICT".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
+                        Restrict
                     </option>
                     <option value="TANENBAUM" <%= "TANENBAUM".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Tanenbaum

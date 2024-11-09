@@ -774,8 +774,7 @@
                 <td><b>Starvation and Fairness</b></td>
                 <td>Due to the possibility of deadlocks, starvation is a fundamental problem in our naive approach.
                     However, letting the philosophers wait for a notification to acquire the chopstick lowers the risk
-                    of starvation (when we are lucky and no deadlocks occur), but does not prevent it. (wait(), notify()
-                    pattern in Chopstick class)
+                    of starvation (when we are lucky and no deadlocks occur), but does not prevent it.
                     Rescheduling or suspension of threads by Operating System or
                     Java VM could allow philosophers to acquire chopsticks repeatedly before their neighbor.
                     The solution to this follows below.
@@ -807,7 +806,7 @@
             In the context of Java, it is important to highlight, that most
             synchronization methods do not provide fairness by default.
             Many synchronization mechanisms, like the "synchronized" keyword (used to attain an object lock when the
-            function or object is called),
+            function is called),
             do not maintain a queue of waiting threads. This means that the thread that has waited the longest
             is not guaranteed to be allowed first.
             This concept is called Barging and has to be prevented to ensure fairness in our solutions.
@@ -876,18 +875,18 @@
 
         <p>
             This website offers a Simulation Page and an Animation Page, both powered by a Java Threads-based
-            backend that is in principle very similar to the pseudocode provided later.
-            The Simulation Page allows you to run a simulation and view the resulting simulation output as timelines,
+            backend that is in principle very similar to the pseudocode provided.
+            The Simulation Page allows you to run a simulation with 2-9 philosophers and view the resulting simulation output as timelines,
             with detailed notes on the simulation settings available on that page.
-            The Animation Page lets you run a simulation that is then visually animated, with further details also
+            The Animation Page lets you run simulations with 5 philosophers that are then visually animated,
+            with further details also
             provided on that page.
             To see the Naive Dining Philosophers in action, you can try either the Simulation Page or the Animation
             Page.
-            Please note that the Animation is limited to the classic 5-philosopher setup, while the Simulation
-            Page allows you to experiment with 2 to 9 philosophers.
+
         </p>
-        <a href="../simulation/?algorithm=NAIVE" class="button">Simulation Page</a>
-        <a href="../animation/?algorithm=NAIVE" class="button">Animation Page</a>
+        <a href="../simulation/?algorithm=NAIVE" class="button">Naive Simulation</a>
+        <a href="../animation/?algorithm=NAIVE" class="button">Naive Animation</a>
         <br>
         <br>
     </section>
@@ -900,29 +899,29 @@
         <div class="container">
             <div class="main-content">
                 <div class="description">
-                <p>The buttons below link to different solutions that aim to address one or more of the challenges discussed
-                    earlier.
+                <p>
+                    The buttons below lead to explanations of various solutions that address one or more of the
+                    challenges: deadlocks, starvation/ fairness and concurrency.
                 </p>
 
                 <div class="description-box">
-                    <p>To learn about solutions that focus on organizing the order of the pickups of chopsticks:</p>
-                    <a href="hierarchy_asymmetric" class="button">Asymmetric/ Resource Hierarchy Solution</a>
+                    <p> To learn about solutions that focus on organizing the order of the pickups of chopsticks: </p>
+                    <a href="hierarchy_asymmetric" class="button">Asymmetric/ Resource Hierarchy Solutions (2 Algorithms)</a>
                 </div>
 
                 <div class="description-box">
                     <p>
                         To learn about the timeout solution that prevents deadlocks via returning the initially acquired
-                        chopstick
-                        when the second chopstick is not available within a fixed timeframe:
+                        chopstick when the second chopstick is not available within a fixed timeframe:
                     </p>
-                    <a href="timeout" class="button">Timeout Solution</a>
+                    <a href="timeout" class="button">Timeout Solution (1 Algorithm)</a>
                 </div>
 
                 <div class="description-box">
                     <p>
                         To learn about solutions that focus on tokens being passed around by the philosophers:
                     </p>
-                    <a href="token" class="button">Token Solution</a>
+                    <a href="token" class="button">Token Solutions (2 Algorithms)</a>
                 </div>
 
                 <div class="description-box">
@@ -930,21 +929,21 @@
                         To learn about solutions that utilize a central entity to organize the permission to eat or pick up
                         chopsticks:
                     </p>
-                    <a href="waiter" class="button">Waiter Solution</a>
+                    <a href="waiter" class="button">Waiter Solutions (6 Algorithms)</a>
                 </div>
 
                 <div class="description-box">
                     <p>
                         To learn about solutions that utilize semaphores:
                     </p>
-                    <a href="semaphore" class="button">Semaphore Solution</a>
+                    <a href="semaphore" class="button">Semaphore Solutions (4 Algorithms)</a>
                 </div>
 
                 <div class="description-box">
                     <p>
                         To learn about Distributed Solutions:
                     </p>
-                    <a href="distributed" class="button">Distributed Solutions</a>
+                    <a href="distributed" class="button">Distributed Solutions (2 Algorithms)</a>
                 </div>
 
                 <!--<div class="description-box">

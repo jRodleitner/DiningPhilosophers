@@ -75,24 +75,17 @@ CHECK:
 [x] Server deployment
 [x] read approaches/ papers for new algorithms
 
-30.10
-[x] Time fairnsess restrict token incorporation
-[x] move eatFair() into abstract class???
-[x] Explain wait mechanism further
-[x] Statistics explanation (animation/ simulation)
-[x] Correct eat-chance/ time explanation
-
 31.10
 
 3.11
 [x] Starvation + Fairness Re-evaluation
 [x] secure backend
-[_] correct pseudocode comments
-[_] complete wording overhaul
+[x] correct pseudocode comments
+[x] complete wording overhaul
 
 
 [x] Add backwards forwards buttons!
-[ ] Page names
+[x] Page names
 
 Paul:
 [ ] test backend security
@@ -105,7 +98,7 @@ Algorithm [descriptions]|[pseudocode]|[evaluations]|[overhaul]:
 2.  [x][x][x][x] Hierarchy
 3.  [x][x][x][x] Asymmetric
 4.  [x][x][x][x] Timeout
-5.  [x][x][x][ ] Restrict
+5.  [x][x][x][x] Restrict
 6.  [x][x][x][x] Global Token
 7.  [x][x][x][x] Multiple Token
 8.  [x][x][x][x] Atomic Waiter
