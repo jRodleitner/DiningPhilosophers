@@ -866,7 +866,7 @@
     class RestrictWaiter {
 
         int chopsticksOnTable;                  // tracks the number of available chopsticks on the table
-        Lock lock =  new ReentrantLock(true);   // Fair lock (enabled by true flag)
+        Lock lock =  new ReentrantLock(true);   // fair lock (enabled by true flag)
         Condition enoughChopsticks = lock.newCondition();  // condition to wait for available chopsticks
 
 

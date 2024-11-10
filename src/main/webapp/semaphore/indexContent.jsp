@@ -132,14 +132,13 @@
 
     <h2>Table Semaphore Solution</h2>
     <p>
-        Locking the whole table with a semaphore is the simplest solution to avoid deadlocks for the dining
-        philosophers.
+        Locking the whole table with a semaphore during pickup phase is one of the simplest solution to avoid deadlocks for
+        the dining philosophers.
         Philosophers have to acquire the semaphore before picking up their chopsticks,
         if the semaphore is currently not available, they wait until it becomes free again. After they are done picking
         up, they release the semaphore, and another philosopher can proceed.
         Functionally, this approach is similar to the previously presented Pickup Waiter Solution.
         In fact, it could even be argued, that in this case the Semaphore acts as an implicit waiter, because it maintains a FIFO queue, due to the enabled fairness parameter.
-        This approach is therefore useful for an introductory example on how fair semaphores work in principle.
     </p>
 
     <p>
@@ -226,7 +225,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a very slight performance overhead due to the globally accessed semaphore. Scalability is limited due to the managed FIFO-queue, but should be slightly more light weight than the waiter solution. </td>
+            <td>There is a very slight performance overhead due to the globally accessed semaphore. Scalability is limited due to the managed FIFO-queue, but should be slightly more light weight than that of the waiter solution. (depending on semaphore implementation) </td>
         </tr>
         </tbody>
     </table>
@@ -250,8 +249,8 @@
     <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
         One effective method to prevent deadlocks in the dining philosophers problem is to limit the number of
-        philosophers allowed to attempt eating at the same time.
-        For a group of n philosophers, we restrict this number to n-1, meaning only n-1 philosophers can try to pick up
+        philosophers that are allowed to attempt pickups at the same time.
+        For a group of n philosophers, we restrict this number to n-1, meaning  only n-1 philosophers can try to pick up
         their chopsticks simultaneously.
         To achieve this we use a semaphore that is initialized with (n-1) permits.
 
@@ -341,7 +340,7 @@
             <td><b>Performance: </b></td>
             <td>
                 There is a negligible overhead using the multiple-permit Semaphore. The approach is also scalable, but highly dependent on the semaphore implementation.
-                Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait.</td>
+                Compared to a waiter that has to process requests one after another and having to maintain a queue , the semaphore will usually be more light-wait. (usually only 1 philosopher waiting in the queue of the multi-permit semaphore)</td>
             </tr>
         </tbody>
     </table>
@@ -380,6 +379,8 @@
         <b>Monitor class: </b>
         The access to the Monitor is exclusive via the philosophers usage of the Monitor Semaphore (called mutex here).
         We use arrays to keep track of the philosophers states and an array that contains a semaphore for each philosopher.
+        The monitor class is very similar to a waiter, but philosophers do not ask the monitor for permission,
+        therefor the different naming.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -417,9 +418,9 @@
     </code></pre>
     <p>
         <b>Philosopher class:</b>
-        Philosophers need to acquire their respective semaphore to start eating.
+        Philosophers need to acquire their semaphore to eat.
         The semaphore is released via the test() method.
-        If the initial test failed philosophers have to wait until a neighbour calls it again on them.
+        If the initial test() failed, philosophers have to wait until a neighbour calls it on them.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -477,6 +478,7 @@
     <h3>Tanenbaum Solution Evaluation </h3>
 
     <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
+
     <table class="styled-table">
         <thead>
         <tr>
@@ -527,7 +529,7 @@
 
     <h2>Fair Tanenbaum Solution</h2>
     <p>
-        We can try to enhance the performance, including fairness, of the Tanenbaum solution by tracking the eat-chances/ eat-times.
+        We can try to enhance the performance and fairness of the Tanenbaum solution by tracking the eat-chances/ eat-times.
         For this purpose we maintain an additional array of eat chances/eat times that is updated whenever philosophers are done eating.
         We then check this array whenever a philosopher puts the chopsticks down.
         Instead of calling test() on the two adjacent philosophers we now call the test() function on all philosophers, prioritized by the previously tracked eat-chances.
@@ -546,14 +548,14 @@
         String[] states; // array to track the states
         Semaphore[] semaphores;
         int[] eatTimes; // array to track the number of times each philosopher has eaten
-        Semaphore mutex; // Semaphore for mutual exclusion for accessing the monitor
+        Semaphore mutex; // semaphore for mutual exclusion of the monitor
 
         FairMonitor(int nrPhilosophers) {
             eatTimes = new int[nrPhilosophers];
             states = new String[nrPhilosophers];
             semaphores = new Semaphore[nrPhilosophers];
             for (int i = 0; i < nrPhilosophers; i++) {
-                states[i] = Events.THINK; // All philosophers start in the think state
+                states[i] = Events.THINK; // all philosophers start in the think state
                 semaphores[i] = new Semaphore(0);
             }
             mutex = new Semaphore(1, true); // mutex starts with one permit for mutual exclusion, enable fairness parameter
@@ -563,7 +565,7 @@
             int left = (id + states.length - 1) % states.length;
             int right = (id + 1) % states.length;
 
-            // If the philosopher is hungry and both neighbors are not eating, allow the philosopher to eat
+            // if the philosopher is hungry and both neighbors are not eating, allow the philosopher to eat
             if (states[id] == Events.HUNGRY &&
                 states[left] != Events.EAT &&
                 states[right] != Events.EAT) {
@@ -574,11 +576,11 @@
         }
 
         void updateEatTime(int id) {
-            eatTimes[id]++; // Increment the number of times the philosopher has eaten
+            eatTimes[id]++; // increment the number of times the philosopher has eaten
         }
 
         void updateState(int id, String state) {
-            states[id] = state; // Update the state of the specified philosopher
+            states[id] = state; // update the state of the specified philosopher
         }
 
         void checkAll() {
@@ -645,7 +647,7 @@
         void pickUp() {
             monitor.mutex.acquire(); // gain exclusive access to the monitor
             monitor.updateState(id, Events.HUNGRY); // update the philosopher's state to hungry
-            monitor.test(id); // Test if the philosopher can start eating
+            monitor.test(id); // test if the philosopher can start eating
             monitor.mutex.release(); // release exclusive access to the monitor
 
             monitor.semaphores[id].acquire(); // wait until permission is granted to proceed
@@ -655,9 +657,9 @@
         }
 
         void eats() {
-            eat(); // Simulate eating
+            eat();
             monitor.mutex.acquire(); // gain exclusive access to the monitor
-            monitor.updateEatTime(id); // update the number of times this philosopher has eaten
+            monitor.updateEatTime(id); // update the number of times the philosopher has eaten
             monitor.mutex.release(); // release exclusive access to the monitor
         }
 
@@ -666,7 +668,7 @@
             putDownRightChopstick();
 
             monitor.mutex.acquire(); // gain exclusive access to the monitor
-            monitor.updateState(id, Events.THINK); // update the philosopher's state to thinking
+            monitor.updateState(id, Events.THINK); // update the philosophers state to thinking
             monitor.checkAll(); // re-evaluate all philosophers to allow the next one to eat
             monitor.mutex.release(); // release exclusive access to the monitor
         }
@@ -722,8 +724,7 @@
     <p>
         On the Simulation Animation pages you can find both the fair-chance and fair-time algorithms.
         The above implementation can easily be changed to account for eat-time fairness, changing just a few lines of code.
-        If you want more details about how this change could be done, it is shown in the Fair Waiter Solution.
-
+        If you want to get an idea how this change could be done, the change is shown in the <a href="../waiter/" >Fair Waiter Solution</a>.
     </p>
 
 

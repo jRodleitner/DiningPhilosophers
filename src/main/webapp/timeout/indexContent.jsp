@@ -136,7 +136,7 @@
                 // if the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait
                 while (!successfulPickup) {
                     putDownLeftChopstick();
-                    int random = randomValue(1, 25); //random wait time between 1 and 25ms
+                    int random = randomValue(1, 25); // random wait time between 1 and 25ms
                     sleep(random);
                     pickUpLeftChopstick();
                     successfulPickup = pickUpRightWithTimeout();
@@ -190,7 +190,7 @@
                 remainingTime = timeout - (currentTime() - startTime);
             }
 
-            // If the chopstick becomes available, it is marked as taken.
+            // if the chopstick becomes available, it is marked as taken.
             isAvailable = false;
             return true;
         }

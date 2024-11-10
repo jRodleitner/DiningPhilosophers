@@ -515,12 +515,13 @@
 <h2>Simulation Notes</h2>
 <div class="description">
     <p>
-        This simulation page lets you experiment with the various solutions presented.
+        This Simulation Page lets you experiment with the algorithms.
         Each run results in a unique timeline, based on the chosen algorithm and parameters.
         The timelines often exceed the box width, so horizontal scrolling may be needed.
         <br>
-        There are several options, with which you can alter the simulation parameters:
+
     </p>
+    <h3>Parameters</h3>
     <ul>
 
         <li><b>Number of philosophers: </b>Simulations with 2-9 philosophers are possible.</li>

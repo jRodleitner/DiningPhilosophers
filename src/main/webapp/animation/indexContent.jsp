@@ -1235,9 +1235,9 @@
         You can play, pause, navigate backward, forward, or restart, and adjust playback speed in the drop-down menu.
         The animation follows Dijkstras classic 5-philosopher setup, displaying frame by frame, based on the timeline data.
         Use the scroll-box on the bottom to view the respective timelines.
-        <br>
-        There are several options, with which you can alter the simulation parameters:
+
     </p>
+    <h3>Parameters</h3>
     <ul>
 
         <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
@@ -1270,7 +1270,7 @@
 
     <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
 
-    <h3>Statistics</h3>
+    <h3>Statistics:</h3>
     <p>
         A simulation run will output detailed statistics, including the measures:
     </p>
