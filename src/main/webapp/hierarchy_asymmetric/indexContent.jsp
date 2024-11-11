@@ -119,12 +119,12 @@
         This forces all philosophers, except one, to act "left-handed" (they pick up the left chopstick first).
         One philosopher (the last one in the circle) will act as the "right-handed," picking up their right chopstick
         first.
-        With this approach we guarantee that at least one philosopher can proceed.
+        With this approach, we guarantee that at least one philosopher can proceed.
 
     <p>
         <b>Philosopher class:</b>
         To implement the Resource Hierarchy solution, only the run function in the philosopher class has to be modified:
-        If the left chopstick id is lower pick up left first, if the right chopstick id is lower, pick up the right
+        If the left chopstick id is lower, pick up left first, if the right chopstick id is lower, pick up the right
         first.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
@@ -179,10 +179,15 @@
         <tr>
             <td><b>Starvation and Fairness</b></td>
             <td>
-                The Resource Hierarchy Solution, on itself, does not guarantee that a philosopher will get a chance to eat.
-                We combine this approach with the FIFO (First in First Out) enhanced chopstick pickup, guaranteeing that philosophers will eventually get the chance to acquire their chopsticks.
-                This transforms Resource Hierarchy to a starvation-free solution, with guaranteed acquiring of chopsticks.
-                We take no additional measures to enhance both eat-chance and time-fairness. They depend heavily on the chosen distribution.
+                The Resource Hierarchy Solution, in itself,
+                does not guarantee that a philosopher will get a chance to eat.
+                We combine this approach with the FIFO (First in First Out) enhanced chopstick pickup,
+                guaranteeing that philosophers will eventually get the chance
+                to acquire their chopsticks.
+                This transforms Resource Hierarchy to a starvation-free solution,
+                with guaranteed acquiring of chopsticks.
+                We take no additional measures to enhance both eat-chance and time-fairness.
+                They depend heavily on the chosen distribution.
             </td>
         </tr>
 
@@ -228,8 +233,8 @@
 
     <img src="../pictures/asymmetric.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
     <p>
-        The Asymmetric Solution takes a slightly different approach by assigning an order to the philosophers instead of
-        the chopsticks.
+        The Asymmetric Solution takes a slightly different approach
+        by assigning a specific order to the philosophers rather than to the chopsticks.
         Philosophers with an even number pick up the left chopstick first, while those with an odd number pick up the
         right chopstick first.
 
@@ -238,7 +243,7 @@
     <p>
         <b>Philosopher class:</b>
         To implement the Asymmetric solution, we again only have to modify the run function in the philosopher class.
-        We assign Philosophers with even id as left-handed, philosophers with odd id as right-handed.
+        We assign philosophers with even id as left-handed, philosophers with odd id as right-handed.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -275,7 +280,7 @@
     <h3>Asymmetric Solution Evaluation</h3>
     <img src="../pictures/precedence_asymmetric.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        Let us again evaluate the given Algorithm according to the key-challenges:
+        Let us again evaluate the given Algorithm according to the key challenges:
     </p>
     <table class="styled-table">
         <thead>
@@ -301,9 +306,11 @@
 
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Concurrency of the system is further improved on. We increase concurrency in our system, due to the now minimal paths in the precedence graph.
+            <td>Concurrency of the system is further improved on.
+                We increase concurrency in our system due to the now minimal paths in the precedence graph.
                 Compared to the naive and the Resource Hierarchy implementation, we achieve better concurrency.
-                Note that this effect is often barely noticeable in simulation runs with 5 or 4 philosophers and low simulation times.</td>
+                Note that this effect is often barely noticeable
+                in simulation runs with five or four philosophers and low simulation times.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>

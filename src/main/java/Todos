@@ -87,8 +87,11 @@ CHECK:
 [x] Add backwards forwards buttons!
 [x] Page names
 
+10.11
+[x] Legend gets more transparent when pressed, when pressed again it becomes less transparent
+[ ]
 Paul:
-[ ] test backend security
+[x] test backend security
 
 
 

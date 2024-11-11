@@ -250,7 +250,7 @@
 
     <h3>Global Token Solution Evaluation</h3>
     <p>
-        Now Let us evaluate the Global Token solution according to the key-challenges
+        Now Let us evaluate the Global Token solution according to the key challenges
     </p>
     <table class="styled-table">
         <thead>
@@ -282,7 +282,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>The introduced logics overhead is minimal and managed in a distributed way. No central entity, and thus highly scalable.</td>
+            <td>The introduced logic's overhead is minimal and managed in a distributed way. No central entity, and thus highly scalable.</td>
         </tr>
         </tbody>
     </table>
@@ -306,19 +306,23 @@
         The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency is limited in our
         system under ideal conditions to [n/2] for even n and &lfloor;n/2&rfloor; for uneven n.
         Two adjacent philosopher can never eat at the same time, so the idea is to just hand
-        every other philosopher a token and prevent the token from being passed on to the next philosopher if it holds a
+        every other philosopher a token
+        and prevent the token from being passed on to the next philosopher if they hold a
         token.
-        If we have an uneven number of philosophers the last one is skipped automatically (We do not hand them a token).
-        We pass the token only after the other philosopher has passed on its token. In theory, we can reach
+        If we have an uneven number of philosophers, the last one is skipped automatically (We do not hand them a token).
+        We pass the token only after the other philosopher has passed on its token.
+        In theory, we can reach
         maximum concurrency of [n/2]/ &lfloor;n/2&rfloor;, if there are few or no outliers for the execution times of
         eating and if eating and thinking times are similarly distributed.
     </p>
     <img src="../pictures/multipletoken_working.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
     <p>
-        We only modify the Token class, for cases where the next philosopher still holds on to a token.
-        This is not likely to happen, because the philosophers cannot start eating until the adjacent philosopher is done eating,
-        and thus cannot pass on the token. (mutual exclusion managed by the fork semaphore
+        We only modify the Token class for cases where the next philosopher still holds on to a token.
+        This is not likely to happen
+        because the philosophers cannot start eating until the adjacent philosopher is done eating,
+        and thus cannot pass on the token.
+        (mutual exclusion managed by the fork semaphore
         via usage of the pick-up method in the philosopher class)
         We include this change just for completeness, to illustrate this concept.
     </p>
@@ -382,7 +386,7 @@
     </code></pre>
     <h3>Multiple Token Solution Evaluation</h3>
     <p>
-        Now Let us evaluate the Multiple Token solution according to the key-challenges
+        Now Let us evaluate the Multiple Token solution according to the key challenges
     </p>
     <table class="styled-table">
         <thead>
@@ -422,19 +426,30 @@
 
 
     <p>
-        Although this solution shows promising results (potential high concurrency, eat chance fairness and no deadlocks) and is clearly highly scalable in distributed environments
-        (if we know the number of philosophers, that is and none drop out or "die") there are still some major issues with this approach.
-        First, congestion could occur when a philosopher eats for a very long time. In such situations the philosophers
+        This algorithm shows promising results, including high potential concurrency,
+        fairness in eating opportunities, and no risk of deadlocks.
+        It is also highly scalable in distributed environments,
+        provided we know the number of philosophers and none drop out or "die."
+        However, several major issues with this approach remain.
+        First, congestion could occur when a philosopher eats for a very long time.
+        In such situations, the philosophers
         are prevented from passing the token as long as the "long-eating" philosopher still holds its token.
-        This means that this approach's improvements on concurrency only work properly if we assume similarly distributed eat times.
-        Secondly, we assume that philosophers will want to eat when they receive a token, however if very long thinking times occur they will hold onto the token,
-        until they finished eating, again leading to possible congestion in such cases.
-        In total for this solution to perform optimally we have to assume similar distributions in thinking and eating times,
+        This means
+        that this approach's improvements on concurrency only work properly
+        if we assume similarly distributed eat times.
+        Secondly, we assume that philosophers will want to eat when they receive a token, however,
+        if very long thinking times occur, they will hold onto the token until they finish eating,
+        again leading to possible congestion in such cases.
+        In total, for this solution to perform optimally,
+        we have to assume similar distributions in thinking and eating times,
         to not result in unnecessary long blocked times for other philosophers.
-        We could improve this algorithm a little by allowing "long thinking" philosophers to pass the token to the next philosopher.
-        For this approach, however we would have to utilize a purposeful heuristic to define what a "long thinking time" is.
-        If the chosen heuristic is not adequate we could end up passing a philosopher multiple times, and when it tries to eat it might have to wait to receive a token.
-        This is hard to manage and highly dependent on the simulation-settings.
+        We could improve this algorithm a little by allowing "long thinking"
+        philosophers to pass the token to the next philosopher.
+        For this approach, however,
+        we would have to utilize a purposeful heuristic to define what a "long thinking time" is.
+        If the chosen heuristic is not adequate, we could end up passing a philosopher multiple times,
+        and when philosophers try to eat, they might have to wait to receive a token.
+        This is hard to manage and highly dependent on the simulation settings.
 
     </p>
 

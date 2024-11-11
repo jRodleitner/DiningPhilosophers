@@ -243,10 +243,10 @@
     <p>
         A major limitation of this approach is that when a timeout occurs, philosophers must wait for a certain time to
         re-attempt their pickup. When the timeout is chosen very low, frequent re-attempts might happen.
-        On the contrary if we choose high values for the timeout we might take a very long to realize a deadlock has occurred, harming concurrency/ system progress.
+        On the contrary, if we choose high values for the timeout, a long time goes by before a deadlock is detected, harming concurrency/ system progress.
         The waiting time has to be reasonably chosen and randomized, to prevent recurring deadlocks.
         If we choose fixed values, for example 10ms, it might happen that the philosophers all try to pick up their left
-        chopsticks again and again, just with a delay of 10ms. This would (arguably) result in an arguably even worse condition: A livelock (Consuming resources without system progress)
+        chopsticks again and again, just with a delay of 10ms. This would (arguably) result in an even worse condition: A livelock (Consuming resources without system progress)
     </p>
     <p>
         You can find the respective Simulation and Animation pages here:

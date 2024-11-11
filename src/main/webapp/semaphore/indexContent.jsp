@@ -132,13 +132,16 @@
 
     <h2>Table Semaphore Solution</h2>
     <p>
-        Locking the whole table with a semaphore during pickup phase is one of the simplest solution to avoid deadlocks for
+        Locking the whole table with a semaphore during pickup phase is one of the simplest solutions
+        to avoid deadlocks for
         the dining philosophers.
         Philosophers have to acquire the semaphore before picking up their chopsticks,
-        if the semaphore is currently not available, they wait until it becomes free again. After they are done picking
+        if the semaphore is currently not available, they wait until it becomes free again.
+        After they are done picking
         up, they release the semaphore, and another philosopher can proceed.
         Functionally, this approach is similar to the previously presented Pickup Waiter Solution.
-        In fact, it could even be argued, that in this case the Semaphore acts as an implicit waiter, because it maintains a FIFO queue, due to the enabled fairness parameter.
+        In fact, it could even be argued that in this case the Semaphore acts as an implicit waiter,
+        because it maintains a FIFO queue, due to the enabled fairness parameter.
     </p>
 
     <p>
@@ -194,7 +197,7 @@
 
     <h3>Table Semaphore Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Table Semaphore solution based on the key-challenges:</p>
+    <p>Now let us evaluate the Table Semaphore solution based on the key challenges:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -225,7 +228,10 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>There is a very slight performance overhead due to the globally accessed semaphore. Scalability is limited due to the managed FIFO-queue, but should be slightly more light weight than that of the waiter solution. (depending on semaphore implementation) </td>
+            <td>There is a very slight performance overhead due to the globally accessed semaphore.
+                Scalability is limited due to the managed FIFO queue,
+                but should be slightly more light weight than that of the waiter solution.
+                (depending on semaphore implementation) </td>
         </tr>
         </tbody>
     </table>
@@ -250,9 +256,9 @@
     <p>
         One effective method to prevent deadlocks in the dining philosophers problem is to limit the number of
         philosophers that are allowed to attempt pickups at the same time.
-        For a group of n philosophers, we restrict this number to n-1, meaning  only n-1 philosophers can try to pick up
+        For a group of n philosophers, we restrict this number to n-1, meaning only n-1 philosophers can try to pick up
         their chopsticks simultaneously.
-        To achieve this we use a semaphore that is initialized with (n-1) permits.
+        To achieve this, we use a semaphore initialized with (n-1) permits.
 
     </p>
 
@@ -303,7 +309,7 @@
 
     <h3>Restrict Solution Evaluation</h3>
 
-    <p>Now let us evaluate the Restrict solution based on the key-challenges:</p>
+    <p>Now let us evaluate the Restrict Solution based on the key challenges:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -340,7 +346,7 @@
             <td><b>Performance: </b></td>
             <td>
                 There is a negligible overhead using the multiple-permit Semaphore. The approach is also scalable, but highly dependent on the semaphore implementation.
-                Compared to a waiter that has to process requests one after another and having to maintain a queue , the semaphore will usually be more light-wait. (usually only 1 philosopher waiting in the queue of the multi-permit semaphore)</td>
+                Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait. (usually only 1 philosopher waiting in the queue of the multi-permit semaphore)</td>
             </tr>
         </tbody>
     </table>
@@ -369,16 +375,16 @@
     <ul>
         <li>Philosophers Think (State is initially set to "Thinking")</li>
         <li>Philosophers acquire the Monitors Semaphore and update their state to "Hungry", and call the test() function to determine whether the two adjacent philosophers are not eating.
-            If this test is successful they update their state to "Eating" and the monitors semaphore is released.</li>
-        <li>Once their respective semaphore is released the philosophers start eating, if not, they wait until the semaphore is released in a later call to the test() function.</li>
-        <li>When philosophers are done eating they will again acquire the monitor semaphore and call the test() function on both their neighbours, enabling them to check whether either the two adjacent philosophers is currently eating, if this is the case they will continue to wait.</li>
-        <li>Finally, they set their state to "Thinking" and release the monitors semaphore and the process starts anew</li>
+            If this test is successful, they update their state to "Eating" and the monitor semaphore is released.</li>
+        <li>Once their respective semaphore is released, the philosophers start eating, if not, they wait until the semaphore is released in a later call to the test() function.</li>
+        <li>When philosophers are done eating, they will again acquire the monitor semaphore and call the test() function on both their neighbors, enabling them to check whether either of the two adjacent philosophers is currently eating, if this is the case they will continue to wait.</li>
+        <li>Finally, they set their state to "Thinking" and release the monitors semaphore, and the process starts anew</li>
     </ul>
 
     <p>
         <b>Monitor class: </b>
         The access to the Monitor is exclusive via the philosophers usage of the Monitor Semaphore (called mutex here).
-        We use arrays to keep track of the philosophers states and an array that contains a semaphore for each philosopher.
+        We use arrays to keep track of the philosophers' states and an array that contains a semaphore for each philosopher.
         The monitor class is very similar to a waiter, but philosophers do not ask the monitor for permission,
         therefor the different naming.
     </p>
@@ -420,7 +426,7 @@
         <b>Philosopher class:</b>
         Philosophers need to acquire their semaphore to eat.
         The semaphore is released via the test() method.
-        If the initial test() failed, philosophers have to wait until a neighbour calls it on them.
+        If the initial test() failed, philosophers have to wait until a neighbor calls it on them.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -477,7 +483,7 @@
 
     <h3>Tanenbaum Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Tanenbaum solution based on the key-challenges:</p>
+    <p>Now let us evaluate the Tanenbaum solution based on the key challenges:</p>
 
     <table class="styled-table">
         <thead>
@@ -530,16 +536,16 @@
     <h2>Fair Tanenbaum Solution</h2>
     <p>
         We can try to enhance the performance and fairness of the Tanenbaum solution by tracking the eat-chances/ eat-times.
-        For this purpose we maintain an additional array of eat chances/eat times that is updated whenever philosophers are done eating.
+        For this purpose, we maintain an additional array of eat chances/eat times that is updated whenever philosophers are done eating.
         We then check this array whenever a philosopher puts the chopsticks down.
-        Instead of calling test() on the two adjacent philosophers we now call the test() function on all philosophers, prioritized by the previously tracked eat-chances.
+        Instead of calling test() on the two adjacent philosophers, we now call the test() function on all philosophers, prioritized by the previously tracked eat-chances.
     </p>
 
     <p>
         <b>Monitor class:</b>
         We now call the test() method on all philosophers after a pick-up.
-        To promote fairness we reorder the philosophers according to their eat-chances,
-        and call those who had the least chances to eat first.
+        To promote fairness, we reorder the philosophers according to their eat-chances,
+        and call those who had the least chance to eat first.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
@@ -682,7 +688,7 @@
     <h3>Fair Tanenbaum Solution Evaluation </h3>
 
     <p>
-        Now let us evaluate the Fair Tanenbaum solution based on the key-challenges:
+        Now let us evaluate the Fair Tanenbaum solution based on the key challenges:
     </p>
     <table class="styled-table">
         <thead>
@@ -707,7 +713,7 @@
 
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Very Good: In this approach, we still prioritize concurrent performance over fairness. This results in very high concurrency results while still taking fairness into account.</td>
+            <td>Great: In this approach, we still prioritize concurrent performance over fairness. This results in very high concurrency results while still taking fairness into account.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>

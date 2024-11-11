@@ -256,8 +256,8 @@
                     thinkparam1.setAttribute('value', "100");  // Set default value for Deterministic
                     break;
                 case 'NORMAL':
-                    thinkparam1.setAttribute('value', "75");  // Set default value for Normal
-                    thinkparam2.setAttribute('value', "5");  // Set default value for Normal
+                    thinkparam1.setAttribute('value', "75");
+                    thinkparam2.setAttribute('value', "5");
                     break;
                 case 'EXP':
                     thinkparam1.setAttribute('value', "5");   // Set default value for Exponential
@@ -280,8 +280,8 @@
                     eatparam1.setAttribute('value', "100");
                     break;
                 case 'NORMAL':
-                    eatparam1.setAttribute('value', "75");  // Set default value for Normal
-                    eatparam2.setAttribute('value', "5");  // Set default value for Normal
+                    eatparam1.setAttribute('value', "75");
+                    eatparam2.setAttribute('value', "5");
                     break;
                 case 'EXP':
                     eatparam1.setAttribute('value', "5");   // Set default value for Exponential
@@ -303,9 +303,9 @@
 
             window.addEventListener('scroll', () => {
                 if (window.scrollY > scrollThreshold) {
-                    floatingBox.classList.add('hidebox'); // Hide box after threshold
+                    floatingBox.classList.add('hidebox');
                 } else {
-                    floatingBox.classList.remove('hidebox'); // Show box if above threshold
+                    floatingBox.classList.remove('hidebox');
                 }
             });
         };
@@ -330,7 +330,7 @@
         </c:if>
     </div>
 
-    <div class="floating-box_1" onclick="this.style.display='none'">
+    <div class="floating-box_1" onclick="this.style.opacity = '0.3'; this.style.transition = 'opacity 0.3s';">
         <h4>Legend:</h4>
         [ T ] = Think  <br>
         [PUL] = Pick Up Left <br>
@@ -429,7 +429,7 @@
 
             <br><br>
 
-            <label for="nrPhil">Number of Philosophers (2-9):</label>
+            <label for="nrPhil">Number of Philosophers (2–9):</label>
             <input type="number" id="nrPhil" name="nrPhil" min="2" max="9"
                    value="${param.nrPhil != null ? param.nrPhil : '5'}" required><br><br>
 
@@ -524,7 +524,7 @@
     <h3>Parameters</h3>
     <ul>
 
-        <li><b>Number of philosophers: </b>Simulations with 2-9 philosophers are possible.</li>
+        <li><b>Number of philosophers: </b>Simulations with 2–9 philosophers are possible.</li>
 
         <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
             One time "unit" represents a loop iteration that is a step in the simulation timeline.
@@ -542,7 +542,7 @@
 
         <li><b>Distribution settings: </b> There are four distributions you can choose from.
             <ul>
-                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation this will
+                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation, this will
                     provoke deadlocks!
                 </li>
                 <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper
@@ -577,8 +577,10 @@
 
 
     <uL>
-        <li><b>Concurrency: </b> total combined (simulated) eating time, divided by length of the timeline. Maximum
-            concurrency is bounded by [n/2](even n) or ⌊5/2⌋(odd n) for n-philosophers. Results close to this value
+        <li><b>Concurrency: </b> Total combined (simulated) eating time, divided by length of the timeline.
+            Maximum
+            concurrency is bounded at [n/2](even n) or ⌊5/2⌋(odd n) for n-philosophers.
+            Results close to this value
             indicate good concurrency.
         </li>
         <li><b>Eat-chance fairness: </b> Standard deviation of all the philosophers eat chances (The times philosophers

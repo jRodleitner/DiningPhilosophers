@@ -310,14 +310,14 @@
                     thinkparam2.setAttribute('value', "100"); // Set default value for Interval
                     break;
                 case 'DETERMINISTIC':
-                    thinkparam1.setAttribute('value', "100");  // Set default value for Deterministic
+                    thinkparam1.setAttribute('value', "100");
                     break;
                 case 'NORMAL':
-                    thinkparam1.setAttribute('value', "75");  // Set default value for Normal
-                    thinkparam2.setAttribute('value', "5");  // Set default value for Normal
+                    thinkparam1.setAttribute('value', "75");
+                    thinkparam2.setAttribute('value', "5");
                     break;
                 case 'EXP':
-                    thinkparam1.setAttribute('value', "5");   // Set default value for Exponential
+                    thinkparam1.setAttribute('value', "5");
                     break;
 
             }
@@ -337,11 +337,11 @@
                     eatparam1.setAttribute('value', "100");
                     break;
                 case 'NORMAL':
-                    eatparam1.setAttribute('value', "75");  // Set default value for Normal
-                    eatparam2.setAttribute('value', "5");  // Set default value for Normal
+                    eatparam1.setAttribute('value', "75");
+                    eatparam2.setAttribute('value', "5");
                     break;
                 case 'EXP':
-                    eatparam1.setAttribute('value', "5");   // Set default value for Exponential
+                    eatparam1.setAttribute('value', "5");
                     break;
 
             }
@@ -362,10 +362,10 @@
 
             window.addEventListener('scroll', () => {
                 if (window.scrollY > scrollThreshold) {
-                    floatingBox.classList.add('hidebox'); // Hide box after threshold
+                    floatingBox.classList.add('hidebox');
 
                 } else {
-                    floatingBox.classList.remove('hidebox'); // Show box if above threshold
+                    floatingBox.classList.remove('hidebox');
                 }
             });
 
@@ -573,15 +573,14 @@
             const timeDisplay = document.getElementById("time-display");
 
             let timeStep = 0;
-            const maxTimeStep = sequences.PH_0.length; // Assuming all philosophers have the same length of sequence
+            const maxTimeStep = sequences.PH_0.length;
             let interval = null;
             const blinktimeout = 100;
 
-            // Update the state based on the current action
             function updateState(philosopherIndex, action) {
                 const philosopher = philosophers[philosopherIndex];
                 const id = philosopher.id;
-                // Set the text on the philosopher's plate including the ID
+
                 switch (action) {
 
                     case "[ T ]":
@@ -1211,7 +1210,7 @@
             <pre>${result}</pre>
         </c:if>
     </div>
-    <div class="floating-box_1" onclick="this.style.display='none'">
+    <div class="floating-box_1" onclick="this.style.opacity = '0.3'; this.style.transition = 'opacity 0.3s';">
         <h4>Legend:</h4>
         [ T ] = Think  <br>
         [PUL] = Pick Up Left <br>
@@ -1245,7 +1244,7 @@
             We control the actual time passage via a short waiting period in each iteration to give the philosophers time to complete actions.
             Philosophers use this reference time to log their respective actions after completion.
             This results in a quantization effect where each completed act is mapped to a discrete virtual simulation-time point.
-            Note that there is an actual simulation running in the background that utilizes Java Threads.
+            Note that there is an actual simulation running in the background that uses Java Threads.
             Increasing the simulation time will prolong the execution time of the backend, due to the longer simulation duration and the following processing of the results.
             The maximum execution time is 500, this will result in a waiting period of up to 10 seconds before results are visible.
 
@@ -1253,7 +1252,7 @@
 
         <li><b>Distribution settings: </b> There are four distributions you can choose from.
             <ul>
-                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation this will provoke deadlocks!</li>
+                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation, this will provoke deadlocks!</li>
                 <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper Bound.</li>
                 <li>Normal:  Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
                     This will simulate philosophers with normally distributed delays, according to the given parameters.</li>
@@ -1277,8 +1276,10 @@
 
 
     <uL>
-        <li><b>Concurrency: </b> total combined (simulated) eating time, divided by length of the timeline. Maximum
-            concurrency is bounded by 2 for 5-philosophers. Results close to this value
+        <li><b>Concurrency: </b> Total combined (simulated) eating time, divided by length of the timeline.
+            Maximum
+            concurrency is bounded at two for 5-philosophers.
+            Results close to this value
             indicate good concurrency.
         </li>
         <li><b>Eat-chance fairness: </b> Standard deviation of all the philosophers eat chances (The times philosophers
