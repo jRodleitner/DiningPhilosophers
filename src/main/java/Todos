@@ -89,7 +89,7 @@ CHECK:
 
 10.11
 [x] Legend gets more transparent when pressed, when pressed again it becomes less transparent
-[ ]
+[ ] timeout limit can be zero!
 Paul:
 [x] test backend security
 

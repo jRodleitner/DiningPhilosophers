@@ -487,8 +487,8 @@
                    value="${param.eatparam2 != null ? param.eatparam2 : '100'}">
             <br>
 
-            <label id=timeoutLabel for="timeout">Timeout (10-200):</label>
-            <input type="number" id="timeout" name="timeout" min="10" max="200"
+            <label id=timeoutLabel for="timeout">Timeout (0-200):</label>
+            <input type="number" id="timeout" name="timeout" min="0" max="200"
                    value="${param.timeout != null ? param.timeout : '100'}" required>
             <br>
             <br>
