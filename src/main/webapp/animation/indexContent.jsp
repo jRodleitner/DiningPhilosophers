@@ -176,11 +176,11 @@
     </style>
     <script>
         function updateLabels() {
-            // Update labels for thinkDistribution
+
             var thinkDistribution = document.getElementById('thinkDistribution').value;
             var thinkParam1Label = document.getElementById('thinkparam1Label');
             var thinkParam2Label = document.getElementById('thinkparam2Label');
-            //var thinkParam1Input = document.getElementById('thinkparam1');
+
             var thinkParam2Input = document.getElementById('thinkparam2');
 
             if (thinkDistribution === 'INTERVAL') {
@@ -203,11 +203,10 @@
                 thinkParam2Input.style.display = 'none';
             }
 
-            // Update labels for eatDistribution
             var eatDistribution = document.getElementById('eatDistribution').value;
             var eatParam1Label = document.getElementById('eatparam1Label');
             var eatParam2Label = document.getElementById('eatparam2Label');
-            //var eatParam1Input = document.getElementById('eatparam1');
+
             var eatParam2Input = document.getElementById('eatparam2');
 
             if (eatDistribution === 'INTERVAL') {
@@ -230,7 +229,6 @@
                 eatParam2Input.style.display = 'none';
             }
 
-            // Update visibility for timeout
             var algorithm = document.getElementById('algorithm').value;
             var timeoutLabel = document.getElementById('timeoutLabel');
             var timeoutInput = document.getElementById('timeout');
@@ -306,8 +304,8 @@
 
             switch (thinkDistribution) {
                 case 'INTERVAL':
-                    thinkparam1.setAttribute('value', "50");  // Set default value for Interval
-                    thinkparam2.setAttribute('value', "100"); // Set default value for Interval
+                    thinkparam1.setAttribute('value', "50");
+                    thinkparam2.setAttribute('value', "100");
                     break;
                 case 'DETERMINISTIC':
                     thinkparam1.setAttribute('value', "100");
@@ -330,8 +328,8 @@
 
             switch (eatDistribution) {
                 case 'INTERVAL':
-                    eatparam1.setAttribute('value', "50");  // Set default value for Interval
-                    eatparam2.setAttribute('value', "100"); // Set default value for Interval
+                    eatparam1.setAttribute('value', "50");
+                    eatparam2.setAttribute('value', "100");
                     break;
                 case 'DETERMINISTIC':
                     eatparam1.setAttribute('value', "100");
@@ -357,7 +355,7 @@
 
 
 
-            const scrollThreshold = 10; // Scroll threshold in pixels
+            const scrollThreshold = 10;
             const floatingBox = document.getElementById('floatingBox');
 
             window.addEventListener('scroll', () => {
@@ -517,20 +515,17 @@
             const inputString = `
             <%= request.getAttribute("animationresult") != null ? request.getAttribute("animationresult").toString().replace("\n", "\\n").replace("\r", "\\r") : "" %>
             `;
-            // Convert input string into JavaScript object with arrays of arrays
             const sequences = inputString.trim().split('\n').reduce((acc, line) => {
-                // Extract key and bracketed values
+
                 const parts = line.match(/\[.*?\]/g);
                 if (parts) {
-                    // Get the key (first part before the first bracket)
                     const key = line.split(' ')[0];
-                    acc[key] = parts.map(part => part.trim()); // Clean up any extra whitespace
+                    acc[key] = parts.map(part => part.trim());
                 }
                 return acc;
             }, {});
 
 
-            // Reference to text and arrow elements in the SVG
             const philosophers = [
                 {
                     id: "PH_0",
@@ -569,7 +564,7 @@
                 }
             ];
 
-            // Reference to the time display element
+
             const timeDisplay = document.getElementById("time-display");
 
             let timeStep = 0;
@@ -1023,11 +1018,11 @@
                 if (interval !== null) {
                     clearInterval(interval);
                     interval = null;
-                    playAnimation(); // Restart with the new interval
+                    playAnimation();
                 }
             }
 
-            // Initial render
+
             renderTimeStep();
         </script>
 

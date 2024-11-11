@@ -119,11 +119,10 @@
     </style>
     <script>
         function updateLabels() {
-            // Update labels for thinkDistribution
+
             var thinkDistribution = document.getElementById('thinkDistribution').value;
             var thinkParam1Label = document.getElementById('thinkparam1Label');
             var thinkParam2Label = document.getElementById('thinkparam2Label');
-            //var thinkParam1Input = document.getElementById('thinkparam1');
             var thinkParam2Input = document.getElementById('thinkparam2');
 
             if (thinkDistribution === 'INTERVAL') {
@@ -146,11 +145,10 @@
                 thinkParam2Input.style.display = 'none';
             }
 
-            // Update labels for eatDistribution
+
             var eatDistribution = document.getElementById('eatDistribution').value;
             var eatParam1Label = document.getElementById('eatparam1Label');
             var eatParam2Label = document.getElementById('eatparam2Label');
-            //var eatParam1Input = document.getElementById('eatparam1');
             var eatParam2Input = document.getElementById('eatparam2');
 
             if (eatDistribution === 'INTERVAL') {
@@ -173,7 +171,7 @@
                 eatParam2Input.style.display = 'none';
             }
 
-            // Update visibility for timeout
+
             var algorithm = document.getElementById('algorithm').value;
             var timeoutLabel = document.getElementById('timeoutLabel');
             var timeoutInput = document.getElementById('timeout');
@@ -249,18 +247,18 @@
 
             switch (thinkDistribution) {
                 case 'INTERVAL':
-                    thinkparam1.setAttribute('value', "50");  // Set default value for Interval
-                    thinkparam2.setAttribute('value', "100"); // Set default value for Interval
+                    thinkparam1.setAttribute('value', "50");
+                    thinkparam2.setAttribute('value', "100");
                     break;
                 case 'DETERMINISTIC':
-                    thinkparam1.setAttribute('value', "100");  // Set default value for Deterministic
+                    thinkparam1.setAttribute('value', "100");
                     break;
                 case 'NORMAL':
                     thinkparam1.setAttribute('value', "75");
                     thinkparam2.setAttribute('value', "5");
                     break;
                 case 'EXP':
-                    thinkparam1.setAttribute('value', "5");   // Set default value for Exponential
+                    thinkparam1.setAttribute('value', "5");
                     break;
 
             }
@@ -273,8 +271,8 @@
 
             switch (eatDistribution) {
                 case 'INTERVAL':
-                    eatparam1.setAttribute('value', "50");  // Set default value for Interval
-                    eatparam2.setAttribute('value', "100"); // Set default value for Interval
+                    eatparam1.setAttribute('value', "50");
+                    eatparam2.setAttribute('value', "100");
                     break;
                 case 'DETERMINISTIC':
                     eatparam1.setAttribute('value', "100");
@@ -284,7 +282,7 @@
                     eatparam2.setAttribute('value', "5");
                     break;
                 case 'EXP':
-                    eatparam1.setAttribute('value', "5");   // Set default value for Exponential
+                    eatparam1.setAttribute('value', "5");
                     break;
 
             }
