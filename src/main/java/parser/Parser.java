@@ -9,9 +9,6 @@ import simulation.DiningTable;
 
 public class Parser {
 
-    //private static int maxLength = 0;
-
-
 
     public static String parse(List<AbstractPhilosopher> philosophers, DiningTable table){
         AtomicInteger maxLength = new AtomicInteger(0);
@@ -43,7 +40,6 @@ public class Parser {
         fillIn(philosophers, timelines, statistics, maxLength, simulatePickups);
         fillStatistics(timelines, statistics, nrPickups);
         timelines.add(generateTimeIndices(maxLength.get()));
-        //TODO explain
 
         for(List<String> timeline: timelines){
             sb.append(String.join("", timeline));
@@ -94,17 +90,12 @@ public class Parser {
     }
 
     private static double calculateStandardDeviation(List<Integer> values) {
-        // Step 1: Calculate the mean
         double mean = calculateMean(values);
-
-        // Step 2: Calculate the variance
         double variance = 0.0;
         for (int value : values) {
             variance += Math.pow(value - mean, 2);
         }
         variance /= values.size();
-
-        // Step 3: Return the standard deviation
         return Math.sqrt(variance);
     }
 
@@ -121,13 +112,12 @@ public class Parser {
         strings.add("TIME:");
         for (int i = 1; i <= maxLength; i++) {
             String numStr = Integer.toString(i);
-            int paddingTotal = 5 - numStr.length(); // Calculate total padding needed
-            int paddingLeft = paddingTotal / 2; // Left padding for centering
-            int paddingRight = paddingTotal - paddingLeft; // Right padding
+            int paddingTotal = 5 - numStr.length();
+            int paddingLeft = paddingTotal / 2;
+            int paddingRight = paddingTotal - paddingLeft;
 
-            // Add spaces on both sides to center the number
             String centeredStr = " ".repeat(paddingLeft) + numStr + " ".repeat(paddingRight);
-            strings.add(centeredStr); // Add the centered string to the list
+            strings.add(centeredStr);
         }
         strings.add("\n");
 
@@ -246,18 +236,16 @@ public class Parser {
                     else fillString = Events.BLOCKED;
                     break;
 
-                    //TODO Events.Pickup removable????
                 case Events.PICKUP:
                     fillString = Events.EAT;
                     break;
 
                 case Events.PUTDOWNLEFT, Events.PUTDOWNRIGHT:
-                    //TODO what if putdown not finished
-                    fillString = Events.THINK;
+                    if(ph.getPickedUp() == 0) fillString = Events.THINK;
+                    else fillString = Events.BLOCKED;
                     break;
                 case Events.EAT:
                     if(simulatePickups){
-                        //TODO Events.Empty???
                         fillString = Events.BLOCKED;
                         ph.setPickedUp(0);
                     } else {
@@ -348,10 +336,10 @@ public class Parser {
             }
         }
 
-        if(parsedTimeline.size() > maxLength.get()) maxLength.set(parsedTimeline.size());  //determine the maximum length of the timelines
+        if(parsedTimeline.size() > maxLength.get()) maxLength.set(parsedTimeline.size());
         statistic.setFinishLength(parsedTimeline.size());
 
-        statistic.setLast(parsedTimeline.getLast()); //set Last element for deadlock detection
+        statistic.setLast(parsedTimeline.getLast());
         return parsedTimeline;
     }
 
