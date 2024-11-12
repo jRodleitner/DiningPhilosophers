@@ -1,6 +1,6 @@
 package simulation;
 
-import algorithms.alternator.AlternatorPhilosopher;
+
 import algorithms.asymmetric.AsymmetricPhilosopher;
 import algorithms.chandymisra.ChandyMisraChopstick;
 import algorithms.chandymisra.ChandyMisraPhilosopher;
@@ -14,9 +14,6 @@ import algorithms.restrictToken.RestrictTokenPhilosopher_ChanceBased;
 import algorithms.restrictToken.RestrictTokenPhilosopher_TimeBased;
 import algorithms.semaphore.fair_tanenbaum.FairMonitor_TimeBased;
 import algorithms.semaphore.fair_tanenbaum.TanenbaumPhilosopher_TimeBased;
-import algorithms.semaphore.roundrobin.RoundRobinScheduler;
-import algorithms.semaphore.roundrobin.RoundRobinChopstick;
-import algorithms.semaphore.roundrobin.RoundRobinPhilosopher;
 import algorithms.semaphore.instant_timeout.InstantTimeoutChopstick;
 import algorithms.semaphore.instant_timeout.InstantTimeoutPhilosopher;
 import algorithms.semaphore.tanenbaum.Monitor;
@@ -342,24 +339,6 @@ public class DiningTable {
                     int ownerId = Math.min(i, leftPhilosopherId);  // The owner is the philosopher with the lower ID
                     chopstick = (ChandyMisraChopstick) chopsticks.get(i);
                     chopstick.setOwner((ChandyMisraPhilosopher) philosophers.get(ownerId));
-                }
-                break;
-
-            case Algorithm.ALTERNATOR:
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    chopsticks.add(new SimpleChopstick(i));
-                }
-
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    AlternatorPhilosopher alternatorPhilosopher = new AlternatorPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, nrPhilosophers);
-                    philosophers.add(alternatorPhilosopher);
-                }
-
-                AlternatorPhilosopher alternatorPhilosopher;
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    alternatorPhilosopher = (AlternatorPhilosopher) philosophers.get(i);
-                    alternatorPhilosopher.setNeighbors((AlternatorPhilosopher)  philosophers.get((i - 1 + nrPhilosophers) % nrPhilosophers),(AlternatorPhilosopher) philosophers.get((i + 1) % nrPhilosophers));
-
                 }
                 break;
 
