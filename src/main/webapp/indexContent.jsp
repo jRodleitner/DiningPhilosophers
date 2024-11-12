@@ -153,7 +153,6 @@
         }
 
 
-
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" defer></script>
@@ -168,12 +167,15 @@
         <div class="description">
             <p>
                 The Dining Philosophers Problem, first introduced by Edsger Dijkstra in 1965, is a way to understand the
-                challenges of sharing resources in a system where multiple processes run at the same time.
-                The problem helps us explore important concepts like avoiding deadlocks (where no one can continue) and
-                fairness (everyone gets to eat).
-                We will take a look at the problem in detail, discuss its challenges, and explore several solutions.
-                This website features both a Java-based Simulation and Animation page that will let you
-                experiment with the discussed concepts.
+                challenges
+                of sharing resources in a system where multiple processes run at the same time.
+                The problem
+                helps us explore important concepts like avoiding deadlocks and fairness.
+                We will look at the problem in
+                detail, discuss its challenges, and explore several solutions.
+                This website features a Java-based
+                Simulation and an Animation page
+                that will let you experiment with the discussed concepts.
             </p>
         </div>
     </div>
@@ -201,7 +203,7 @@
             We will use the following definition:
             Philosophers sit around a table with a chopstick between each pair.
             They begin by thinking, then attempt to pick up the chopsticks on their left and right.
-            Only one philosopher can hold a chopstick at a time, so they may need to wait until their neighbor returns
+            Only one philosopher can hold a chopstick at a time, so they may need to wait until their neighbor returns.
             it to the table.
             If two philosophers try to pick up the same chopstick simultaneously, only one will succeed.
             Once a philosopher has acquired both chopsticks, they may eat.
@@ -292,8 +294,8 @@
         <h2>Challenges</h2>
         <p>
             There are three main challenges we encounter in the Dining Philosophers Problem:
-            Deadlocks, Starvation/Fairness and Concurrency.
-            We also introduce two "side-challenges": Implementation and Performance.
+            Deadlocks, starvation/fairness and concurrency.
+            We also introduce two "side challenges": implementation and performance.
             The effectiveness of our solution in addressing one or more of these challenges will help us evaluate the
             quality of the different approaches later on.
         </p>
@@ -321,20 +323,18 @@
     </code></pre>
 
         <p>
-            For convenience, we assume that philosophers usually pick up their left chopsticks first, thus we can
-            conveniently track
-            whether a deadlock has occurred by checking
-            if the last action of all philosophers was a [PUL] = Pick Up Left.
+            For convenience, we assume that philosophers usually pick up their left chopsticks first; thus,
+            we can conveniently track whether a deadlock has occurred by checking if the last action of all philosophers
+            was a [PUL] = Pick Up Left.
         </p>
 
         <p>
             At this stage, it is useful to introduce the concept of "precedence graphs", which are often used to
             represent dependencies between tasks.
-
-            In the context of the Dining Philosophers Problem, each philosopher is represented as a node, and the
-            directed arrows indicate dependencies.
-            Since all philosophers have to wait for their right neighbor, this means that there is a circular dependency
-            of the philosophers.
+            In the context of the Dining Philosophers Problem, each philosopher is
+            represented as a node, and the directed arrows indicate dependencies.
+            Since all philosophers have to wait
+            for their right neighbor, this means that there is a circular dependency of the philosophers.
         </p>
         <img src="pictures/precedence.svg" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
@@ -383,7 +383,8 @@
             <li><b>Eat Time Fairness:</b> We also track the total simulation time each philosopher spent eating
                 and calculate the standard deviation.
                 Large values again mean bad fairness, while small values mean good fairness.
-                This measure depends heavily on the chosen distribution — for example, the exponential distribution might
+                This measure depends heavily on the chosen distribution — for example, the exponential distribution
+                might
                 return large outliers.
             </li>
         </ul>
@@ -538,7 +539,8 @@
 
         <h3>Implementation</h3>
         <p>
-            We should also consider how challenging the implementation of a solution is when compared to other solutions.
+            We should also consider how challenging the implementation of a solution is when compared to other
+            solutions.
             Many will be rather simple to implement, while some others will utilize more complex concepts.
         </p>
         <h3>Performance</h3>
@@ -770,7 +772,8 @@
                 <td><b>Deadlocks</b></td>
                 <td>The naive implementation frequently leads to deadlocks, especially when the number of philosophers
                     is 5 or lower. Usually, it is harder to come across deadlocks when dealing with larger numbers of
-                    philosophers. However, due to factors like changes in the execution environment (Java Virtual Machine or Operating System
+                    philosophers. However, due to factors like changes in the execution environment (Java Virtual
+                    Machine or Operating System
                     rescheduling tasks), deadlocks could still occur, especially with longer runtimes.
                 </td>
             </tr>
@@ -799,7 +802,9 @@
             </tr>
             <tr>
                 <td><b>Performance</b></td>
-                <td>We will base the performance of solutions on this implementation. Large numbers of philosophers will lead to long wait chains. </td>
+                <td>We will base the performance of solutions on this implementation. Large numbers of philosophers will
+                    lead to long wait chains.
+                </td>
             </tr>
             </tbody>
         </table>
@@ -899,12 +904,12 @@
 
 </div>
 
-    <section id="solutions">
-        <h2>Solutions</h2>
+<section id="solutions">
+    <h2>Solutions</h2>
 
-        <div class="container">
-            <div class="main-content">
-                <div class="description">
+    <div class="container">
+        <div class="main-content">
+            <div class="description">
                 <p>
                     The buttons below lead to explanations of various solutions that address one or more of the
                     challenges: deadlocks, starvation/ fairness, and concurrency.
@@ -912,7 +917,8 @@
 
                 <div class="description-box">
                     <p> To learn about solutions that focus on organizing the order of the pickups: </p>
-                    <a href="hierarchy_asymmetric" class="button">Asymmetric/ Resource Hierarchy Solutions (2 Algorithms)</a>
+                    <a href="hierarchy_asymmetric" class="button">Asymmetric/ Resource Hierarchy Solutions (2
+                        Algorithms)</a>
                 </div>
 
                 <div class="description-box">
@@ -932,7 +938,8 @@
 
                 <div class="description-box">
                     <p>
-                        To learn about solutions that utilize a central entity to organize the permission to eat or pick up
+                        To learn about solutions that utilize a central entity to organize the permission to eat or pick
+                        up
                         chopsticks:
                     </p>
                     <a href="waiter" class="button">Waiter Solutions (6 Algorithms)</a>
@@ -959,31 +966,26 @@
                     <a href="advanced" class="button">Advanced Solutions</a>
                 </div> -->
 
-                </div>
-            </div>
-            <div class="post-it">
-                <h4>Note on Correct Solutions:</h4>
-                <p>
-                    Finding a correct solution to the dining philosophers problem has been shown to be no trivial task.
-                    Many approaches have been proven to be incorrect in a later re-evaluation.
-                </p>
-                <p>Correct solutions must be:</p>
-                <ul>
-                    <li><b>Deadlock-free</b></li>
-                    <li><b>Starvation-free</b></li>
-                    <li><b>Concurrent</b></li>
-                    <li><b>Correctly Implemented</b> (correct usage of synchronization mechanisms)</li>
-                </ul>
             </div>
         </div>
+        <div class="post-it">
+            <h4>Note on Correct Solutions:</h4>
+            <p>
+                Finding a correct solution to the dining philosophers problem has been shown to be no trivial task.
+                Many approaches have been proven to be incorrect in a later re-evaluation.
+            </p>
+            <p>Correct solutions must be:</p>
+            <ul>
+                <li><b>Deadlock-free</b></li>
+                <li><b>Starvation-free</b></li>
+                <li><b>Concurrent</b></li>
+                <li><b>Correctly Implemented</b> (correct usage of synchronization mechanisms)</li>
+            </ul>
+        </div>
+    </div>
 
 
-
-
-
-
-    </section>
-
+</section>
 
 
 </body>
