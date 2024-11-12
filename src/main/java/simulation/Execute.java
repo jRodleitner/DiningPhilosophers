@@ -22,10 +22,9 @@ public class Execute {
         while (simulationTime > 0) {
             simulationTime--;
             Thread.sleep(5);
-            //TODO inspect logic!
-            //table.lockClock();
+            table.lockClock();
             table.advanceTime();
-            //table.unlockClock();
+            table.unlockClock();
         }
         table.stopDinner();
 
