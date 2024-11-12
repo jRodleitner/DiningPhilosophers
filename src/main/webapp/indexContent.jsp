@@ -260,7 +260,7 @@
 
         <p>
             Whenever philosophers complete an action, they will add it to their log.
-            The combination of each of the philosophers' logs will result in a timeline, in which we are able to track
+            The combination of all the philosophers' logs will result in a timeline, in which we are able to track
             the actions of the philosophers over the course of the simulation.
             To keep the timeline consistent, we use a virtual clock, which is used by the philosophers to log their
             actions according to simulation time.
