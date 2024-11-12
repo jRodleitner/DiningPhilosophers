@@ -16,8 +16,8 @@ public class RequestCheck {
     private static final int INTERVAL_MAX = 400;
     private static final int MIN_MU_NORM = 50;
     private static final int MAX_MU_NORM = 400;
-    private static final int MIN_SIGMA_NORM = 0;
-    private static final int MAX_SIGMA_NORM = 20;
+    private static final int MIN_SIGMA_NORM = 1;
+    private static final int MAX_SIGMA_NORM = 30;
     private static final int MIN_EXP = 3;
     private static final int MAX_EXP = 12;
     private static final int MAX_ANIMATION_TIME = 500;

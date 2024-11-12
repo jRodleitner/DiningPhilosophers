@@ -199,9 +199,9 @@
                     break;
                 case 'NORMAL':
                     thinkparam1.min = 50;
-                    thinkparam1.max = 400;
-                    thinkparam2.min = 0;
-                    thinkparam2.max = 20;
+                    thinkparam1.max = 250;
+                    thinkparam2.min = 1;
+                    thinkparam2.max = 30;
                     break;
                 case 'EXP':
                     thinkparam1.min = 3;
@@ -226,9 +226,9 @@
                     break;
                 case 'NORMAL':
                     eatparam1.min = 50;
-                    eatparam1.max = 200;
+                    eatparam1.max = 250;
                     eatparam2.min = 1;
-                    eatparam2.max = 40;
+                    eatparam2.max = 30;
                     break;
                 case 'EXP':
                     eatparam1.min = 3;
@@ -254,7 +254,7 @@
                     break;
                 case 'NORMAL':
                     thinkparam1.setAttribute('value', "75");
-                    thinkparam2.setAttribute('value', "5");
+                    thinkparam2.setAttribute('value', "20");
                     break;
                 case 'EXP':
                     thinkparam1.setAttribute('value', "5");
@@ -278,7 +278,7 @@
                     break;
                 case 'NORMAL':
                     eatparam1.setAttribute('value', "75");
-                    eatparam2.setAttribute('value', "5");
+                    eatparam2.setAttribute('value', "20");
                     break;
                 case 'EXP':
                     eatparam1.setAttribute('value', "5");
