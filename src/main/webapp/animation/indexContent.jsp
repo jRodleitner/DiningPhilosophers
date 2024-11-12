@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jonar
-  Date: 12.09.2024
-  Time: 00:42
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -16,8 +10,8 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 10px; /* Adds space between the form and the result box */
-            /*background-color: #FF6F61;*/
+            gap: 10px;
+
             background-image: radial-gradient(circle, #FFC857, #008080, #FFDAB9);
             border-radius: 10px;
             padding: 10px;
@@ -28,17 +22,17 @@
             width: 75%;
             height: 420px;
             display: flex;
-            flex-direction: column; /* Stack the SVG and buttons vertically */
-            align-items: center; /* Center the content horizontally */
+            flex-direction: column;
+            align-items: center;
             background-color: #f8f8f8;
             border-radius: 10px;
             padding: 20px;
-            gap: 10px; /* Adds space between the SVG and the buttons */
+            gap: 10px;
         }
 
         .button-container {
             display: flex;
-            gap: 10px; /* Adds space between the buttons */
+            gap: 10px;
         }
 
 
@@ -47,14 +41,14 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 10px; /* Adds space between the form and the result box */
+            gap: 10px;
             position: relative;
         }
 
 
 
         .form-container {
-            max-width: 25%; /* Adjust based on your form's size */
+            max-width: 25%;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f8f8f8;
@@ -66,11 +60,11 @@
         }
 
         .blocked {
-            fill: #F08080; /* Color for blocked */
+            fill: #F08080;
         }
 
         .eat {
-            fill: #A8D5BA; /* Color for eating */
+            fill: #A8D5BA;
         }
 
         @keyframes blink {
@@ -87,7 +81,7 @@
 
 
         .blink {
-            animation: blink 0.5s infinite; /* Blink every 0.5 seconds */
+            animation: blink 0.5s infinite;
         }
 
         @keyframes quick-blink {
@@ -103,13 +97,13 @@
         }
 
         .quick-blink {
-            animation: quick-blink 0.1s; /* Blink for 0.3 seconds */
-            display: inline-block; /* Ensure the transform applies correctly without affecting layout */
+            animation: quick-blink 0.1s;
+            display: inline-block;
             transform-origin: center;
         }
 
         .soft-red-text {
-            color: #cc6666; /* A muted red that’s easier on the eyes */
+            color: #cc6666;
         }
 
         .scrollable-box {
@@ -129,7 +123,7 @@
 
 
         .description {
-            line-height: 1.6; /* Increases spacing between lines for readability */
+            line-height: 1.6;
             color: #333;
             padding: 3px;
             margin-bottom: 3px;
@@ -138,8 +132,8 @@
 
         .floating-box {
             position: fixed;
-            top: 100px; /* Distance from the bottom of the viewport */
-            right: 120px; /* Distance from the right of the viewport */
+            top: 100px;
+            right: 120px;
             padding: 15px;
             opacity: 80%;
             background-color: #AAAA;
@@ -147,7 +141,7 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-size: 16px;
-            z-index: 1000; /* Ensures it stays on top */
+            z-index: 1000;
             transition: opacity 0.5s;
         }
 
@@ -591,7 +585,7 @@
                             philosopher.plate.classList.remove("blocked");
                         }
 
-                        /* additionals */
+
                         if (philosopher.plate.classList.contains("eat")) {
                             philosopher.plate.classList.remove("eat");
                         }
@@ -624,7 +618,6 @@
                             philosopher.plate.classList.remove("blocked");
                         }
 
-                        /*additionals*/
                         if (philosopher.plate.classList.contains("blocked")) {
                             philosopher.plate.classList.remove("blocked");
                         }

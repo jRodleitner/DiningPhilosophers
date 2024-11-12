@@ -1,9 +1,7 @@
 GENERAL TODO:
 
 NEXT:
-[ ] check all algorithms
-[ ] try simplifying animation/ simulation page
-[ ] inspect simulation logic for each Algorithm!!!
+[x] inspect simulation logic for each Algorithm
 
 OPTIONALS:
 TIMEOUT(Time-index)
@@ -74,6 +72,10 @@ CHECK:
 [x] Mobile resizing
 [x] Server deployment
 [x] read approaches/ papers for new algorithms
+[x] Legend gets more transparent when pressed, when pressed again it becomes less transparent
+[x] timeout limit can be zero!
+[x] Add forwards buttons!
+[x] Page names
 
 31.10
 
@@ -84,12 +86,10 @@ CHECK:
 [x] complete wording overhaul
 
 
-[x] Add backwards forwards buttons!
-[x] Page names
+
 
 10.11
-[x] Legend gets more transparent when pressed, when pressed again it becomes less transparent
-[ ] timeout limit can be zero!
+
 Paul:
 [x] test backend security
 
@@ -136,13 +136,5 @@ FINALLY:
 
 IDEAS:
 
-    Poor Philosopher??
 
     Totmannverfahren: separate program entity preventing/ checking for deadlocks.
-
-
-    FORK SEMAPHORE:
-    Dijkstra's solution using semaphores:
-    Assign a semaphore to each chopstick, representing its availability.
-    Philosophers must acquire both chopsticks by locking their corresponding semaphores.
-    If a philosopher cannot acquire both chopsticks, they release the acquired chopstick and wait before trying again.

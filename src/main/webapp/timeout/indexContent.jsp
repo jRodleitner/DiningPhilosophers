@@ -17,7 +17,6 @@
             margin: 5px 0;
         }
 
-        /* Hover Effect */
         .button:hover {
             background-color: #438699;
             color: #e0e0e0;

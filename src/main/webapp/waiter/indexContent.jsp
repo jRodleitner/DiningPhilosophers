@@ -16,7 +16,6 @@
             margin: 5px 0;
         }
 
-        /* Hover Effect */
         .button:hover {
             background-color: #438699;
             color: #e0e0e0;
@@ -194,7 +193,7 @@
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                // return permission after putdown
+                // return permission after put-down
                 waiter.returnPermission();
             }
         }
@@ -461,7 +460,7 @@
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                // notify waiter after put down
+                // notify waiter after put-down
                 waiter.removeEatState(this);
             }
         }
@@ -930,7 +929,7 @@
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
-                waiter.returnForks();        // inform the waiter that the philosopher has put down the two chopsticks
+                waiter.returnForks();        // inform the waiter that the philosopher has put-down the two chopsticks
             }
         }
     }

@@ -8,8 +8,8 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 10px; /* Adds space between the form and the result box */
-            /*background-color: #FF6F61;*/
+            gap: 10px;
+
             background-image: radial-gradient(circle, #FFC857, #008080, #FFDAB9);
             border-radius: 10px;
             padding: 10px;
@@ -22,7 +22,7 @@
             flex-direction: row;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 10px; /* Adds space between the form and the result box */
+            gap: 10px;
         }
 
         .scrollable-box {
@@ -51,7 +51,7 @@
         }
 
         .form-container {
-            max-width: 25%; /* Adjust based on your form's size */
+            max-width: 25%;
             border: 1px solid #ccc;
             padding: 10px;
             background-color: #f8f8f8;
@@ -59,16 +59,16 @@
         }
 
         .soft-red-text {
-            color: #cc6666; /* A muted red that’s easier on the eyes */
+            color: #cc6666;
         }
 
         pre {
-            font-family: inherit; /* Inherit from .scrollable-box */
+            font-family: inherit;
             white-space: pre;
         }
 
         .description {
-            line-height: 1.6; /* Increases spacing between lines for readability */
+            line-height: 1.6;
             color: #333;
             padding: 3px;
             margin-bottom: 3px;
@@ -77,8 +77,8 @@
 
         .floating-box {
             position: fixed;
-            top: 100px; /* Distance from the bottom of the viewport */
-            right: 120px; /* Distance from the right of the viewport */
+            top: 100px;
+            right: 120px;
             padding: 15px;
             opacity: 80%;
             background-color: #AAAA;
@@ -86,8 +86,8 @@
             border-radius: 5px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             font-size: 16px;
-            z-index: 1000; /* Ensures it stays on top */
-            transition: opacity 0.5s; /* Smooth fade-out */
+            z-index: 1000;
+            transition: opacity 0.5s;
         }
 
         .floating-box_1 {
@@ -111,7 +111,6 @@
             color: red;
         }
 
-        /* Hidden state */
         .hidebox {
             opacity: 0;
             pointer-events: none;
