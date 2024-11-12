@@ -657,7 +657,7 @@
             }
 
             void Log(String event, long timeInstance){
-                log.add(event + ":" + timeInstance) //a log of this style is parsed in the backend to then display the timeline/ statistics of the simulation
+                log.add(event + ":" + timeInstance) // a log of this style is parsed in the backend to then display the timeline/ statistics of the simulation
             }
 
         }
@@ -707,7 +707,7 @@
         chopsticks = new List(numPhilosophers);
         philosophers = new List(numPhilosophers);
 
-        // Initialize chopsticks
+        // initialize chopsticks
         for (int i = 0; i < numPhilosophers; i++) {
             chopsticks.add(new Chopstick());
         }
@@ -745,7 +745,7 @@
 
         // run the simulation using a virtual clock
         while (simulationTime > 0) {
-            VirtualClock.advanceTime(); //advance clock time
+            VirtualClock.advanceTime(); // advance clock time
             timeStep(); // pause for the duration of a timestep (the server-sided simulation uses 5 ms)
             simulationTime--; // decrement the remaining simulation time
         }

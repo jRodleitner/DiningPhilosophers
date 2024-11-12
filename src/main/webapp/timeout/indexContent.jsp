@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jonar
-  Date: 08.10.2024
-  Time: 06:45
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -136,7 +130,7 @@
                 // if the philosopher fails to pick up the right chopstick, it releases the left and retries pickup after a short wait
                 while (!successfulPickup) {
                     putDownLeftChopstick();
-                    int random = randomValue(1, 25); // random wait time between 1 and 25ms
+                    int random = randomValue(1, 50); // random wait time between 1 and 50ms
                     sleep(random);
                     pickUpLeftChopstick();
                     successfulPickup = pickUpRightWithTimeout();
@@ -198,7 +192,7 @@
     </code></pre>
     <h3>Timeout Solution Evaluation </h3>
     <p>
-        Now let us evaluate the Timeout Algorithm according to the key-challenges:
+        Now let us evaluate the Timeout Algorithm according to the key challenges:
     </p>
     <table class="styled-table">
         <thead>
@@ -218,7 +212,7 @@
                 Starvation is unlikely, but philosophers are not guaranteed to be able to eat due to the timeout.
                 (Additionally the wait(), notify() pattern, makes re-acquiring possible)
                 Depending on the chosen timeout, starvation likeliness can change. (Very low timeout values increase the risk)
-                Due to these issues, we can not guarantee any fairness to the philosophers using this solution.
+                Due to these issues, we cannot guarantee any fairness to the philosophers using this solution.
             </td>
         </tr>
         <tr>

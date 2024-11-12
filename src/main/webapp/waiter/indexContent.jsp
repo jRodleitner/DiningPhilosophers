@@ -144,7 +144,6 @@
             queuedPhilosophers = new Queue();
         }
 
-        // method for philosophers to request permission
         synchronized void requestPermission(Philosopher philosopher) {
             queuedPhilosophers.add(philosopher);
 
@@ -159,7 +158,7 @@
             }
         }
 
-        // method to return permission, picking the next philosopher
+        // return permission and picking the next philosopher
         synchronized void returnPermission() {
             // grant permission to the next philosopher in the queue.
             permittedPhilosopher = queuedPhilosophers.poll();
@@ -186,7 +185,7 @@
 
             while (!terminated()) {
                 think();
-                //request permission before pickup
+                // request permission before pickup
                 waiter.requestPermission(this);
 
                 pickUpLeftChopstick();
@@ -195,7 +194,7 @@
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                //return permission after putdown
+                // return permission after putdown
                 waiter.returnPermission();
             }
         }
@@ -280,13 +279,13 @@
 
             while (!terminated()) {
                 think();
-                //request permission before pickup
+                // request permission before pickup
                 waiter.requestPermission(this);
 
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
 
-                //return permission after pickup
+                // return permission after pickup
                 waiter.returnPermission();
 
                 eat();
@@ -395,26 +394,26 @@
                 wait();
             }
 
-            setEatState(philosopher);  // update the philosopher's state to eating.
+            setEatState(philosopher);  // update the philosopher's state to eating
         }
 
-        // method to return permission,and to determine the next philosopher to permit, based on neighbor states
+        // method to return permission, and to find a philosopher in  the queue that has no eating neighbors
         synchronized void returnPermission() {
-            // iterate through the queued philosophers to find a suitable candidate.
+            // iterate through the queued philosophers
             for Each philosopher in philosophersQueue {
                 int leftPhilosopher = (philosopher.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;
                 int rightPhilosopher = (philosopher.getPhId() + 1) % nrPhilosophers;
 
                 // check if neighboring philosophers are not eating
                 if (!eatStates[leftPhilosopher] && !eatStates[rightPhilosopher] && philosopher != permittedPhilosopher) {
-                    permittedPhilosopher = philosopher;  // grant permission to this philosopher.
+                    permittedPhilosopher = philosopher;  // grant permission to this philosopher
                     philosophersQueue.remove(philosopher);
-                    notifyAll();  // notify waiting philosophers
+                    notifyAll();  // notify all the waiting philosophers
                     return;
                 }
             }
 
-            // if no suitable philosopher is found, assign the next one in the queue.
+            // if no suitable philosopher is found, assign the next one in the queue
             permittedPhilosopher = philosophersQueue.poll();
             notifyAll();
         }
@@ -450,19 +449,19 @@
             while (!terminated()) {
                 think();
 
-                //request permission before pickup and set state "eating" to true
+                // request permission before pickup and set state "eating" to true
                 waiter.requestPermission(this);
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
 
-                //return permission after pickup
+                // return permission after pickup
                 waiter.returnPermission();
 
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
 
-                //notify waiter after put down
+                // notify waiter after put down
                 waiter.removeEatState(this);
             }
         }
@@ -576,23 +575,23 @@
             boolean foundOtherPhilosopher = false;
             Long minEats = MAX_VALUE;
 
-            //find the philosopher with the minimum eatTimes
+            // find the philosopher with the minimum eatTimes
             for Each philosopher in philosophersQueue {
                 if (philosopher.eatTimes < minEats && philosopher != currentPhilosopher) {
-                    minEats = philosopher.eatTimes; //alternatively minimum eatTime
+                    minEats = philosopher.eatTimes; // alternatively minimum eatTime
                     permittedPhilosopher = philosopher;
                     foundOtherPhilosopher = true;
                 }
             }
 
-            //if we do not find a philosopher we set null and pick the first in the queue
+            // if we do not find a philosopher we set null and pick the first in the queue
             if (!foundOtherPhilosopher) {
                 permittedPhilosopher = null;
             } else {
                 philosophersQueue.remove(permittedPhilosopher);
             }
 
-            notifyAll(); // notify all that permission was returned
+            notifyAll(); // notify all the waiting philosophers
         }
     }
 
@@ -635,7 +634,7 @@
             }
         }
 
-        //we return the calculated eat-time.
+        //we return the calculated eat-time
         long eatFair() {
             Long duration = calculateDuration();
             sleep(duration);
@@ -779,9 +778,9 @@
     Waiter splitWaiter1 = new Waiter(nrPhilosophers);
 
     Waiter selectedWaiter;
-    boolean assignToTwo = nrPhilosophers > 3; //only assign more than one waiter if more than 3 philosophers are simulated
+    boolean assignToTwo = nrPhilosophers > 3; // only assign more than one waiter if more than 3 philosophers are simulated
     for (int i = 0; i < nrPhilosophers; i++) {
-        selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter; //philosophers with low ids are assigned the first waiter, the remaining the second
+        selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter; // philosophers with low ids are assigned the first waiter, the remaining the second
 
         PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), selectedWaiter);
         philosophers.add(philosopher);
@@ -931,7 +930,7 @@
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
-                waiter.returnForks();        // inform the waiter that the philosopher has put down the chopsticks
+                waiter.returnForks();        // inform the waiter that the philosopher has put down the two chopsticks
             }
         }
     }

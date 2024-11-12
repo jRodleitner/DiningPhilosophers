@@ -41,11 +41,10 @@
 <h2>About</h2>
 <div class="description">
     Hi, my name is Jona, I am a Computer Science Student at Johannes Kepler University in Linz, Austria.
-    This Website is the Project for my Bachelors Thesis and aims to provide a deep understanding of the
+    This Website is the Project for my Bachelors Thesis and aims to provide a deeper understanding of the
     Dining Philosophers Problem.
     I present and evaluate several Algorithms, with which you can interact and learn about on the
     Simulation and Animation pages.
-
 </div>
 </body>
 </html>

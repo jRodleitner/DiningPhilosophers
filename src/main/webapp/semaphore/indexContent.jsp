@@ -1,5 +1,5 @@
 <%--
-  Created by IntelliJ IDEA.
+  Created by IntelliJ idEA.
   User: jonar
   Date: 08.10.2024
   Time: 06:45
@@ -153,7 +153,7 @@
             Semaphore semaphore;
 
             TableSemaphore(){
-                semaphore = new Semaphore(1, true); //fairness parameter set to true
+                semaphore = new Semaphore(1, true); // fairness parameter set to true
             }
         }
     </code></pre>
@@ -177,12 +177,12 @@
             while (!terminated()) {
                 think();
 
-                //acquire the table-semaphore before pickup
+                // acquire the table-semaphore before pickup
                 semaphore.acquire();
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
 
-                //release semaphore after pickup
+                // release semaphore after pickup
                 semaphore.release();
                 eat();
                 putDownLeftChopstick();
@@ -213,7 +213,7 @@
         <tr>
             <td><b>Starvation</b></td>
             <td>
-                Starvation is prevented due to the implicit semaphore-queue, which eventually allows all philosophers to eat.
+                Starvation-free: Starvation is prevented due to the implicit semaphore-queue, which eventually allows all philosophers to eat.
                 Eat-chance and time-fairness depend heavily on the chosen distribution and are not managed here.
             </td>
         </tr>
@@ -271,7 +271,7 @@
             Semaphore semaphore;
 
             GlobalSemaphore(int nrPhilosophers) {
-                semaphore = new Semaphore(nrPhilosophers - 1, true); //enable fairness parameter to prevent barging
+                semaphore = new Semaphore(nrPhilosophers - 1, true); // enable fairness parameter to prevent barging
             }
 
         }
@@ -295,10 +295,10 @@
 
             while (!terminated()) {
                 think();
-                globalSemaphore.semaphore.acquire(); //acquire the semaphore before pickup, one philosopher will always be blocked
+                globalSemaphore.semaphore.acquire(); // acquire the semaphore before pickup, one philosopher will always be blocked
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
-                globalSemaphore.semaphore.release(); //release the semaphore after pickup
+                globalSemaphore.semaphore.release(); // release the semaphore after pickup
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();
@@ -392,21 +392,21 @@
 
     class Monitor {
 
-        String[] states; //array to keep track of the philosophers states
+        String[] states; // array to keep track of the philosophers states
         Semaphore[] semaphores;
-        Semaphore mutex; //semaphore to gain exclusive access to the monitor
+        Semaphore mutex; // semaphore to gain exclusive access to the monitor
 
         Monitor(int nrPhilosophers) {
             states = new String[nrPhilosophers];
             semaphores = new Semaphore[nrPhilosophers];
             for (int i = 0; i < nrPhilosophers; i++) {
                 states[i] = Events.THINK;
-                semaphores[i] = new Semaphore(0); //initialize to no initial permission
+                semaphores[i] = new Semaphore(0); // initialize to no initial permission
             }
-            mutex = new Semaphore(1, true); //enable fairness parameter and initialize semaphore to one permit for mutual exclusion
+            mutex = new Semaphore(1, true); // enable fairness parameter and initialize semaphore to one permit for mutual exclusion
         }
 
-        //tests whether either the two adjacent philosophers is currently eating
+        // tests whether either the two adjacent philosophers is currently eating
         void test(int id) {
             int left = (id + states.length - 1) % states.length;
             int right = (id + 1) % states.length;
@@ -416,7 +416,7 @@
                 states[right] != Events.EAT) {
 
                 states[id] = Events.EAT;
-                semaphores[id].release(); //release the semaphore of the philosopher that can now eat
+                semaphores[id].release(); // release the semaphore of the philosopher that can now eat
             }
         }
     }
@@ -450,10 +450,10 @@
         }
 
         void pickUp() {
-            monitor.mutex.acquire(); //gain exclusive access to the monitor
-            monitor.states[id] = Events.HUNGRY; //update the state to hungry
-            monitor.test(id); //test whether eating is possible
-            monitor.mutex.release(); //release exclusive access to the monitor
+            monitor.mutex.acquire(); // gain exclusive access to the monitor
+            monitor.states[id] = Events.HUNGRY; // update the state to hungry
+            monitor.test(id); // test whether eating is possible
+            monitor.mutex.release(); // release exclusive access to the monitor
 
             monitor.semaphores[id].acquire(); // has to be released by the test() method
 
@@ -465,16 +465,16 @@
             putDownLeftChopstick();
             putDownRightChopstick();
 
-            monitor.mutex.acquire(); //gain exclusive access to the monitor
-            monitor.states[id] = Events.THINK; //update the state to thinking
+            monitor.mutex.acquire(); // gain exclusive access to the monitor
+            monitor.states[id] = Events.THINK; // update the state to thinking
             int left = (id + monitor.states.length - 1) % monitor.states.length;
             int right = (id + 1) % monitor.states.length;
 
-            //test for each neighbour
+            // test for each neighbour
             monitor.test(left);
             monitor.test(right);
 
-            monitor.mutex.release(); //release exclusive access to the monitor
+            monitor.mutex.release(); // release exclusive access to the monitor
         }
     }
 
@@ -600,26 +600,26 @@
         int[] sortByEatingTimes() {
             EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length]; // create an array to hold eat times with indices
             for (int i = 0; i < eatTimes.length; i++) {
-                sortArray[i] = new EatTimeWithIndex(eatTimes[i], i); // populate the array with eat times and corresponding philosopher IDs
+                sortArray[i] = new EatTimeWithIndex(eatTimes[i], i); // populate the array with eat times and corresponding philosopher ids
             }
 
             Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime)); // sort the array by eat times in ascending order
 
-            int[] sortedIndices = new int[eatTimes.length]; // create an array to hold sorted philosopher IDs
+            int[] sortedIndices = new int[eatTimes.length]; // create an array to hold sorted philosopher ids
             for (int i = 0; i < sortArray.length; i++) {
-                sortedIndices[i] = sortArray[i].index; // extract the philosopher IDs from the sorted array
+                sortedIndices[i] = sortArray[i].index; // extract the philosopher ids from the sorted array
             }
 
-            return sortedIndices; // return the sorted philosopher IDs
+            return sortedIndices; // return the sorted philosopher ids
         }
 
         static class EatTimeWithIndex {
             int eatTime; // stores the number of times a philosopher has eaten
-            int index; // stores the philosopher's ID
+            int index; // stores the philosopher's id
 
             eatTimeWithIndex(int eatTime, int index) {
                 this.eatTime = eatTime; // initialize eat time
-                this.index = index; // initialize philosopher ID
+                this.index = index; // initialize philosopher id
             }
         }
     }

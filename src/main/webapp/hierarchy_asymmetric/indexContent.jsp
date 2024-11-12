@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jonar
-  Date: 08.10.2024
-  Time: 06:45
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -130,7 +124,6 @@
     <pre style="font-size: 14px;"><code class="language-java">
 
     class HierarchyPhilosopher extends Philosopher {
-        //pickup chopstick with lower id first
 
         HierarchyPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
             super(id, leftChopstick, rightChopstick);
@@ -141,7 +134,7 @@
             while (!terminate()) {
                 think();
 
-                //pick up chopstick with lower id first
+                // pick up chopstick with lower id first
                 if(leftChopstick.getId() < rightChopstick.getId()){
                     pickUpLeftChopstick();
                     pickUpRightChopstick();
@@ -255,7 +248,7 @@
 
         @Override
         run() {
-            //philosophers with even id pick up left first, philosophers with odd id pick up right first
+            // philosophers with even id pick up left first, philosophers with odd id pick up right first
             boolean even = id % 2 == 0;
             while (!terminated()) {
                 think();

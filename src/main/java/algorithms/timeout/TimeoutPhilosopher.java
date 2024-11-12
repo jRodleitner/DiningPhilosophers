@@ -25,7 +25,7 @@ public class TimeoutPhilosopher extends AbstractPhilosopher {
                 boolean successfulPickup = pickUpRightWithTimeout();
                 while (!successfulPickup) {
                     putDownLeftChopstick();
-                    int random = (int) (Math.random() * 25) + 1;
+                    int random = (int) (Math.random() * 50) + 1;
                     Thread.sleep(random);
                     pickUpLeftChopstick();
                     successfulPickup = pickUpRightWithTimeout();

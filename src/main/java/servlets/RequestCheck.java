@@ -8,7 +8,7 @@ public class RequestCheck {
     private static final int MAX_PHILOSOPHERS = 9;
     private static final int TIME_MIN = 100;
     private static final int TIME_MAX = 1000;
-    private static final int TIMEOUT_MIN = 10;
+    private static final int TIMEOUT_MIN = 0;
     private static final int TIMEOUT_MAX = 200;
     private static final int DET_MIN = 30;
     private static final int DET_MAX = 400;
@@ -21,7 +21,6 @@ public class RequestCheck {
     private static final int MIN_EXP = 3;
     private static final int MAX_EXP = 12;
     private static final int MAX_ANIMATION_TIME = 500;
-    private static final int ANIMATION_PHILOSOPHERS = 5;
 
     public static boolean checkSimulationRequestValidity(int nrPhil, int simulationTime, String algorithm, String eatDistribution, double eatPar1, double eatPar2, String thinkDistribution, double thinkPar1, double thinkPar2, int timeout) {
         return checkPhilosopherCount(nrPhil, MIN_PHILOSOPHERS, MAX_PHILOSOPHERS) &&

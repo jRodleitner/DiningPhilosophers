@@ -131,10 +131,10 @@
     </p>
     <ul>
         <li>For every pair of philosophers contending for a resource, create a chopstick and give it to the philosopher
-            with the lower ID (n for agent Pn).
+            with the lower id (n for agent Pn).
             Each chopstick can either be dirty or clean.
             Initially, all chopsticks
-            are dirty.
+            are <b>dirty</b>.
         </li>
         <li>When philosophers want to use a set of resources (i.e., eat), said philosophers must obtain the chopsticks
             from their contending neighbors.
@@ -166,7 +166,6 @@
 
     <p>
         <b>Philosopher class: </b>
-        To implement the Chandy-Misra Solution
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
     class ChandyMisraPhilosopher extends Philosopher {
@@ -175,7 +174,7 @@
         ChandyMisraChopstick rightChopstick;
         ChandyMisraPhilosopher leftNeighbor;
         ChandyMisraPhilosopher rightNeighbor;
-        boolean goingToEatRequest = false;  // indicates if the philosopher is requesting to eat
+        boolean goingToEatRequest = false;  // indicates if the philosopher is attempting to eat
 
         ChandyMisraPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
             super(id, leftChopstick, rightChopstick);
@@ -186,17 +185,17 @@
         @Override
         void run() {
             while (!terminated()) {
-                checkForRequests();  // handle any pending chopstick requests from neighbors.
+                checkForRequests();  // handle any pending chopstick requests
                 think();
-                checkForRequests();  // manage requests before trying to eat
-                requestChopsticksIfNecessary();  // attempt to acquire both chopsticks
+                checkForRequests();  // handle requests before trying to eat
+                requestChopsticksIfNecessary();  // request chopsticks if not owned
                 eating();
-                checkForRequests();  //check if release of chopsticks is necessary after eating
+                checkForRequests();  // check if release of chopsticks is necessary after eating
             }
         }
 
         void requestChopsticksIfNecessary() {
-            goingToEatRequest = true;  // signal intention to eat, affecting chopstick transfer logic
+            goingToEatRequest = true;  // signal intention to eat
             waitForChopstick(leftChopstick);
             waitForChopstick(rightChopstick);
             goingToEatRequest = false;  // reset the request after obtaining chopsticks
@@ -206,8 +205,8 @@
             synchronized (chopstick) {
                 // wait until this philosopher owns the chopstick
                 while (chopstick.owner != this) {
-                    checkForRequests();  // handle potential requests for this chopstick while waiting
-                    chopstick.wait(10);  // re-check requests periodically
+                    checkForRequests();  // handle requests while waiting
+                    chopstick.wait(10);  // re-check for requests periodically
                 }
             }
         }
@@ -220,11 +219,11 @@
 
         void giveUpChopstickIfRequested(ChandyMisraChopstick chopstick, ChandyMisraPhilosopher receiver) {
             synchronized (chopstick) {
-                // give up the chopstick if the neighbor has requested to eat, it's dirty, and this philosopher holds it
+                // give up the chopstick if the neighbor has requested to eat,it is dirty, and this philosopher owns it
                 if (receiver.goingToEatRequest && !chopstick.isClean && chopstick.owner == this) {
-                    chopstick.isClean = true;  // mark the chopstick as clean before transferring ownership
-                    chopstick.owner = receiver;  // transfer chopstick ownership to the requesting philosopher
-                    chopstick.notifyAll();  // notify the waiting philosopher that they now own the chopstick
+                    chopstick.isClean = true;  // mark the chopstick as clean
+                    chopstick.owner = receiver;  // transfer chopstick ownership
+                    chopstick.notifyAll();  // notify the waiting philosopher
                 }
             }
         }
@@ -233,7 +232,7 @@
             pickUpLeftChopstick();
             pickUpRightChopstick();
             eat();
-            rightChopstick.isClean = false;  // mark chopsticks as dirty after eating.
+            rightChopstick.isClean = false;  // mark chopsticks as dirty
             leftChopstick.isClean = false;
             putDownLeftChopstick();
             putDownRightChopstick();
@@ -247,7 +246,7 @@
             while (remainingTime > 0) {
                 long sleepTime = min(remainingTime, 10);
                 sleep(sleepTime);
-                checkForRequests();  // handle chopstick requests while thinking.
+                checkForRequests();  // handle chopstick requests while thinking
                 remainingTime -= sleepTime;
             }
 
@@ -270,7 +269,7 @@
     class ChandyMisraChopstick extends Chopstick {
 
         ChandyMisraPhilosopher owner;
-        boolean isClean = false;
+        boolean isClean = false; //chopsticks are initially dirty
 
         ChandyMisraChopstick(int id) {
             super(id);
@@ -312,7 +311,7 @@
                 eating.)
                 We only guarantee that philosophers will get a chance to eat at some point,
                 but do not specifically
-                enhance fairness with this approach.
+                enhance chance/ time—fairness with this approach.
             </td>
         </tr>
         <tr>
@@ -398,9 +397,9 @@
 
 
             synchronized void waitIfRestricted(int id) {
-                // if the current restriction ID matches the philosophers id they wait
+                // if the current restriction id matches the philosophers id they wait
                 while (restrictId == id) {
-                    wait();  // Wait until the restriction changes.
+                    wait();  // wait until the restriction changes
                 }
             }
 
@@ -430,24 +429,24 @@
 
             @Override
             void run() {
-                // philosopher alternates between thinking, eating, and managing token
+
                 while (!terminated()) {
                     think();
                     if (restrictToken != null) {
-                        restrictToken.waitIfRestricted(id);  // if holding a token, check if restricted and wait if necessary
+                        restrictToken.waitIfRestricted(id);  // when holding a token, wait
                     }
                     pickUpLeftChopstick();
                     pickUpRightChopstick();
                     eat();
-                    eatChances++;  // increment the number of times this philosopher has eaten
-                    requestTokenFromNeighbours();  // request tokens from neighbors if they are holding any
+                    eatChances++;  // increment the number of eat times
+                    requestTokenFromNeighbours();  // request tokens from neighbors
                     putDownLeftChopstick();
                     putDownRightChopstick();
                 }
             }
 
             synchronized void requestTokenFromNeighbours() {
-                // request tokens from both the left and right neighbors if they hold one
+                // request tokens from both the left and right neighbors
                 RestrictToken receivedLeft = leftNeighbour.handOverTokenIfHolding(this);
                 RestrictToken receivedRight = rightNeighbour.handOverTokenIfHolding(this);
 
@@ -459,7 +458,7 @@
             synchronized RestrictToken handOverTokenIfHolding(RestrictTokenPhilosopher requester) {
                 // checks if this philosopher holds a token and if the requester has had fewer eating chances
                 if (restrictToken != null && requester.eatChances > eatChances) {
-                    restrictToken.updateRestricted(requester.getPhId());  // update the restriction to apply to the requester's ID.
+                    restrictToken.updateRestricted(requester.getPhId());  // update the restriction to apply to the requester-id
                     RestrictToken token = restrictToken;
                     restrictToken = null;  // remove the token from this philosopher after transfer
                     return token;  // return the token to the requester
@@ -499,13 +498,15 @@
                 Starvation-free due to the FIFO-enhanced pickup of chopsticks.
                 Due to the additional check of lesser eating time/ eat chances of philosophers who are requested for the
                 token,
-                we guarantee that the token will be held longer by philosophers won't have more chances/ time to eat.
+                we guarantee
+                that the token will be held longer by philosophers who had more chances/ time to
+                eat.
                 However, it is not guaranteed that all philosophers will eventually hold the token, so we only prevent
-                unfair treatment of certain philosophers in this way.
-                In usual executions, fairness is, in fact,
-                enhanced, but works better for smaller numbers of philosophers.
-                In such setups, the token will be passed around all philosophers and improve eat-time eat-chance
-                fairness.
+                unfair treatment of certain philosophers.
+                In usual executions, fairness is enhanced,
+                but works better for smaller numbers of philosophers.
+                When the number of philosophers is low, the token will be passed around all philosophers and improve
+                eat-time or eat-chance fairness.
             </td>
         </tr>
 
@@ -527,11 +528,12 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td> The produced overhead is not too significant, and the distributed nature of the approach makes it highly
+            <td> The produced overhead is not too significant, and the distributed nature of the approach makes it
+                highly
                 scalable.
                 Anyhow, the fairness enhancing functionality might not scale very well for big arrangements
                 since it is not guaranteed that all philosophers will get hold of the token in finite simulation time,
-                and thus adjust for unfairness.
+                and thus adjust for eat-chance/ eat-time unfairness.
             </td>
         </tr>
         </tbody>
