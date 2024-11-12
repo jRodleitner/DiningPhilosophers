@@ -399,8 +399,8 @@ public class DiningTable {
     public void lockClock() {
         clock.lockClock();
     }
-    //TODO Synchronized?!?!?!?
-    public synchronized void unlockClock() {
+
+    public void unlockClock() {
         clock.unlockClock();
     }
 
