@@ -122,7 +122,7 @@
         access to one thread only (also called mutex).
         The resource is accessible if a semaphore has value 1. The acquiring thread will then decrease the value and the
         semaphore will be locked.
-        Threads (Philosophers) trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time
+        Threads (philosophers) trying to acquire a locked semaphore will usually be put into an implicit queue, waiting for the time
         the initial thread releases the semaphore,
         after which they will be the permitted thread.
     </p>

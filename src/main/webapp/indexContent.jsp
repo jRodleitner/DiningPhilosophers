@@ -31,7 +31,7 @@
             border: 1px solid #ccc;
         }
 
-        /* Hover Effect */
+
         .button:hover {
             background-color: #438699;
             color: #e0e0e0;
@@ -169,12 +169,9 @@
                 The Dining Philosophers Problem, first introduced by Edsger Dijkstra in 1965, is a way to understand the
                 challenges
                 of sharing resources in a system where multiple processes run at the same time.
-                The problem
-                helps us explore important concepts like avoiding deadlocks and fairness.
-                We will look at the problem in
-                detail, discuss its challenges, and explore several solutions.
-                This website features a Java-based
-                Simulation and an Animation page
+                The problem helps us explore important concepts like deadlocks and fairness.
+                We will look at the problem in detail, discuss its challenges, and explore several solutions.
+                This website features a Java-based Simulation and Animation page
                 that will let you experiment with the discussed concepts.
             </p>
         </div>
@@ -199,7 +196,6 @@
     <section id="general">
         <h3>The Philosophers</h3>
         <p>
-            The Dining Philosophers Problem can be formulated in various ways.
             We will use the following definition:
             Philosophers sit around a table with a chopstick between each pair.
             They begin by thinking, then attempt to pick up the chopsticks on their left and right.
@@ -211,7 +207,7 @@
             the cycle
             repeats.
         </p>
-        <p>The naive process of a Philosopher consists of:</p>
+        <p>The naive process of a philosopher consists of:</p>
         <ul>
             <li>Think for some time</li>
             <li>Pick up left Chopstick (or wait until available)</li>
@@ -224,30 +220,13 @@
             This cycle runs for all philosophers simultaneously.
             In our case, we want the process to run until a specified timeout is reached.
             When this time limit is reached, all philosophers are terminated.
+            Note that the Dining Philosophers Problem can be formulated in several ways, and this is just one of them.
         </p>
         <img src="pictures/eatsleep.png" alt="Dining Philosophers Problem" width="400" height="60">
         <br>
-        <p>
-            We determine the time spent eating and thinking using the following distributions:
-        </p>
-        <ul>
-            <li><b>Deterministic:</b> The time-delay for eating or thinking is the same for all philosophers.</li>
 
-            <li><b>Interval:</b> The time-delay is randomly selected within a specific range, for example, between 50
-                and
-                100 milliseconds.
-            </li>
-            <li><b>Normal:</b> The time-delay varies symmetrically around a mean, with deviations following a
-                normal distribution.
-            </li>
-            <li><b>Exponential:</b> The time-delay is usually small, but occasionally, much larger values can occur,
-                following an exponential distribution.
-            </li>
-        </ul>
-
-        <img src="pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
         <p>
-            To keep track of the philosophers' actions, we keep a Log for each Philosopher,
+            To keep track of the philosophers' actions, we keep a Log for each philosopher,
             tracking the following Events:
         </p>
         <ul>
@@ -289,6 +268,27 @@
             point to determine the correct order of these actions after the simulation.
             Empty brackets are displayed to signify that philosophers took no action at that time.
         </p>
+
+        <p>
+            We determine the time spent eating and thinking using the following distributions:
+        </p>
+        <ul>
+            <li><b>Deterministic:</b> The time-delay for eating or thinking is the same for all philosophers.</li>
+
+            <li><b>Interval:</b> The time-delay is randomly selected within a specific range, for example, between 50
+                and
+                100 milliseconds.
+            </li>
+            <li><b>Normal:</b> The time-delay varies symmetrically around a mean, with deviations following a
+                normal distribution.
+            </li>
+            <li><b>Exponential:</b> The time-delay is usually small, but occasionally, much larger values can occur,
+                following an exponential distribution.
+            </li>
+        </ul>
+
+        <img src="pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
+
     </section>
     <section id="challenges">
         <h2>Challenges</h2>
@@ -329,10 +329,11 @@
         </p>
 
         <p>
-            At this stage, it is useful to introduce the concept of "precedence graphs", which are often used to
+            At this stage, it is useful to introduce the concept of "precedence graphs", which are used to
             represent dependencies between tasks.
             In the context of the Dining Philosophers Problem, each philosopher is
-            represented as a node, and the directed arrows indicate dependencies.
+            represented as a node,
+            and the directed arrows indicate the dependency of having to wait for a chopstick.
             Since all philosophers have to wait
             for their right neighbor, this means that there is a circular dependency of the philosophers.
         </p>
@@ -530,7 +531,7 @@
                 During the simulation we also track the total Eating Time <b>e</b> (The total combined
                 simulation time philosophers spent eating).
                 We then calculate <b>e/l</b> to determine the concurrency within the system during the course of the
-                simulation. With this measure, the bigger the value, the better. For the classic 5-Philosopher setup,
+                simulation. With this measure, the bigger the value, the better. For the classic 5-philosopher setup,
                 values close to two are a great result, as this means that, most of the simulation time two
                 philosophers were eating in parallel.
                 (Which is the maximum attainable)
@@ -560,7 +561,7 @@
             Before exploring solutions, let us discuss the main limitations of the problem.
             One key limitation is that the rules restrict the maximum concurrency.
             Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to
-            <b>[n/2]</b> (integer division) for even numbers of n philosophers and <b>⌊n/2⌋</b> for odd n.
+            <b>[n/2]</b> for even numbers of n philosophers and <b>⌊n/2⌋</b> (integer division) for odd n.
             For example, with 5 philosophers, <b>⌊5/2⌋</b> equals <b>2</b>, meaning that at most,
             two philosophers can eat at the same time.
             In real-world systems, access to shared resources often involves more complex dependencies, where multiple
@@ -665,7 +666,7 @@
             <p>
                 <b>Pseudocode Chopstick class: </b>
                 The synchronized keyword ensures exclusive access to the pickUp() and putDown() methods.
-                Philosophers have to enter a waiting state using the wait() method if the chopstick is currently
+                philosophers have to enter a waiting state using the wait() method if the chopstick is currently
                 taken.
                 When another philosopher puts down a chopstick, the waiting philosopher is notified using the
                 notify() method.
@@ -693,7 +694,7 @@
             <p>
                 <b>Dining Table class: </b>
                 The backbone of the simulation is a virtual clock running during the execution.
-                The Philosophers log their Actions according to the current time of the clock.
+                The philosophers log their Actions according to the current time of the clock.
             </p>
             <pre style="font-size: 14px;"><code class="language-java">
 

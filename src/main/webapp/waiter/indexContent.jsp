@@ -252,7 +252,7 @@
     <div class="separator"></div>
     <h2>Pickup Waiter Solution</h2>
     <p>
-        We can reintroduce some concurrency into the system by limiting the waiters permission to just the chopstick
+        We can reintroduce some concurrency into the system by limiting the waiters permission to just the
         pickup phase. This way, multiple philosophers can receive permission from the waiter and eat at the same time.
         This approach helps us attain concurrency again, but still prevents deadlocks by avoiding the circular wait
         condition.
