@@ -42,12 +42,12 @@ public class Statistic {
         return eatChances;
     }
 
-    // Setter method
+
     public void setId(String id) {
         this.id = id;
     }
 
-    // Increment methods
+
     public void incrementThinkTime() {
         totalThinkTime++;
     }

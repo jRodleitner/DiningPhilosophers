@@ -166,10 +166,9 @@
     <div class="main-content">
         <div class="description">
             <p>
-                The Dining Philosophers Problem, first introduced by Edsger Dijkstra in 1965, is a way to understand the
-                challenges
-                of sharing resources in a system where multiple processes run at the same time.
+                To compare concurrent Algorithms, a problem called Dining Philosophers comes in handy.
                 The problem helps us explore important concepts like deadlocks and fairness.
+                Edsger Dijkstra introduced it to the Computer Science community in 1965.
                 We will look at the problem in detail, discuss its challenges, and explore several solutions.
                 This website features a Java-based Simulation and Animation page
                 that will let you experiment with the discussed concepts.
@@ -199,7 +198,7 @@
             We will use the following definition:
             Philosophers sit around a table with a chopstick between each pair.
             They begin by thinking, then attempt to pick up the chopsticks on their left and right.
-            Only one philosopher can hold a chopstick at a time, so they may need to wait until their neighbor returns.
+            Only one philosopher can hold a chopstick at a time, so they may need to wait until their neighbor returns
             it to the table.
             If two philosophers try to pick up the same chopstick simultaneously, only one will succeed.
             Once a philosopher has acquired both chopsticks, they may eat.
@@ -906,14 +905,16 @@
 </div>
 
 <section id="solutions">
-    <h2>Solutions</h2>
+    <h2>Solving the Dining Philosophers Problem</h2>
 
     <div class="container">
         <div class="main-content">
             <div class="description">
                 <p>
-                    The buttons below lead to explanations of various solutions that address one or more of the
-                    challenges: deadlocks, starvation/ fairness, and concurrency.
+                    The following buttons lead to pages that will introduce you to different approaches
+                    to solving the Dining Philosophers Problem.
+                    They each contain descriptions and evaluations to get insight into their performance,
+                    relating to the challenges discussed earlier.
                 </p>
 
                 <div class="description-box">

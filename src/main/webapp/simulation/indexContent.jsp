@@ -317,7 +317,7 @@
     <span style="color: red; font-size: 16px; font-weight: bold;">&#8595;</span> Scroll down for Simulation notes.
 </div>
 
-<h2>Dining Philosophers Simulation Page</h2>
+<h2>Dining Philosophers Simulation</h2>
 
 <div class="container">
     <!-- Scrollable Box for Results -->
@@ -540,16 +540,17 @@
         <li><b>Distribution settings: </b> There are four distributions you can choose from.
             <ul>
                 <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation, this will
-                    provoke deadlocks!
+                    provoke deadlocks! (min: 30, max: 400)
                 </li>
                 <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper
-                    Bound.
+                    Bound. (Lb min: 30, Lb max: 400), (Ub min: 30, Ub max: 400)
                 </li>
                 <li>Normal: Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
                     This will simulate philosophers with normally distributed delays, according to the given parameters.
+                    (&mu; min: 50, &mu; max: 250), (&sigma; min: 1, &sigma; max: 30)
                 </li>
                 <li>Exponential: Parameter lambda = &lambda; = rate parameter. Frequent low values, but sometimes large
-                    outliers occur. Lower lambda means that higher values become more likely.
+                    outliers occur. Lower lambda means that higher values become more likely. (min: 3, max: 12)
                 </li>
 
             </ul>
@@ -560,6 +561,9 @@
             more performant and will return results quicker.
             This helps to track the behavior of the algorithms.
             The "simple" mode will only display thinking and eating.
+        </li>
+
+        <li><b>Timeout: </b> Values between 0 and 200 are possible. A timeout of 0 is equivalent to an instant timeout.
         </li>
 
     </ul>

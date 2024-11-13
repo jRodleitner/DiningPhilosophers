@@ -12,7 +12,6 @@ import simulation.Execute;
 public class AnimationServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve parameters from the form
         String algorithm = request.getParameter("algorithm");
         int simulationTime = Integer.parseInt(request.getParameter("simulationTime"));
         boolean simulationType = Boolean.parseBoolean(request.getParameter("simulationType"));
@@ -41,9 +40,6 @@ public class AnimationServlet extends HttpServlet {
         }
 
 
-        // Set the result and parameters as request attributes
-
-
         request.setAttribute("algorithm", algorithm);
         request.setAttribute("simulationTime", simulationTime);
         request.setAttribute("simulationType", simulationType);
@@ -52,12 +48,10 @@ public class AnimationServlet extends HttpServlet {
         request.setAttribute("timeout", timeout);
 
 
-        // Forward the request back to index.jsp
         request.getRequestDispatcher("/animation/index.jsp").forward(request, response);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirect GET requests to the index.jsp page
         request.getRequestDispatcher("/animation/index.jsp").forward(request, response);
     }
 }

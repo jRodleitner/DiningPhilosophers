@@ -12,7 +12,6 @@ import simulation.Execute;
 public class SimulationServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Retrieve parameters from the form
         String algorithm = request.getParameter("algorithm");
         int nrPhilosophers = Integer.parseInt(request.getParameter("nrPhil"));
         int simulationTime = Integer.parseInt(request.getParameter("simulationTime"));
@@ -50,12 +49,10 @@ public class SimulationServlet extends HttpServlet {
         request.setAttribute("timeout", timeout);
 
 
-        // Forward the request back to index.jsp
         request.getRequestDispatcher("/simulation/index.jsp").forward(request, response);
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirect GET requests to the index.jsp page
         request.getRequestDispatcher("/simulation/index.jsp").forward(request, response);
     }
 }

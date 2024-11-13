@@ -375,7 +375,7 @@
 
 
 
-<h2>Animation Page</h2>
+<h2>Dining Philosophers Animation</h2>
 <div class="container">
 
     <div class="svg-container">
@@ -1227,31 +1227,50 @@
     <h3>Parameters</h3>
     <ul>
 
+        <li><b>Number of philosophers: </b>Simulations with 2–9 philosophers are possible.</li>
+
         <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
             One time "unit" represents a loop iteration that is a step in the simulation timeline.
-            We control the actual time passage via a short waiting period in each iteration to give the philosophers time to complete actions.
+            We control the actual time passage via a short waiting period in each iteration to give the philosophers
+            time to complete actions.
             Philosophers use this reference time to log their respective actions after completion.
-            This results in a quantization effect where each completed act is mapped to a discrete virtual simulation-time point.
-            Note that there is an actual simulation running in the background that uses Java Threads.
-            Increasing the simulation time will prolong the execution time of the backend, due to the longer simulation duration and the following processing of the results.
-            The maximum execution time is 500, this will result in a waiting period of up to 10 seconds before results are visible.
-
+            This results in a quantization effect where each completed act is mapped to a discrete virtual
+            simulation-time point.
+            Note that there is an actual simulation running in the background that utilizes Java Threads.
+            Increasing the simulation time will prolong the execution time of the backend, due to the longer simulation
+            duration and the following processing of the results.
+            The maximum execution time is 1000, this will result in a waiting period of up to 20 seconds before results
+            are visible.
         </li>
 
         <li><b>Distribution settings: </b> There are four distributions you can choose from.
             <ul>
-                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation, this will provoke deadlocks!</li>
-                <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper Bound.</li>
-                <li>Normal:  Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
-                    This will simulate philosophers with normally distributed delays, according to the given parameters.</li>
-                <li>Exponential: Parameter lambda = &lambda; = rate parameter. Frequent low values, but sometimes large outliers occur. Lower lambda means that higher values become more likely.</li>
+                <li>Deterministic: Only has one parameter and is a static delay. For the naive implementation, this will
+                    provoke deadlocks! (min: 30, max: 400)
+                </li>
+                <li>Interval: This distribution calculates a value between the given Lb = Lower Bound and Ub = Upper
+                    Bound. (Lb min: 30, Lb max: 400), (Ub min: 30, Ub max: 400)
+                </li>
+                <li>Normal: Has parameters mu = &mu; = the mean, and sigma = &sigma; = the standard deviation.
+                    This will simulate philosophers with normally distributed delays, according to the given parameters.
+                    (&mu; min: 50, &mu; max: 250), (&sigma; min: 1, &sigma; max: 30)
+                </li>
+                <li>Exponential: Parameter lambda = &lambda; = rate parameter. Frequent low values, but sometimes large
+                    outliers occur. Lower lambda means that higher values become more likely. (min: 3, max: 12)
+                </li>
 
             </ul>
         </li>
-        <li><b>Simulation Type: </b> Two types are available. The "Simulate Pickups"-mode lets you track the pick-ups and put-downs of the philosophers.
+        <li><b>Simulation Type: </b> Two types are available. The "Simulate Pickups"-mode lets you track the pick-ups and
+            put-downs of the philosophers.
+            Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little
+            more performant and will return results quicker.
             This helps to track the behavior of the algorithms.
-            Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little more performant and will return results quicker.
-            The "simple" mode will only display thinking and eating.</li>
+            The "simple" mode will only display thinking and eating.
+        </li>
+
+        <li><b>Timeout: </b> Values between 0 and 200 are possible. A timeout of 0 is equivalent to an instant timeout.
+        </li>
 
     </ul>
 
