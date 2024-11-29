@@ -548,7 +548,7 @@
             Finally, we want to evaluate algorithms based on the overhead they produce and how scalable they are.
             Some Solutions use several data structures and synchronization mechanisms that produce additional
             computational effort.
-            In our case, scalability refers to increasing the number of philosophers at the table.
+            In our case, scalability refers to increasing the number of philosophers at the table.<a href="about">[7]</a>
         </p>
 
 

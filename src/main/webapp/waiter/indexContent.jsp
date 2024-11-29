@@ -113,16 +113,18 @@
     <img src="../pictures/waiter-request.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
         The Waiter Solution introduces a central entity to manage access to chopsticks and prevent deadlocks.
+        Note that this solution is known under several names, including "Arbitrator Solution", "Footman Solution" and "Supervisor Solution".
         In the Atomic Waiter solution, philosophers must notify the waiter whenever they want to eat.
         The waiter maintains a queue of requests and grants permission to eat based on the order in which philosophers
         were added to the queue.
-        When philosophers are first in the queue, they are given permission to pick up both chopsticks and start eating.
-        Once they finished putting down the chopsticks and returned the permission, the waiter grants it to the next
+        When philosophers are first in the queue, they are given permission to pick up both chopsticks and eat.
+        Once they finished putting down the chopsticks, they return the permission, and the waiter grants it to the next
         philosopher in the queue.
         In this solution, we view the whole picking-up chopsticks, eating and putting down chopsticks as an atomic
         process, and is thus very similar in performance to the Global-Token Solution.
         Viewing the whole eating process is of course unnecessary, we will therefore improve on this in the following
         solutions on this page.
+
     </p>
 
     <p>
