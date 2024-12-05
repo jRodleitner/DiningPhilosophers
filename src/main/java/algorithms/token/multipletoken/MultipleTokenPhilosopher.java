@@ -5,11 +5,14 @@ import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class MultipleTokenPhilosopher extends AbstractPhilosopher {
 
     protected MultipleTokenPhilosopher rightPhilosopher = null;
     protected volatile Token token;
-    private final Object tokenLock = new Object();
+    private final Lock tokenLock = new ReentrantLock(true);
 
     public MultipleTokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
