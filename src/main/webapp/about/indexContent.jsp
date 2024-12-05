@@ -76,10 +76,10 @@
 
     <h3>Web Sources Used:</h3>
     <ol>
-        <li id="w_citation1">[1] URL: https://zerobone.net/blog/cs/dining-philosophers-problem/</li>
-        <li id="w_citation2">[2] URL: https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/locks/ReentrantLock.html</li>
-        <li id="w_citation3">[3] URL: https://www.stolaf.edu/people/rab/pdc/text/dpsolns.html?utm_source=chatgpt.com</li>
-        <li id="w_citation4">[4] URL: https://softwaresim.com/blog/introduction-to-discrete-time-simulation/ </li>
+        <li id="w_citation1">[15] URL: https://zerobone.net/blog/cs/dining-philosophers-problem/</li>
+        <li id="w_citation2">[16] URL: https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/locks/ReentrantLock.html</li>
+        <li id="w_citation3">[17] URL: https://www.stolaf.edu/people/rab/pdc/text/dpsolns.html?utm_source=chatgpt.com</li>
+        <li id="w_citation4">[18] URL: https://softwaresim.com/blog/introduction-to-discrete-time-simulation/ </li>
 
         <li id="w_citation5">[5] Another Author, "Another Source", Another Publisher, Year.</li>
         <li id="w_citation6">[6] Another Author, "Another Source", Another Publisher, Year.</li>
