@@ -95,7 +95,7 @@
         <li>Web Server - Backend: Jakarta Servlet URL: https://jakarta.ee/specifications/servlet/</li>
         <li>Web Server Deployment: Apache Tomcat URL: https://tomcat.apache.org/</li>
         <li>IDE: Intellij</li>
-        <li>Project: Maven</li>
+        <li>Project Build: Maven</li>
     </ol>
 </div>
 </body>
