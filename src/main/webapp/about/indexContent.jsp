@@ -72,6 +72,7 @@
         <li id="citation12" >[12] Lars Wanhammar. "DSP Algorithms." In DSP Integrated Circuits, Academic Press, 1999, pp. 225–275. </li>
         <li id="citation13" >[13] Edward G. Coffman Jr., Michael J. Elphick, Arie Shoshani. "System Deadlocks." ACM Computing Surveys, vol. 3, no. 2, 1971, pp. 67–78. </li>
         <li id="citation14" >[14] Hagit Attiya, Roy Friedman. "Local and Global Fairness in Concurrent Systems." Proceedings of the 12th Annual ACM Symposium on Principles of Distributed Computing, 1993, pp. 163–174.</li>
+        <li id="citation15" >[15] Goetz, Brian, et al. Java Concurrency in Practice. Addison-Wesley Professional, 2006.</li>
     </ol>
 
     <h3>Web Sources Used:</h3>
@@ -88,7 +89,7 @@
         <li id="w_citation9">[9] Another Author, "Another Source", Another Publisher, Year.</li>
     </ol>
 
-    <h3>Resources/ Libraries Used:</h3>
+    <h3>Technologies/ Libraries Used:</h3>
     <ol>
         <li>Pseudocode Highlighting: Prism.js URL: https://prismjs.com/</li>
         <li>Web Server - Backend: Jakarta Servlet URL: https://jakarta.ee/specifications/servlet/</li>
