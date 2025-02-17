@@ -341,7 +341,7 @@
     <!-- Form Container -->
     <div class="form-container">
 
-        <form name="simulationForm" action="/simulation" method="post">
+        <form name="simulationForm" action="${pageContext.request.contextPath}/simulation" method="post">
 
             <label for="algorithm">Choose an Algorithm:</label>
             <select id="algorithm" name="algorithm">
@@ -568,8 +568,7 @@
 
     </ul>
 
-    <img src="../pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
-
+    <img src="<%= request.getContextPath() %>/pictures/distribution.svg" alt="Dining Philosophers Problem" width="847" height="225">
 
     <h3>Statistics</h3>
     <p>
