@@ -24,7 +24,6 @@ public class SimulationServlet extends HttpServlet {
         double eatPar2 = Double.parseDouble(request.getParameter("eatparam2"));
         int timeout = Integer.parseInt(request.getParameter("timeout"));
 
-        System.out.println(nrPhilosophers + " " + simulationTime);
 
         List<String> result= null;
         if(RequestCheck.checkSimulationRequestValidity(nrPhilosophers, simulationTime, algorithm, eatDistribution, eatPar1, eatPar2, thinkDistribution, thinkPar1, thinkPar2, timeout)){

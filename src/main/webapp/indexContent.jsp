@@ -349,7 +349,7 @@
         <h3>Starvation and Fairness</h3>
         <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
-            Starvation happens when one or more philosophers rarely, or never, get a chance to eat. The prime example
+            Starvation happens when a philosophers rarely, or never, get a chance to eat. The prime example
             of starvation is deadlocks, which starve all philosophers.
             Other examples of starvation are: One philosopher repeatedly grabs the
             chopstick first, stopping the neighbor from eating.
@@ -548,7 +548,8 @@
             Finally, we want to evaluate algorithms based on the overhead they produce and how scalable they are.
             Some Solutions use several data structures and synchronization mechanisms that produce additional
             computational effort.
-            In our case, scalability refers to increasing the number of philosophers at the table.<a href="about">[7]</a>
+            In our case, scalability refers to increasing the number of philosophers at the table.
+            Usually, centralized solutions to the Dining Philosophers are less scalable, since they use central entities that are accessed in a mutually exclusive manner.
         </p>
 
 
@@ -585,7 +586,7 @@
         <div class="description">
             <h2>Naive Dining Philosophers Implementation</h2>
             <p>
-                The following Java-inspired pseudocode demonstrates the principles of a naive solution to
+                The following Java-inspired pseudocode demonstrates the implementation principles of a naive solution to
                 the Dining Philosophers problem, leading to deadlocks.
                 The philosophers' actions are logged over time, based on a virtual clock running during the simulation.
                 For simplicity, most of the Java boilerplate (Necessary for Java programs but not useful for
@@ -599,68 +600,71 @@
             </p>
 
             <pre style="font-size: 14px;"><code class="language-java">
+class Philosopher extends Thread {
+    int id;
+    Chopstick leftChopstick;
+    Chopstick rightChopstick;
+    List log;
 
-        class Philosopher extends Thread {
-            int id;
-            Chopstick leftChopstick;
-            Chopstick rightChopstick;
-            List log;
+    NaivePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+        this.id = id;
+        this.leftChopstick = leftChopstick;
+        this.rightChopstick = rightChopstick;
+    }
 
-            NaivePhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-                this.id = id;
-                this.leftChopstick = leftChopstick;
-                this.rightChopstick = rightChopstick;
-            }
-
-            @Override
-            void run() {
-                while (!terminated()) {
-                    think();
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                }
-            }
-
-            void think() {
-                long duration = calculateDuration();
-                sleep(duration);
-                Log("[ T ]", VirtualClock.getTime());
-            }
-
-            void pickUpLeftChopstick() {
-                leftChopstick.pickUp(this);
-                Log("[PUL]", VirtualClock.getTime());
-            }
-
-            void pickUpRightChopstick() {
-                rightChopstick.pickUp(this);
-                Log("[PUR]", VirtualClock.getTime());
-            }
-
-            void eat() {
-                long duration = calculateDuration();
-                sleep(duration);
-                Log("[ E ]", VirtualClock.getTime());
-            }
-
-            void putDownLeftChopstick() {
-                leftChopstick.putDown(this);
-                Log("[PDL]", VirtualClock.getTime());
-            }
-
-            void putDownRightChopstick() {
-                rightChopstick.putDown(this);
-                Log("[PDR]", VirtualClock.getTime());
-            }
-
-            void Log(String event, long timeInstance){
-                log.add(event + ":" + timeInstance) // a log of this style is parsed in the backend to then display the timeline/ statistics of the simulation
-            }
-
+    @Override
+    void run() {
+        while (!terminated()) {
+            think();
+            pickUpLeftChopstick();
+            pickUpRightChopstick();
+            eat();
+            putDownLeftChopstick();
+            putDownRightChopstick();
         }
+    }
+
+    void think() {
+        //calculate sleep time according to distribution
+        long duration = calculateDuration();
+        sleep(duration);
+        Log("[ T ]", VirtualClock.getTime());
+    }
+
+    void pickUpLeftChopstick() {
+        leftChopstick.pickUp(this);
+        Log("[PUL]", VirtualClock.getTime());
+    }
+
+    void pickUpRightChopstick() {
+        rightChopstick.pickUp(this);
+        Log("[PUR]", VirtualClock.getTime());
+    }
+
+    void eat() {
+        //calculate sleep time according to distribution
+        long duration = calculateDuration();
+        sleep(duration);
+        Log("[ E ]", VirtualClock.getTime());
+    }
+
+    void putDownLeftChopstick() {
+        leftChopstick.putDown(this);
+        Log("[PDL]", VirtualClock.getTime());
+    }
+
+    void putDownRightChopstick() {
+        rightChopstick.putDown(this);
+        Log("[PDR]", VirtualClock.getTime());
+    }
+
+    void Log(String event, long timeInstance){
+        // a log of this style is parsed in the backend to then display the timeline and statistics of the simulation
+        log.add(event + ":" + timeInstance)
+    }
+
+}
+
     </code></pre>
             <p>
                 <b>Pseudocode Chopstick class: </b>
@@ -697,7 +701,7 @@
             </p>
             <pre style="font-size: 14px;"><code class="language-java">
 
-    public class Table {
+class Table {
     // lists to store chopsticks and philosophers
     List chopsticks;
     List philosophers;
@@ -736,7 +740,7 @@
 
     // method to run the simulation
     void execute() {
-        int simulationTime = 100; // total time for the simulation
+        int simulationTime = 100; // total number of loop iterations
         int numPhilosophers = 5; // number of philosophers at the table
         Table diningTable = new Table(numPhilosophers);
 
@@ -745,9 +749,12 @@
 
         // run the simulation using a virtual clock
         while (simulationTime > 0) {
-            VirtualClock.advanceTime(); // advance clock time
-            timeStep(); // pause for the duration of a timestep (the server-sided simulation uses 5 ms)
-            simulationTime--; // decrement the remaining simulation time
+            // advance clock time
+            VirtualClock.advanceTime();
+            // pause for the duration of a timestep (the server-sided simulation uses 5 ms)
+            timeStep();
+            // decrement the remaining simulation time
+            simulationTime--;
         }
 
         // stop all the philosopher threads after the simulation time ends
@@ -790,7 +797,7 @@
             <tr>
                 <td><b>Concurrency</b></td>
                 <td>The naive dining philosophers solution has a limited potential for concurrency (as long as deadlocks
-                    do not occur). This is due to the long path in the precedence graph, leading to long waiting chains.
+                    do not occur). This is due to the long path in the precedence graph, leading to potential long waiting chains.
                     Simulations frequently have low/no concurrency because of this.
                 </td>
             </tr>
@@ -834,24 +841,27 @@
             Note that we introduce an overhead due to the managed FIFO queues.
         </p>
         <pre style="font-size: 14px;"><code class="language-java">
-            class Chopstick {
+class Chopstick {
 
-                Semaphore chopstickSemaphore;  // semaphore controlling access to the chopstick.
+    // semaphore controlling access to the chopstick.
+    Semaphore chopstickSemaphore;
 
-                Chopstick(int id) {
-                    super(id);
-                    chopstickSemaphore = new Semaphore(1, true);  // semaphore with one permit and enabled fairness parameter
-                }
+    Chopstick(int id) {
+        // semaphore with one permit and enabled fairness parameter
+        chopstickSemaphore = new Semaphore(1, true);
+    }
 
-                boolean pickUp(Philosopher philosopher) {
-                    chopstickSemaphore.acquire();  // acquire the semaphore, wait in FIFO queue if not available.
-                    return true;
-                }
+    boolean pickUp(Philosopher philosopher) {
+        // acquire the semaphore, wait in FIFO queue if not available.
+        chopstickSemaphore.acquire();
+        return true;
+    }
 
-                void putDown(Philosopher philosopher) {
-                    chopstickSemaphore.release();  // release the semaphore, the longest waiting thread will acquire it.
-                }
-            }
+    void putDown(Philosopher philosopher) {
+        // release the semaphore, the longest waiting thread will acquire it.
+        chopstickSemaphore.release();
+    }
+}
 
         </code></pre>
         <p>

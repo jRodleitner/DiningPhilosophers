@@ -129,23 +129,21 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-    public class GlobalToken {
+public class GlobalToken {
 
-        TokenPhilosopher philosopher;
+    TokenPhilosopher philosopher;
 
-        public GlobalToken(TokenPhilosopher philosopher){
-            this.philosopher = philosopher;
-        }
-
-
-        protected synchronized void passToken(){
-            philosopher.rightPhilosopher.acceptToken(this);
-            philosopher.token = null;
-            philosopher = philosopher.rightPhilosopher;
-        }
-
-
+    public GlobalToken(TokenPhilosopher philosopher){
+        this.philosopher = philosopher;
     }
+
+    // holding philosopher passes the token to the right neighbor
+    protected synchronized void passToken(){
+        philosopher.rightPhilosopher.acceptToken(this);
+        philosopher.token = null;
+        philosopher = philosopher.rightPhilosopher;
+    }
+}
 
     </code></pre>
     <p>
@@ -155,96 +153,92 @@
         After they are finished they pass on the token.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
-    public class TokenPhilosopher extends Philosopher {
-        // reference to the philosopher to the right
-        TokenPhilosopher rightPhilosopher = null;
+class TokenPhilosopher extends Philosopher {
 
-        //  global token that controls access
-        volatile GlobalToken token;
+    TokenPhilosopher rightPhilosopher = null;
 
-        // object used for waiting on the passing of a token
-        final Object tokenLock = new Object();
+    volatile GlobalToken token;
 
-        TokenPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick) {
-            super(id, leftChopstick, rightChopstick);
-        }
+    Lock tokenLock = new ReentrantLock(true);
 
-        void setToken(GlobalToken token) {
+    public TokenPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+        super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
+    }
+
+    public void setToken (GlobalToken token){
+        this.token = token;
+    }
+
+    public void setRightPhilosopher(TokenPhilosopher rightPhilosopher){
+        this.rightPhilosopher = rightPhilosopher;
+    }
+
+    //called by left neighbor for handing over token
+    protected void acceptToken(GlobalToken token) {
+        synchronized (tokenLock) {
             this.token = token;
-        }
-
-        void setRightPhilosopher(TokenPhilosopher rightPhilosopher) {
-            this.rightPhilosopher = rightPhilosopher;
-        }
-
-        // method to accept a token, called from another philosopher (only one philosopher can call)
-        void acceptToken(GlobalToken token) {
-            synchronized (tokenLock) {
-                this.token = token; // update the local reference to accept the token.
-                tokenLock.notify(); // notify the waiting philosopher that the token is now available.
-            }
-        }
-
-        @Override
-        public void run() {
-            while (!terminated()) {
-                think();
-
-                // wait until this philosopher holds the token
-                synchronized (tokenLock) {
-                    while (token == null) {
-                        tokenLock.wait(); // wait for the passing of the token.
-                    }
-                }
-
-                // once the token is acquired, the philosopher can attempt to eat.
-                pickUpLeftChopstick();
-                pickUpRightChopstick();
-                eat();
-
-                putDownLeftChopstick();
-                putDownRightChopstick();
-
-                // pass the token to the next philosopher.
-                token.passToken();
-            }
+            tokenLock.notify();
         }
     }
+
+    @Override
+    void run() {
+        while (!terminated()) {
+            think();
+            synchronized (tokenLock) {
+                while (token == null) {
+                    // when not in possession, wait until the token is received
+                    tokenLock.wait();
+                }
+            }
+
+            pickUpLeftChopstick();
+            pickUpRightChopstick();
+            eat();
+            putDownLeftChopstick();
+            putDownRightChopstick();
+            //pass the token on to the right neighbor
+            token.passToken();
+        }
+    }
+}
     </code></pre>
     <p>
         <b>Table class:</b>
         We initialize the Philosophers and give a token to the first philosopher:
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
+List chopsticks;
+List philosophers;
 
-    List chopsticks;
-    List philosophers;
+// initialize chopsticks
+for (int i = 0; i < nrPhilosophers; i++) {
+    chopsticks.add(new Chopstick(i));
+}
 
-    for (int i = 0; i < nrPhilosophers; i++) {
-        chopsticks.add(new Chopstick(i));
-    }
+// initialize token philosophers, each with a left and right
+chopstick
+for (int i = 0; i < nrPhilosophers; i++) {
+    TokenPhilosopher philosopher = new TokenPhilosopher(
+        i,
+        chopsticks.get(i),
+        chopsticks.get((i + 1) % nrPhilosophers)
+    );
+    philosophers.add(philosopher);
+}
 
-    for (int i = 0; i < nrPhilosophers; i++) {
+// set the reference to the right-hand neighbor for each philosopher
+for (int i = 0; i < nrPhilosophers; i++) {
+    TokenPhilosopher philosopher = philosophers.get(i);
+    philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
+}
 
-        TokenPhilosopher philosopher = new TokenPhilosopher(
-            i,
-            chopsticks.get(i),
-            chopsticks.get((i + 1) % nrPhilosophers)
-        );
-        philosophers.add(philosopher);
-    }
+TokenPhilosopher initialPhilosopher = philosophers.getFirst();
 
-    // set the reference to the right-hand neighbor for each philosopher
-    for (int i = 0; i < nrPhilosophers; i++) {
-        TokenPhilosopher philosopher = philosophers.get(i);
-        philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
-    }
-
-    TokenPhilosopher initialPhilosopher = philosophers.getFirst();
-
-    // create the global token and assign it to the initial philosopher
-    GlobalToken token = new GlobalToken(initialPhilosopher);
-    initialPhilosopher.setToken(token); // the initial philosopher holds the token
+// create the global token and assign it to the initial philosopher
+GlobalToken token = new GlobalToken(initialPhilosopher);
+// the first philosopher holds the token
+initialPhilosopher.setToken(token);
     </code></pre>
 
     <h3>Global Token Solution Evaluation</h3>
@@ -261,7 +255,7 @@
         <tbody>
         <tr>
             <td><b>Deadlocks</b></td>
-            <td>We effectively prevent deadlocks by avoiding the circular-wait condition.</td>
+            <td>We effectively prevent deadlocks by breaking the circular-wait condition.</td>
         </tr>
         <tr>
             <td><b>Starvation and Fairness</b></td>
@@ -277,11 +271,11 @@
         </tr>
         <tr>
             <td><b>Implementation</b></td>
-            <td>The implementation is rather simple and requires only an additional Token class. </td>
+            <td>The implementation is rather simple and requires only an additional Token class, and philosophers passing the token after eating. </td>
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>The introduced logic's overhead is minimal and managed in a distributed way. No central entity, and thus highly scalable.</td>
+            <td>The introduced logic's overhead is minimal and managed in a decentralized way. No central entity, and thus highly scalable.</td>
         </tr>
         </tbody>
     </table>
@@ -300,8 +294,8 @@
     <h2>Multiple Token Solution</h2>
     <img src="../pictures/multiple-token_questionmanrk.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        The Global Token Solution is hardly ideal. It does prevent deadlocks and provides fairness,
-        but it removes Concurrency.
+        The Global Token Solution is hardly ideal. It does prevent deadlocks and provides eat-chance fairness,
+        but it removes concurrency.
         The next idea would be to introduce multiple tokens into the system. We know that the maximum concurrency is limited in our
         system under ideal conditions to [n/2] for even n and &lfloor;n/2&rfloor; for uneven n.
         Two adjacent philosopher can never eat at the same time, so the idea is to just hand
@@ -311,8 +305,7 @@
         If we have an uneven number of philosophers, the last one is skipped automatically (We do not hand them a token).
         We pass the token only after the other philosopher has passed on its token.
         In theory, we can reach
-        maximum concurrency of [n/2]/ &lfloor;n/2&rfloor;, if there are few or no outliers for the execution times of
-        eating and if eating and thinking times are similarly distributed.
+        maximum concurrency of [n/2]/ &lfloor;n/2&rfloor;, if eating and thinking times are similarly distributed.
     </p>
     <img src="../pictures/multipletoken_working.svg" alt="Dining Philosophers Problem" width="400" height="350">
 
@@ -321,30 +314,27 @@
         This is not likely to happen
         because the philosophers cannot start eating until the adjacent philosopher is done eating,
         and thus cannot pass on the token.
-        (mutual exclusion managed by the fork semaphore
-        via usage of the pick-up method in the philosopher class)
-        We include this change just for completeness, to illustrate this concept.
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
-
-    class Token {
-        int id;
-        TokenPhilosopher philosopher;
-        public Token(int id, TokenPhilosopher philosopher){
-            this.id = id;
-            this.philosopher = philosopher;
-        }
-
-
-        synchronized void passToken() {
-            while (philosopher.rightPhilosopher.token != null){
-                Thread.sleep(10);
-            }
-            philosopher.rightPhilosopher.acceptToken(this);
-            philosopher.token = null;
-            philosopher = philosopher.rightPhilosopher;
-        }
+class Token {
+    int id;
+    TokenPhilosopher philosopher;
+    public Token(int id, TokenPhilosopher philosopher){
+        this.id = id;
+        this.philosopher = philosopher;
     }
+
+
+    synchronized void passToken() {
+        // do not pass token if right neighbor already holds one
+        while (philosopher.rightPhilosopher.token != null){
+            Thread.sleep(10);
+        }
+        philosopher.rightPhilosopher.acceptToken(this);
+        philosopher.token = null;
+        philosopher = philosopher.rightPhilosopher;
+    }
+}
 
     </code></pre>
     <p>
@@ -353,34 +343,36 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-    List chopsticks;
-    List philosophers;
+List chopsticks;
+List philosophers;
 
-    for (int i = 0; i < nrPhilosophers; i++) {
-        chopsticks.add(new Chopstick(i)); // create a new chopstick with ID 'i' and add it to the list
-    }
+// initialize chopsticks
+for (int i = 0; i < nrPhilosophers; i++) {
+    chopsticks.add(new Chopstick(i));
+}
 
+// initialize token philosophers, each with a left and right
+chopstick
+for (int i = 0; i < nrPhilosophers; i++) {
+    TokenPhilosopher philosopher = new TokenPhilosopher(
+        i,
+        chopsticks.get(i), // left chopstick
+        chopsticks.get((i + 1) % nrPhilosophers) // right chopstick
+    );
+    philosophers.add(philosopher);
+}
 
-    for (int i = 0; i < nrPhilosophers; i++) {
-        TokenPhilosopher philosopher = new TokenPhilosopher(
-            i,
-            chopsticks.get(i), // left chopstick
-            chopsticks.get((i + 1) % nrPhilosophers) // right chopstick
-        );
-        philosophers.add(philosopher);
-    }
+// set reference to the right-hand neighbor for each philosopher
+for (int i = 0; i < nrPhilosophers; i++) {
+    TokenPhilosopher philosopher = philosophers.get(i);
+    philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
+}
 
-    // set reference to the right-hand neighbor for each philosopher
-    for (int i = 0; i < nrPhilosophers; i++) {
-        TokenPhilosopher philosopher = philosophers.get(i);
-        philosopher.setRightPhilosopher(philosophers.get((i + 1) % nrPhilosophers));
-    }
-
-    // assign tokens to every other philosopher
-    for (int i = 0; i < nrPhilosophers - 1; i += 2) {
-        TokenPhilosopher philosopher = philosophers.get(i);
-        philosopher.setToken(new Token(i, philosopher));
-    }
+// assign tokens to every other philosopher
+for (int i = 0; i < nrPhilosophers - 1; i += 2) {
+    TokenPhilosopher philosopher = philosophers.get(i);
+    philosopher.setToken(new Token(i, philosopher));
+}
 
     </code></pre>
     <h3>Multiple Token Solution Evaluation</h3>
@@ -397,7 +389,8 @@
         <tbody>
         <tr>
             <td><b>Deadlocks</b></td>
-            <td>We again prevent deadlocks by avoiding the circular-wait condition.</td>
+            <td>We again prevent deadlocks by avoiding the circular-wait condition.
+            There are only ever ⌊n/2⌋/ [n/2] philosophers allowed to attempt pickup.</td>
         </tr>
         <tr>
             <td><b>Starvation and Fairness</b></td>
@@ -418,7 +411,7 @@
         </tr>
         <tr>
             <td><b>Performance</b></td>
-            <td>Again, there is a negligible performance overhead utilizing this additional logic. There is no central entity that philosophers have to go through, so there is high scalability present in this approach.</td>
+            <td>There is a negligible performance overhead utilizing this additional logic. Still no central entity, therefor there is a high scalability present in this approach.</td>
         </tr>
         </tbody>
     </table>
@@ -427,28 +420,23 @@
     <p>
         This algorithm shows promising results, including high potential concurrency,
         fairness in eating opportunities, and no risk of deadlocks.
-        It is also highly scalable in distributed environments,
+        It is also highly scalable,
         provided we know the number of philosophers and none drop out or "die."
         However, several major issues with this approach remain.
         First, congestion could occur when a philosopher eats for a very long time.
-        In such situations, the philosophers
-        are prevented from passing the token as long as the "long-eating" philosopher still holds its token.
-        This means
-        that this approach's improvements on concurrency only work properly
-        if we assume similarly distributed eat times.
         Secondly, we assume that philosophers will want to eat when they receive a token, however,
-        if very long thinking times occur, they will hold onto the token until they finish eating,
-        again leading to possible congestion in such cases.
+        if very long thinking times occur, they will hold onto the token until they finish thinking and eating,
+        again leading to congestion in such cases.
+
         In total, for this solution to perform optimally,
         we have to assume similar distributions in thinking and eating times,
         to not result in unnecessary long blocked times for other philosophers.
+
         We could improve this algorithm a little by allowing "long thinking"
         philosophers to pass the token to the next philosopher.
-        For this approach, however,
-        we would have to utilize a purposeful heuristic to define what a "long thinking time" is.
-        If the chosen heuristic is not adequate, we could end up passing a philosopher multiple times,
-        and when philosophers try to eat, they might have to wait to receive a token.
-        This is hard to manage and highly dependent on the simulation settings.
+        For this approach,
+        we would have to determine a good heuristic to define what a "long thinking time" is.
+        However, this could again lead to starvation, even with a well-chosen heuristic.
 
     </p>
 

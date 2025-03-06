@@ -5,16 +5,14 @@ import algorithms.AbstractPhilosopher;
 import algorithms.Distribution;
 import simulation.DiningTable;
 
-import java.util.concurrent.Semaphore;
-
 public class RestrictPhilosopher extends AbstractPhilosopher {
 
 
-    private final GlobalSemaphore globalSemaphore;
+    private final MultiPermitSemaphore multiPermitSemaphore;
 
-    public RestrictPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, GlobalSemaphore globalSemaphore) {
+    public RestrictPhilosopher(int id, AbstractChopstick leftChopstick, AbstractChopstick rightChopstick, DiningTable table, Distribution thinkistr, Distribution eatDistr, MultiPermitSemaphore multiPermitSemaphore) {
         super(id, leftChopstick, rightChopstick, table, thinkistr, eatDistr);
-        this.globalSemaphore = globalSemaphore;
+        this.multiPermitSemaphore = multiPermitSemaphore;
     }
 
     @Override
@@ -22,10 +20,10 @@ public class RestrictPhilosopher extends AbstractPhilosopher {
         try {
             while (!isInterrupted()) {
                 think();
-                globalSemaphore.semaphore.acquire();
+                multiPermitSemaphore.semaphore.acquire();
                 pickUpLeftChopstick();
                 pickUpRightChopstick();
-                globalSemaphore.semaphore.release();
+                multiPermitSemaphore.semaphore.release();
                 eat();
                 putDownLeftChopstick();
                 putDownRightChopstick();

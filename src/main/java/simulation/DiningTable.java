@@ -7,7 +7,7 @@ import algorithms.chandymisra.ChandyMisraPhilosopher;
 import algorithms.hierarchy.HierarchyPhilosopher;
 import algorithms.SimpleChopstick;
 import algorithms.naive.NaivePhilosopher;
-import algorithms.restrict.GlobalSemaphore;
+import algorithms.restrict.MultiPermitSemaphore;
 import algorithms.restrict.RestrictPhilosopher;
 import algorithms.restrictToken.RestrictToken;
 import algorithms.restrictToken.RestrictTokenPhilosopher_ChanceBased;
@@ -85,12 +85,12 @@ public class DiningTable {
                 break;
 
             case Algorithm.RESTRICT:
-                GlobalSemaphore globalSemaphore = new GlobalSemaphore(nrPhilosophers);
+                MultiPermitSemaphore multiPermitSemaphore = new MultiPermitSemaphore(nrPhilosophers);
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new SimpleChopstick(i));
                 }
                 for (int i = 0; i < nrPhilosophers; i++) {
-                    RestrictPhilosopher philosopher = new RestrictPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, globalSemaphore);
+                    RestrictPhilosopher philosopher = new RestrictPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, multiPermitSemaphore);
                     philosophers.add(philosopher);
                 }
 

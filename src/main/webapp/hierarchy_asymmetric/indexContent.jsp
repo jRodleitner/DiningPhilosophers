@@ -123,33 +123,34 @@
     </p>
     <pre style="font-size: 14px;"><code class="language-java">
 
-    class HierarchyPhilosopher extends Philosopher {
+class HierarchyPhilosopher extends Philosopher {
 
-        HierarchyPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
-            super(id, leftChopstick, rightChopstick);
-        }
+    HierarchyPhilosopher(int id, Chopstick leftChopstick, Chopstick rightChopstick) {
+        super(id, leftChopstick, rightChopstick);
+    }
 
     @Override
-        run() {
-            while (!terminate()) {
-                think();
+    run() {
+        while (!terminate()) {
+            think();
 
-                // pick up chopstick with lower id first
-                if(leftChopstick.getId() < rightChopstick.getId()){
-                    pickUpLeftChopstick();
-                    pickUpRightChopstick();
-                    eat();
-                    putDownLeftChopstick();
-                    putDownRightChopstick();
-                } else {
-                    pickUpRightChopstick();
-                    pickUpLeftChopstick();
-                    eat();
-                    putDownRightChopstick();
-                    putDownLeftChopstick();
-                }
+            // pick up chopstick with lower id first
+            if(leftChopstick.getId() < rightChopstick.getId()){
+                pickUpLeftChopstick();
+                pickUpRightChopstick();
+                eat();
+                putDownLeftChopstick();
+                putDownRightChopstick();
+            } else {
+                pickUpRightChopstick();
+                pickUpLeftChopstick();
+                eat();
+                putDownRightChopstick();
+                putDownLeftChopstick();
+            }
         }
     }
+}
     </code></pre>
 
     <h3>Hierarchy Solution Evaluation</h3>
@@ -179,8 +180,7 @@
                 to acquire their chopsticks.
                 This transforms Resource Hierarchy to a starvation-free solution,
                 with guaranteed acquiring of chopsticks.
-                We take no additional measures to enhance both eat-chance and time-fairness.
-                They depend heavily on the chosen distribution.
+                Unfortunately, in terms of eat-chance and eat-time fairness this is one of the worst performing solutions.
             </td>
         </tr>
 
@@ -188,8 +188,9 @@
             <td><b>Concurrency</b></td>
             <td>
                 Concurrency of the system is enhanced, compared to the naive approach.
-                Theoretically, this approach should provide us with improved concurrency,
-                since the longest path in the precedence graph is now one shorter.
+                In practice, this approach should provide us with improved concurrency,
+                since the longest path in the precedence graph is now shorter by one.
+                The larger the number of philosophers, the less the benefit of only turning one philosopher "right-handed".
             </td>
         </tr>
         <tr>
@@ -200,7 +201,7 @@
             <td><b>Performance</b></td>
             <td>Next to no overhead with the newly introduced logic.
                 Highly scalable, but the strict ordering of resources necessitates a highly static environment.
-                The larger the number of philosophers, the less the benefit of only turning one philosopher "right-handed".</td>
+                </td>
         </tr>
         </tbody>
     </table>
@@ -293,17 +294,16 @@
                 Again, the resource Asymmetric Solution does not guarantee that a philosopher will get a chance to eat by itself.
                 We enhance this solution, using the FIFO-enabled pickup of chopsticks to transform it to a starvation-free solution,
                 with a guarantee of eventual pickup.
-                We take no additional measures to enhance both eat-chance and time-fairness. They depend heavily on the chosen distribution.
+                Similar to Resource Hierarchy, in terms of eat-chance and eat-time fairness this is one of the worst performing solutions.
             </td>
         </tr>
 
         <tr>
             <td><b>Concurrency</b></td>
-            <td>Concurrency of the system is further improved on.
+            <td>Concurrency of the system is improved further.
                 We increase concurrency in our system due to the now minimal paths in the precedence graph.
                 Compared to the naive and the Resource Hierarchy implementation, we achieve better concurrency.
-                Note that this effect is often barely noticeable
-                in simulation runs with five or four philosophers and low simulation times.</td>
+                Note that this effect is often barely noticeable in simulation runs with five or four philosophers and low simulation times.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -312,7 +312,7 @@
         <tr>
             <td><b>Performance</b></td>
             <td>
-                No performance overhead due to the introduced logic. Highly scalable to arbitrary numbers of philosophers.
+                Again, next to no overhead due to the introduced logic. Highly scalable to arbitrary numbers of philosophers.
                 This approach is also more applicable to dynamic situations.
             </td>
         </tr>

@@ -382,13 +382,13 @@
 
                 <optgroup label="Waiter">
                     <option value="ATOMICWAITER" <%= "ATOMICWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Atomic Waiter
+                        Eat Permission Waiter
                     </option>
                     <option value="PICKUPWAITER" <%= "PICKUPWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Pickup Waiter
+                        Pickup Permission Waiter
                     </option>
                     <option value="INTELLIGENTWAITER" <%= "INTELLIGENTWAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
-                        Intelligent Pickup Waiter
+                        Intelligent Waiter
                     </option>
                     <option value="FAIR_CHANCE_WAITER" <%= "FAIR_CHANCE_WAITER".equals(request.getParameter("algorithm")) ? "selected" : "" %>>
                         Fair Waiter (Chance-based)

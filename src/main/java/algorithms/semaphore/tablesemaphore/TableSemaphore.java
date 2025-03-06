@@ -6,6 +6,6 @@ public class TableSemaphore {
     protected Semaphore semaphore;
 
     public TableSemaphore(){
-        semaphore = new Semaphore(1);
+        semaphore = new Semaphore(1, true);
     }
 }
