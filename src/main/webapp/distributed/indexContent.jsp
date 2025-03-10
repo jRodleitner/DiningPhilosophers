@@ -123,7 +123,9 @@
         In 1984, Chandy and Misra presented a highly scalable solution
         that also enables philosophers to contend for an arbitrary amount of resources.
         The solution is based on status flags of the chopsticks (clean, dirty), and the transfer of ownership.
+    </p>
 
+    <p>
         Here are the crucial details of the algorithm:
         Philosophers are assigned an ID.
         Chopsticks are owned by the philosopher with the lower ID.

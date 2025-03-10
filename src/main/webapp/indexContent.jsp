@@ -826,7 +826,7 @@ class Table {
             do not maintain a queue of waiting threads. This means that the thread that has waited the longest
             is not guaranteed to be allowed first.
             This concept is called Barging and has to be prevented to ensure fairness in our solutions.
-            Luckily, many of the synchronization methods in Java (for example, Semaphores) allow so-called fairness
+            Luckily, many of the synchronization methods in Java (for example, semaphores) allow so-called fairness
             parameters that will enable a FIFO (First In First Out) queue on the waiting threads.
 
         </p>
