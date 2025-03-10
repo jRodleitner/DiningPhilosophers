@@ -589,8 +589,8 @@ class FairWaiter {
         Long minEat = MAX_VALUE;
 
         //variable to track the current philosopher with the least eat-time
-        //eat-chance alternative: leastEatChancePhilosopher
-        FairEatTimePhilosopher leastEatTimePhilosopher;
+        //eat-chance alternative: FairPhilosopher leastEatChancePhilosopher;
+        FairPhilosopher leastEatTimePhilosopher;
 
         // find the philosopher with the minimum eat-chances/ eat-time
         for Each philosopher in philosophersQueue {
