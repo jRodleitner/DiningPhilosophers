@@ -129,7 +129,7 @@
         .post-it {
             background-color: #fffacd;
             border: 1px solid #ffd700;
-            max-height: 400px;
+            max-height: 200px;
             padding: 15px;
             width: 250px;
             font-family: Arial, sans-serif;
@@ -569,10 +569,6 @@
             problem
             without significantly changing its rules.
 
-            <!-- Another limitation is the assumption of preemption, where eating or thinking can be interrupted.
-            In real-world systems, tasks are often non-preemptive, meaning they must run to completion without being
-            suspended or terminated. -->
-
             Other constraints, such as the assumed homogeneity of resources (in reality, resources may have different
             constraints), time constraints (some processes must 'eat' within a specific timeframe), or unexpected
             unavailability (processes may crash or terminate), are also typically not accounted for.
@@ -945,7 +941,7 @@ class Chopstick {
                     <p>
                         To learn about solutions that focus on tokens being passed around by the philosophers:
                     </p>
-                    <a href="token" class="button">Token Solutions (2 Algorithms)</a>
+                    <a href="token" class="button">Circulating Token Solutions (2 Algorithms)</a>
                 </div>
 
                 <div class="description-box">
@@ -971,34 +967,33 @@ class Chopstick {
                     <a href="distributed" class="button">Distributed Solutions (2 Algorithms)</a>
                 </div>
 
-                <!--<div class="description-box">
-                    <p>
-                        To learn about some advanced solutions based on more recent literature:
-                    </p>
-                    <a href="advanced" class="button">Advanced Solutions</a>
-                </div> -->
 
             </div>
         </div>
         <div class="post-it">
             <h4>Note on Correct Solutions:</h4>
             <p>
-                Finding a correct solution to the dining philosophers problem has been shown to be no trivial task.
-                Many approaches have been proven to be incorrect in a later re-evaluation.
+                Finding a correct solution to the dining philosophers problem is not a trivial task.
             </p>
-            <p>Correct solutions must be:</p>
-            <ul>
-                <li><b>Deadlock-free</b></li>
-                <li><b>Starvation-free</b></li>
-                <li><b>Concurrent</b></li>
-                <li><b>Correctly Implemented</b> (correct usage of synchronization mechanisms)</li>
-            </ul>
+            <p>
+                Correct solutions must be completely deadlock-free. It is not sufficient for solutions to make deadlock incredibly unlikely.
+            </p>
+
         </div>
     </div>
 
 
 </section>
 
+<section id="performance tests">
+    <h2>Performance Tests</h2>
+
+    <p>
+        If you are interested in the performance tests that were conducted to measure algorithm performance:
+    </p>
+    <a href="performance" class="button">Performance Tests</a>
+
+</section>
 
 </body>
 </html>
