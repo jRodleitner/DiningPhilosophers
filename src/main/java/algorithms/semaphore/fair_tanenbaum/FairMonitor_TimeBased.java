@@ -32,7 +32,6 @@ public class FairMonitor_TimeBased {
                 !states[left].equals(Events.EAT) &&
                 !states[right].equals(Events.EAT)) {
 
-            //System.out.println("PH allowed: " + id);
             states[id] = Events.EAT;
             semaphores[id].release();
         }
@@ -63,7 +62,6 @@ public class FairMonitor_TimeBased {
 
         int[] sortedIndices = new int[eatTimes.length];
 
-        // Extract the sorted indices based on the sorted elements
         for (int i = 0; i < sortArray.length; i++) {
             sortedIndices[i] = sortArray[i].index;
         }

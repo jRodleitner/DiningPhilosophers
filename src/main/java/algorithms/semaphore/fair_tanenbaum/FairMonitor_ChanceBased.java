@@ -9,11 +9,11 @@ import java.util.concurrent.Semaphore;
 public class FairMonitor_ChanceBased {
     private final String[] states;
     protected Semaphore[] semaphores;
-    private final int[] eatTimes;
+    private final int[] eatChances;
     Semaphore mutex;
 
     public FairMonitor_ChanceBased(int nrPhilosophers) {
-        eatTimes = new int[nrPhilosophers];
+        eatChances = new int[nrPhilosophers];
         states = new String[nrPhilosophers];
         semaphores = new Semaphore[nrPhilosophers];
         for (int i = 0; i < nrPhilosophers; i++) {
@@ -31,14 +31,13 @@ public class FairMonitor_ChanceBased {
                 !states[left].equals(Events.EAT) &&
                 !states[right].equals(Events.EAT)) {
 
-            //System.out.println("PH allowed: " + id);
             states[id] = Events.EAT;
             semaphores[id].release();
         }
     }
 
     protected void updateEatTime(int id){
-        eatTimes[id]++;
+        eatChances[id]++;
     }
 
     protected void updateState(int id, String state){
@@ -53,16 +52,15 @@ public class FairMonitor_ChanceBased {
     }
 
     private int[] sortByEatingTimes(){
-        EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatTimes.length];
-        for (int i = 0; i < eatTimes.length; i++) {
-            sortArray[i] = new EatTimeWithIndex(eatTimes[i], i);
+        EatTimeWithIndex[] sortArray = new EatTimeWithIndex[eatChances.length];
+        for (int i = 0; i < eatChances.length; i++) {
+            sortArray[i] = new EatTimeWithIndex(eatChances[i], i);
         }
 
-        Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatTime));
+        Arrays.sort(sortArray, Comparator.comparingInt(e -> e.eatChances));
 
-        int[] sortedIndices = new int[eatTimes.length];
+        int[] sortedIndices = new int[eatChances.length];
 
-        // Extract the sorted indices based on the sorted elements
         for (int i = 0; i < sortArray.length; i++) {
             sortedIndices[i] = sortArray[i].index;
         }
@@ -70,10 +68,10 @@ public class FairMonitor_ChanceBased {
     }
 
     private static class EatTimeWithIndex{
-        int eatTime;
+        int eatChances;
         int index;
-        public EatTimeWithIndex(int eatTime, int index){
-            this.eatTime = eatTime;
+        public EatTimeWithIndex(int eatChances, int index){
+            this.eatChances = eatChances;
             this.index = index;
         }
     }
