@@ -3,7 +3,7 @@
 <head>
     <title><%= request.getParameter("pageTitle") %></title>
     <style>
-        /* Add your generic CSS here */
+
 
         body {
             font-family: Arial, sans-serif;
@@ -38,25 +38,25 @@
         }
 
         .nav-button::after {
-            content: ''; /* Create the line */
-            display: block; /* Allows the line to take up the correct space */
-            width: 0; /* Start with no width */
-            height: 2px; /* Thickness of the underline */
-            background-color: #e0e0e0; /* Color of the underline */
-            position: relative; /* Position it relative to the text */
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: #e0e0e0;
+            position: relative;
             left: 0;
             bottom: 0;
-            transition: width 0.3s ease; /* Smooth transition */
+            transition: width 0.3s ease;
         }
 
         .nav-button:hover::after {
-            width: 100%; /* Expand the line to full width of the text on hover */
+            width: 100%;
         }
 
 
         .nav-button:not(:last-child) {
-            border-right: 1px solid #ccc; /* Add vertical line between buttons */
-            padding-right: 20px; /* Add padding to make space for the line */
+            border-right: 1px solid #ccc;
+            padding-right: 20px;
         }
 
         footer {

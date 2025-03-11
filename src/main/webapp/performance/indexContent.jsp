@@ -66,19 +66,23 @@
 
     <p>
         This page contains the results of performance tests on all the presented approaches, and how to interpret them.
+        For each algorithm multiple simulation runs are averaged to come up with individual scores.
+        This is also done for each of the four distributions, since algorithm performance is very different depending on which distribution is used.
 
     </p>
 
     <h3>Degree of concurrency</h3>
 
     <p>
-        Scores close to two indicate ideal concurrency, while those under one indicate no concurrency.
-        Four classes are used to classify algorithms:
+        The concurrency score (CS) is calculated by averaging several simulation runs, in this case 20.
+        For simulation runs with five philosophers, scores close to two indicate ideal concurrency, while those under one indicate no concurrency.
+        Since concurrent performance also depends heavily on the chosen distribution, the concurrency scores from the different distributions are averaged.
+        Four classes are used to classify algorithms according to this Average Concurrency Score:
     </p>
     <table>
         <tr>
-            <th>CS</th>
-            <th>Fairness Score Abbreviations</th>
+            <th>Average Concurrency Score (Average CS)</th>
+            <th>Ranges</th>
         </tr>
         <tr><td>No Concurrency</td><td>0 - 1.0</td></tr>
         <tr><td></td><td></td></tr>
@@ -92,15 +96,14 @@
 
     <h3>Fairness </h3>
     <p>
-        Two separate scores for performance are measured:
+        The two scores for eat-chance fairness, and eat-time fairness are again obtained by averaging several simulation runs.
     </p>
     <table>
         <tr>
-            <th>CS</th>
-            <th>Concurrency Score for 5 philosophers</th>
+            <th>FS</th>
+            <th>Fairness Score</th>
         </tr>
-        <tr><td>FS</td><td>Fairness Score</td></tr>
-        <tr><td></td><td></td></tr>
+
         <tr><td>ECFS</td><td>Eat Chance Fairness Score</td></tr>
         <tr><td></td><td></td></tr>
         <tr><td>ETFS</td><td>Eat Time Fairness Score</td></tr>
@@ -109,9 +112,10 @@
     </table>
 
     <p>
-        Algorithm improvements are calculated in percentage decrease compared to the base versions of fairness improving algorithms.
+        As both metrics are standard deviations of philosophers eat-chances or eat-times lower values indicate better fairness.
+        Algorithm improvements are calculated in percentage decrease of standard deviation compared to the base versions of fairness enhancing algorithms.
         Fair Waiter is compared to Pickup Permission Waiter, Fair Tanenbaum is compared to Tanenbaum, The Circulating Token, and Restrict Token algorithms are compared to the Naive approach.
-        Improvements above 20% are viewed as significant.
+        Improvements above 20% can be interpreted as being significant.
     </p>
 
 
@@ -305,7 +309,7 @@
     </table>
 
     <p>
-        Since concurrent performance depends heavily on the chosen distribution, fairness scores are averaged.
+
     </p>
 
     <table>

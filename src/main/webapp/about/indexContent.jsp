@@ -1,10 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jonar
-  Date: 08.10.2024
-  Time: 06:45
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -41,10 +35,15 @@
             margin-right: 1cm;
         }
 
-        li {
-            margin-left: 2em;
-            text-indent: -2em;
+        ul {
+            list-style-type: none;
+            padding: 0;
         }
+        li {
+            margin-bottom: 15px;
+        }
+
+
     </style>
 </head>
 <body>
@@ -56,46 +55,89 @@
     I present and evaluate several Algorithms, with which you can interact and learn about on the
     Simulation and Animation pages.
 
-    <h3>Bibliography: </h3>
+    <h3>Books and academic research used:</h3>
     <ol>
-        <li id="citation1" >[1] Dijkstra, Edsger W. EWD-1000. E.W. Dijkstra Archive. Center for American History, University of Texas at Austin. https://www.cs.utexas.edu/~EWD/ewd10xx/EWD1000.PDF</li>
-        <li id="citation2" >[2] Andrew S. Tanenbaum. Operating Systems: Design and Implementation. 3rd edition. Pearson Education, Inc., 2006.</li>
-        <li id="citation3" >[3] Dijkstra, E. W. Hierarchical ordering of sequential processes. Acta Informatica 1(2): 115–138, 1971</li>
-        <li id="citation4" >[4] Andrew S. Tanenbaum, Herbert Bos. Modern Operating Systems. 4th edition. Pearson Education, Inc., 2015. ????</li>
-        <li id="citation5" >[5] Allen B. Downey. The Little Book of Semaphores. 2nd edition. Green Tea Press, 2011 p????.</li>
-        <li id="citation6" >[6] Nancy A. Lynch. Distributed Algorithms. Morgan Kaufmann, 1996. p. ?????</li>
-        <li id="citation7" >[7] R. Davidrajuh. "Verifying Solutions to the Dining Philosophers Problem with Activity-Oriented Petri Nets." Proceedings of the 4th International Conference on Artificial Intelligence with Applications in Engineering and Technology (ICAIET), 2014, pp. 163–168.</li>
-        <li id="citation8" >[8] C. A. R. Hoare. Communicating Sequential Processes. NJ, USA: Prentice Hall, 1985.</li>
-        <li id="citation9" >[9] William Stallings. Operating Systems: Internals and Design Principles. 9th edition. Harlow, Essex, England: Pearson, 2018, p. 310. ???? </li>
-        <li id="citation10" >[10] K. M. Chandy, J. Misra. "The Drinking Philosophers Problem." ACM Transactions on Programming Languages and Systems, 1984. </li>
-        <li id="citation11" >[11] Abraham Silberschatz, Peter B. Galvin, Greg Gagne. Operating System Concepts. 10th edition. Wiley, 2018. p ?????</li>
-        <li id="citation12" >[12] Lars Wanhammar. "DSP Algorithms." In DSP Integrated Circuits, Academic Press, 1999, pp. 225–275. </li>
-        <li id="citation13" >[13] Edward G. Coffman Jr., Michael J. Elphick, Arie Shoshani. "System Deadlocks." ACM Computing Surveys, vol. 3, no. 2, 1971, pp. 67–78. </li>
-        <li id="citation14" >[14] Hagit Attiya, Roy Friedman. "Local and Global Fairness in Concurrent Systems." Proceedings of the 12th Annual ACM Symposium on Principles of Distributed Computing, 1993, pp. 163–174.</li>
-        <li id="citation15" >[15] Goetz, Brian, et al. Java Concurrency in Practice. Addison-Wesley Professional, 2006.</li>
+        <li>Matthew J. Sottile, Timothy G. Mattson, Craig E. Rasmussen - <i>Introduction to Concurrency in Programming Languages</i> (2009) - <a href="https://www.taylorfrancis.com/books/mono/10.1201/b17174/introduction-concurrency-programming-languages-matthew-sottile-timothy-mattson-craig-rasmussen">Link</a></li>
+
+        <li>Brian Goetz, Tim Peierls, Joshua Bloch, Joseph Bowbeer, David Holmes, Doug Lea - <i>Java Concurrency in Practice</i> (2006)</li>
+
+        <li>Andrew S. Tanenbaum, Herbert Bos - <i>Modern Operating Systems</i> (4th ed., 2015)</li>
+
+        <li>Andrew S. Tanenbaum, Maarten Van Steen - <i>Distributed Systems: Principles and Paradigms</i> (2nd ed., 2007)</li>
+
+        <li>Abraham Silberschatz, Peter B. Galvin, Greg Gagne - <i>Operating System Concepts</i> (10th ed., 2018)</li>
+
+        <li>Nancy A. Lynch - <i>Distributed Algorithms</i> (1996)</li>
+
+        <li>Allen B. Downey - <i>The Little Book of Semaphores</i> (2nd ed., 2011) - <a href="https://greenteapress.com/semaphores/">Link</a></li>
+
+        <li>William Stallings - <i>Operating Systems: Internals and Design Principles</i> (9th ed., 2018)</li>
+
+
+        <li>Arnold Buss, Ahmed Al Rowaei - <i>A Comparison of the Accuracy of Discrete Event and Discrete Time</i> (2010) - <a href="https://doi.org/10.1109/WSC.2010.5679045">Link</a></li>
+
+        <li>C. A. R. Hoare - <i>Communicating Sequential Processes</i> (1978) - <a href="https://doi.org/10.1145/359576.359585">Link</a></li>
+
+        <li>E. W. Dijkstra - <i>EWD 1000</i> (1987) - <a href="http://www.cs.utexas.edu/users/EWD/">Link</a></li>
+
+        <li>E. W. Dijkstra - <i>Hierarchical Ordering of Sequential Processes</i> (1971) - <a href="https://doi.org/10.1007/BF00289517">Link</a></li>
+
+        <li> Coffman, Edward G. Jr., Elphick, Michael J., Shoshani, Arie - <i>System Deadlocks</i> (1971) - <a href="https://dl.acm.org/doi/10.1145/356586.356588" target="_blank">Link</a> </li>
+
+        <li> Davidrajuh, R. - <i>Verifying Solutions to the Dining Philosophers Problem with Activity-Oriented Petri Nets</i> (2014) - <a href="https://ieeexplore.ieee.org/document/7351829" target="_blank">Link</a> </li>
+
+        <li> Krishnaprasad, S. - <i>Concurrent/Distributed Programming Illustrated Using the Dining Philosophers Problem</i> (2003) - <a href="https://dl.acm.org/doi/abs/10.5555/767598.767617" target="_blank">Link</a> </li>
+
+        <li>Chandy, K. M., Misra, J. - <i>The Drinking Philosophers Problem</i> (1984) - <a href="https://dl.acm.org/doi/10.1145/1780.1804">Link</a> </li>
+
+        <li>Armando R. Gingras - <i>Dining Philosophers Revisited</i> (1990) - <a href="https://doi.org/10.1145/101085.101091">Link</a></li>
+
+
     </ol>
 
-    <h3>Web Sources Used:</h3>
+    <h3>Web Resources Used:</h3>
     <ol>
-        <li id="w_citation1">[15] URL: https://zerobone.net/blog/cs/dining-philosophers-problem/</li>
-        <li id="w_citation2">[16] URL: https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/locks/ReentrantLock.html</li>
-        <li id="w_citation3">[17] URL: https://www.stolaf.edu/people/rab/pdc/text/dpsolns.html?utm_source=chatgpt.com</li>
-        <li id="w_citation4">[18] URL: https://softwaresim.com/blog/introduction-to-discrete-time-simulation/ </li>
+        <li>Wikipedia contributors - <i>Dining Philosophers Problem</i> - <a href="https://en.wikipedia.org/wiki/Dining_philosophers_problem">Link</a></li>
 
-        <li id="w_citation5">[5] Another Author, "Another Source", Another Publisher, Year.</li>
-        <li id="w_citation6">[6] Another Author, "Another Source", Another Publisher, Year.</li>
-        <li id="w_citation7">[7] Another Author, "Another Source", Another Publisher, Year.</li>
-        <li id="w_citation8">[8] Another Author, "Another Source", Another Publisher, Year.</li>
-        <li id="w_citation9">[9] Another Author, "Another Source", Another Publisher, Year.</li>
+        <li>Oracle - <i>Java Language Specification, Java SE 8 Edition: Section 17.2.2</i> (2014) - <a href="https://docs.oracle.com/javase/specs/jls/se8/html/jls-17.html#jls-17.2.2">Link</a></li>
+
+        <li>Oracle - <i>ReentrantLock</i> - <a href="https://docs.oracle.com/javase/1.5.0/docs/api/java/util/concurrent/locks/ReentrantLock.html">Link</a></li>
+
+        <li>Oracle - <i>Semaphore</i> - <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/Semaphore.html">Link</a></li>
+
+        <li>Oracle - <i>Synchronization Methods</i> - <a href="https://docs.oracle.com/javase/tutorial/essential/concurrency/syncmeth.html">Link</a></li>
+
+        <li>Alexander Mayorov - <i>The Dining Philosophers Problem and Different Ways of Solving It</i> (2021) - <a href="https://zerobone.net/blog/cs/dining-philosophers-problem/">Link</a></li>
+
+        <li>Impact Media Lab - <i>Visual Design for SciComm</i> - <a href="https://www.impactmedialab.com/scicomm/visual-design-for-scicomm">Link</a></li>
+
+        <li>Anonymous - <i>Dining Philosophers Code Example</i> - <a href="https://ideone.com/GQie7p">Link</a></li>
+
+        <li>Richard Allen Bartle - <i>Solutions to the Dining Philosophers Problem</i> - <a href="https://www.stolaf.edu/people/rab/pdc/text/dpsolns.html">Link</a></li>
     </ol>
 
-    <h3>Technologies/ Libraries Used:</h3>
+    <h3>Technologies/ Libraries used:</h3>
     <ol>
-        <li>Pseudocode Highlighting: Prism.js URL: https://prismjs.com/</li>
-        <li>Web Server - Backend: Jakarta Servlet URL: https://jakarta.ee/specifications/servlet/</li>
-        <li>Web Server Deployment: Apache Tomcat URL: https://tomcat.apache.org/</li>
-        <li>IDE: Intellij</li>
-        <li>Project Build: Maven</li>
+        <li>Language: Java 22 - <a href="https://www.oracle.com/java/technologies/javase/jdk22-archive-downloads.html">Link</a></li>
+        <li>Pseudocode Highlighting: Prism.js - <a href="https://prismjs.com/">Link</a></li>
+        <li>Web Server - Backend: Jakarta Servlet - <a href="https://jakarta.ee/specifications/servlet/">Link</a></li>
+        <li>Web Server Deployment: Apache Tomcat - <a href="https://tomcat.apache.org/">Link</a></li>
+        <li>IDE used: IntelliJ - <a href="https://www.jetbrains.com/idea/">Link</a></li>
+        <li>Project Build: Maven - <a href="https://maven.apache.org/">Link</a></li>
+    </ol>
+
+    <h3>Related Work:</h3>
+    <ol>
+
+        <li>Justin DeBenedetto et al. - <i>Placating Plato with Plates of Pasta: An Interactive Tool for Teaching the Dining Philosophers Problem</i> (2017) - <a href="https://doi.org/10.1109/FIE.2017.8190443">Link</a></li>
+
+        <li>University of Notre Dame - <i>Interactive Explanation of the Dining Philosophers Problem</i> - <a href="https://nlp.nd.edu/justin/dining/interactiveExplanation.php">Link</a></li>
+
+        <li>Dmitry Zinoviev - <i>Discrete Event Simulation: It's Easy with SimPy!</i> (2018) - <a href="https://doi.org/10.48550/arXiv.2405.01562">Link</a></li>
+
+        <li> Wilensky, U. - <i>NetLogo Dining Philosophers Model</i> (2003) - <a href="http://ccl.northwestern.edu/netlogo/models/DiningPhilosophers">Link</a></li>
+
+        <li> Nguyen, T. M., Nguyen, C. D., Nguyen, T. H., Ngo, T. T. H. - <i>OS Dining Philosopher - University Project</i> (2022) - <a href="https://github.com/minhngt62/os-dining-philosopher" target="_blank">Link</a> </li>
     </ol>
 </div>
 </body>
