@@ -508,7 +508,7 @@ class IntelligentPickupPermissionPhilosopher extends Philosopher {
 
         <tr>
             <td><b>Concurrency</b></td>
-            <td>This approach lets us enhance concurrency in our system by avoiding handing permission to a philosopher adjacent to a currently eating neighbor, whenever possible.</td>
+            <td>This approach lets us enhance concurrency in our system by avoiding handing permission to a philosopher adjacent to a currently eating neighbor, whenever possible. Therefor this solution -on average- outperforms Pickup Permission Waiter.</td>
         </tr>
         <tr>
             <td><b>Implementation</b></td>
@@ -702,7 +702,7 @@ class FairPhilosopher extends Philosopher {
                 For the eat-chance fairness implementation, we allow the philosopher to eat who has eaten the least time. Similarly,
                 the eat-time approach additionally takes the distribution of eat-times into account and can potentially compensate for large outliers.
                 We act on this prioritization whenever possible (if no philosopher is in the queue, we pick the first one that requests the chopsticks).
-                Both approaches let us effectively enhance different aspects of fairness.
+                Both approaches let us effectively enhance different aspects of fairness compared to Pickup Permission Waiter.
             </td>
         </tr>
         <tr>

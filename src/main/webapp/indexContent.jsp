@@ -341,7 +341,7 @@
             Cyclic dependencies like these indicate potential deadlocks in a system (essentially a visualization of the
             circular-wait condition).
             Avoiding this circular pattern is one of the main ways we are going to prevent deadlocks in a
-            dining philosophers solution.
+            Dining Philosophers solution.
             Another crucial detail is the length of the precedence path, as it is at the maximum length in the naive
             approach.
             Long paths in a precedence graph mean that there are potentially long waiting chains that harm parallelism.
@@ -358,7 +358,7 @@
             The goal is to make sure that every philosopher has a fair chance to eat (and not starve), we call this
             fairness.
 
-            There are several ways in which starvation and fairness can be defined for the dining philosophers problem.
+            There are several ways in which starvation and fairness can be defined for the Dining Philosophers problem.
             In the following, we want to consider starvation as the theoretical possibility of philosophers not being
             able to eat at all after a certain point in time.
 
@@ -565,7 +565,7 @@
             For example, with 5 philosophers, <b>⌊5/2⌋</b> equals <b>2</b>, meaning that at most,
             two philosophers can eat at the same time.
             In real-world systems, access to shared resources often involves more complex dependencies, where multiple
-            processes may share more than two resources, which cannot be replicated using the dining philosophers
+            processes may share more than two resources, which cannot be replicated using the Dining Philosophers
             problem
             without significantly changing its rules.
 
@@ -792,14 +792,14 @@ class Table {
             </tr>
             <tr>
                 <td><b>Concurrency</b></td>
-                <td>The naive dining philosophers solution has a limited potential for concurrency (as long as deadlocks
+                <td>The naive Dining Philosophers solution has a limited potential for concurrency (as long as deadlocks
                     do not occur). This is due to the long path in the precedence graph, leading to potential long waiting chains.
                     Simulations frequently have low/no concurrency because of this.
                 </td>
             </tr>
             <tr>
                 <td><b>Implementation</b></td>
-                <td>Implementation of the naive dining philosophers is relatively simple with knowledge of concurrent
+                <td>Implementation of the naive Dining Philosophers is relatively simple with knowledge of concurrent
                     programming.
                 </td>
             </tr>
@@ -829,7 +829,7 @@ class Table {
         <p>
             For exactly this reason, we utilize fair semaphores to control access to chopsticks in the solutions we
             explore.
-            This will prevent barging and thus the re-acquiring of chopsticks (contrary to the "naive" chopstick
+            This will prevent barging and thus the re-acquiring of chopsticks (contrary to the naive chopstick
             class).
             Now, even if the Operating System or Java VM re-schedule or suspend threads, we can guarantee that the
             longest waiting philosopher will acquire the chopstick first
@@ -973,7 +973,7 @@ class Chopstick {
         <div class="post-it">
             <h4>Note on Correct Solutions:</h4>
             <p>
-                Finding a correct solution to the dining philosophers problem is not a trivial task.
+                Finding a correct solution to the Dining Philosophers problem is not a trivial task.
             </p>
             <p>
                 Correct solutions must be completely deadlock-free. It is not sufficient for solutions to make deadlock incredibly unlikely.
