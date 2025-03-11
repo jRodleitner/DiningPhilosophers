@@ -118,7 +118,7 @@
 <div class="description">
     <img src="../pictures/chandymisra.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        The classic Dining Philosophers Problem does not allow communication between philosophers.
+        The classic Dining Philosophers problem does not allow communication between philosophers.
         For the following solution, we want to ignore this and explore an approach that depends on messages.
         In 1984, Chandy and Misra presented a highly scalable solution
         that also enables philosophers to contend for an arbitrary amount of resources.

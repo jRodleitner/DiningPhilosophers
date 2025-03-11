@@ -129,7 +129,7 @@
     <h2>Table Semaphore Solution</h2>
     <p>
         Locking the whole table with a fair semaphore during pickup phase is one of the simplest solutions
-        to avoid deadlocks for the dining philosophers.
+        to avoid deadlocks for the Dining Philosophers.
         Philosophers have to acquire the semaphore before picking up their chopsticks,
         if the semaphore is currently not available, they wait until it becomes free again.
         After they are done picking up, they release the semaphore, and another philosopher can proceed.
@@ -249,7 +249,7 @@ class SemaphorePhilosopher extends Philosopher {
     <h2>Restrict Solution</h2>
     <img src="../pictures/restrict.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        Another effective method to prevent deadlocks in the dining philosophers problem is to limit the number of
+        Another effective method to prevent deadlocks in the Dining Philosophers problem is to limit the number of
         philosophers that are allowed to attempt pickups at the same time.
         For a group of n philosophers, we restrict this number to n-1, meaning only n-1 philosophers can try to pick up
         their chopsticks simultaneously.

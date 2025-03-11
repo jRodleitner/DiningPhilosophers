@@ -106,7 +106,7 @@
     <img src="../pictures/resource.svg" alt="Dining Philosophers Problem" width="400" height="350"> <br>
 
     <p>
-        The resource hierarchy solution to the Dining Philosophers Problem works by assigning a unique id to the
+        The resource hierarchy solution to the Dining Philosophers problem works by assigning a unique id to the
         chopsticks (resources), numbered from 0 to (n−1).
         Philosophers always attempt to pick up the lower-numbered chopstick first before picking up the higher-numbered
         one.

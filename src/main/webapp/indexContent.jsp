@@ -219,7 +219,7 @@
             This cycle runs for all philosophers simultaneously.
             In our case, we want the process to run until a specified timeout is reached.
             When this time limit is reached, all philosophers are terminated.
-            Note that the Dining Philosophers Problem can be formulated in several ways, and this is just one of them.
+            Note that the Dining Philosophers problem can be formulated in several ways, and this is just one of them.
         </p>
         <img src="pictures/eatsleep.png" alt="Dining Philosophers Problem" width="400" height="60">
         <br>
@@ -292,7 +292,7 @@
     <section id="challenges">
         <h2>Challenges</h2>
         <p>
-            There are three main challenges we encounter in the Dining Philosophers Problem:
+            There are three main challenges we encounter in the Dining Philosophers problem:
             Deadlocks, starvation/fairness and concurrency.
             We also introduce two "side challenges": implementation and performance.
             The effectiveness of our solution in addressing one or more of these challenges will help us evaluate the
@@ -330,7 +330,7 @@
         <p>
             At this stage, it is useful to introduce the concept of "precedence graphs", which are used to
             represent dependencies between tasks.
-            In the context of the Dining Philosophers Problem, each philosopher is
+            In the context of the Dining Philosophers problem, each philosopher is
             represented as a node,
             and the directed arrows indicate the dependency of having to wait for a chopstick.
             Since all philosophers have to wait
@@ -918,7 +918,7 @@ class Chopstick {
             <div class="description">
                 <p>
                     The following buttons lead to pages that will introduce you to different approaches
-                    to solving the Dining Philosophers Problem.
+                    to solving the Dining Philosophers problem.
                     They each contain descriptions and evaluations to get insight into their performance,
                     relating to the challenges discussed earlier.
                 </p>
