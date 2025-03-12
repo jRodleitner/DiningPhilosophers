@@ -42,8 +42,10 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
 
     private void requestChopsticksIfNecessary() throws InterruptedException {
         goingToEatRequest = true;
-        waitForChopstick(leftChopstick);
-        waitForChopstick(rightChopstick);
+        while(leftChopstick.owner != this || rightChopstick.owner != this) {
+            waitForChopstick(leftChopstick);
+            waitForChopstick(rightChopstick);
+        }
         goingToEatRequest = false;
     }
 
@@ -75,9 +77,9 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
         pickUpLeftChopstick();
         pickUpRightChopstick();
         eat();
-        rightChopstick.isClean = leftChopstick.isClean = false;
         putDownLeftChopstick();
         putDownRightChopstick();
+        rightChopstick.isClean = leftChopstick.isClean = false;
     }
 
     @Override
@@ -101,7 +103,7 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     }
 
     //________________________________________________________________________________________________________________//
-    //____________________________________________Modified pickUps/putDowns___________________________________________//
+    //____________________________________________Modified pickUps/putDowns for efficiency____________________________//
     //________________________________________________________________________________________________________________//
 
     @Override
@@ -134,7 +136,6 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
 
         if (simulatePickups) {
             table.lockClock();
-            //leftChopstick.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNLEFT, table.getCurrentTime());
             table.unlockClock();
@@ -149,7 +150,6 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
 
         if (simulatePickups) {
             table.lockClock();
-            //rightChopstick.putDown(this);
             table.advanceTime();
             sbLog(id, Events.PUTDOWNRIGHT, table.getCurrentTime());
             table.unlockClock();

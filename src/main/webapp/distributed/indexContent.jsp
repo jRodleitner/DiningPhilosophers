@@ -195,10 +195,12 @@ class ChandyMisraPhilosopher extends Philosopher {
         // signal intention to eat
         goingToEatRequest = true;
 
-        waitForChopstick(leftChopstick);
-        waitForChopstick(rightChopstick);
-
-        // reset the request after obtaining chopsticks
+        //check if both chopsticks are owned
+        while(leftChopstick.owner != this || rightChopstick.owner != this) {
+            waitForChopstick(leftChopstick);
+            waitForChopstick(rightChopstick);
+        }
+        // reset the request after obtaining ownership of both chopsticks
         goingToEatRequest = false;
     }
 

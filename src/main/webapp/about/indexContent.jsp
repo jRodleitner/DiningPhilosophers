@@ -49,12 +49,13 @@
 <body>
 <h2>About</h2>
 <div class="description">
-    Hi, my name is Jona, I am a Computer Science Student at Johannes Kepler University in Linz, Austria.
-    This Website is the Project for my Bachelors Thesis and aims to provide a deeper understanding of the
-    Dining Philosophers Problem.
-    I present and evaluate several Algorithms, with which you can interact and learn about on the
-    Simulation and Animation pages.
-
+    <p>
+        Hi, my name is Jona, I am a Computer Science Student at Johannes Kepler University in Linz, Austria.
+        This Website is the Project for my Bachelors Thesis "Building a webapplication to compare algorithms for coordinating processes", and aims to provide a deeper understanding of the
+        Dining Philosophers Problem.
+        I present and evaluate several Algorithms, with which you can interact and learn about on the
+        Simulation and Animation pages.
+    </p>
     <h3>Books and Academic Research used:</h3>
     <ol>
         <li>Matthew J. Sottile, Timothy G. Mattson, Craig E. Rasmussen - <i>Introduction to Concurrency in Programming Languages</i> (2009) - <a href="https://www.taylorfrancis.com/books/mono/10.1201/b17174/introduction-concurrency-programming-languages-matthew-sottile-timothy-mattson-craig-rasmussen">Link</a></li>
