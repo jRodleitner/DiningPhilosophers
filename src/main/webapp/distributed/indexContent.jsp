@@ -316,7 +316,7 @@ class ChandyMisraChopstick extends Chopstick {
             <td><b>Deadlocks</b></td>
             <td>Deadlocks are prevented because philosophers always have to hand out "dirty" chopsticks when requested,
                 and they have to "own" both to proceed to pick up chopsticks and eat.
-                This lets us avoid the circular wait condition.
+                This, in combination with the initial asymmetric assignment of chopstick ownership lets us avoid the circular wait condition.
             </td>
         </tr>
         <tr>
