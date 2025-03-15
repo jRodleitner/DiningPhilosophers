@@ -52,8 +52,8 @@
     <p>
         Hi, my name is Jona, I am a Computer Science Student at Johannes Kepler University in Linz, Austria.
         This Website is the Project for my Bachelors Thesis "Building a webapplication to compare algorithms for coordinating processes", and aims to provide a deeper understanding of the
-        Dining Philosophers Problem.
-        I present and evaluate several Algorithms, with which you can interact and learn about on the
+        Dining Philosophers Problem and concurrent algorithms in general.
+        I present and evaluate several algorithms, with which you can interact and learn about on the
         Simulation and Animation pages.
     </p>
     <h3>Books and Academic Research used:</h3>

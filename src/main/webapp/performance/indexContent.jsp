@@ -75,7 +75,7 @@
 
     <p>
         The concurrency score (CS) is calculated by averaging several simulation runs, in this case 20.
-        For simulation runs with five philosophers, scores close to two indicate ideal concurrency, while those under one indicate no concurrency.
+        For simulation runs with 5 philosophers, scores close to two indicate ideal concurrency, while those under one indicate no concurrency.
         Since concurrent performance also depends heavily on the chosen distribution, the concurrency scores from the different distributions are averaged.
         Four classes are used to classify algorithms according to this Average Concurrency Score:
     </p>

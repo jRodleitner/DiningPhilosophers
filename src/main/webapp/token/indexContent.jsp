@@ -237,7 +237,7 @@ initialPhilosopher.setToken(token);
 
     <h3>Global Token Solution Evaluation</h3>
     <p>
-        Now Let us evaluate the Global Token solution according to the key challenges
+        Now Let us evaluate the Global Token solution according to the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>
@@ -371,7 +371,7 @@ for (int i = 0; i < nrPhilosophers - 1; i += 2) {
     </code></pre>
     <h3>Multiple Token Solution Evaluation</h3>
     <p>
-        Now Let us evaluate the Multiple Token solution according to the key challenges
+        Now Let us evaluate the Multiple Token solution according to the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>

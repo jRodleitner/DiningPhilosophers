@@ -156,7 +156,7 @@ class HierarchyPhilosopher extends Philosopher {
     <h3>Hierarchy Solution Evaluation</h3>
     <img src="../pictures/precedence_hierarchy.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        Now let us evaluate the Resource Hierarchy algorithm according to the key challenges:
+        Now let us evaluate the Resource Hierarchy algorithm according to the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>
@@ -274,7 +274,7 @@ class HierarchyPhilosopher extends Philosopher {
     <h3>Asymmetric Solution Evaluation</h3>
     <img src="../pictures/precedence_asymmetric.svg" alt="Dining Philosophers Problem" width="400" height="350">
     <p>
-        Let us again evaluate the given Algorithm according to the key challenges:
+        Let us again evaluate the given Algorithm according to the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>

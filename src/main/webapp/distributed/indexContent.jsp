@@ -302,7 +302,7 @@ class ChandyMisraChopstick extends Chopstick {
     <h3>Chandy Misra Solution Evaluation </h3>
 
     <p>
-        Now let us evaluate the Chandy-Misra Algorithm according to the key challenges:
+        Now let us evaluate the Chandy-Misra Algorithm according to the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>
@@ -519,7 +519,7 @@ class RestrictTokenPhilosopher extends Philosopher {
 
     <h3>Restrict Token Solution Evaluation</h3>
 
-    <p>Now let us evaluate the Restrict Token solution based on the key challenges:</p>
+    <p>Now let us evaluate the Restrict Token solution based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>

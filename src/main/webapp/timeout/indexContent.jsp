@@ -206,7 +206,7 @@ class TimeoutChopstick extends Chopstick {
     </code></pre>
     <h3>Timeout Solution Evaluation </h3>
     <p>
-        Now let us evaluate the Timeout Algorithm according to the key challenges:
+        Now let us evaluate the Timeout Algorithm according to the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>

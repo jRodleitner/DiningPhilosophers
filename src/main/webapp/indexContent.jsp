@@ -170,6 +170,7 @@
                 The problem helps us explore important concepts like deadlocks and fairness.
                 Edsger Dijkstra introduced it to the Computer Science community in 1965.
                 We will look at the problem in detail, discuss its challenges, and explore several solutions.
+                For each solution, we evaluate algorithms according to their capabilities in addressing concurrency challenges.
                 This website features a Java-based Simulation and Animation page
                 that will let you experiment with the discussed concepts.
             </p>
@@ -352,7 +353,7 @@
             Starvation happens when a philosophers rarely, or never, get a chance to eat. The prime example
             of starvation is deadlocks, which starve all philosophers.
             Other examples of starvation are: One philosopher repeatedly grabs the
-            chopstick first, stopping the neighbor from eating.
+            chopstick first, stopping a neighbor from eating.
             One philosopher takes a very long time to eat, making neighbors wait for access to the
             chopstick.
             The goal is to make sure that every philosopher has a fair chance to eat (and not starve), we call this
@@ -376,18 +377,18 @@
         <ul>
             <li><b>Eat Chance Fairness:</b>
                 We count how often each philosopher eats and calculate the standard
-                deviation (variation from the average).
+                deviation across all philosophers chances to eat(variation from the average).
                 Large values mean bad fairness, while values near zero indicate good fairness.
             </li>
 
             <li><b>Eat Time Fairness:</b> We also track the total simulation time each philosopher spent eating
-                and calculate the standard deviation.
+                and calculate the standard deviation across all philosophers' eating times.
                 Large values again mean bad fairness, while small values mean good fairness.
                 This measure depends heavily on the chosen distribution — for example, the exponential distribution
-                might
-                return large outliers.
+                might return large outliers.
             </li>
         </ul>
+
         <p>
             In the context of implementations, we sadly have to accept that scheduling of threads (and consequently
             philosophers) is never fair.
@@ -505,9 +506,9 @@
         <p>
             It is evident that scheduling can change the behavior significantly,
             so this is something to bear in mind when implementing solutions.
-            In our case, this effect could lead to repeated re-acquiring of a chopstick by one philosopher,
-            which could cause starvation of the neighbor.
-            (Based on the computer Science Best-Practice: Anything that can go wrong will go wrong.)
+            In our case, effects like these could lead to repeated re-acquiring of a chopstick by one philosopher,
+            which could cause starvation of a neighbor.
+            We aim to prevent this based on the computer Science Best-Practice: Anything that can go wrong will go wrong.
         </p>
 
 
@@ -521,7 +522,7 @@
             preventing deadlocks and providing fairness.
         </p>
         <p>
-            To measure concurrency in our system, we introduce the concurrency measure:
+            To measure concurrency in our system, we introduce the following measure:
         </p>
         <ul>
             <li>
@@ -564,11 +565,12 @@
             <b>[n/2]</b> for even numbers of n philosophers and <b>⌊n/2⌋</b> (integer division) for odd n.
             For example, with 5 philosophers, <b>⌊5/2⌋</b> equals <b>2</b>, meaning that at most,
             two philosophers can eat at the same time.
+        </p>
+        <p>
             In real-world systems, access to shared resources often involves more complex dependencies, where multiple
             processes may share more than two resources, which cannot be replicated using the Dining Philosophers
             problem
             without significantly changing its rules.
-
             Other constraints, such as the assumed homogeneity of resources (in reality, resources may have different
             constraints), time constraints (some processes must 'eat' within a specific timeframe), or unexpected
             unavailability (processes may crash or terminate), are also typically not accounted for.
@@ -585,7 +587,7 @@
                 The following Java-inspired pseudocode demonstrates the implementation principles of a naive solution to
                 the Dining Philosophers problem, leading to deadlocks.
                 The philosophers' actions are logged over time, based on a virtual clock running during the simulation.
-                For simplicity, most of the Java boilerplate (Necessary for Java programs but not useful for
+                For simplicity, most of the Java "Boilerplate" (Necessary for Java programs but not useful for
                 understanding of the concept) and some simulation logic for consistency of logs have been
                 omitted.
                 If you are interested in the full implementation of this project, it is available
@@ -793,7 +795,7 @@ class Table {
             <tr>
                 <td><b>Concurrency</b></td>
                 <td>The naive Dining Philosophers solution has a limited potential for concurrency (as long as deadlocks
-                    do not occur). This is due to the long path in the precedence graph, leading to potential long waiting chains.
+                    do not occur). This is due to the long dependence path in the precedence graph, leading to potential long waiting chains.
                     Simulations frequently have low/no concurrency because of this.
                 </td>
             </tr>
@@ -806,7 +808,7 @@ class Table {
             <tr>
                 <td><b>Performance</b></td>
                 <td>We will base the performance of solutions on this implementation. Large numbers of philosophers will
-                    lead to long wait chains.
+                    lead to longer wait chains.
                 </td>
             </tr>
             </tbody>
@@ -878,8 +880,14 @@ class Chopstick {
                     Starvation is still possible due to the possibility of deadlocks, but at least we prevent barging,
                     and therefore the re-acquiring of chopsticks.
                 </td>
-            </tr>
 
+            </tr>
+            <tr>
+                <td><b>Performance</b></td>
+                <td>
+                    We produce additional computational effort due to the FIFO queue on each chopsticks' semaphore.
+                </td>
+            </tr>
 
             </tbody>
         </table>
@@ -989,7 +997,7 @@ class Chopstick {
     <h2>Performance Tests</h2>
 
     <p>
-        If you are interested in the performance tests that were conducted to measure algorithm performance:
+        If you are interested in the performance tests that were conducted to evaluate algorithm performance in terms of concurrency degree and fairness:
     </p>
     <a href="performance" class="button">Performance Tests</a>
 

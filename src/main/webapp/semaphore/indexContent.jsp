@@ -193,7 +193,7 @@ class SemaphorePhilosopher extends Philosopher {
 
     <h3>Table Semaphore Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Table Semaphore solution based on the key challenges:</p>
+    <p>Now let us evaluate the Table Semaphore solution based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -304,7 +304,7 @@ class MultiPermitSemaphore {
 
     <h3>Restrict Solution Evaluation</h3>
 
-    <p>Now let us evaluate the Restrict Solution based on the key challenges:</p>
+    <p>Now let us evaluate the Restrict Solution based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -494,7 +494,7 @@ class TanenbaumPhilosopher extends Philosopher {
 
     <h3>Tanenbaum Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Tanenbaum solution based on the key challenges:</p>
+    <p>Now let us evaluate the Tanenbaum solution based on the key challenges and performance in simulations:</p>
 
     <table class="styled-table">
         <thead>
@@ -772,7 +772,7 @@ class TanenbaumPhilosopher extends Philosopher {
     <h3>Fair Tanenbaum Solution Evaluation </h3>
 
     <p>
-        Now let us evaluate the Fair Tanenbaum solution based on the key challenges:
+        Now let us evaluate the Fair Tanenbaum solution based on the key challenges and performance in simulations:
     </p>
     <table class="styled-table">
         <thead>
@@ -791,7 +791,7 @@ class TanenbaumPhilosopher extends Philosopher {
             <td>
                 Situations where philosophers are being skipped, even if prioritized by least eat-chance/ eat-time, are possible.
                 Therefore, this solution is prone to starvation.
-                There is a slim chance of improving eat-chance or eat-time fairness in certain execution orders.
+                Unfortunately there seems to be only a slim chance of improving eat-chance or eat-time fairness in certain execution orders.
             </td>
         </tr>
 

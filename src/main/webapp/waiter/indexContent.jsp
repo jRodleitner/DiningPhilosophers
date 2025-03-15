@@ -205,7 +205,7 @@ class EatPermissionPhilosopher extends Philosopher {
     </code></pre>
     <h3>Eat Permission Waiter Solution Evaluation</h3>
 
-    <p>Now let us evaluate the Eat Permission Waiter approach based on the key challenges:</p>
+    <p>Now let us evaluate the Eat Permission Waiter approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -300,7 +300,7 @@ class PickupPermissionPhilosopher extends Philosopher {
 
     <h3>Pickup Permission Waiter Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Pickup Permission Waiter approach based on the key challenges:</p>
+    <p>Now let us evaluate the Pickup Permission Waiter approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -482,7 +482,7 @@ class IntelligentPickupPermissionPhilosopher extends Philosopher {
 
     <h3>Intelligent Waiter Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Intelligent Waiter approach based on the key challenges:</p>
+    <p>Now let us evaluate the Intelligent Waiter approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -682,7 +682,7 @@ class FairPhilosopher extends Philosopher {
 
     <h3>Fair Waiter Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Fair Waiter approach based on the key challenges:</p>
+    <p>Now let us evaluate the Fair Waiter approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -783,7 +783,7 @@ for (int i = 0; i < nrPhilosophers; i++) {
 
     <h3>Two Waiters Solution Evaluation </h3>
 
-    <p>Now let us evaluate the Two Waiters approach based on the key challenges:</p>
+    <p>Now let us evaluate the Two Waiters approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -939,7 +939,7 @@ class GuestPhilosopher extends Philosopher {
 }
 
     </code></pre>
-    <p>Now let us evaluate the Classic Waiter approach based on the key challenges:</p>
+    <p>Now let us evaluate the Classic Waiter approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
