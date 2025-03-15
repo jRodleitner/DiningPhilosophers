@@ -1265,7 +1265,6 @@
             put-downs of the philosophers.
             Since simulating the pickups results in a slight overhead, there is also a "simple" mode, that is a little
             more performant and will return results quicker.
-            This helps to track the behavior of the algorithms.
             The "simple" mode will only display thinking and eating.
         </li>
 
