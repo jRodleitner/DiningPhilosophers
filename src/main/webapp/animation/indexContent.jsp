@@ -1227,7 +1227,7 @@
     <h3>Parameters</h3>
     <ul>
 
-        <li><b>Number of philosophers: </b>Simulations with 2–9 philosophers are possible.</li>
+        <li><b>Number of philosophers: </b>On this page, only simulations with 5 philosophers can be simulated and animated.</li>
 
         <li><b>Execution Time: </b> The simulation utilizes a Discrete Time-Stepping Virtual Time.
             One time "unit" represents a loop iteration that is a step in the simulation timeline.
@@ -1299,12 +1299,7 @@
     </uL>
 
     <p>
-        Remember, philosophers log actions only after finishing them, so their timelines can vary in length.
-        When the simulation ends, no more actions are logged.
-        For exponential and normal distributions, longer run times may help capture outliers that can extend action
-        times.
-
-
+        For exponential and normal distributions, longer run times may help capture large outliers.
     </p>
 </div>
 

@@ -592,12 +592,7 @@
     </uL>
 
     <p>
-        Remember, philosophers log actions only after finishing them, so their timelines can vary in length.
-        When the simulation ends, no more actions are logged.
-        For exponential and normal distributions, longer run times may help capture outliers that can extend action
-        times.
-
-
+        For exponential and normal distributions, longer run times may help capture large outliers.
     </p>
 </div>
 </body>
