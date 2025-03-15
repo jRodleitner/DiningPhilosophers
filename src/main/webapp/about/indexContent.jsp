@@ -120,8 +120,10 @@
     <h3>Technologies/ Libraries used:</h3>
     <ol>
         <li>Language: Java 22 - <a href="https://www.oracle.com/java/technologies/javase/jdk22-archive-downloads.html">Link</a></li>
+        <li>Web Server implementation: Java JSP (Jakarta Server Pages) <a href=https://jakarta.ee/specifications/pages/3.0/jakarta-server-pages-spec-3.0>Link</a></li>
         <li>Pseudocode Highlighting: Prism.js - <a href="https://prismjs.com/">Link</a></li>
-        <li>Web Server - Backend: Jakarta Servlet - <a href="https://jakarta.ee/specifications/servlet/">Link</a></li>
+        <li>Web Server Framework Jakarta EE 10 <a href="https://jakarta.ee/release/10/">Link</a> </li>
+        <li>Web Server - Backend: Jakarta Servlet 6.1 - <a href="https://jakarta.ee/specifications/servlet/6.1/">Link</a></li>
         <li>Web Server Deployment: Apache Tomcat - <a href="https://tomcat.apache.org/">Link</a></li>
         <li>IDE used: IntelliJ - <a href="https://www.jetbrains.com/idea/">Link</a></li>
         <li>Project Build: Maven - <a href="https://maven.apache.org/">Link</a></li>
