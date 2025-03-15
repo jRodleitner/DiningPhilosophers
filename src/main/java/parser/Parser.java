@@ -111,12 +111,12 @@ public class Parser {
         List<String> strings = new ArrayList<>();
         strings.add("TIME:");
         for (int i = 1; i <= maxLength; i++) {
-            String numStr = Integer.toString(i);
-            int paddingTotal = 5 - numStr.length();
+            String formattedIndex = Integer.toString(i);
+            int paddingTotal = 5 - formattedIndex.length();
             int paddingLeft = paddingTotal / 2;
             int paddingRight = paddingTotal - paddingLeft;
 
-            String centeredStr = " ".repeat(paddingLeft) + numStr + " ".repeat(paddingRight);
+            String centeredStr = " ".repeat(paddingLeft) + formattedIndex + " ".repeat(paddingRight);
             strings.add(centeredStr);
         }
         strings.add("\n");
@@ -398,7 +398,7 @@ public class Parser {
         if(parsedTimeline.size() > maxLength.get()) maxLength.set(parsedTimeline.size());  //determine the maximum length of the timelines
         statistic.setFinishLength(parsedTimeline.size());
 
-        statistic.setLast(parsedTimeline.getLast()); //set Last element
+        statistic.setLast(parsedTimeline.getLast()); //set last element
         return parsedTimeline;
     }
 
