@@ -56,7 +56,7 @@
         I present and evaluate several algorithms, with which you can interact and learn about on the
         Simulation and Animation pages.
     </p>
-    <h3>Books and Academic Research used:</h3>
+    <h3>Books and Academic Literature used:</h3>
     <ol>
         <li>Matthew J. Sottile, Timothy G. Mattson, Craig E. Rasmussen - <i>Introduction to Concurrency in Programming Languages</i> (2009) - <a href="https://www.taylorfrancis.com/books/mono/10.1201/b17174/introduction-concurrency-programming-languages-matthew-sottile-timothy-mattson-craig-rasmussen">Link</a></li>
 
