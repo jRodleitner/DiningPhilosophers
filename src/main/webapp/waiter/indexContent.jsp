@@ -761,7 +761,7 @@ List philosophers;
 
 // initialize chopsticks
 for (int i = 0; i < nrPhilosophers; i++) {
-    forks.add(new Chopstick(i));
+    chopsticks.add(new Chopstick(i));
 }
 
 //create two waiters
@@ -770,13 +770,13 @@ Waiter splitWaiter1 = new Waiter(nrPhilosophers);
 
 Waiter selectedWaiter;
 
-// only assigntwo waiters if more than 3 philosophers are simulated
+// only assign two waiters if more than 3 philosophers are simulated
 boolean assignToTwo = nrPhilosophers > 3;
 for (int i = 0; i < nrPhilosophers; i++) {
     // philosophers with lower ids are assigned the first waiter, the remaining to the second
     selectedWaiter = (assignToTwo && i >= nrPhilosophers / 2) ? splitWaiter1 : splitWaiter;
 
-    PickupPermissionPhilosopher philosopher = new PickupPermissionPhilosopher(i, forks.get(i), forks.get((i + 1) % nrPhilosophers), selectedWaiter);
+    PickupPermissionPhilosopher philosopher = new PickupPermissionPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), selectedWaiter);
     philosophers.add(philosopher);
 }
     </code></pre>
@@ -933,7 +933,7 @@ class GuestPhilosopher extends Philosopher {
             putDownLeftChopstick();
             putDownRightChopstick();
             // inform the waiter that the philosopher has put-down the two chopsticks
-            waiter.returnForks();
+            waiter.returnChopsticks();
         }
     }
 }

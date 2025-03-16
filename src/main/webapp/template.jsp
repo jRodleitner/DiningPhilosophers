@@ -92,7 +92,7 @@
 </main>
 
 <footer>
-    <p>Jona Rodleitner -2024-</p>
+    <p>Jona Rodleitner -2025-</p>
 </footer>
 </body>
 </html>
