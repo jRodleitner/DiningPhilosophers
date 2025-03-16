@@ -223,7 +223,7 @@ class SemaphorePhilosopher extends Philosopher {
             <td>The utilization of semaphores in this way proves to be very simple and requires only minimal modifications to the philosopher class.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>There is a moderate performance overhead due to the globally accessed semaphore.
                 Scalability is limited due to the managed FIFO queue,
                 but should be slightly more light weight than that of the waiter solution (depends heavily on semaphore implementation). </td>
@@ -338,7 +338,7 @@ class MultiPermitSemaphore {
             </td>
         </tr>
         <tr>
-            <td><b>Performance: </b></td>
+            <td><b>Overhead and Scalability: </b></td>
             <td>
                 There is a moderate overhead using the multiple-permit Semaphore. The approach is also scalable, but highly dependent on the semaphore implementation.
                 Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait. (usually only 1 philosopher waiting in the queue of the multi-permit semaphore)</td>
@@ -528,7 +528,7 @@ class TanenbaumPhilosopher extends Philosopher {
             <td>The implementation is more complex than some of the simpler solutions to the problem. We need to be careful about the correct setting of states and correctly synchronized access to the monitor.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>There is a modest overhead due to the management of the philosophers via the monitor and the maintained arrays. Similar to the discussed Waiter solutions, the utilization of a monitor limits the scalability of this approach.</td>
         </tr>
         </tbody>
@@ -804,7 +804,7 @@ class TanenbaumPhilosopher extends Philosopher {
             <td>The changes required to implement this solution are a little more extensive compared to the "simple" Tanenbaum Solution. We need to take good care that the states and eat-chances are managed correctly.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>As with the Tanenbaum Solution, we produce an overhead by using the state and semaphore arrays.
                 Additionally, we now sort the philosophers in a separate array after each put-down, producing significant computational effort.
                 This further limits the scalability of this approach, as philosophers will have to wait while the waiter reorders the eating states.

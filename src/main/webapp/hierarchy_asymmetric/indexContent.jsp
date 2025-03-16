@@ -198,9 +198,9 @@ class HierarchyPhilosopher extends Philosopher {
             <td>The changes required to implement are straightforward.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>Next to no overhead with the newly introduced logic.
-                Highly scalable, but the strict ordering of resources necessitates a highly static environment.
+                Highly scalable due to its decentralized nature, but the strict ordering of resources necessitates a highly static environment.
                 </td>
         </tr>
         </tbody>
@@ -310,7 +310,7 @@ class HierarchyPhilosopher extends Philosopher {
             <td>The changes required to implement this solution are quite minimal, again very straightforward and even a little more intuitive than Resource Hierarchy.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>
                 Again, next to no overhead due to the introduced logic. Highly scalable to arbitrary numbers of philosophers.
                 This approach is also more applicable to dynamic situations.

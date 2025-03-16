@@ -245,8 +245,8 @@ class TimeoutChopstick extends Chopstick {
             <td>Minimal changes are required, and the concept is rather easy to understand/implement.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
-            <td>The approach is highly scalable, and we essentially do not need any information on the system for this approach to work. Low performance overhead, but frequent timeouts may increase computational effort.</td>
+            <td><b>Overhead and Scalability</b></td>
+            <td>The approach is highly scalable due to its decentralized nature, and we essentially do not need any information on the system for this approach to work. Low performance overhead, but frequent timeouts may increase computational effort.</td>
         </tr>
         </tbody>
     </table>

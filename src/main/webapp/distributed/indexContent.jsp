@@ -344,7 +344,7 @@ class ChandyMisraChopstick extends Chopstick {
             </td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>There is a slight overhead with the logic introduced in this solution.
                 By design of this solution, philosophers are required to fulfill requests during their think and pickup
                 phase,
@@ -565,7 +565,7 @@ class RestrictTokenPhilosopher extends Philosopher {
             </td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td> The produced overhead is moderate, and the distributed nature of the approach makes it
                 highly scalable.
                 Anyhow, the fairness enhancing functionality might not scale very well for big arrangements

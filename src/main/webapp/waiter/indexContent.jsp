@@ -235,7 +235,7 @@ class EatPermissionPhilosopher extends Philosopher {
             <td>The changes required to implement this solution are straightforward. A new waiter class is introduced, and philosophers have to request and await the waiter's permission before eating.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>There is a slight performance overhead using this solution, as the waiter has to process one
                 philosophers request after another and has to maintain a queue of size r (number of requests).
                 Scalability (as in most waiter solutions) is poor because of the central "Waiter" entity.</td>
@@ -335,7 +335,7 @@ class PickupPermissionPhilosopher extends Philosopher {
             <td>Very simple, we only need to move one line in the Eat Permission Waiter Solution to regain concurrency.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>Slight performance overhead and poor scalability, same as in the Eat Permission Waiter Solution.</td>
         </tr>
         </tbody>
@@ -515,8 +515,8 @@ class IntelligentPickupPermissionPhilosopher extends Philosopher {
             <td>We introduce some additional logic to the waiter solution. We have to be careful in how we manage and process the queue. This makes the approach a little more elaborate to implement correctly (compared to the previous approaches).</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
-            <td>This solution produces significant overhead. There is now processing of the queue and an additional array. Additionally, philosophers now have to access the waiter an additional time when removing their "eating" state. This introduced effort leads to poor scalability since the waiter potentially has to go through a queue of r (number of requests) to check whether adjacent philosophers are eating each time a request is returned. During this time, the waiter cannot accept requests, put-downs and removal of eat-states, forcing other philosophers to wait.</td>
+            <td><b>Overhead and Scalability</b></td>
+            <td>This solution produces significant overhead. There is now processing of the queue and an array tracking eat-states. Additionally, philosophers now have to access the waiter an additional time when removing their "eating" state. This additional effort leads to poor scalability since the waiter potentially has to go through a queue of r (number of requests) to check whether adjacent philosophers are eating each time a request is returned. During this time, the waiter cannot accept requests, put-downs and removal of eat-states, forcing other philosophers to wait.</td>
         </tr>
         </tbody>
     </table>
@@ -716,7 +716,7 @@ class FairPhilosopher extends Philosopher {
             <td>We modify the waiter class to check for the requesting philosopher that has eaten the least. This makes things a little more elaborate to implement than the simple Pickup Permission Waiter Solution.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>
                 We have to both maintain a queue and process it every time a request is returned. This produces significant overhead and poor scalability.
             </td>
@@ -813,7 +813,7 @@ for (int i = 0; i < nrPhilosophers; i++) {
             <td>The changes required to implement this solution are quite minimal; we only need to add additional waiters during the table initialization of the Pickup Permission Waiter Solution.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>Compared to the previous approaches, we improve on scalability if we choose appropriately sized subsets for the philosophers. Thus, the overhead becomes more manageable, and long waiting times due to exclusive access to the waiter are mitigated.</td>
         </tr>
         </tbody>
@@ -939,7 +939,7 @@ class GuestPhilosopher extends Philosopher {
 }
 
     </code></pre>
-    <p>Now let us evaluate the Classic Waiter approach based on the key challenges and performance in simulations:</p>
+    <p>Now let us evaluate the Restrict Waiter approach based on the key challenges and performance in simulations:</p>
     <table class="styled-table">
         <thead>
         <tr>
@@ -975,8 +975,8 @@ class GuestPhilosopher extends Philosopher {
             <td>The changes required to implement this solution are not very complex and are intuitive to understand. But since this solution does not use a queue, we need a fair lock to prevent barging. This lets the waiter hand permission in the order the philosophers requested it.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
-            <td>The additional logic in this solution does not produce a significant overhead.
+            <td><b>Overhead and Scalability</b></td>
+            <td>The additional logic in this solution produces moderate overhead.
                 We still use a central entity to hand out permissions, which limits the scalability of the approach.</td>
         </tr>
         </tbody>

@@ -209,10 +209,10 @@
         </p>
         <p>The naive process of a philosopher consists of:</p>
         <ul>
-            <li>Think for some time</li>
-            <li>Pick up left Chopstick (or wait until available)</li>
-            <li>Pick up right Chopstick (or wait until available)</li>
-            <li>Eat for some time</li>
+            <li>Think for some time (independent process action)</li>
+            <li>Pick up left Chopstick or wait until available</li>
+            <li>Pick up right Chopstick or wait until available</li>
+            <li>Eat for some time (process action that needs exclusive access to shared resources)</li>
             <li>Put down left chopstick and notify availability</li>
             <li>Put down right chopstick and notify availability</li>
         </ul>
@@ -544,13 +544,16 @@
             solutions.
             Many will be rather simple to implement, while some others will utilize more complex concepts.
         </p>
-        <h3>Performance</h3>
+        <h3>Overhead and Scalability</h3>
         <p>
             Finally, we want to evaluate algorithms based on the overhead they produce and how scalable they are.
             Some Solutions use several data structures and synchronization mechanisms that produce additional
             computational effort.
             In our case, scalability refers to increasing the number of philosophers at the table.
-            Usually, centralized solutions to the Dining Philosophers are less scalable, since they use central entities that are accessed in a mutually exclusive manner.
+            Usually, centralized solutions to the Dining Philosophers are less scalable, since they use a single entity that needs to be accessed in a mutually exclusive manner.
+            Contrary, decentralized and distributed approaches do not suffer from this issue.
+            Real-world definitions of decentralized and distributed algorithms are often fine-grained and complex.
+            For convenience, decentralized approaches are defined to act solely based on locally available information, while distributed approaches employ communication between philosophers.
         </p>
 
 
@@ -563,8 +566,10 @@
             One key limitation is that the rules restrict the maximum concurrency.
             Under ideal conditions, the maximum number of philosophers who can eat simultaneously is limited to
             <b>[n/2]</b> for even numbers of n philosophers and <b>⌊n/2⌋</b> (integer division) for odd n.
+            The cause for this is that philosopher need two chopsticks to eat, and since each chopstick is shared between two philosophers,
+            at most every other philosopher is allowed to eat at any time.
             For example, with 5 philosophers, <b>⌊5/2⌋</b> equals <b>2</b>, meaning that at most,
-            two philosophers can eat at the same time.
+            two philosophers can eat in parallel.
         </p>
         <p>
             In real-world systems, access to shared resources often involves more complex dependencies, where multiple
@@ -806,7 +811,7 @@ class Table {
                 </td>
             </tr>
             <tr>
-                <td><b>Performance</b></td>
+                <td><b>Overhead and Scalability</b></td>
                 <td>We will base the performance of solutions on this implementation. Large numbers of philosophers will
                     lead to longer wait chains.
                 </td>
@@ -883,7 +888,7 @@ class Chopstick {
 
             </tr>
             <tr>
-                <td><b>Performance</b></td>
+                <td><b>Overhead and Scalability</b></td>
                 <td>
                     We produce additional computational effort due to the FIFO queue on each chopsticks' semaphore.
                 </td>

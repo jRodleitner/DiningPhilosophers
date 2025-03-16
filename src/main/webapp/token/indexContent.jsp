@@ -268,7 +268,7 @@ initialPhilosopher.setToken(token);
             <td>The implementation is rather simple and requires only an additional Token class, and philosophers passing the token after eating. </td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>The introduced logic's overhead is minimal and managed in a decentralized way. No central entity, and thus highly scalable.</td>
         </tr>
         </tbody>
@@ -404,7 +404,7 @@ for (int i = 0; i < nrPhilosophers - 1; i += 2) {
             <td>The changes that need to be made are a little more extensive than, for example, the asymmetric solution, but the logic is rather easily expanded on, using the Global Token Solution.</td>
         </tr>
         <tr>
-            <td><b>Performance</b></td>
+            <td><b>Overhead and Scalability</b></td>
             <td>There is a negligible performance overhead utilizing this additional logic. Still no central entity, therefor there is a high scalability present in this approach.</td>
         </tr>
         </tbody>
