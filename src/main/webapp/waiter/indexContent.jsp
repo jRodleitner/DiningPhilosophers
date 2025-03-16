@@ -236,9 +236,9 @@ class EatPermissionPhilosopher extends Philosopher {
         </tr>
         <tr>
             <td><b>Overhead and Scalability</b></td>
-            <td>There is a slight performance overhead using this solution, as the waiter has to process one
+            <td>There is a performance overhead using this solution, as the waiter has to process one
                 philosophers request after another and has to maintain a queue of size r (number of requests).
-                Scalability (as in most waiter solutions) is poor because of the central "Waiter" entity.</td>
+                Scalability is poor because of the central "Waiter" entity being accessed one by one. </td>
         </tr>
         </tbody>
     </table>

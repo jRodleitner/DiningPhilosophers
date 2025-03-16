@@ -225,8 +225,8 @@ class SemaphorePhilosopher extends Philosopher {
         <tr>
             <td><b>Overhead and Scalability</b></td>
             <td>There is a moderate performance overhead due to the globally accessed semaphore.
-                Scalability is limited due to the managed FIFO queue,
-                but should be slightly more light weight than that of the waiter solution (depends heavily on semaphore implementation). </td>
+                Scalability is limited due to the centralized FIFO queue managing philosophers,
+                but should be slightly more light weight than the queue in the waiter solution (depends heavily on semaphore implementation). </td>
         </tr>
         </tbody>
     </table>
@@ -340,8 +340,10 @@ class MultiPermitSemaphore {
         <tr>
             <td><b>Overhead and Scalability: </b></td>
             <td>
-                There is a moderate overhead using the multiple-permit Semaphore. The approach is also scalable, but highly dependent on the semaphore implementation.
-                Compared to a waiter that has to process requests one after another and having to maintain a queue, the semaphore will usually be more light-wait. (usually only 1 philosopher waiting in the queue of the multi-permit semaphore)</td>
+                There is a moderate overhead using the multiple-permit Semaphore.
+                The approach is also limited in scalability, due to the acquiring of permits.
+                the multi-permit semaphore is slightly more light-wait compared to Table Semaphore, which has to process requests one after another.
+                (Only one philosopher will have to wait in the queue of the multi-permit semaphore at all times)</td>
             </tr>
         </tbody>
     </table>
@@ -379,7 +381,7 @@ class MultiPermitSemaphore {
     <p>
         <b>Monitor class: </b>
         The access to the Monitor is exclusive via the philosophers usage of the Monitor Semaphore (called mutex here).
-        We use arrays to keep track of the philosophers' states and an array that contains a semaphore for each philosopher.
+        We use one array to keep track of the philosophers' states and another that contains a semaphore for each philosopher.
         The monitor class is very similar to a waiter, but philosophers do not ask the monitor for permission,
         therefor the different naming.
     </p>
