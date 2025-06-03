@@ -44,6 +44,7 @@ public class Execute {
 
     }
 
+    //dummy main-method for convenient testing
     public static void main(String[] args) throws InterruptedException {
         System.out.println(execute(5, 50, Algorithm.NAIVE, false, Distribution.INTERVAL, 20, 100, Distribution.INTERVAL, 50, 100, 200, false));
     }

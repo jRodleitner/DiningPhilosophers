@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 public class VirtualClock {
 
     private long currentTime = 0;
-    private final Semaphore semaphore = new Semaphore(1, true); // Semaphore with 1 permit
+    private final Semaphore semaphore = new Semaphore(1, true);
 
 
     protected void lockClock() {
@@ -18,7 +18,7 @@ public class VirtualClock {
 
 
     protected void unlockClock() {
-        semaphore.release(); // Releases the semaphore
+        semaphore.release();
     }
 
 
@@ -27,6 +27,7 @@ public class VirtualClock {
     }
 
 
+    //left in since some future algorithm-simulations might need to adjust this
     protected void advanceTime(long timeUnits) {
         currentTime += timeUnits;
     }
