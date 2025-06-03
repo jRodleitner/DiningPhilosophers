@@ -58,6 +58,8 @@
     </p>
     <h3>Books and Academic Literature used:</h3>
     <ol>
+        <li>Sergio Rajsbaum, Michel Raynal - <i>Mastering Concurrent Computing Through Sequential Thinking: A Half-century Evolution</i> (2018)</li>
+
         <li>Matthew J. Sottile, Timothy G. Mattson, Craig E. Rasmussen - <i>Introduction to Concurrency in Programming Languages</i> (2009) - <a href="https://www.taylorfrancis.com/books/mono/10.1201/b17174/introduction-concurrency-programming-languages-matthew-sottile-timothy-mattson-craig-rasmussen">Link</a></li>
 
         <li>Brian Goetz, Tim Peierls, Joshua Bloch, Joseph Bowbeer, David Holmes, Doug Lea - <i>Java Concurrency in Practice</i> (2006)</li>
@@ -82,6 +84,8 @@
         <li>E. W. Dijkstra - <i>EWD 1000</i> (1987) - <a href="http://www.cs.utexas.edu/users/EWD/">Link</a></li>
 
         <li>E. W. Dijkstra - <i>Hierarchical Ordering of Sequential Processes</i> (1971) - <a href="https://doi.org/10.1007/BF00289517">Link</a></li>
+
+        <li>E. W. Dijkstra - <i>EWD625: Solutions to a problem in concurrent programming control</i> (1977) - <a href="https://www.cs.utexas.edu/~EWD/transcriptions/EWD06xx/EWD625.html">Link</a></li>
 
         <li> Coffman, Edward G. Jr., Elphick, Michael J., Shoshani, Arie - <i>System Deadlocks</i> (1971) - <a href="https://dl.acm.org/doi/10.1145/356586.356588" target="_blank">Link</a> </li>
 
