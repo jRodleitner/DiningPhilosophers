@@ -256,18 +256,6 @@ public class DiningTable {
                 }
                 break;
 
-            /*case Algorithm.ROUNDROBIN:
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    chopsticks.add(new RoundRobinChopstick(i));
-                }
-
-                RoundRobinScheduler scheduler = new RoundRobinScheduler(nrPhilosophers);
-                for (int i = 0; i < nrPhilosophers; i++) {
-                    RoundRobinPhilosopher philosopher = new RoundRobinPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, scheduler);
-                    philosophers.add(philosopher);
-                }
-                break;*/
-
             case Algorithm.INSTANTTIMEOUT:
                 for (int i = 0; i < nrPhilosophers; i++) {
                     chopsticks.add(new InstantTimeoutChopstick(i));
