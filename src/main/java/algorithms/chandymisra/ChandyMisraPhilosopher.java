@@ -32,7 +32,7 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
                 checkForRequests();
                 requestChopsticksIfNecessary();
                 eating();
-                checkForRequests();  // Ensure release of chopsticks after last eat
+                checkForRequests();  // release chopsticks after last eat
             }
         } catch (InterruptedException e) {
             table.unlockClock();
@@ -52,7 +52,7 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
     private void waitForChopstick(ChandyMisraChopstick chopstick) throws InterruptedException {
         synchronized (chopstick) {
             while (chopstick.owner != this) {
-                checkForRequests();  // Release dirty chopstick while waiting
+                checkForRequests();  // release dirty chopstick while waiting
                 chopstick.wait(10);
             }
         }
@@ -68,7 +68,7 @@ public class ChandyMisraPhilosopher extends AbstractPhilosopher {
             if ((receiver.goingToEatRequest) && !chopstick.isClean && chopstick.owner == this) {
                 chopstick.isClean = true;
                 chopstick.owner = receiver;
-                chopstick.notifyAll();  // Notify waiting philosopher
+                chopstick.notifyAll();  // notify waiting philosopher
             }
         }
     }

@@ -19,10 +19,8 @@ public class InstantTimeoutPhilosopher extends AbstractPhilosopher {
                 boolean bothSuccessful = false;
                 while (!bothSuccessful) {
                     boolean firstSuccessful = pickUpLeftChopstickDijkstra();
-                    //System.out.println("id:" + id +" first: " + firstSuccessful + " " + table.getCurrentTime());
                     if (firstSuccessful) {
                         boolean secondSuccessful = pickUpRightChopstickDijkstra();
-                        //System.out.println("id:" + id +" second:  " + secondSuccsessful + " " + table.getCurrentTime());
                         if (secondSuccessful) {
                             bothSuccessful = true;
                             eat();

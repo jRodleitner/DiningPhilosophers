@@ -37,18 +37,18 @@ public class IntelligentWaiter {
     protected synchronized void returnPermission() {
 
         for (AbstractPhilosopher ph : queuedPhilosophers) {
-            int leftPhilosopher = (ph.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;  // Index of the left philosopher
-            int rightPhilosopher = (ph.getPhId() + 1) % nrPhilosophers;                  // Index of the right philosopher
+            int leftPhilosopher = (ph.getPhId() - 1 + nrPhilosophers) % nrPhilosophers;
+            int rightPhilosopher = (ph.getPhId() + 1) % nrPhilosophers;
             if ((!eatStates[leftPhilosopher] && !eatStates[rightPhilosopher]) && !ph.equals(permittedPhilosopher)) {
                 permittedPhilosopher = ph;
                 queuedPhilosophers.remove(ph);
-                notifyAll();  // Notify here after finding the philosopher
-                return;  // Exit the method since the philosopher has been found
+                notifyAll();
+                return;
             }
         }
-        // If no ideal philosopher is found, assign the next one in the queue
+
         permittedPhilosopher = queuedPhilosophers.poll();
-        notifyAll();  // Notify if a philosopher is picked from the queue
+        notifyAll();
     }
 
     private void setEatState(AbstractPhilosopher philosopher) {

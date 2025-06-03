@@ -16,7 +16,6 @@ public class GuestPhilosopher_ChanceBased extends AbstractPhilosopher {
         this.waiter = waiter;
     }
 
-    //TODO CHANGE to PICKUP???
     @Override
     public void run() {
         try {
