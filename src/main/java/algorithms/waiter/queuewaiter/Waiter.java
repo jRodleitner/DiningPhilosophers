@@ -13,7 +13,7 @@ public class Waiter {
 
 
 
-    public Waiter(int nrPhilosophers) {
+    public Waiter() {
         permittedPhilosopher = null;
         queuedPhilosophers = new ArrayDeque<>();
     }

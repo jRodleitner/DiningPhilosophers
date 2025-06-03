@@ -171,7 +171,7 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                Waiter atomicWaiter = new Waiter(nrPhilosophers);
+                Waiter atomicWaiter = new Waiter();
                 for (int i = 0; i < nrPhilosophers; i++) {
                     AtomicGuestPhilosopher philosopher = new AtomicGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, atomicWaiter);
                     philosophers.add(philosopher);
@@ -183,7 +183,7 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                Waiter pickupWaiter = new Waiter(nrPhilosophers);
+                Waiter pickupWaiter = new Waiter();
                 for (int i = 0; i < nrPhilosophers; i++) {
                     PickupGuestPhilosopher philosopher = new PickupGuestPhilosopher(i, chopsticks.get(i), chopsticks.get((i + 1) % nrPhilosophers), this, thinkDistr, eatDistr, pickupWaiter);
                     philosophers.add(philosopher);
@@ -231,8 +231,8 @@ public class DiningTable {
                     chopsticks.add(new SimpleChopstick(i));
                 }
 
-                Waiter splitWaiter = new Waiter(nrPhilosophers);
-                Waiter splitWaiter1 = new Waiter(nrPhilosophers);
+                Waiter splitWaiter = new Waiter();
+                Waiter splitWaiter1 = new Waiter();
 
                 Waiter selectedWaiter;
                 boolean assignToTwo = nrPhilosophers > 3;
