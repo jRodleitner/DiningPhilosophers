@@ -350,8 +350,8 @@
         <h3>Starvation and Fairness</h3>
         <img src="pictures/starvation.png" alt="Dining Philosophers Problem" width="400" height="350">
         <p>
-            Starvation happens when a philosophers rarely, or never, get a chance to eat. The prime example
-            of starvation is deadlocks, which starve all philosophers.
+            Starvation happens when philosophers rarely, or never, get a chance to eat. The prime example
+            of starvation are deadlocks, which starve all philosophers.
             Other examples of starvation are: One philosopher repeatedly grabs the
             chopstick first, stopping a neighbor from eating.
             One philosopher takes a very long time to eat, making neighbors wait for access to the
